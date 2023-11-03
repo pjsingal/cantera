@@ -1,14 +1,13 @@
-#include "googletest/googletest/include/gtest/gtest.h"
-// #include "gtest/gtest.h"
+#include "gtest/gtest.h"
 #include "cantera/kinetics/Kinetics.h"
 #include "cantera/thermo/ThermoPhase.h"
 #include "cantera/base/Solution.h"
 #include "cantera/base/global.h"
 
+//SSH key fingerprint:   SHA256:pV/Ash29H8ZN7Al414mZV8cQOoYqPlZei3d21RIWnac pjsingal98@gmail.com
+
 // COMPILE/EXECUTE COMMANDS
-// gcc test/kinetics/lmrTest.cpp -o test/kinetics/lmrTest -lstdc++
-// g++ test/kinetics/lmrTest.cpp -o test/kinetics/lmrTest -lstdc++
-// lmrTest.exe
+// scons test-kinetics verbose_tests=y -j4
 
 namespace Cantera
 {
@@ -28,18 +27,6 @@ public:
 
 protected:
     static shared_ptr<Solution> soln_;
-
-    // void set_TP(double T, double P) { //will likely need to set T, P, X (need to set whatever params are needed to initialize the state)
-    //     T_ = T;                         //maybe put the T,P,X defn in the TEST_F directly
-    //     RT_ = GasConst_cal_mol_K * T;
-    //     P_ = P;
-    //     soln_->thermo()->setState_TP(T_, P_);
-    // }
-
-    // double k(double A, double n, double Ea) {
-    //     return A * pow(T_, n) * exp(-Ea/RT_);
-    // }
-    // double T_, RT_, P_;
 };
 
 shared_ptr<Solution> lmrTest::soln_;
@@ -55,8 +42,8 @@ TEST_F(lmrTest, PlogLowPressure)
     string X = "H:1.0, O2:0.0";
     soln_->thermo()->setState_TPX(900.0, 101325 * 8.0, X);
 
-    double ktest1=10;
-    double ktest2=10;
+    double ktest1=10;//placeholder
+    double ktest2=10;//placeholder
 
 
     // Test that P-log reactions have the right low-pressure limit
@@ -73,14 +60,3 @@ TEST_F(lmrTest, PlogLowPressure)
     //EXPECT_NEAR(kf3, kf[3], 1e-9 * kf3); //kf[3], e.g. selects rxn 3 from input file
 }
 } // namespace Cantera
-
-int main(int argc, char** argv)
-{
-    printf("Running main() from lmrTest.cpp\n");
-    Cantera::make_deprecation_warnings_fatal();
-    Cantera::printStackTraceOnSegfault();
-    testing::InitGoogleTest(&argc, argv);
-    int result = RUN_ALL_TESTS();
-    Cantera::appdelete();
-    return result;
-}
