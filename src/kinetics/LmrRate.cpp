@@ -110,19 +110,16 @@ void LmrRate::setParameters(const AnyMap& node, const UnitStack& rate_units){
 
 // void LmrRate::validate(const string& equation, const Kinetics& kin){
 void LmrRate::validate(const string& equation, const ThermoPhase& phase){
-    //Get the list of all species in yaml (not just the ones for which LMRR data exists)
-    // ThermoPhase::Phase phase;
-    allSpecies_ = phase.speciesNames();
-    // //
-    // double T = phase.temperature();
-    // double P = phase.pressure(); //find out what units this is in
-    // //
-    
     //Validate the LMRR input data for each species
     if (!valid()) {
         throw InputFileError("LmrRate::validate", m_input,
             "Rate object for reaction '{}' is not configured.", equation);
     }
+    
+    //Get the list of all species in yaml (not just the ones for which LMRR data exists)
+    // ThermoPhase::Phase phase;
+    allSpecies_ = phase.speciesNames();
+    
     fmt::memory_buffer err_reactions1; //for k-related errors
     fmt::memory_buffer err_reactions2; //for eig0-related errors
     double T[] = {300.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0};
