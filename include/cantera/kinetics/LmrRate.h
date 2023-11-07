@@ -10,8 +10,20 @@ namespace Cantera{
 struct LmrData : public ReactionData{
     // LmrData() = default;
     LmrData();
-    virtual bool update(const ThermoPhase& phase, const Kinetics& kin) override;
-    using ReactionData::update;
+    
+
+    //recent adds
+    // void update(double T) override;
+    // void update(double T, double P) override {
+    //     ReactionData::update(T);
+    //     pressure = P;
+    //     logP = std::log(P);
+    // }
+    //end of recent adds
+
+    bool updateFromPhase(const ThermoPhase& phase);
+    void updateTPX(double T, double P, int X, vector<double> mflist);
+
     void perturbPressure(double deltaP);
     virtual void restore() override;
 
@@ -44,12 +56,12 @@ public:
     const string type() const { return "LMR_R"; } //! Identifier of reaction rate type
     
     void setParameters(const AnyMap& node, const UnitStack& rate_units);
-    void validate(const string& equation, const Kinetics& kin);
+    void validate(const string& equation, const ThermoPhase& phase);
     double speciesPlogRate(const LmrData& shared_data);
     double evalFromStruct(const LmrData& shared_data);
     void getParameters(AnyMap& rateNode, const Units& rate_units) const;
     
-
+    
     vector<string> allSpecies_; //list of all yaml species (not just those for which LMRR data exists)
     map<string, map<double, pair<size_t, size_t>>> pressures_;
     map<string, vector<ArrheniusRate>> rates_;

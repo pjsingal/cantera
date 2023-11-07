@@ -5,23 +5,31 @@
 #include "cantera/kinetics/LmrRate.h"
 #include "cantera/thermo/ThermoPhase.h"
 #include "cantera/kinetics/Kinetics.h"
-
+//gcc src/kinetics/LmrRate.cpp -o src/kinetics/LmrRate -lstdc++
 namespace Cantera{
 
 LmrData::LmrData(){ //THIS METHOD WAS ADAPTED SOMEWHAT BLINDLY FROM FALLOFF.CPP, PLEASE VERIFY IF CORRECT
     moleFractions.resize(1, NAN);
 }
 
-bool LmrData::update(const ThermoPhase& phase, const Kinetics& kin){
+void LmrData::updateTPX(double T, double P, int X, vector<double> mflist){
+    ReactionData::update(T); //defines temperature, logT, and recipT
+    pressure = P;
+    logP = std::log(P);
+    mfNumber=X;
+    moleFractions = mflist;
+}
+
+bool LmrData::updateFromPhase(const ThermoPhase& phase){
     double T = phase.temperature();
     double P = phase.pressure(); //find out what units this is in
     int X = phase.stateMFNumber();
+    vector<double> mflist;
+    for (int i = 0; i < phase.speciesNames().size(); i++){
+            mflist.push_back(phase.moleFraction(i));
+    }
     if (P != pressure || T != temperature || X != mfNumber) {
-        ReactionData::update(T);
-        pressure = P;
-        logP = std::log(P);
-        mfNumber=X;
-        phase.getMoleFractions(moleFractions.data()); //IS THIS THE CORRECT WAY TO UPDATE THE MOLE FRACTION VECTOR
+        updateTPX(T,P,X,mflist);
         return true;
     }
     return false;
@@ -33,7 +41,7 @@ void LmrData::perturbPressure(double deltaP){
             "Cannot apply another perturbation as state is already perturbed.");
     }
     m_pressure_buf = pressure;
-    update(temperature, pressure * (1. + deltaP));
+    updateTPX(temperature,pressure*(1. + deltaP),mfNumber,moleFractions);
 }
 
 void LmrData::restore(){
@@ -42,7 +50,7 @@ void LmrData::restore(){
     if (m_pressure_buf < 0.) {
         return;
     }
-    update(temperature, m_pressure_buf);
+    updateTPX(temperature,m_pressure_buf,mfNumber,moleFractions);
     m_pressure_buf = -1.;
 }
 
@@ -97,10 +105,16 @@ void LmrRate::setParameters(const AnyMap& node, const UnitStack& rate_units){
     }
 }
 
-void LmrRate::validate(const string& equation, const Kinetics& kin){
+// void LmrRate::validate(const string& equation, const Kinetics& kin){
+void LmrRate::validate(const string& equation, const ThermoPhase& phase){
     //Get the list of all species in yaml (not just the ones for which LMRR data exists)
-    ThermoPhase::Phase phase;
+    // ThermoPhase::Phase phase;
     allSpecies_ = phase.speciesNames();
+    // //
+    // double T = phase.temperature();
+    // double P = phase.pressure(); //find out what units this is in
+    // //
+    
     //Validate the LMRR input data for each species
     if (!valid()) {
         throw InputFileError("LmrRate::validate", m_input,
@@ -109,13 +123,12 @@ void LmrRate::validate(const string& equation, const Kinetics& kin){
     fmt::memory_buffer err_reactions1; //for k-related errors
     fmt::memory_buffer err_reactions2; //for eig0-related errors
     double T[] = {300.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0};
-    LmrData data;
+    // LmrData data;
     // Iterate through the outer map (string to inner map)
     for (const auto& outer_pair : pressures_) {
         const std::string& s = outer_pair.first; //s refers only to the species for which LMR data is provided in yaml (e.g. 'H2O', 'M')
         const std::map<double, std::pair<size_t, size_t>>& inner_map = outer_pair.second;
         for (auto iter = ++inner_map.begin(); iter->first < 1000; iter++) { 
-            data.update(T[0], exp(iter->first));        
             ilow1_ = iter->second.first;
             ilow2_ = iter->second.second;       
             for (size_t i=0; i < 6; i++) {
