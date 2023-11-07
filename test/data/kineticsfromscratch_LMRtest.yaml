@@ -50,42 +50,42 @@ reactions:
 - equation: H + O2 <=> HO2  # Reaction 4 (changed from H2+O2 to match Burke's spreadsheet)
   type: LMR_R
   collider-list: 
-    - name: M #weaker collider #Ar, O, H2, H, OH, O2, H2O2, HO2
-      low-P-rate-constant: {A: 8.1101557392e-33, b: 0, Ea: 0} #eig0
-      rate-constants:
-      - {P: 1e-6 atm, A: 5.95184e-20, b: 0, Ea: 0}
-      - {P: 1e-5 atm, A: 5.95183e-19, b: 0, Ea: 0}
-      - {P: 1e-4 atm, A: 5.95176e-18, b: 0, Ea: 0}
-      - {P: 0.001 atm, A: 5.95102e-17, b: 0, Ea: 0}
-      - {P: 0.01 atm, A: 5.9437e-16, b: 0, Ea: 0}
-      - {P: 0.1 atm, A: 5.8789e-15, b: 0, Ea: 0}
-      - {P: 1 atm, A: 5.53562e-14, b: 0, Ea: 0}
-      - {P: 10 atm, A: 4.66593e-13, b: 0, Ea: 0}
-      - {P: 100 atm, A: 3.28089e-12, b: 0, Ea: 0}
-      - {P: 1000 atm, A: 1.71881e-11, b: 0, Ea: 0}
-      - {P: 1e+4 atm, A: 5.65797e-11, b: 0, Ea: 0}
-      - {P: 1e+5 atm, A: 1.04517e-10, b: 0, Ea: 0}
-      - {P: 1e+6 atm, A: 1.24594e-10, b: 0, Ea: 0}
-      - {P: 1e+7 atm, A: 1.27873e-10, b: 0, Ea: 0}
-      - {P: 1e+8 atm, A: 1.28229e-10, b: 0, Ea: 0}
-    - name: H2O #stronger collider
-      low-P-rate-constant: {A: 1.6200035544e-31, b: 0, Ea: 0}
-      rate-constants:
-      - {P: 1e-6 atm, A: 1.18888e-18, b: 0, Ea: 0}
-      - {P: 1e-5 atm, A: 1.18888e-17, b: 0, Ea: 0}
-      - {P: 1e-4 atm, A: 1.18885e-16, b: 0, Ea: 0}
-      - {P: 0.001 atm, A: 1.18856e-15, b: 0, Ea: 0}
-      - {P: 0.01 atm, A: 1.18572e-14, b: 0, Ea: 0}
-      - {P: 0.1 atm, A: 1.16086e-13, b: 0, Ea: 0}
-      - {P: 1 atm, A: 1.03278e-12, b: 0, Ea: 0}
-      - {P: 10 atm, A: 7.26186e-12, b: 0, Ea: 0}
-      - {P: 100 atm, A: 3.36165e-11, b: 0, Ea: 0}
-      - {P: 1000 atm, A: 8.46654e-11, b: 0, Ea: 0}
-      - {P: 1e+4 atm, A: 1.19266e-10, b: 0, Ea: 0}
-      - {P: 1e+5 atm, A: 1.27205e-10, b: 0, Ea: 0}
-      - {P: 1e+6 atm, A: 1.28161e-10, b: 0, Ea: 0}
-      - {P: 1e+7 atm, A: 1.28259e-10, b: 0, Ea: 0}
-      - {P: 1e+8 atm, A: 1.28268e-10, b: 0, Ea: 0}
+  - collider: M #weaker collider #Ar, O, H2, H, OH, O2, H2O2, HO2
+    low-P-rate-constant: {A: 8.1101557392e-33, b: 0, Ea: 0} #eig0
+    rate-constants:
+    - {P: 1e-6 atm, A: 5.95184e-20, b: 0, Ea: 0}
+    - {P: 1e-5 atm, A: 5.95183e-19, b: 0, Ea: 0}
+    - {P: 1e-4 atm, A: 5.95176e-18, b: 0, Ea: 0}
+    - {P: 0.001 atm, A: 5.95102e-17, b: 0, Ea: 0}
+    - {P: 0.01 atm, A: 5.9437e-16, b: 0, Ea: 0}
+    - {P: 0.1 atm, A: 5.8789e-15, b: 0, Ea: 0}
+    - {P: 1 atm, A: 5.53562e-14, b: 0, Ea: 0}
+    - {P: 10 atm, A: 4.66593e-13, b: 0, Ea: 0}
+    - {P: 100 atm, A: 3.28089e-12, b: 0, Ea: 0}
+    - {P: 1000 atm, A: 1.71881e-11, b: 0, Ea: 0}
+    - {P: 1e+4 atm, A: 5.65797e-11, b: 0, Ea: 0}
+    - {P: 1e+5 atm, A: 1.04517e-10, b: 0, Ea: 0}
+    - {P: 1e+6 atm, A: 1.24594e-10, b: 0, Ea: 0}
+    - {P: 1e+7 atm, A: 1.27873e-10, b: 0, Ea: 0}
+    - {P: 1e+8 atm, A: 1.28229e-10, b: 0, Ea: 0}
+  - collider: H2O #stronger collider
+    low-P-rate-constant: {A: 1.6200035544e-31, b: 0, Ea: 0}
+    rate-constants:
+    - {P: 1e-6 atm, A: 1.18888e-18, b: 0, Ea: 0}
+    - {P: 1e-5 atm, A: 1.18888e-17, b: 0, Ea: 0}
+    - {P: 1e-4 atm, A: 1.18885e-16, b: 0, Ea: 0}
+    - {P: 0.001 atm, A: 1.18856e-15, b: 0, Ea: 0}
+    - {P: 0.01 atm, A: 1.18572e-14, b: 0, Ea: 0}
+    - {P: 0.1 atm, A: 1.16086e-13, b: 0, Ea: 0}
+    - {P: 1 atm, A: 1.03278e-12, b: 0, Ea: 0}
+    - {P: 10 atm, A: 7.26186e-12, b: 0, Ea: 0}
+    - {P: 100 atm, A: 3.36165e-11, b: 0, Ea: 0}
+    - {P: 1000 atm, A: 8.46654e-11, b: 0, Ea: 0}
+    - {P: 1e+4 atm, A: 1.19266e-10, b: 0, Ea: 0}
+    - {P: 1e+5 atm, A: 1.27205e-10, b: 0, Ea: 0}
+    - {P: 1e+6 atm, A: 1.28161e-10, b: 0, Ea: 0}
+    - {P: 1e+7 atm, A: 1.28259e-10, b: 0, Ea: 0}
+    - {P: 1e+8 atm, A: 1.28268e-10, b: 0, Ea: 0}
 
   ## Add the above block for each collider, with an accompanying eig0 parameter
 - equation: HO2 <=> OH + O  # Reaction 5

@@ -13,7 +13,10 @@ LmrData::LmrData(){ //THIS METHOD WAS ADAPTED SOMEWHAT BLINDLY FROM FALLOFF.CPP,
 }
 
 void LmrData::updateTPX(double T, double P, int X, vector<double> mflist){
-    ReactionData::update(T); //defines temperature, logT, and recipT
+    // ReactionData::update(T); //defines temperature, logT, and recipT
+    temperature = T;
+    logT = std::log(T);
+    recipT = 1./T;
     pressure = P;
     logP = std::log(P);
     mfNumber=X;
@@ -64,8 +67,8 @@ void LmrRate::setParameters(const AnyMap& node, const UnitStack& rate_units){
     if (node.hasKey("collider-list")) {
         auto& colliders = node["collider-list"].asVector<AnyMap>();
         for (const auto& collider : colliders) { //iterate through the list (vector) of collider species
-            if (collider.hasKey("name") && collider.hasKey("low-P-rate-constant") && collider.hasKey("rate-constants")) {
-                string species_i_ = collider["name"].as<std::string>();
+            if (collider.hasKey("collider") && collider.hasKey("low-P-rate-constant") && collider.hasKey("rate-constants")) {
+                string species_i_ = collider["collider"].as<std::string>();
                 ArrheniusRate eig0_i_ = ArrheniusRate(AnyValue(collider["low-P-rate-constant"]), node.units(), rate_units);       
                 map<double, pair<size_t, size_t>> pressures_i_;
                 vector<ArrheniusRate> rates_i_; 
