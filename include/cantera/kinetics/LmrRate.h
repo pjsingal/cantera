@@ -13,17 +13,15 @@ struct LmrData : public ReactionData{
     
 
     //recent adds
-    // void update(double T) override;
-    // void update(double T, double P) override {
-    //     ReactionData::update(T);
-    //     pressure = P;
-    //     logP = std::log(P);
-    // }
+    void update(double T, double P) override {
+        ReactionData::update(T);
+        pressure = P;
+        logP = std::log(P);
+    }
     //end of recent adds
 
-    bool updateFromPhase(const ThermoPhase& phase);
-    void updateTPX(double T, double P, int X, vector<double> mflist);
-
+    bool update(const ThermoPhase& phase, const Kinetics& kin);
+    using ReactionData::update;
     void perturbPressure(double deltaP);
     virtual void restore() override;
 

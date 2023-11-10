@@ -12,27 +12,14 @@ LmrData::LmrData(){ //THIS METHOD WAS ADAPTED SOMEWHAT BLINDLY FROM FALLOFF.CPP,
     moleFractions.resize(1, NAN);
 }
 
-void LmrData::updateTPX(double T, double P, int X, vector<double> mflist){
-    // ReactionData::update(T); //defines temperature, logT, and recipT
-    temperature = T;
-    logT = std::log(T);
-    recipT = 1./T;
-    pressure = P;
-    logP = std::log(P);
-    mfNumber=X;
-    moleFractions = mflist;
-}
-
-bool LmrData::updateFromPhase(const ThermoPhase& phase){
+bool LmrData::update(const ThermoPhase& phase, const Kinetics& kin){
     double T = phase.temperature();
     double P = phase.pressure(); //find out what units this is in
     int X = phase.stateMFNumber();
-    vector<double> mflist;
-    for (int i = 0; i < phase.speciesNames().size(); i++){
-            mflist.push_back(phase.moleFraction(i));
-    }
     if (P != pressure || T != temperature || X != mfNumber) {
-        updateTPX(T,P,X,mflist);
+        update(T,P);
+        mfNumber=X;
+        phase.getMoleFractions(moleFractions.data());
         return true;
     }
     return false;
@@ -44,7 +31,7 @@ void LmrData::perturbPressure(double deltaP){
             "Cannot apply another perturbation as state is already perturbed.");
     }
     m_pressure_buf = pressure;
-    updateTPX(temperature,pressure*(1. + deltaP),mfNumber,moleFractions);
+    update(temperature,pressure*(1. + deltaP));
 }
 
 void LmrData::restore(){
@@ -53,7 +40,7 @@ void LmrData::restore(){
     if (m_pressure_buf < 0.) {
         return;
     }
-    updateTPX(temperature,m_pressure_buf,mfNumber,moleFractions);
+    update(temperature,m_pressure_buf);
     m_pressure_buf = -1.;
 }
 
@@ -66,14 +53,16 @@ void LmrRate::setParameters(const AnyMap& node, const UnitStack& rate_units){
     ReactionRate::setParameters(node, rate_units);
     if (node.hasKey("collider-list")) {
         auto& colliders = node["collider-list"].asVector<AnyMap>();
-        for (const auto& collider : colliders) { //iterate through the list (vector) of collider species
-            if (collider.hasKey("collider") && collider.hasKey("low-P-rate-constant") && collider.hasKey("rate-constants")) {
-                string species_i_ = collider["collider"].as<std::string>();
-                ArrheniusRate eig0_i_ = ArrheniusRate(AnyValue(collider["low-P-rate-constant"]), node.units(), rate_units);       
+        for (int i = 0; i < colliders.size(); i++){
+            if (colliders[i].hasKey("collider") && colliders[i].hasKey("low-P-rate-constant") && colliders[i].hasKey("rate-constants")) {
+        // for (const auto& collider : colliders) { //iterate through the list (vector) of collider species
+            // if (collider.hasKey("collider") && collider.hasKey("low-P-rate-constant") && collider.hasKey("rate-constants")) {
+                string species_i_ = colliders[i]["collider"].as<std::string>();
+                ArrheniusRate eig0_i_ = ArrheniusRate(AnyValue(colliders[i]["low-P-rate-constant"]), node.units(), rate_units);       
                 map<double, pair<size_t, size_t>> pressures_i_;
                 vector<ArrheniusRate> rates_i_; 
                 std::multimap<double, ArrheniusRate> multi_rates;
-                auto& rates = collider["rate-constants"].asVector<AnyMap>();
+                auto& rates = colliders[i]["rate-constants"].asVector<AnyMap>();
                 for (const auto& rate : rates){
                     multi_rates.insert({rate.convert("P","Pa"),ArrheniusRate(AnyValue(rate), node.units(), rate_units)});
                 }
