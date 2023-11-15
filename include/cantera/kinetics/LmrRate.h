@@ -20,17 +20,17 @@ struct LmrData : public ReactionData{
     }
     //end of recent adds
 
-    bool update(const ThermoPhase& phase, const Kinetics& kin);
+    bool update(const ThermoPhase& phase, const Kinetics& kin) override;
     using ReactionData::update;
     void perturbPressure(double deltaP);
-    virtual void restore() override;
+    void restore() override;
 
     virtual void resize(size_t nSpecies, size_t nReactions, size_t nPhases) override {
         moleFractions.resize(nReactions, NAN);
         ready = true;
     }
 
-    virtual void invalidateCache() override {
+    void invalidateCache() override {
         ReactionData::invalidateCache();
         pressure = NAN;
     }

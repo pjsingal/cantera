@@ -4,8 +4,7 @@
 
 #include "cantera/kinetics/LmrRate.h"
 #include "cantera/thermo/ThermoPhase.h"
-#include "cantera/kinetics/Kinetics.h"
-//gcc src/kinetics/LmrRate.cpp -o src/kinetics/LmrRate -lstdc++
+
 namespace Cantera{
 
 LmrData::LmrData(){ //THIS METHOD WAS ADAPTED SOMEWHAT BLINDLY FROM FALLOFF.CPP, PLEASE VERIFY IF CORRECT
@@ -16,8 +15,13 @@ bool LmrData::update(const ThermoPhase& phase, const Kinetics& kin){
     double T = phase.temperature();
     double P = phase.pressure(); //find out what units this is in
     int X = phase.stateMFNumber();
+    writelog("T = {}\n", T);
+    writelog("P = {}\n", P);
+    writelog("X = {}\n", X);
     if (P != pressure || T != temperature || X != mfNumber) {
-        update(T,P);
+        ReactionData::update(T);
+        pressure = P;
+        logP = std::log(P);
         mfNumber=X;
         phase.getMoleFractions(moleFractions.data());
         return true;
@@ -31,6 +35,7 @@ void LmrData::perturbPressure(double deltaP){
             "Cannot apply another perturbation as state is already perturbed.");
     }
     m_pressure_buf = pressure;
+    writelog("m_pressure_buf = {}\n", m_pressure_buf);
     update(temperature,pressure*(1. + deltaP));
 }
 
@@ -58,6 +63,7 @@ void LmrRate::setParameters(const AnyMap& node, const UnitStack& rate_units){
         // for (const auto& collider : colliders) { //iterate through the list (vector) of collider species
             // if (collider.hasKey("collider") && collider.hasKey("low-P-rate-constant") && collider.hasKey("rate-constants")) {
                 string species_i_ = colliders[i]["collider"].as<std::string>();
+                writelog("species_i_ = {}\n", species_i_);
                 ArrheniusRate eig0_i_ = ArrheniusRate(AnyValue(colliders[i]["low-P-rate-constant"]), node.units(), rate_units);       
                 map<double, pair<size_t, size_t>> pressures_i_;
                 vector<ArrheniusRate> rates_i_; 
@@ -108,7 +114,6 @@ void LmrRate::validate(const string& equation, const ThermoPhase& phase){
     //Get the list of all species in yaml (not just the ones for which LMRR data exists)
     // ThermoPhase::Phase phase;
     allSpecies_ = phase.speciesNames();
-    
     fmt::memory_buffer err_reactions1; //for k-related errors
     fmt::memory_buffer err_reactions2; //for eig0-related errors
     double T[] = {300.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0};
@@ -146,8 +151,7 @@ void LmrRate::validate(const string& equation, const ThermoPhase& phase){
     }
 }
 
-double LmrRate::speciesPlogRate(const LmrData& shared_data){ 
-
+double LmrRate::speciesPlogRate(const LmrData& shared_data){
     auto iter = pressures_s_.upper_bound(logPeff_);
     AssertThrowMsg(iter != pressures_s_.end(), "LmrRate::speciesPlogRate","Reduced-pressure out of range: {}", logPeff_);
     AssertThrowMsg(iter != pressures_s_.begin(), "LmrRate::speciesPlogRate","Reduced-pressure out of range: {}", logPeff_); 
@@ -159,6 +163,7 @@ double LmrRate::speciesPlogRate(const LmrData& shared_data){
     ilow2_ = iter->second.second;
     rDeltaP_ = 1.0 / (logP2_ - logP1_);
     double log_k1, log_k2;
+    writelog("log_k1 = {}\n", log_k1);
     if (ilow1_ == ilow2_) {
         log_k1 = rates_s_[ilow1_].evalLog(shared_data.logT, shared_data.recipT);
     } else {
