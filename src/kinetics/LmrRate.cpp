@@ -262,8 +262,8 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
             writelog("eig0={}\n", eig0);
             writelog("3 Xi={}\n", Xi);
             writelog("eig0_mix={}\n", eig0_mix);
-            writelog("logP={}\n", logP_);
-            writelog("logPeff={}\n", logPeff_);
+            writelog("logP_={}\n", logP_);
+            writelog("logPeff_={}\n", logPeff_);
             writelog("k_LMR_ += {}\n", LmrRate::speciesPlogRate(shared_data)*eig0*Xi/eig0_mix);
             k_LMR_ += LmrRate::speciesPlogRate(shared_data)*eig0*Xi/eig0_mix;
         // }
