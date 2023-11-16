@@ -15,9 +15,14 @@ bool LmrData::update(const ThermoPhase& phase, const Kinetics& kin){
     double T = phase.temperature();
     double P = phase.pressure(); //find out what units this is in
     int X = phase.stateMFNumber();
-    writelog("T = {}\n", T);
-    writelog("P = {}\n", P);
-    writelog("X = {}\n", X);
+    // writelog("T = {}\n", T);
+    // writelog("P = {}\n", P);
+    // writelog("X = {}\n", X);
+
+    //Get the list of all species in yaml (not just the ones for which LMRR data exists)
+    if (allSpecies_.empty()){
+        allSpecies_ = phase.speciesNames();
+    }
     if (P != pressure || T != temperature || X != mfNumber) {
         ReactionData::update(T);
         pressure = P;
@@ -57,13 +62,15 @@ LmrRate::LmrRate(const AnyMap& node, const UnitStack& rate_units){
 void LmrRate::setParameters(const AnyMap& node, const UnitStack& rate_units){
     ReactionRate::setParameters(node, rate_units);
     if (node.hasKey("collider-list")) {
+        // writelog_direct("TRUE1\n");
         auto& colliders = node["collider-list"].asVector<AnyMap>();
         for (int i = 0; i < colliders.size(); i++){
             if (colliders[i].hasKey("collider") && colliders[i].hasKey("low-P-rate-constant") && colliders[i].hasKey("rate-constants")) {
+                // writelog_direct("TRUE2\n");
         // for (const auto& collider : colliders) { //iterate through the list (vector) of collider species
             // if (collider.hasKey("collider") && collider.hasKey("low-P-rate-constant") && collider.hasKey("rate-constants")) {
                 string species_i_ = colliders[i]["collider"].as<std::string>();
-                writelog("species_i_ = {}\n", species_i_);
+                // writelog("species_i_ = {}\n", species_i_);
                 ArrheniusRate eig0_i_ = ArrheniusRate(AnyValue(colliders[i]["low-P-rate-constant"]), node.units(), rate_units);       
                 map<double, pair<size_t, size_t>> pressures_i_;
                 vector<ArrheniusRate> rates_i_; 
@@ -98,44 +105,71 @@ void LmrRate::setParameters(const AnyMap& node, const UnitStack& rate_units){
                 rates_.insert({species_i_, rates_i_});
                 pressures_.insert({species_i_, pressures_i_});
                 eig0_.insert({species_i_, eig0_i_});
+
+                // if (!rates_i_.empty() && !pressures_i_.empty() && !multi_rates.empty()){
+                //     writelog_direct("TRUE3\n");
+                //     writelog("eig0_={}\n",eig0_.begin()->second.evalRate(log(1000),1/1000));
+                //     writelog("1 rates_i_={}\n",rates_i_[0].evalRate(log(1000), 1/1000));
+                //     writelog("1 pressures_i_={}\n",pressures_i_.begin()->first);
+                //     auto nextElementIterator = pressures_i_.begin();
+                //     ++nextElementIterator;
+                //     double nextElementKey = nextElementIterator->first;
+                //     writelog("2 rates_i_={}\n",rates_i_[1].evalRate(log(1000), 1/1000));
+                //     writelog("2 pressures_i_={}\n",nextElementKey);
+                //     ++nextElementIterator;
+                //     nextElementKey = nextElementIterator->first;
+                //     writelog("3 rates_i_={}\n",rates_i_[2].evalRate(log(1000), 1/1000));
+                //     writelog("3 pressures_i_={}\n",nextElementKey);
+                //     ++nextElementIterator;
+                //     nextElementKey = nextElementIterator->first;
+                //     writelog("4 rates_i_={}\n",rates_i_[3].evalRate(log(1000), 1/1000));
+                //     writelog("4 pressures_i_={}\n",nextElementKey);
+                // }else{
+                //     writelog_direct("FALSE3\n");
+                // }
             }
         }
     }
 }
 
 // void LmrRate::validate(const string& equation, const Kinetics& kin){
-void LmrRate::validate(const string& equation, const ThermoPhase& phase){
+void LmrRate::validate(const string& equation, const Kinetics& kin){
     //Validate the LMRR input data for each species
     if (!valid()) {
         throw InputFileError("LmrRate::validate", m_input,
             "Rate object for reaction '{}' is not configured.", equation);
     }
     
-    //Get the list of all species in yaml (not just the ones for which LMRR data exists)
-    // ThermoPhase::Phase phase;
-    allSpecies_ = phase.speciesNames();
+    
     fmt::memory_buffer err_reactions1; //for k-related errors
     fmt::memory_buffer err_reactions2; //for eig0-related errors
     double T[] = {300.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0};
     // LmrData data;
     // Iterate through the outer map (string to inner map)
-    for (const auto& outer_pair : pressures_) {
+    // writelog_direct("TRUE0");
+    for (const auto& outer_pair : pressures_) { //iterating through species
+        // writelog_direct("TRUE1");
         const std::string& s = outer_pair.first; //s refers only to the species for which LMR data is provided in yaml (e.g. 'H2O', 'M')
         const std::map<double, std::pair<size_t, size_t>>& inner_map = outer_pair.second;
-        for (auto iter = ++inner_map.begin(); iter->first < 1000; iter++) { 
+        for (auto iter = ++inner_map.begin(); iter->first < 1000; iter++) { //iterating through pressures (and their corresponding arrhenius data)
+            // writelog_direct("TRUE2");
             ilow1_ = iter->second.first;
             ilow2_ = iter->second.second;       
-            for (size_t i=0; i < 6; i++) {
+            for (size_t i=0; i < 6; i++) { //iterating through our sample temperature array
+                // writelog_direct("TRUE3");
                 double k = 0;
                 for (size_t p = ilow1_; p < ilow2_; p++) {
                     k += rates_[s].at(p).evalRate(log(T[i]), 1.0 / T[i]);
                 }
                 double eig0 = eig0_[s].evalRate(log(T[i]), 1.0/T[i]);
-
+                // writelog("eig0={}\n",eig0);
+                // writelog("k={}\n",k);
                 if (!(k > 0)){ //flags error if k at a given T, P is not > 0
+                    // writelog_direct("TRUE4a");
                     fmt_append(err_reactions1,"at P = {:.5g}, T = {:.1f}\n", std::exp(iter->first), T[i]);
                 }
                 else if (!(eig0>0)){ //flags error if eig0 at a given T is not > 0
+                    // writelog_direct("TRUE4b");
                     fmt_append(err_reactions2,"at T = {:.1f}\n", T[i]);
                 }
             }
@@ -163,7 +197,7 @@ double LmrRate::speciesPlogRate(const LmrData& shared_data){
     ilow2_ = iter->second.second;
     rDeltaP_ = 1.0 / (logP2_ - logP1_);
     double log_k1, log_k2;
-    writelog("log_k1 = {}\n", log_k1);
+    // writelog("log_k1 = {}\n", log_k1);
     if (ilow1_ == ilow2_) {
         log_k1 = rates_s_[ilow1_].evalLog(shared_data.logT, shared_data.recipT);
     } else {
@@ -189,24 +223,30 @@ double LmrRate::speciesPlogRate(const LmrData& shared_data){
 double LmrRate::evalFromStruct(const LmrData& shared_data){
     double eig0_mix;
     double eig0_M=eig0_["M"].evalRate(shared_data.logT, shared_data.recipT);
-    for (size_t i=0; i<allSpecies_.size(); i++){ //testing each species listed at the top of yaml file
+
+    //writelog("eig0_M = {}\n", eig0_M);
+    
+    for (size_t i=0; i<shared_data.allSpecies_.size(); i++){ //testing each species listed at the top of yaml file
         double Xi = shared_data.moleFractions[i];
-        std::map<string, ArrheniusRate>::iterator it = eig0_.find(allSpecies_[i]);
+        //writelog("Xi = {}\n", Xi);
+        std::map<string, ArrheniusRate>::iterator it = eig0_.find(shared_data.allSpecies_[i]);
         if (it != eig0_.end()) {//key found, i.e. species has corresponding LMR data  
-            eig0_mix += Xi*eig0_[allSpecies_[i]].evalRate(shared_data.logT, shared_data.recipT);
+            eig0_mix += Xi*eig0_[shared_data.allSpecies_[i]].evalRate(shared_data.logT, shared_data.recipT);
         } else {//no LMR data for this species, so use M data as default
             eig0_mix += Xi*eig0_M;
         }
     }
+    //writelog("eig0_mix = {}\n", eig0_mix);
     double log_eig0_mix = std::log(eig0_mix);
-    for (size_t i=0; i<allSpecies_.size(); i++){ //testing each species listed at the top of yaml file
+    //writelog("log_eig0_mix = {}\n", log_eig0_mix);
+    for (size_t i=0; i<shared_data.allSpecies_.size(); i++){ //testing each species listed at the top of yaml file
         double Xi = shared_data.moleFractions[i];
         double eig0; //eig0 val of a single species
-        std::map<string, ArrheniusRate>::iterator it = eig0_.find(allSpecies_[i]);
+        std::map<string, ArrheniusRate>::iterator it = eig0_.find(shared_data.allSpecies_[i]);
         if (it != eig0_.end()) {
-            eig0 = eig0_[allSpecies_[i]].evalRate(shared_data.logT, shared_data.recipT);
-            pressures_s_=pressures_[allSpecies_[i]];
-            rates_s_=rates_[allSpecies_[i]];
+            eig0 = eig0_[shared_data.allSpecies_[i]].evalRate(shared_data.logT, shared_data.recipT);
+            pressures_s_=pressures_[shared_data.allSpecies_[i]];
+            rates_s_=rates_[shared_data.allSpecies_[i]];
         } else {
             eig0 = eig0_M;
             pressures_s_=pressures_["M"];
@@ -215,10 +255,13 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
         if (shared_data.logP != logP_) { //WHAT IS THE PURPOSE OF THIS STEP?
             logP_=shared_data.logP; 
             logPeff_=logP_+log_eig0_mix-log(eig0); //Peff is the effective pressure, formerly called "Ptilde" 
-            // if (logP_ > logP1_ && logP_ < logP2_) {
-            //     return;
-            // }
-            k_LMR_ += LmrRate::speciesPlogRate(shared_data)*eig0*Xi/eig0_mix; //Xtilde=eig0_s*Xi/eig0_mix
+            writelog("eig0={}\n", eig0);
+            writelog("Xi={}\n", Xi);
+            writelog("eig0_mix={}\n", eig0_mix);
+            writelog("logP={}\n", logP_);
+            writelog("logPeff={}\n", logPeff_);
+            writelog("k_LMR_ += {}\n", LmrRate::speciesPlogRate(shared_data)*eig0*Xi/eig0_mix);
+            k_LMR_ += LmrRate::speciesPlogRate(shared_data)*eig0*Xi/eig0_mix;
         }
     }
     return k_LMR_;
