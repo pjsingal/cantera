@@ -23,6 +23,9 @@ bool LmrData::update(const ThermoPhase& phase, const Kinetics& kin){
     if (allSpecies_.empty()){
         allSpecies_ = phase.speciesNames();
     }
+    if (moleFractions.empty()){
+        moleFractions.resize(allSpecies_.size());
+    }
     if (P != pressure || T != temperature || X != mfNumber) {
         ReactionData::update(T);
         pressure = P;
@@ -228,7 +231,7 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
     
     for (size_t i=0; i<shared_data.allSpecies_.size(); i++){ //testing each species listed at the top of yaml file
         double Xi = shared_data.moleFractions[i];
-        //writelog("Xi = {}\n", Xi);
+        writelog("1 Xi = {}\n", Xi);
         std::map<string, ArrheniusRate>::iterator it = eig0_.find(shared_data.allSpecies_[i]);
         if (it != eig0_.end()) {//key found, i.e. species has corresponding LMR data  
             eig0_mix += Xi*eig0_[shared_data.allSpecies_[i]].evalRate(shared_data.logT, shared_data.recipT);
@@ -241,6 +244,7 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
     //writelog("log_eig0_mix = {}\n", log_eig0_mix);
     for (size_t i=0; i<shared_data.allSpecies_.size(); i++){ //testing each species listed at the top of yaml file
         double Xi = shared_data.moleFractions[i];
+        writelog("2 Xi={}\n", Xi);
         double eig0; //eig0 val of a single species
         std::map<string, ArrheniusRate>::iterator it = eig0_.find(shared_data.allSpecies_[i]);
         if (it != eig0_.end()) {
@@ -252,17 +256,17 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
             pressures_s_=pressures_["M"];
             rates_s_=rates_["M"];
         }
-        if (shared_data.logP != logP_) { //WHAT IS THE PURPOSE OF THIS STEP?
+        // if (shared_data.logP != logP_) { //WHAT IS THE PURPOSE OF THIS STEP?
             logP_=shared_data.logP; 
             logPeff_=logP_+log_eig0_mix-log(eig0); //Peff is the effective pressure, formerly called "Ptilde" 
             writelog("eig0={}\n", eig0);
-            writelog("Xi={}\n", Xi);
+            writelog("3 Xi={}\n", Xi);
             writelog("eig0_mix={}\n", eig0_mix);
             writelog("logP={}\n", logP_);
             writelog("logPeff={}\n", logPeff_);
             writelog("k_LMR_ += {}\n", LmrRate::speciesPlogRate(shared_data)*eig0*Xi/eig0_mix);
             k_LMR_ += LmrRate::speciesPlogRate(shared_data)*eig0*Xi/eig0_mix;
-        }
+        // }
     }
     return k_LMR_;
 }

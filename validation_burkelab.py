@@ -17,7 +17,7 @@ for i, R in enumerate(reactions):
     for j, P in enumerate(Pres):
         temp_list = []
         for k,T in enumerate(Temp):
-            gas.TPX = T,P,{'H2O':1}
+            gas.TPX = T,P,{'O':1}
             rc = gas.forward_rate_constants[gas.reaction_equations().index(R)]
             temp_list.append(rc)
         k_list.append(temp_list)  
