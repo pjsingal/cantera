@@ -77,7 +77,7 @@ public:
     double logPeff_;
     double eig0_mix_ = 0.0;
     double log_eig0_mix_ = 0.0;
-    double k_LMR_ = 0.0;
+    double k_LMR_;
 
 // protected:
     

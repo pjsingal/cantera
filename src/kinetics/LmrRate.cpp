@@ -43,7 +43,7 @@ void LmrData::perturbPressure(double deltaP){
             "Cannot apply another perturbation as state is already perturbed.");
     }
     m_pressure_buf = pressure;
-    writelog("m_pressure_buf = {}\n", m_pressure_buf);
+    //writelog("m_pressure_buf = {}\n", m_pressure_buf);
     update(temperature,pressure*(1. + deltaP));
 }
 
@@ -224,14 +224,17 @@ double LmrRate::speciesPlogRate(const LmrData& shared_data){
 }
 
 double LmrRate::evalFromStruct(const LmrData& shared_data){
-    double eig0_mix;
+    k_LMR_=0;
+    double eig0_mix=0;
     double eig0_M=eig0_["M"].evalRate(shared_data.logT, shared_data.recipT);
 
     //writelog("eig0_M = {}\n", eig0_M);
+
+    vector<double> moleFractions = shared_data.moleFractions;
     
     for (size_t i=0; i<shared_data.allSpecies_.size(); i++){ //testing each species listed at the top of yaml file
-        double Xi = shared_data.moleFractions[i];
-        writelog("1 Xi = {}\n", Xi);
+        double Xi = moleFractions[i];
+        //writelog("1 Xi = {}\n", Xi);
         std::map<string, ArrheniusRate>::iterator it = eig0_.find(shared_data.allSpecies_[i]);
         if (it != eig0_.end()) {//key found, i.e. species has corresponding LMR data  
             eig0_mix += Xi*eig0_[shared_data.allSpecies_[i]].evalRate(shared_data.logT, shared_data.recipT);
@@ -243,8 +246,8 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
     double log_eig0_mix = std::log(eig0_mix);
     //writelog("log_eig0_mix = {}\n", log_eig0_mix);
     for (size_t i=0; i<shared_data.allSpecies_.size(); i++){ //testing each species listed at the top of yaml file
-        double Xi = shared_data.moleFractions[i];
-        writelog("2 Xi={}\n", Xi);
+        double Xi = moleFractions[i];
+        //writelog("2 Xi={}\n", Xi);
         double eig0; //eig0 val of a single species
         std::map<string, ArrheniusRate>::iterator it = eig0_.find(shared_data.allSpecies_[i]);
         if (it != eig0_.end()) {
@@ -259,12 +262,12 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
         // if (shared_data.logP != logP_) { //WHAT IS THE PURPOSE OF THIS STEP?
             logP_=shared_data.logP; 
             logPeff_=logP_+log_eig0_mix-log(eig0); //Peff is the effective pressure, formerly called "Ptilde" 
-            writelog("eig0={}\n", eig0);
-            writelog("3 Xi={}\n", Xi);
-            writelog("eig0_mix={}\n", eig0_mix);
-            writelog("logP_={}\n", logP_);
-            writelog("logPeff_={}\n", logPeff_);
-            writelog("k_LMR_ += {}\n", LmrRate::speciesPlogRate(shared_data)*eig0*Xi/eig0_mix);
+            //writelog("eig0={}\n", eig0);
+            // writelog("3 Xi={}\n", Xi);
+            // writelog("eig0_mix={}\n", eig0_mix);
+            // writelog("logP_={}\n", logP_);
+            // writelog("logPeff_={}\n", logPeff_);
+            // writelog("k_LMR_ += {}\n", LmrRate::speciesPlogRate(shared_data)*eig0*Xi/eig0_mix);
             k_LMR_ += LmrRate::speciesPlogRate(shared_data)*eig0*Xi/eig0_mix;
         // }
     }

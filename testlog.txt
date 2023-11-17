@@ -6,7 +6,7 @@ Compiling with MSVC toolset 14.3 (default)
 Compiling for architecture: amd64
 Compiling using the following toolchain(s): ['default']
 INFO: Compiling on 'Intel64 Family 6 Model 140 Stepping 1, GenuineIntel'
-INFO: Building Cantera from git commit '4b0436270'
+INFO: Building Cantera from git commit '031ea71c0'
 INFO: Configuration variables read from 'cantera.conf' and command line:
     toolchain = 'msvc'
     prefix = 'C:\\Users\\pjsin\\Documents'
@@ -75,24 +75,30 @@ ConfigBuilder(["build\ext\sundials_config.h.build"], ["ext\sundials_config.h.in"
 INFO: Generating build\ext\sundials_config.h.build with the following settings:
     SUNDIALS_BLAS_LAPACK                *undefined*
     SUNDIALS_USE_GENERIC_MATH           *undefined*
-cl /Fobuild\src\base\global.obj /c src\base\global.cpp /TP /EHsc /std:c++17 /MD /nologo /D_SCL_SECURE_NO_WARNINGS /D_CRT_SECURE_NO_WARNINGS /O2 /Zi /Fdbuild\src\base\global.obj.pdb /W3 /DNDEBUG /DGIT_COMMIT=\"4b0436270\" /Iinclude\cantera\ext /Iinclude /Ibuild\src /IC:\Users\pjsin\anaconda3\envs\ctdev\Library\include
-global.cpp
-cl /Fobuild\temp-py\_utils.obj /c build\python\cantera\_utils.cpp /TP /EHsc /std:c++17 /MD /nologo /D_SCL_SECURE_NO_WARNINGS /D_CRT_SECURE_NO_WARNINGS /O2 /Zi /Fdbuild\temp-py\_utils.obj.pdb /DNDEBUG /DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION /DGIT_COMMIT=\"4b0436270\" /IC:\Users\pjsin\.conda\envs\MSI\Include /IC:\Users\pjsin\.conda\envs\MSI\lib\site-packages\numpy\core\include /Iinclude /IC:\Users\pjsin\anaconda3\envs\ctdev\Library\include
+cl /Fobuild\src\kinetics\ReactionRateFactory.obj /c src\kinetics\ReactionRateFactory.cpp /TP /EHsc /std:c++17 /MD /nologo /D_SCL_SECURE_NO_WARNINGS /D_CRT_SECURE_NO_WARNINGS /O2 /Zi /Fdbuild\src\kinetics\ReactionRateFactory.obj.pdb /W3 /DNDEBUG /Iinclude\cantera\ext /Iinclude /Ibuild\src /IC:\Users\pjsin\anaconda3\envs\ctdev\Library\include
+cl /Fobuild\temp-py\kinetics.obj /c build\python\cantera\kinetics.cpp /TP /EHsc /std:c++17 /MD /nologo /D_SCL_SECURE_NO_WARNINGS /D_CRT_SECURE_NO_WARNINGS /O2 /Zi /Fdbuild\temp-py\kinetics.obj.pdb /DNDEBUG /DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION /IC:\Users\pjsin\.conda\envs\MSI\Include /IC:\Users\pjsin\.conda\envs\MSI\lib\site-packages\numpy\core\include /Iinclude /IC:\Users\pjsin\anaconda3\envs\ctdev\Library\include
+ReactionRateFactory.cpp
+kinetics.cpp
+cl /Fobuild\temp-py\solutionbase.obj /c build\python\cantera\solutionbase.cpp /TP /EHsc /std:c++17 /MD /nologo /D_SCL_SECURE_NO_WARNINGS /D_CRT_SECURE_NO_WARNINGS /O2 /Zi /Fdbuild\temp-py\solutionbase.obj.pdb /DNDEBUG /DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION /IC:\Users\pjsin\.conda\envs\MSI\Include /IC:\Users\pjsin\.conda\envs\MSI\lib\site-packages\numpy\core\include /Iinclude /IC:\Users\pjsin\anaconda3\envs\ctdev\Library\include
+cl /Fobuild\temp-py\reaction.obj /c build\python\cantera\reaction.cpp /TP /EHsc /std:c++17 /MD /nologo /D_SCL_SECURE_NO_WARNINGS /D_CRT_SECURE_NO_WARNINGS /O2 /Zi /Fdbuild\temp-py\reaction.obj.pdb /DNDEBUG /DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION /IC:\Users\pjsin\.conda\envs\MSI\Include /IC:\Users\pjsin\.conda\envs\MSI\lib\site-packages\numpy\core\include /Iinclude /IC:\Users\pjsin\anaconda3\envs\ctdev\Library\include
+solutionbase.cpp
+reaction.cpp
 cl /Fobuild\src\kinetics\LmrRate.obj /c src\kinetics\LmrRate.cpp /TP /EHsc /std:c++17 /MD /nologo /D_SCL_SECURE_NO_WARNINGS /D_CRT_SECURE_NO_WARNINGS /O2 /Zi /Fdbuild\src\kinetics\LmrRate.obj.pdb /W3 /DNDEBUG /Iinclude\cantera\ext /Iinclude /Ibuild\src /IC:\Users\pjsin\anaconda3\envs\ctdev\Library\include
-_utils.cpp
 LmrRate.cpp
-Using tempfile C:\Users\pjsin\AppData\Local\Temp\tmpgrj1vu3w.lnk for command line:
+cl /Fobuild\temp-py\delegator.obj /c build\python\cantera\delegator.cpp /TP /EHsc /std:c++17 /MD /nologo /D_SCL_SECURE_NO_WARNINGS /D_CRT_SECURE_NO_WARNINGS /O2 /Zi /Fdbuild\temp-py\delegator.obj.pdb /DNDEBUG /DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION /IC:\Users\pjsin\.conda\envs\MSI\Include /IC:\Users\pjsin\.conda\envs\MSI\lib\site-packages\numpy\core\include /Iinclude /IC:\Users\pjsin\anaconda3\envs\ctdev\Library\include
+delegator.cpp
+Using tempfile C:\Users\pjsin\AppData\Local\Temp\tmpp5cz7bqx.lnk for command line:
 lib /nologo /OUT:build\lib\cantera.lib build\ext\fmt\src\format.obj build\ext\fmt\src\os.obj build\ext\sundials\src\sundials\sundials_band.obj build\ext\sundials\src\sundials\sundials_dense.obj build\ext\sundials\src\sundials\sundials_direct.obj build\ext\sundials\src\sundials\sundials_futils.obj build\ext\sundials\src\sundials\sundials_iterative.obj build\ext\sundials\src\sundials\sundials_linearsolver.obj build\ext\sundials\src\sundials\sundials_math.obj build\ext\sundials\src\sundials\sundials_matrix.obj build\ext\sundials\src\sundials\sundials_nonlinearsolver.obj build\ext\sundials\src\sundials\sundials_nvector.obj build\ext\sundials\src\sundials\sundials_nvector_senswrapper.obj build\ext\sundials\src\sundials\sundials_version.obj build\ext\sundials\src\nvector\serial\fnvector_serial.obj build\ext\sundials\src\nvector\serial\nvector_serial.obj build\ext\sundials\src\cvodes\cvodea.obj build\ext\sundials\src\cvodes\cvodea_io.obj build\ext\sundials\src\cvodes\cvodes.obj build\ext\sundials\src\cvodes\cvodes_bandpre.obj build\ext\sundials\src\cvodes\cvodes_bbdpre.obj build\ext\sundials\src\cvodes\cvodes_diag.obj build\ext\sundials\src\cvodes\cvodes_direct.obj build\ext\sundials\src\cvodes\cvodes_io.obj build\ext\sundials\src\cvodes\cvodes_ls.obj build\ext\sundials\src\cvodes\cvodes_nls.obj build\ext\sundials\src\cvodes\cvodes_nls_sim.obj build\ext\sundials\src\cvodes\cvodes_nls_stg.obj build\ext\sundials\src\cvodes\cvodes_nls_stg1.obj build\ext\sundials\src\cvodes\cvodes_spils.obj build\ext\sundials\src\idas\idaa.obj build\ext\sundials\src\idas\idaa_io.obj build\ext\sundials\src\idas\idas.obj build\ext\sundials\src\idas\idas_bbdpre.obj build\ext\sundials\src\idas\idas_direct.obj build\ext\sundials\src\idas\idas_ic.obj build\ext\sundials\src\idas\idas_io.obj build\ext\sundials\src\idas\idas_ls.obj build\ext\sundials\src\idas\idas_nls.obj build\ext\sundials\src\idas\idas_nls_sim.obj build\ext\sundials\src\idas\idas_nls_stg.obj build\ext\sundials\src\idas\idas_spils.obj build\ext\sundials\src\sunmatrix\band\sunmatrix_band.obj build\ext\sundials\src\sunmatrix\dense\sunmatrix_dense.obj build\ext\sundials\src\sunmatrix\sparse\sunmatrix_sparse.obj build\ext\sundials\src\sunlinsol\dense\sunlinsol_dense.obj build\ext\sundials\src\sunlinsol\band\sunlinsol_band.obj build\ext\sundials\src\sunlinsol\spgmr\sunlinsol_spgmr.obj build\ext\sundials\src\sunnonlinsol\newton\sunnonlinsol_newton.obj build\ext\yaml-cpp\src\binary.obj build\ext\yaml-cpp\src\convert.obj build\ext\yaml-cpp\src\depthguard.obj build\ext\yaml-cpp\src\directives.obj build\ext\yaml-cpp\src\emit.obj build\ext\yaml-cpp\src\emitfromevents.obj build\ext\yaml-cpp\src\emitter.obj build\ext\yaml-cpp\src\emitterstate.obj build\ext\yaml-cpp\src\emitterutils.obj build\ext\yaml-cpp\src\exceptions.obj build\ext\yaml-cpp\src\exp.obj build\ext\yaml-cpp\src\memory.obj build\ext\yaml-cpp\src\node.obj build\ext\yaml-cpp\src\node_data.obj build\ext\yaml-cpp\src\nodebuilder.obj build\ext\yaml-cpp\src\nodeevents.obj build\ext\yaml-cpp\src\null.obj build\ext\yaml-cpp\src\ostream_wrapper.obj build\ext\yaml-cpp\src\parse.obj build\ext\yaml-cpp\src\parser.obj build\ext\yaml-cpp\src\regex_yaml.obj build\ext\yaml-cpp\src\scanner.obj build\ext\yaml-cpp\src\scanscalar.obj build\ext\yaml-cpp\src\scantag.obj build\ext\yaml-cpp\src\scantoken.obj build\ext\yaml-cpp\src\simplekey.obj build\ext\yaml-cpp\src\singledocparser.obj build\ext\yaml-cpp\src\stream.obj build\ext\yaml-cpp\src\tag.obj build\ext\yaml-cpp\src\contrib\graphbuilder.obj build\ext\yaml-cpp\src\contrib\graphbuilderadapter.obj build\src\base\AnyMap.obj build\src\base\Array.obj build\src\base\ExtensionManager.obj build\src\base\ExtensionManagerFactory.obj build\src\base\Interface.obj build\src\base\Solution.obj build\src\base\SolutionArray.obj build\src\base\Storage.obj build\src\base\Units.obj build\src\base\ValueCache.obj build\src\base\YamlWriter.obj build\src\base\checkFinite.obj build\src\base\clockWC.obj build\src\base\ctexceptions.obj build\src\base\stringUtils.obj build\src\base\application.obj build\src\base\global.obj build\src\thermo\BinarySolutionTabulatedThermo.obj build\src\thermo\ConstCpPoly.obj build\src\thermo\CoverageDependentSurfPhase.obj build\src\thermo\DebyeHuckel.obj build\src\thermo\Elements.obj build\src\thermo\GibbsExcessVPSSTP.obj build\src\thermo\HMWSoln.obj build\src\thermo\IdealGasPhase.obj build\src\thermo\IdealMolalSoln.obj build\src\thermo\IdealSolidSolnPhase.obj build\src\thermo\IdealSolnGasVPSS.obj build\src\thermo\LatticePhase.obj build\src\thermo\LatticeSolidPhase.obj build\src\thermo\MargulesVPSSTP.obj build\src\thermo\MixtureFugacityTP.obj build\src\thermo\MolalityVPSSTP.obj build\src\thermo\Mu0Poly.obj build\src\thermo\MultiSpeciesThermo.obj build\src\thermo\Nasa9Poly1.obj build\src\thermo\Nasa9PolyMultiTempRegion.obj build\src\thermo\NasaPoly2.obj build\src\thermo\PDSS.obj build\src\thermo\PDSSFactory.obj build\src\thermo\PDSS_ConstVol.obj build\src\thermo\PDSS_HKFT.obj build\src\thermo\PDSS_SSVol.obj build\src\thermo\PDSS_Water.obj build\src\thermo\PengRobinson.obj build\src\thermo\Phase.obj build\src\thermo\PlasmaPhase.obj build\src\thermo\PureFluidPhase.obj build\src\thermo\RedlichKisterVPSSTP.obj build\src\thermo\RedlichKwongMFTP.obj build\src\thermo\SingleSpeciesTP.obj build\src\thermo\Species.obj build\src\thermo\SpeciesThermoFactory.obj build\src\thermo\SpeciesThermoInterpType.obj build\src\thermo\StoichSubstance.obj build\src\thermo\SurfPhase.obj build\src\thermo\ThermoFactory.obj build\src\thermo\ThermoPhase.obj build\src\thermo\VPStandardStateTP.obj build\src\thermo\WaterProps.obj build\src\thermo\WaterPropsIAPWS.obj build\src\thermo\WaterPropsIAPWSphi.obj build\src\thermo\WaterSSTP.obj build\src\tpx\CarbonDioxide.obj build\src\tpx\HFC134a.obj build\src\tpx\Heptane.obj build\src\tpx\Hydrogen.obj build\src\tpx\Methane.obj build\src\tpx\Nitrogen.obj build\src\tpx\Oxygen.obj build\src\tpx\Sub.obj build\src\tpx\Water.obj build\src\tpx\utils.obj build\src\equil\BasisOptimize.obj build\src\equil\ChemEquil.obj build\src\equil\MultiPhase.obj build\src\equil\MultiPhaseEquil.obj build\src\equil\vcs_MultiPhaseEquil.obj build\src\equil\vcs_VolPhase.obj build\src\equil\vcs_solve.obj build\src\equil\vcs_solve_TP.obj build\src\equil\vcs_util.obj build\src\numerics\AdaptivePreconditioner.obj build\src\numerics\BandMatrix.obj build\src\numerics\CVodesIntegrator.obj build\src\numerics\DenseMatrix.obj build\src\numerics\Func1.obj build\src\numerics\Func1Factory.obj build\src\numerics\FuncEval.obj build\src\numerics\IdasIntegrator.obj build\src\numerics\Integrators.obj build\src\numerics\PreconditionerFactory.obj build\src\numerics\funcs.obj build\src\numerics\polyfit.obj build\src\kinetics\Arrhenius.obj build\src\kinetics\BlowersMaselRate.obj build\src\kinetics\BulkKinetics.obj build\src\kinetics\ChebyshevRate.obj build\src\kinetics\Custom.obj build\src\kinetics\Falloff.obj build\src\kinetics\Group.obj build\src\kinetics\ImplicitSurfChem.obj build\src\kinetics\InterfaceKinetics.obj build\src\kinetics\InterfaceRate.obj build\src\kinetics\Kinetics.obj build\src\kinetics\KineticsFactory.obj build\src\kinetics\LmrRate.obj build\src\kinetics\PlogRate.obj build\src\kinetics\Reaction.obj build\src\kinetics\ReactionPath.obj build\src\kinetics\ReactionRateDelegator.obj build\src\kinetics\ReactionRateFactory.obj build\src\kinetics\TwoTempPlasmaRate.obj build\src\kinetics\solveSP.obj build\src\transport\DustyGasTransport.obj build\src\transport\GasTransport.obj build\src\transport\HighPressureGasTransport.obj build\src\transport\IonGasTransport.obj build\src\transport\MMCollisionInt.obj build\src\transport\MixTransport.obj build\src\transport\MultiTransport.obj build\src\transport\Transport.obj build\src\transport\TransportData.obj build\src\transport\TransportFactory.obj build\src\transport\WaterTransport.obj build\src\oneD\Boundary1D.obj build\src\oneD\Domain1D.obj build\src\oneD\DomainFactory.obj build\src\oneD\IonFlow.obj build\src\oneD\MultiJac.obj build\src\oneD\MultiNewton.obj build\src\oneD\OneDim.obj build\src\oneD\Sim1D.obj build\src\oneD\StFlow.obj build\src\oneD\refine.obj build\src\zeroD\ConstPressureMoleReactor.obj build\src\zeroD\ConstPressureReactor.obj build\src\zeroD\FlowDevice.obj build\src\zeroD\FlowDeviceFactory.obj build\src\zeroD\FlowReactor.obj build\src\zeroD\IdealGasConstPressureMoleReactor.obj build\src\zeroD\IdealGasConstPressureReactor.obj build\src\zeroD\IdealGasMoleReactor.obj build\src\zeroD\IdealGasReactor.obj build\src\zeroD\MoleReactor.obj build\src\zeroD\Reactor.obj build\src\zeroD\ReactorBase.obj build\src\zeroD\ReactorFactory.obj build\src\zeroD\ReactorNet.obj build\src\zeroD\ReactorSurface.obj build\src\zeroD\Wall.obj build\src\zeroD\WallFactory.obj build\src\zeroD\flowControllers.obj build\src\clib\ct.obj build\src\clib\ctfunc.obj build\src\clib\ctmultiphase.obj build\src\clib\ctonedim.obj build\src\clib\ctreactor.obj build\src\clib\ctrpath.obj build\src\clib\ctsurf.obj build\src\extensions\canteraStatic.obj
-lib @C:\Users\pjsin\AppData\Local\Temp\tmpgrj1vu3w.lnk
+lib @C:\Users\pjsin\AppData\Local\Temp\tmpp5cz7bqx.lnk
 dumpbin /LINKERMEMBER:1 build\lib\cantera.lib /OUT:build\src\cantera.dump
 Microsoft (R) COFF/PE Dumper Version 14.37.32825.0
 Copyright (C) Microsoft Corporation.  All rights reserved.
 
 create_def_file(["build\src\cantera_shared.def"], ["build\src\cantera.dump"])
-INFO: Exported 18046 out of 56258 functions in .def file
-Using tempfile C:\Users\pjsin\AppData\Local\Temp\tmpsgll8x_9.lnk for command line:
+INFO: Exported 18046 out of 56252 functions in .def file
+Using tempfile C:\Users\pjsin\AppData\Local\Temp\tmpz7_2k0xs.lnk for command line:
 link /nologo /DEBUG /DEF:build/src/cantera_shared.def /dll /out:build\lib\cantera_shared.dll /implib:build\lib\cantera_shared.lib /LIBPATH:build\lib /LIBPATH:C:\Users\pjsin\anaconda3\envs\ctdev\Library\lib hdf5.lib build\ext\fmt\src\format.obj build\ext\fmt\src\os.obj build\ext\sundials\src\sundials\sundials_band.obj build\ext\sundials\src\sundials\sundials_dense.obj build\ext\sundials\src\sundials\sundials_direct.obj build\ext\sundials\src\sundials\sundials_futils.obj build\ext\sundials\src\sundials\sundials_iterative.obj build\ext\sundials\src\sundials\sundials_linearsolver.obj build\ext\sundials\src\sundials\sundials_math.obj build\ext\sundials\src\sundials\sundials_matrix.obj build\ext\sundials\src\sundials\sundials_nonlinearsolver.obj build\ext\sundials\src\sundials\sundials_nvector.obj build\ext\sundials\src\sundials\sundials_nvector_senswrapper.obj build\ext\sundials\src\sundials\sundials_version.obj build\ext\sundials\src\nvector\serial\fnvector_serial.obj build\ext\sundials\src\nvector\serial\nvector_serial.obj build\ext\sundials\src\cvodes\cvodea.obj build\ext\sundials\src\cvodes\cvodea_io.obj build\ext\sundials\src\cvodes\cvodes.obj build\ext\sundials\src\cvodes\cvodes_bandpre.obj build\ext\sundials\src\cvodes\cvodes_bbdpre.obj build\ext\sundials\src\cvodes\cvodes_diag.obj build\ext\sundials\src\cvodes\cvodes_direct.obj build\ext\sundials\src\cvodes\cvodes_io.obj build\ext\sundials\src\cvodes\cvodes_ls.obj build\ext\sundials\src\cvodes\cvodes_nls.obj build\ext\sundials\src\cvodes\cvodes_nls_sim.obj build\ext\sundials\src\cvodes\cvodes_nls_stg.obj build\ext\sundials\src\cvodes\cvodes_nls_stg1.obj build\ext\sundials\src\cvodes\cvodes_spils.obj build\ext\sundials\src\idas\idaa.obj build\ext\sundials\src\idas\idaa_io.obj build\ext\sundials\src\idas\idas.obj build\ext\sundials\src\idas\idas_bbdpre.obj build\ext\sundials\src\idas\idas_direct.obj build\ext\sundials\src\idas\idas_ic.obj build\ext\sundials\src\idas\idas_io.obj build\ext\sundials\src\idas\idas_ls.obj build\ext\sundials\src\idas\idas_nls.obj build\ext\sundials\src\idas\idas_nls_sim.obj build\ext\sundials\src\idas\idas_nls_stg.obj build\ext\sundials\src\idas\idas_spils.obj build\ext\sundials\src\sunmatrix\band\sunmatrix_band.obj build\ext\sundials\src\sunmatrix\dense\sunmatrix_dense.obj build\ext\sundials\src\sunmatrix\sparse\sunmatrix_sparse.obj build\ext\sundials\src\sunlinsol\dense\sunlinsol_dense.obj build\ext\sundials\src\sunlinsol\band\sunlinsol_band.obj build\ext\sundials\src\sunlinsol\spgmr\sunlinsol_spgmr.obj build\ext\sundials\src\sunnonlinsol\newton\sunnonlinsol_newton.obj build\ext\yaml-cpp\src\binary.obj build\ext\yaml-cpp\src\convert.obj build\ext\yaml-cpp\src\depthguard.obj build\ext\yaml-cpp\src\directives.obj build\ext\yaml-cpp\src\emit.obj build\ext\yaml-cpp\src\emitfromevents.obj build\ext\yaml-cpp\src\emitter.obj build\ext\yaml-cpp\src\emitterstate.obj build\ext\yaml-cpp\src\emitterutils.obj build\ext\yaml-cpp\src\exceptions.obj build\ext\yaml-cpp\src\exp.obj build\ext\yaml-cpp\src\memory.obj build\ext\yaml-cpp\src\node.obj build\ext\yaml-cpp\src\node_data.obj build\ext\yaml-cpp\src\nodebuilder.obj build\ext\yaml-cpp\src\nodeevents.obj build\ext\yaml-cpp\src\null.obj build\ext\yaml-cpp\src\ostream_wrapper.obj build\ext\yaml-cpp\src\parse.obj build\ext\yaml-cpp\src\parser.obj build\ext\yaml-cpp\src\regex_yaml.obj build\ext\yaml-cpp\src\scanner.obj build\ext\yaml-cpp\src\scanscalar.obj build\ext\yaml-cpp\src\scantag.obj build\ext\yaml-cpp\src\scantoken.obj build\ext\yaml-cpp\src\simplekey.obj build\ext\yaml-cpp\src\singledocparser.obj build\ext\yaml-cpp\src\stream.obj build\ext\yaml-cpp\src\tag.obj build\ext\yaml-cpp\src\contrib\graphbuilder.obj build\ext\yaml-cpp\src\contrib\graphbuilderadapter.obj build\src\base\AnyMap.obj build\src\base\Array.obj build\src\base\ExtensionManager.obj build\src\base\ExtensionManagerFactory.obj build\src\base\Interface.obj build\src\base\Solution.obj build\src\base\SolutionArray.obj build\src\base\Storage.obj build\src\base\Units.obj build\src\base\ValueCache.obj build\src\base\YamlWriter.obj build\src\base\checkFinite.obj build\src\base\clockWC.obj build\src\base\ctexceptions.obj build\src\base\stringUtils.obj build\src\base\application.obj build\src\base\global.obj build\src\thermo\BinarySolutionTabulatedThermo.obj build\src\thermo\ConstCpPoly.obj build\src\thermo\CoverageDependentSurfPhase.obj build\src\thermo\DebyeHuckel.obj build\src\thermo\Elements.obj build\src\thermo\GibbsExcessVPSSTP.obj build\src\thermo\HMWSoln.obj build\src\thermo\IdealGasPhase.obj build\src\thermo\IdealMolalSoln.obj build\src\thermo\IdealSolidSolnPhase.obj build\src\thermo\IdealSolnGasVPSS.obj build\src\thermo\LatticePhase.obj build\src\thermo\LatticeSolidPhase.obj build\src\thermo\MargulesVPSSTP.obj build\src\thermo\MixtureFugacityTP.obj build\src\thermo\MolalityVPSSTP.obj build\src\thermo\Mu0Poly.obj build\src\thermo\MultiSpeciesThermo.obj build\src\thermo\Nasa9Poly1.obj build\src\thermo\Nasa9PolyMultiTempRegion.obj build\src\thermo\NasaPoly2.obj build\src\thermo\PDSS.obj build\src\thermo\PDSSFactory.obj build\src\thermo\PDSS_ConstVol.obj build\src\thermo\PDSS_HKFT.obj build\src\thermo\PDSS_SSVol.obj build\src\thermo\PDSS_Water.obj build\src\thermo\PengRobinson.obj build\src\thermo\Phase.obj build\src\thermo\PlasmaPhase.obj build\src\thermo\PureFluidPhase.obj build\src\thermo\RedlichKisterVPSSTP.obj build\src\thermo\RedlichKwongMFTP.obj build\src\thermo\SingleSpeciesTP.obj build\src\thermo\Species.obj build\src\thermo\SpeciesThermoFactory.obj build\src\thermo\SpeciesThermoInterpType.obj build\src\thermo\StoichSubstance.obj build\src\thermo\SurfPhase.obj build\src\thermo\ThermoFactory.obj build\src\thermo\ThermoPhase.obj build\src\thermo\VPStandardStateTP.obj build\src\thermo\WaterProps.obj build\src\thermo\WaterPropsIAPWS.obj build\src\thermo\WaterPropsIAPWSphi.obj build\src\thermo\WaterSSTP.obj build\src\tpx\CarbonDioxide.obj build\src\tpx\HFC134a.obj build\src\tpx\Heptane.obj build\src\tpx\Hydrogen.obj build\src\tpx\Methane.obj build\src\tpx\Nitrogen.obj build\src\tpx\Oxygen.obj build\src\tpx\Sub.obj build\src\tpx\Water.obj build\src\tpx\utils.obj build\src\equil\BasisOptimize.obj build\src\equil\ChemEquil.obj build\src\equil\MultiPhase.obj build\src\equil\MultiPhaseEquil.obj build\src\equil\vcs_MultiPhaseEquil.obj build\src\equil\vcs_VolPhase.obj build\src\equil\vcs_solve.obj build\src\equil\vcs_solve_TP.obj build\src\equil\vcs_util.obj build\src\numerics\AdaptivePreconditioner.obj build\src\numerics\BandMatrix.obj build\src\numerics\CVodesIntegrator.obj build\src\numerics\DenseMatrix.obj build\src\numerics\Func1.obj build\src\numerics\Func1Factory.obj build\src\numerics\FuncEval.obj build\src\numerics\IdasIntegrator.obj build\src\numerics\Integrators.obj build\src\numerics\PreconditionerFactory.obj build\src\numerics\funcs.obj build\src\numerics\polyfit.obj build\src\kinetics\Arrhenius.obj build\src\kinetics\BlowersMaselRate.obj build\src\kinetics\BulkKinetics.obj build\src\kinetics\ChebyshevRate.obj build\src\kinetics\Custom.obj build\src\kinetics\Falloff.obj build\src\kinetics\Group.obj build\src\kinetics\ImplicitSurfChem.obj build\src\kinetics\InterfaceKinetics.obj build\src\kinetics\InterfaceRate.obj build\src\kinetics\Kinetics.obj build\src\kinetics\KineticsFactory.obj build\src\kinetics\LmrRate.obj build\src\kinetics\PlogRate.obj build\src\kinetics\Reaction.obj build\src\kinetics\ReactionPath.obj build\src\kinetics\ReactionRateDelegator.obj build\src\kinetics\ReactionRateFactory.obj build\src\kinetics\TwoTempPlasmaRate.obj build\src\kinetics\solveSP.obj build\src\transport\DustyGasTransport.obj build\src\transport\GasTransport.obj build\src\transport\HighPressureGasTransport.obj build\src\transport\IonGasTransport.obj build\src\transport\MMCollisionInt.obj build\src\transport\MixTransport.obj build\src\transport\MultiTransport.obj build\src\transport\Transport.obj build\src\transport\TransportData.obj build\src\transport\TransportFactory.obj build\src\transport\WaterTransport.obj build\src\oneD\Boundary1D.obj build\src\oneD\Domain1D.obj build\src\oneD\DomainFactory.obj build\src\oneD\IonFlow.obj build\src\oneD\MultiJac.obj build\src\oneD\MultiNewton.obj build\src\oneD\OneDim.obj build\src\oneD\Sim1D.obj build\src\oneD\StFlow.obj build\src\oneD\refine.obj build\src\zeroD\ConstPressureMoleReactor.obj build\src\zeroD\ConstPressureReactor.obj build\src\zeroD\FlowDevice.obj build\src\zeroD\FlowDeviceFactory.obj build\src\zeroD\FlowReactor.obj build\src\zeroD\IdealGasConstPressureMoleReactor.obj build\src\zeroD\IdealGasConstPressureReactor.obj build\src\zeroD\IdealGasMoleReactor.obj build\src\zeroD\IdealGasReactor.obj build\src\zeroD\MoleReactor.obj build\src\zeroD\Reactor.obj build\src\zeroD\ReactorBase.obj build\src\zeroD\ReactorFactory.obj build\src\zeroD\ReactorNet.obj build\src\zeroD\ReactorSurface.obj build\src\zeroD\Wall.obj build\src\zeroD\WallFactory.obj build\src\zeroD\flowControllers.obj build\src\clib\ct.obj build\src\clib\ctfunc.obj build\src\clib\ctmultiphase.obj build\src\clib\ctonedim.obj build\src\clib\ctreactor.obj build\src\clib\ctrpath.obj build\src\clib\ctsurf.obj build\src\extensions\canteraShared.obj
-link @C:\Users\pjsin\AppData\Local\Temp\tmpsgll8x_9.lnk
+link @C:\Users\pjsin\AppData\Local\Temp\tmpz7_2k0xs.lnk
 LINK : build\lib\cantera_shared.dll introuvable ou non g‚n‚r‚ par la derniŠre ‚dition de liens incr‚mentielleÿ; ‚dition de liens complŠte en cours
    Cr‚ation de la bibliothŠque build\lib\cantera_shared.lib et de l'objet build\lib\cantera_shared.exp
 if exist build\lib\cantera_shared.dll.manifest mt.exe -nologo -manifest build\lib\cantera_shared.dll.manifest -outputresource:build\lib\cantera_shared.dll;2
@@ -105,17 +111,17 @@ Processing c:\users\pjsin\documents\cantera\build\python
   Preparing metadata (pyproject.toml): started
   Running command Preparing metadata (pyproject.toml)
   running dist_info
-  creating C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-jik2m28c\Cantera.egg-info
-  writing C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-jik2m28c\Cantera.egg-info\PKG-INFO
-  writing dependency_links to C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-jik2m28c\Cantera.egg-info\dependency_links.txt
-  writing entry points to C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-jik2m28c\Cantera.egg-info\entry_points.txt
-  writing requirements to C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-jik2m28c\Cantera.egg-info\requires.txt
-  writing top-level names to C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-jik2m28c\Cantera.egg-info\top_level.txt
-  writing manifest file 'C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-jik2m28c\Cantera.egg-info\SOURCES.txt'
-  reading manifest file 'C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-jik2m28c\Cantera.egg-info\SOURCES.txt'
+  creating C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-wi8riei3\Cantera.egg-info
+  writing C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-wi8riei3\Cantera.egg-info\PKG-INFO
+  writing dependency_links to C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-wi8riei3\Cantera.egg-info\dependency_links.txt
+  writing entry points to C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-wi8riei3\Cantera.egg-info\entry_points.txt
+  writing requirements to C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-wi8riei3\Cantera.egg-info\requires.txt
+  writing top-level names to C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-wi8riei3\Cantera.egg-info\top_level.txt
+  writing manifest file 'C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-wi8riei3\Cantera.egg-info\SOURCES.txt'
+  reading manifest file 'C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-wi8riei3\Cantera.egg-info\SOURCES.txt'
   adding license file 'LICENSE.txt'
-  writing manifest file 'C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-jik2m28c\Cantera.egg-info\SOURCES.txt'
-  creating 'C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-jik2m28c\Cantera-3.1.0a1.dist-info'
+  writing manifest file 'C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-wi8riei3\Cantera.egg-info\SOURCES.txt'
+  creating 'C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-wi8riei3\Cantera-3.1.0a1.dist-info'
   adding license file "LICENSE.txt" (matched pattern "LICENSE.txt")
   Preparing metadata (pyproject.toml): finished with status 'done'
 Building wheels for collected packages: Cantera
@@ -216,7 +222,7 @@ Building wheels for collected packages: Cantera
   running install_scripts
   adding license file "LICENSE.txt" (matched pattern "LICENSE.txt")
   creating build\bdist.win-amd64\wheel\Cantera-3.1.0a1.dist-info\WHEEL
-  creating 'C:\Users\pjsin\AppData\Local\Temp\pip-wheel-gi27nokr\.tmp-ubpbqjsm\Cantera-3.1.0a1-cp38-cp38-win_amd64.whl' and adding 'build\bdist.win-amd64\wheel' to it
+  creating 'C:\Users\pjsin\AppData\Local\Temp\pip-wheel-mkm0r5c2\.tmp-daw8p9bp\Cantera-3.1.0a1-cp38-cp38-win_amd64.whl' and adding 'build\bdist.win-amd64\wheel' to it
   adding 'cantera/__init__.pxd'
   adding 'cantera/__init__.py'
   adding 'cantera/_cantera.cp38-win_amd64.pyd'
@@ -293,8 +299,8 @@ Building wheels for collected packages: Cantera
   C:\Users\pjsin\.conda\envs\MSI\lib\site-packages\wheel\bdist_wheel.py:80: RuntimeWarning: Config variable 'Py_DEBUG' is unset, Python ABI tag may be incorrect
     if get_flag('Py_DEBUG',
   Building wheel for Cantera (pyproject.toml): finished with status 'done'
-  Created wheel for Cantera: filename=Cantera-3.1.0a1-cp38-cp38-win_amd64.whl size=6139610 sha256=5ede959fb784c172521f511c11563c101fea27efeeb40013df492f056cb305ee
-  Stored in directory: C:\Users\pjsin\AppData\Local\Temp\pip-ephem-wheel-cache-qembnked\wheels\fd\a2\f8\ef16c302e22956f888fa87126180cad261dc89024345502ca9
+  Created wheel for Cantera: filename=Cantera-3.1.0a1-cp38-cp38-win_amd64.whl size=6139023 sha256=7ff53180e2a3d2ed877517ec0a5c10638c5f515a87f936c95fd8ba737756cfda
+  Stored in directory: C:\Users\pjsin\AppData\Local\Temp\pip-ephem-wheel-cache-q295otsm\wheels\fd\a2\f8\ef16c302e22956f888fa87126180cad261dc89024345502ca9
 Successfully built Cantera
 gtestRunner(["build\test\kinetics\kinetics.exe.passed"], ["build\test\kinetics\kinetics.exe"])
 Running main() from pdep.cpp
@@ -302,214 +308,214 @@ Running main() from pdep.cpp
 [----------] Global test environment set-up.
 [----------] 34 tests from KineticsFromScratch
 [ RUN      ] KineticsFromScratch.add_elementary_reaction1
-[       OK ] KineticsFromScratch.add_elementary_reaction1 (41 ms)
+[       OK ] KineticsFromScratch.add_elementary_reaction1 (26 ms)
 [ RUN      ] KineticsFromScratch.add_elementary_reaction2
-[       OK ] KineticsFromScratch.add_elementary_reaction2 (7 ms)
+[       OK ] KineticsFromScratch.add_elementary_reaction2 (3 ms)
 [ RUN      ] KineticsFromScratch.add_three_body_reaction1
-[       OK ] KineticsFromScratch.add_three_body_reaction1 (5 ms)
+[       OK ] KineticsFromScratch.add_three_body_reaction1 (4 ms)
 [ RUN      ] KineticsFromScratch.add_three_body_reaction2
-[       OK ] KineticsFromScratch.add_three_body_reaction2 (5 ms)
+[       OK ] KineticsFromScratch.add_three_body_reaction2 (4 ms)
 [ RUN      ] KineticsFromScratch.add_three_body_reaction3
-[       OK ] KineticsFromScratch.add_three_body_reaction3 (5 ms)
+[       OK ] KineticsFromScratch.add_three_body_reaction3 (3 ms)
 [ RUN      ] KineticsFromScratch.multiple_third_bodies1
-[       OK ] KineticsFromScratch.multiple_third_bodies1 (4 ms)
+[       OK ] KineticsFromScratch.multiple_third_bodies1 (3 ms)
 [ RUN      ] KineticsFromScratch.multiple_third_bodies2
-[       OK ] KineticsFromScratch.multiple_third_bodies2 (8 ms)
+[       OK ] KineticsFromScratch.multiple_third_bodies2 (3 ms)
 [ RUN      ] KineticsFromScratch.multiple_third_bodies3
-[       OK ] KineticsFromScratch.multiple_third_bodies3 (11 ms)
+[       OK ] KineticsFromScratch.multiple_third_bodies3 (3 ms)
 [ RUN      ] KineticsFromScratch.multiple_third_bodies4
-[       OK ] KineticsFromScratch.multiple_third_bodies4 (6 ms)
+[       OK ] KineticsFromScratch.multiple_third_bodies4 (3 ms)
 [ RUN      ] KineticsFromScratch.multiple_third_bodies5
-[       OK ] KineticsFromScratch.multiple_third_bodies5 (4 ms)
+[       OK ] KineticsFromScratch.multiple_third_bodies5 (3 ms)
 [ RUN      ] KineticsFromScratch.multiple_third_bodies6
-[       OK ] KineticsFromScratch.multiple_third_bodies6 (5 ms)
+[       OK ] KineticsFromScratch.multiple_third_bodies6 (3 ms)
 [ RUN      ] KineticsFromScratch.multiple_third_bodies7
-[       OK ] KineticsFromScratch.multiple_third_bodies7 (9 ms)
+[       OK ] KineticsFromScratch.multiple_third_bodies7 (4 ms)
 [ RUN      ] KineticsFromScratch.multiple_third_bodies8
-[       OK ] KineticsFromScratch.multiple_third_bodies8 (13 ms)
+[       OK ] KineticsFromScratch.multiple_third_bodies8 (3 ms)
 [ RUN      ] KineticsFromScratch.multiple_third_bodies9
-[       OK ] KineticsFromScratch.multiple_third_bodies9 (9 ms)
+[       OK ] KineticsFromScratch.multiple_third_bodies9 (3 ms)
 [ RUN      ] KineticsFromScratch.add_two_temperature_plasma
-[       OK ] KineticsFromScratch.add_two_temperature_plasma (50 ms)
+[       OK ] KineticsFromScratch.add_two_temperature_plasma (2 ms)
 [ RUN      ] KineticsFromScratch.undefined_third_body
-[       OK ] KineticsFromScratch.undefined_third_body (16 ms)
+[       OK ] KineticsFromScratch.undefined_third_body (3 ms)
 [ RUN      ] KineticsFromScratch.skip_undefined_third_body
-[       OK ] KineticsFromScratch.skip_undefined_third_body (8 ms)
+[       OK ] KineticsFromScratch.skip_undefined_third_body (2 ms)
 [ RUN      ] KineticsFromScratch.skip_explicit_third_body
-[       OK ] KineticsFromScratch.skip_explicit_third_body (7 ms)
+[       OK ] KineticsFromScratch.skip_explicit_third_body (3 ms)
 [ RUN      ] KineticsFromScratch.third_body_composition
-[       OK ] KineticsFromScratch.third_body_composition (8 ms)
+[       OK ] KineticsFromScratch.third_body_composition (2 ms)
 [ RUN      ] KineticsFromScratch.add_falloff_reaction1
-[       OK ] KineticsFromScratch.add_falloff_reaction1 (9 ms)
+[       OK ] KineticsFromScratch.add_falloff_reaction1 (3 ms)
 [ RUN      ] KineticsFromScratch.add_falloff_reaction2
-[       OK ] KineticsFromScratch.add_falloff_reaction2 (15 ms)
+[       OK ] KineticsFromScratch.add_falloff_reaction2 (3 ms)
 [ RUN      ] KineticsFromScratch.missing_third_body
-[       OK ] KineticsFromScratch.missing_third_body (12 ms)
+[       OK ] KineticsFromScratch.missing_third_body (3 ms)
 [ RUN      ] KineticsFromScratch.add_plog_reaction
-[       OK ] KineticsFromScratch.add_plog_reaction (15 ms)
+[       OK ] KineticsFromScratch.add_plog_reaction (3 ms)
 [ RUN      ] KineticsFromScratch.plog_invalid_rate
-[       OK ] KineticsFromScratch.plog_invalid_rate (14 ms)
+[       OK ] KineticsFromScratch.plog_invalid_rate (3 ms)
 [ RUN      ] KineticsFromScratch.add_chebyshev_reaction
-[       OK ] KineticsFromScratch.add_chebyshev_reaction (7 ms)
+[       OK ] KineticsFromScratch.add_chebyshev_reaction (4 ms)
 [ RUN      ] KineticsFromScratch.undeclared_species
-[       OK ] KineticsFromScratch.undeclared_species (11 ms)
+[       OK ] KineticsFromScratch.undeclared_species (3 ms)
 [ RUN      ] KineticsFromScratch.skip_undeclared_species
-[       OK ] KineticsFromScratch.skip_undeclared_species (5 ms)
+[       OK ] KineticsFromScratch.skip_undeclared_species (4 ms)
 [ RUN      ] KineticsFromScratch.negative_A_error
-[       OK ] KineticsFromScratch.negative_A_error (11 ms)
+[       OK ] KineticsFromScratch.negative_A_error (5 ms)
 [ RUN      ] KineticsFromScratch.allow_negative_A
-[       OK ] KineticsFromScratch.allow_negative_A (11 ms)
+[       OK ] KineticsFromScratch.allow_negative_A (6 ms)
 [ RUN      ] KineticsFromScratch.invalid_reversible_with_orders
-[       OK ] KineticsFromScratch.invalid_reversible_with_orders (9 ms)
+[       OK ] KineticsFromScratch.invalid_reversible_with_orders (4 ms)
 [ RUN      ] KineticsFromScratch.negative_order_override
-[       OK ] KineticsFromScratch.negative_order_override (9 ms)
+[       OK ] KineticsFromScratch.negative_order_override (3 ms)
 [ RUN      ] KineticsFromScratch.invalid_negative_orders
-[       OK ] KineticsFromScratch.invalid_negative_orders (8 ms)
+[       OK ] KineticsFromScratch.invalid_negative_orders (4 ms)
 [ RUN      ] KineticsFromScratch.nonreactant_order_override
-[       OK ] KineticsFromScratch.nonreactant_order_override (11 ms)
+[       OK ] KineticsFromScratch.nonreactant_order_override (4 ms)
 [ RUN      ] KineticsFromScratch.invalid_nonreactant_order
-[       OK ] KineticsFromScratch.invalid_nonreactant_order (12 ms)
-[----------] 34 tests from KineticsFromScratch (400 ms total)
+[       OK ] KineticsFromScratch.invalid_nonreactant_order (3 ms)
+[----------] 34 tests from KineticsFromScratch (152 ms total)
 
 [----------] 3 tests from InterfaceKineticsFromScratch
 [ RUN      ] InterfaceKineticsFromScratch.add_surface_reaction
-[       OK ] InterfaceKineticsFromScratch.add_surface_reaction (192 ms)
+[       OK ] InterfaceKineticsFromScratch.add_surface_reaction (72 ms)
 [ RUN      ] InterfaceKineticsFromScratch.add_sticking_reaction
-[       OK ] InterfaceKineticsFromScratch.add_sticking_reaction (6 ms)
+[       OK ] InterfaceKineticsFromScratch.add_sticking_reaction (3 ms)
 [ RUN      ] InterfaceKineticsFromScratch.unbalanced_sites
-[       OK ] InterfaceKineticsFromScratch.unbalanced_sites (5 ms)
-[----------] 3 tests from InterfaceKineticsFromScratch (203 ms total)
+[       OK ] InterfaceKineticsFromScratch.unbalanced_sites (3 ms)
+[----------] 3 tests from InterfaceKineticsFromScratch (80 ms total)
 
 [----------] 2 tests from KineticsAddSpecies
 [ RUN      ] KineticsAddSpecies.add_species_sequential
-[       OK ] KineticsAddSpecies.add_species_sequential (6 ms)
+[       OK ] KineticsAddSpecies.add_species_sequential (4 ms)
 [ RUN      ] KineticsAddSpecies.add_species_err_first
-[       OK ] KineticsAddSpecies.add_species_err_first (6 ms)
-[----------] 2 tests from KineticsAddSpecies (13 ms total)
+[       OK ] KineticsAddSpecies.add_species_err_first (3 ms)
+[----------] 2 tests from KineticsAddSpecies (8 ms total)
 
 [----------] 2 tests from ReactionRate
 [ RUN      ] ReactionRate.ModifyArrheniusRate
-[       OK ] ReactionRate.ModifyArrheniusRate (29 ms)
+[       OK ] ReactionRate.ModifyArrheniusRate (16 ms)
 [ RUN      ] ReactionRate.ArrheniusUnits
 [       OK ] ReactionRate.ArrheniusUnits (0 ms)
-[----------] 2 tests from ReactionRate (30 ms total)
+[----------] 2 tests from ReactionRate (17 ms total)
 
 [----------] 25 tests from Reaction
 [ RUN      ] Reaction.ElementaryFromYaml
-[       OK ] Reaction.ElementaryFromYaml (33 ms)
+[       OK ] Reaction.ElementaryFromYaml (19 ms)
 [ RUN      ] Reaction.ThreeBodyFromYaml1
-[       OK ] Reaction.ThreeBodyFromYaml1 (54 ms)
+[       OK ] Reaction.ThreeBodyFromYaml1 (27 ms)
 [ RUN      ] Reaction.ThreeBodyFromYaml2
-[       OK ] Reaction.ThreeBodyFromYaml2 (47 ms)
+[       OK ] Reaction.ThreeBodyFromYaml2 (27 ms)
 [ RUN      ] Reaction.ThreeBodyFromYaml3
-[       OK ] Reaction.ThreeBodyFromYaml3 (41 ms)
+[       OK ] Reaction.ThreeBodyFromYaml3 (23 ms)
 [ RUN      ] Reaction.ThreeBodyFromYaml4
-[       OK ] Reaction.ThreeBodyFromYaml4 (93 ms)
+[       OK ] Reaction.ThreeBodyFromYaml4 (25 ms)
 [ RUN      ] Reaction.ThreeBodyFromYaml5
-[       OK ] Reaction.ThreeBodyFromYaml5 (38 ms)
+[       OK ] Reaction.ThreeBodyFromYaml5 (24 ms)
 [ RUN      ] Reaction.ThreeBodyFromYaml6
-[       OK ] Reaction.ThreeBodyFromYaml6 (43 ms)
+[       OK ] Reaction.ThreeBodyFromYaml6 (26 ms)
 [ RUN      ] Reaction.ThreeBodyFromYamlMissingM
-[       OK ] Reaction.ThreeBodyFromYamlMissingM (34 ms)
+[       OK ] Reaction.ThreeBodyFromYamlMissingM (62 ms)
 [ RUN      ] Reaction.ThreeBodyFromYamlMultiple
-[       OK ] Reaction.ThreeBodyFromYamlMultiple (31 ms)
+[       OK ] Reaction.ThreeBodyFromYamlMultiple (39 ms)
 [ RUN      ] Reaction.ThreeBodyFromYamlIncompatible1
-[       OK ] Reaction.ThreeBodyFromYamlIncompatible1 (27 ms)
+[       OK ] Reaction.ThreeBodyFromYamlIncompatible1 (28 ms)
 [ RUN      ] Reaction.ThreeBodyFromYamlIncompatible2
-[       OK ] Reaction.ThreeBodyFromYamlIncompatible2 (30 ms)
+[       OK ] Reaction.ThreeBodyFromYamlIncompatible2 (34 ms)
 [ RUN      ] Reaction.ThreeBodyFromYamlIncompatible3
-[       OK ] Reaction.ThreeBodyFromYamlIncompatible3 (33 ms)
+[       OK ] Reaction.ThreeBodyFromYamlIncompatible3 (22 ms)
 [ RUN      ] Reaction.ThreeBodyFromYamlIncompatible4
-[       OK ] Reaction.ThreeBodyFromYamlIncompatible4 (39 ms)
+[       OK ] Reaction.ThreeBodyFromYamlIncompatible4 (22 ms)
 [ RUN      ] Reaction.ThreeBodyFromYamlIncompatible5
-[       OK ] Reaction.ThreeBodyFromYamlIncompatible5 (25 ms)
+[       OK ] Reaction.ThreeBodyFromYamlIncompatible5 (24 ms)
 [ RUN      ] Reaction.FalloffFromYaml1
-[       OK ] Reaction.FalloffFromYaml1 (30 ms)
+[       OK ] Reaction.FalloffFromYaml1 (26 ms)
 [ RUN      ] Reaction.FalloffFromYaml2
-[       OK ] Reaction.FalloffFromYaml2 (29 ms)
+[       OK ] Reaction.FalloffFromYaml2 (22 ms)
 [ RUN      ] Reaction.FalloffFromYaml3
-[       OK ] Reaction.FalloffFromYaml3 (34 ms)
+[       OK ] Reaction.FalloffFromYaml3 (29 ms)
 [ RUN      ] Reaction.ChemicallyActivatedFromYaml
-[       OK ] Reaction.ChemicallyActivatedFromYaml (30 ms)
+[       OK ] Reaction.ChemicallyActivatedFromYaml (22 ms)
 [ RUN      ] Reaction.PlogFromYaml
-[       OK ] Reaction.PlogFromYaml (25 ms)
+[       OK ] Reaction.PlogFromYaml (23 ms)
 [ RUN      ] Reaction.ChebyshevFromYaml
-[       OK ] Reaction.ChebyshevFromYaml (31 ms)
+[       OK ] Reaction.ChebyshevFromYaml (24 ms)
 [ RUN      ] Reaction.BlowersMaselFromYaml
-[       OK ] Reaction.BlowersMaselFromYaml (44 ms)
+[       OK ] Reaction.BlowersMaselFromYaml (25 ms)
 [ RUN      ] Reaction.ThreeBodyBlowersMaselFromYaml
-[       OK ] Reaction.ThreeBodyBlowersMaselFromYaml (65 ms)
+[       OK ] Reaction.ThreeBodyBlowersMaselFromYaml (24 ms)
 [ RUN      ] Reaction.InvalidBlowersMaselFromYaml
-[       OK ] Reaction.InvalidBlowersMaselFromYaml (49 ms)
+[       OK ] Reaction.InvalidBlowersMaselFromYaml (31 ms)
 [ RUN      ] Reaction.TwoTempPlasmaFromYaml
-[       OK ] Reaction.TwoTempPlasmaFromYaml (6 ms)
+[       OK ] Reaction.TwoTempPlasmaFromYaml (5 ms)
 [ RUN      ] Reaction.PythonExtensibleRate
-[       OK ] Reaction.PythonExtensibleRate (700 ms)
-[----------] 25 tests from Reaction (1627 ms total)
+[       OK ] Reaction.PythonExtensibleRate (374 ms)
+[----------] 25 tests from Reaction (1021 ms total)
 
 [----------] 6 tests from Kinetics
 [ RUN      ] Kinetics.BulkKineticsFromYaml1
-[       OK ] Kinetics.BulkKineticsFromYaml1 (10 ms)
+[       OK ] Kinetics.BulkKineticsFromYaml1 (6 ms)
 [ RUN      ] Kinetics.BulkKineticsFromYaml2
-[       OK ] Kinetics.BulkKineticsFromYaml2 (3 ms)
+[       OK ] Kinetics.BulkKineticsFromYaml2 (4 ms)
 [ RUN      ] Kinetics.EfficienciesFromYaml
 [       OK ] Kinetics.EfficienciesFromYaml (2 ms)
 [ RUN      ] Kinetics.InterfaceKineticsFromYaml
-[       OK ] Kinetics.InterfaceKineticsFromYaml (10 ms)
+[       OK ] Kinetics.InterfaceKineticsFromYaml (9 ms)
 [ RUN      ] Kinetics.BMInterfaceKineticsFromYaml
-[       OK ] Kinetics.BMInterfaceKineticsFromYaml (188 ms)
+[       OK ] Kinetics.BMInterfaceKineticsFromYaml (116 ms)
 [ RUN      ] Kinetics.ElectrochemFromYaml
-[       OK ] Kinetics.ElectrochemFromYaml (2 ms)
-[----------] 6 tests from Kinetics (218 ms total)
+[       OK ] Kinetics.ElectrochemFromYaml (0 ms)
+[----------] 6 tests from Kinetics (141 ms total)
 
 [----------] 12 tests from KineticsFromYaml
 [ RUN      ] KineticsFromYaml.NoKineticsModelOrReactionsField1
-[       OK ] KineticsFromYaml.NoKineticsModelOrReactionsField1 (7 ms)
+[       OK ] KineticsFromYaml.NoKineticsModelOrReactionsField1 (1 ms)
 [ RUN      ] KineticsFromYaml.NoKineticsModelOrReactionsField2
-[       OK ] KineticsFromYaml.NoKineticsModelOrReactionsField2 (4 ms)
+[       OK ] KineticsFromYaml.NoKineticsModelOrReactionsField2 (2 ms)
 [ RUN      ] KineticsFromYaml.KineticsModelWithReactionsNone1
-[       OK ] KineticsFromYaml.KineticsModelWithReactionsNone1 (2 ms)
+[       OK ] KineticsFromYaml.KineticsModelWithReactionsNone1 (1 ms)
 [ RUN      ] KineticsFromYaml.KineticsModelWithReactionsNone2
-[       OK ] KineticsFromYaml.KineticsModelWithReactionsNone2 (2 ms)
+[       OK ] KineticsFromYaml.KineticsModelWithReactionsNone2 (1 ms)
 [ RUN      ] KineticsFromYaml.KineticsModelWithoutReactionsSection1
-[       OK ] KineticsFromYaml.KineticsModelWithoutReactionsSection1 (3 ms)
+[       OK ] KineticsFromYaml.KineticsModelWithoutReactionsSection1 (1 ms)
 [ RUN      ] KineticsFromYaml.KineticsModelWithoutReactionsSection2
-[       OK ] KineticsFromYaml.KineticsModelWithoutReactionsSection2 (2 ms)
+[       OK ] KineticsFromYaml.KineticsModelWithoutReactionsSection2 (1 ms)
 [ RUN      ] KineticsFromYaml.KineticsModelWithoutReactionsSection3
-[       OK ] KineticsFromYaml.KineticsModelWithoutReactionsSection3 (2 ms)
+[       OK ] KineticsFromYaml.KineticsModelWithoutReactionsSection3 (1 ms)
 [ RUN      ] KineticsFromYaml.KineticsModelWithoutReactionsSection4
 [       OK ] KineticsFromYaml.KineticsModelWithoutReactionsSection4 (0 ms)
 [ RUN      ] KineticsFromYaml.KineticsModelWithoutReactionsField
-[       OK ] KineticsFromYaml.KineticsModelWithoutReactionsField (2 ms)
+[       OK ] KineticsFromYaml.KineticsModelWithoutReactionsField (1 ms)
 [ RUN      ] KineticsFromYaml.ReactionsFieldWithoutKineticsModel1
 [       OK ] KineticsFromYaml.ReactionsFieldWithoutKineticsModel1 (0 ms)
 [ RUN      ] KineticsFromYaml.ReactionsFieldWithoutKineticsModel2
 [       OK ] KineticsFromYaml.ReactionsFieldWithoutKineticsModel2 (0 ms)
 [ RUN      ] KineticsFromYaml.InvalidExtension
-[       OK ] KineticsFromYaml.InvalidExtension (47 ms)
-[----------] 12 tests from KineticsFromYaml (78 ms total)
+[       OK ] KineticsFromYaml.InvalidExtension (18 ms)
+[----------] 12 tests from KineticsFromYaml (33 ms total)
 
 [----------] 15 tests from ReactionToYaml
 [ RUN      ] ReactionToYaml.elementary
-[       OK ] ReactionToYaml.elementary (8 ms)
+[       OK ] ReactionToYaml.elementary (2 ms)
 [ RUN      ] ReactionToYaml.threeBody
-[       OK ] ReactionToYaml.threeBody (7 ms)
+[       OK ] ReactionToYaml.threeBody (2 ms)
 [ RUN      ] ReactionToYaml.TroeFalloff
-[       OK ] ReactionToYaml.TroeFalloff (7 ms)
+[       OK ] ReactionToYaml.TroeFalloff (3 ms)
 [ RUN      ] ReactionToYaml.SriFalloff
-[       OK ] ReactionToYaml.SriFalloff (14 ms)
+[       OK ] ReactionToYaml.SriFalloff (8 ms)
 [ RUN      ] ReactionToYaml.TsangFalloff
-[       OK ] ReactionToYaml.TsangFalloff (11 ms)
+[       OK ] ReactionToYaml.TsangFalloff (10 ms)
 [ RUN      ] ReactionToYaml.chemicallyActivated
 [       OK ] ReactionToYaml.chemicallyActivated (6 ms)
 [ RUN      ] ReactionToYaml.pdepArrhenius
-[       OK ] ReactionToYaml.pdepArrhenius (36 ms)
+[       OK ] ReactionToYaml.pdepArrhenius (30 ms)
 [ RUN      ] ReactionToYaml.Chebyshev
 [       OK ] ReactionToYaml.Chebyshev (5 ms)
 [ RUN      ] ReactionToYaml.surface
-[       OK ] ReactionToYaml.surface (9 ms)
+[       OK ] ReactionToYaml.surface (12 ms)
 [ RUN      ] ReactionToYaml.electrochemical
-[       OK ] ReactionToYaml.electrochemical (11 ms)
+[       OK ] ReactionToYaml.electrochemical (13 ms)
 [ RUN      ] ReactionToYaml.unconvertible1
 [       OK ] ReactionToYaml.unconvertible1 (0 ms)
 [ RUN      ] ReactionToYaml.unconvertible2
@@ -517,10 +523,10 @@ Running main() from pdep.cpp
 [ RUN      ] ReactionToYaml.unconvertible3
 [       OK ] ReactionToYaml.unconvertible3 (0 ms)
 [ RUN      ] ReactionToYaml.BlowersMaselRate
-[       OK ] ReactionToYaml.BlowersMaselRate (7 ms)
+[       OK ] ReactionToYaml.BlowersMaselRate (8 ms)
 [ RUN      ] ReactionToYaml.BlowersMaselInterface
 [       OK ] ReactionToYaml.BlowersMaselInterface (8 ms)
-[----------] 15 tests from ReactionToYaml (135 ms total)
+[----------] 15 tests from ReactionToYaml (114 ms total)
 
 [----------] 12 tests from LmrTest
 [ RUN      ] LmrTest.reactionCounts
@@ -574,32 +580,32 @@ Running main() from pdep.cpp
 [       OK ] PdepTest.ChebyshevIntermediateROP (0 ms)
 [ RUN      ] PdepTest.ChebyshevEdgeCases
 [       OK ] PdepTest.ChebyshevEdgeCases (0 ms)
-[----------] 12 tests from PdepTest (6 ms total)
+[----------] 12 tests from PdepTest (2 ms total)
 
 [----------] 5 tests from FracCoeffTest
 [ RUN      ] FracCoeffTest.StoichCoeffs
-[       OK ] FracCoeffTest.StoichCoeffs (17 ms)
+[       OK ] FracCoeffTest.StoichCoeffs (9 ms)
 [ RUN      ] FracCoeffTest.RateConstants
-[       OK ] FracCoeffTest.RateConstants (4 ms)
+[       OK ] FracCoeffTest.RateConstants (3 ms)
 [ RUN      ] FracCoeffTest.RatesOfProgress
-[       OK ] FracCoeffTest.RatesOfProgress (4 ms)
+[       OK ] FracCoeffTest.RatesOfProgress (3 ms)
 [ RUN      ] FracCoeffTest.CreationDestructionRates
-[       OK ] FracCoeffTest.CreationDestructionRates (5 ms)
+[       OK ] FracCoeffTest.CreationDestructionRates (18 ms)
 [ RUN      ] FracCoeffTest.EquilibriumConstants
-[       OK ] FracCoeffTest.EquilibriumConstants (4 ms)
-[----------] 5 tests from FracCoeffTest (37 ms total)
+[       OK ] FracCoeffTest.EquilibriumConstants (18 ms)
+[----------] 5 tests from FracCoeffTest (53 ms total)
 
 [----------] 1 test from NegativePreexponentialFactor
 [ RUN      ] NegativePreexponentialFactor.fromYaml
-[       OK ] NegativePreexponentialFactor.fromYaml (50 ms)
-[----------] 1 test from NegativePreexponentialFactor (50 ms total)
+[       OK ] NegativePreexponentialFactor.fromYaml (20 ms)
+[----------] 1 test from NegativePreexponentialFactor (20 ms total)
 
 [----------] 1 test from InterfaceReaction
 [ RUN      ] InterfaceReaction.CoverageDependency
-[       OK ] InterfaceReaction.CoverageDependency (151 ms)
-[----------] 1 test from InterfaceReaction (151 ms total)
+[       OK ] InterfaceReaction.CoverageDependency (57 ms)
+[----------] 1 test from InterfaceReaction (57 ms total)
 
 [----------] Global test environment tear-down
-[==========] 130 tests from 13 test suites ran. (2988 ms total)
+[==========] 130 tests from 13 test suites ran. (1735 ms total)
 [  PASSED  ] 130 tests.
 scons: done building targets.
