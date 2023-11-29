@@ -68,84 +68,64 @@ void LmrRate::setParameters(const AnyMap& node, const UnitStack& rate_units){
         // writelog_direct("TRUE1\n");
         auto& colliders = node["collider-list"].asVector<AnyMap>();
         for (int i = 0; i < colliders.size(); i++){
-            if (colliders[i].hasKey("collider") && colliders[i].hasKey("low-P-rate-constant") && colliders[i].hasKey("rate-constants")) {
-                // writelog_direct("TRUE2\n");
-        // for (const auto& collider : colliders) { //iterate through the list (vector) of collider species
-            // if (collider.hasKey("collider") && collider.hasKey("low-P-rate-constant") && collider.hasKey("rate-constants")) {
-                string species_i_ = colliders[i]["collider"].as<std::string>();
-                // writelog("species_i_ = {}\n", species_i_);
-                ArrheniusRate eig0_i_ = ArrheniusRate(AnyValue(colliders[i]["low-P-rate-constant"]), node.units(), rate_units);       
-                map<double, pair<size_t, size_t>> pressures_i_;
-                vector<ArrheniusRate> rates_i_; 
-                std::multimap<double, ArrheniusRate> multi_rates;
-                auto& rates = colliders[i]["rate-constants"].asVector<AnyMap>();
-                for (const auto& rate : rates){
-                    multi_rates.insert({rate.convert("P","Pa"),ArrheniusRate(AnyValue(rate), node.units(), rate_units)});
-                }
-                rates_i_.reserve(multi_rates.size());
-                m_valid = !multi_rates.empty(); //if rates object empty, m_valid==FALSE. if rates is not empty, m_valid==TRUE
-                size_t j = 0;
-                for (const auto& [pressure, rate] : multi_rates) { 
-                    double logp = std::log(pressure);
-                    if (pressures_i_.empty() || pressures_i_.rbegin()->first != logp) {
-                        pressures_i_[logp] = {j, j+1};
-                    } else {
-                        pressures_i_[logp].second = j+1;
+            if (colliders[i].hasKey("collider") && colliders[i].hasKey("low-P-rate-constant")) {
+                if(colliders[i].hasKey("rate-constants")){
+                    string species_i_ = colliders[i]["collider"].as<std::string>();
+                    // writelog("species_i_ = {}\n", species_i_);
+                    ArrheniusRate eig0_i_ = ArrheniusRate(AnyValue(colliders[i]["low-P-rate-constant"]), node.units(), rate_units);       
+                    map<double, pair<size_t, size_t>> pressures_i_;
+                    vector<ArrheniusRate> rates_i_; 
+                    std::multimap<double, ArrheniusRate> multi_rates;
+                    auto& rates = colliders[i]["rate-constants"].asVector<AnyMap>();
+                    for (const auto& rate : rates){
+                        multi_rates.insert({rate.convert("P","Pa"),ArrheniusRate(AnyValue(rate), node.units(), rate_units)});
                     }
-                    j++;
-                    rates_i_.push_back(rate); 
-                }
-                if (!m_valid) { //runs if multi_rates is empty
-                    // ensure that reaction rate can be evaluated (but returns NaN)
-                    rates_i_.reserve(1);
-                    pressures_i_[std::log(OneBar)] = {0, 0};
-                    rates_i_.push_back(ArrheniusRate());
-                }
-                // Duplicate the first and last groups to handle P < P_0 and P > P_N
-                pressures_i_.insert({-1000.0, pressures_i_.begin()->second});
-                pressures_i_.insert({1000.0, pressures_i_.rbegin()->second});
+                    rates_i_.reserve(multi_rates.size());
+                    m_valid = !multi_rates.empty(); //if rates object empty, m_valid==FALSE. if rates is not empty, m_valid==TRUE
+                    size_t j = 0;
+                    for (const auto& [pressure, rate] : multi_rates) { 
+                        double logp = std::log(pressure);
+                        if (pressures_i_.empty() || pressures_i_.rbegin()->first != logp) {
+                            pressures_i_[logp] = {j, j+1};
+                        } else {
+                            pressures_i_[logp].second = j+1;
+                        }
+                        j++;
+                        rates_i_.push_back(rate); 
+                    }
+                    if (!m_valid) { //runs if multi_rates is empty
+                        // ensure that reaction rate can be evaluated (but returns NaN)
+                        rates_i_.reserve(1);
+                        pressures_i_[std::log(OneBar)] = {0, 0};
+                        rates_i_.push_back(ArrheniusRate());
+                    }
+                    // Duplicate the first and last groups to handle P < P_0 and P > P_N
+                    pressures_i_.insert({-1000.0, pressures_i_.begin()->second});
+                    pressures_i_.insert({1000.0, pressures_i_.rbegin()->second});
 
-                rates_.insert({species_i_, rates_i_});
-                pressures_.insert({species_i_, pressures_i_});
-                eig0_.insert({species_i_, eig0_i_});
-
-                // if (!rates_i_.empty() && !pressures_i_.empty() && !multi_rates.empty()){
-                //     writelog_direct("TRUE3\n");
-                //     writelog("eig0_={}\n",eig0_.begin()->second.evalRate(log(1000),1/1000));
-                //     writelog("1 rates_i_={}\n",rates_i_[0].evalRate(log(1000), 1/1000));
-                //     writelog("1 pressures_i_={}\n",pressures_i_.begin()->first);
-                //     auto nextElementIterator = pressures_i_.begin();
-                //     ++nextElementIterator;
-                //     double nextElementKey = nextElementIterator->first;
-                //     writelog("2 rates_i_={}\n",rates_i_[1].evalRate(log(1000), 1/1000));
-                //     writelog("2 pressures_i_={}\n",nextElementKey);
-                //     ++nextElementIterator;
-                //     nextElementKey = nextElementIterator->first;
-                //     writelog("3 rates_i_={}\n",rates_i_[2].evalRate(log(1000), 1/1000));
-                //     writelog("3 pressures_i_={}\n",nextElementKey);
-                //     ++nextElementIterator;
-                //     nextElementKey = nextElementIterator->first;
-                //     writelog("4 rates_i_={}\n",rates_i_[3].evalRate(log(1000), 1/1000));
-                //     writelog("4 pressures_i_={}\n",nextElementKey);
-                // }else{
-                //     writelog_direct("FALSE3\n");
-                // }
+                    rates_.insert({species_i_, rates_i_});
+                    pressures_.insert({species_i_, pressures_i_});
+                    eig0_.insert({species_i_, eig0_i_});
+                }
+                else{
+                    string species_i_extra_ = colliders[i]["collider"].as<std::string>();
+                    ArrheniusRate eig0_i_extra_ = ArrheniusRate(AnyValue(colliders[i]["low-P-rate-constant"]), node.units(), rate_units);
+                    eig0_extra_.insert({species_i_extra_, eig0_i_extra_});
+                }
             }
         }
     }
 }
 
-// void LmrRate::validate(const string& equation, const Kinetics& kin){
 void LmrRate::validate(const string& equation, const Kinetics& kin){
     //Validate the LMRR input data for each species
     if (!valid()) {
         throw InputFileError("LmrRate::validate", m_input,
             "Rate object for reaction '{}' is not configured.", equation);
     }
-    
-    
     fmt::memory_buffer err_reactions1; //for k-related errors
     fmt::memory_buffer err_reactions2; //for eig0-related errors
+    fmt::memory_buffer err_reactions3; //for eig0_extra-related errors
     double T[] = {300.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0};
     // LmrData data;
     // Iterate through the outer map (string to inner map)
@@ -175,6 +155,13 @@ void LmrRate::validate(const string& equation, const Kinetics& kin){
                     // writelog_direct("TRUE4b");
                     fmt_append(err_reactions2,"at T = {:.1f}\n", T[i]);
                 }
+                auto it = eig0_extra_.find(s);
+                if (it != eig0_extra_.end()) {
+                    double eig0_extra = eig0_extra_[s].evalRate(log(T[i]), 1.0/T[i]);
+                    if (!(eig0_extra > 0)){ //flags error if k at a given T, P is not > 0 
+                        fmt_append(err_reactions3,"T = {:.1f}\n", std::exp(iter->first), T[i]);
+                    }
+                }
             }
         }
         if (err_reactions1.size()) {
@@ -184,6 +171,10 @@ void LmrRate::validate(const string& equation, const Kinetics& kin){
         else if (err_reactions2.size()) {
             throw InputFileError("LmrRate::validate", m_input,
                     "\nInvalid rate coefficient, eig0 (k at low-pressure limit), for reaction '{}'\n{}",equation, to_string(err_reactions2));
+        }
+        else if (err_reactions3.size()) {
+            throw InputFileError("LmrRate::validate", m_input,
+                    "\nInvalid rate coefficient, eig0_extra (k at low-pressure limit), which represents one of the colliders without a rate constant table.");
         }
     }
 }
@@ -219,7 +210,6 @@ double LmrRate::speciesPlogRate(const LmrData& shared_data){
         }
         log_k2 = std::log(k);
     }
-    // double val = exp(log_k1 + (log_k2-log_k1)*rDeltaP_*(logPeff_-logP1_));
     return exp(log_k1 + (log_k2-log_k1)*rDeltaP_*(logPeff_-logP1_));
 }
 
@@ -242,34 +232,36 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
             eig0_mix += Xi*eig0_M;
         }
     }
-    //writelog("eig0_mix = {}\n", eig0_mix);
+    // writelog("eig0_mix = {}\n", eig0_mix);
     double log_eig0_mix = std::log(eig0_mix);
     //writelog("log_eig0_mix = {}\n", log_eig0_mix);
     for (size_t i=0; i<shared_data.allSpecies_.size(); i++){ //testing each species listed at the top of yaml file
         double Xi = moleFractions[i];
         //writelog("2 Xi={}\n", Xi);
         double eig0; //eig0 val of a single species
-        std::map<string, ArrheniusRate>::iterator it = eig0_.find(shared_data.allSpecies_[i]);
-        if (it != eig0_.end()) {
+        std::map<string, ArrheniusRate>::iterator it1 = eig0_.find(shared_data.allSpecies_[i]);
+        std::map<string, ArrheniusRate>::iterator it2 = eig0_extra_.find(shared_data.allSpecies_[i]);
+        if ( (it1 != eig0_.end()) && (it2 == eig0_extra_.end()) ) { //species is LMRR-specified with a PLOG table
             eig0 = eig0_[shared_data.allSpecies_[i]].evalRate(shared_data.logT, shared_data.recipT);
+            // writelog("1\n", eig0);
             pressures_s_=pressures_[shared_data.allSpecies_[i]];
             rates_s_=rates_[shared_data.allSpecies_[i]];
-        } else {
-            eig0 = eig0_M;
+        } 
+        else if ( (it1 == eig0_.end()) && (it2 != eig0_extra_.end()) ) { //species is LMRR-specified without a PLOG table
+            eig0 = eig0_extra_[shared_data.allSpecies_[i]].evalRate(shared_data.logT, shared_data.recipT);
+            // writelog("2\n", eig0);
             pressures_s_=pressures_["M"];
             rates_s_=rates_["M"];
         }
-        // if (shared_data.logP != logP_) { //WHAT IS THE PURPOSE OF THIS STEP?
-            logP_=shared_data.logP; 
-            logPeff_=logP_+log_eig0_mix-log(eig0); //Peff is the effective pressure, formerly called "Ptilde" 
-            //writelog("eig0={}\n", eig0);
-            // writelog("3 Xi={}\n", Xi);
-            // writelog("eig0_mix={}\n", eig0_mix);
-            // writelog("logP_={}\n", logP_);
-            // writelog("logPeff_={}\n", logPeff_);
-            // writelog("k_LMR_ += {}\n", LmrRate::speciesPlogRate(shared_data)*eig0*Xi/eig0_mix);
-            k_LMR_ += LmrRate::speciesPlogRate(shared_data)*eig0*Xi/eig0_mix;
-        // }
+        else { //species is not LMRR-specified; use generic parameters for species "M"
+            eig0 = eig0_M;
+            // writelog("3\n", eig0);
+            pressures_s_=pressures_["M"];
+            rates_s_=rates_["M"];
+        }
+        logP_=shared_data.logP; 
+        logPeff_=logP_+log_eig0_mix-log(eig0);
+        k_LMR_ += LmrRate::speciesPlogRate(shared_data)*eig0*Xi/eig0_mix;
     }
     return k_LMR_;
 }

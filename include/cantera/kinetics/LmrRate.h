@@ -72,6 +72,7 @@ public:
     map<string, map<double, pair<size_t, size_t>>> pressures_;
     map<string, vector<ArrheniusRate>> rates_;
     map<string,ArrheniusRate> eig0_;
+    map<string,ArrheniusRate> eig0_extra_;
     map<double, pair<size_t, size_t>> pressures_s_;
     vector<ArrheniusRate> rates_s_;
     double logPeff_;
