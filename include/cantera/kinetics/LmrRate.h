@@ -5,6 +5,7 @@
 #ifndef CT_LMRRATE_H
 #define CT_LMRRATE_H
 #include "cantera/kinetics/Arrhenius.h"
+// #include "cantera/kinetics/Reaction.h"
 
 namespace Cantera{
 struct LmrData : public ReactionData{
@@ -39,7 +40,7 @@ struct LmrData : public ReactionData{
     vector<double> moleFractions;
     int mfNumber; 
     vector<string> allSpecies_; //list of all yaml species (not just those for which LMRR data exists)
-
+    
 // protected:
     double m_pressure_buf = -1.0; //!< buffered pressure
 };
@@ -69,8 +70,9 @@ public:
     double evalFromStruct(const LmrData& shared_data);
     void validate(const string& equation, const Kinetics& kin) override;
 
-    map<string, map<double, pair<size_t, size_t>>> pressures_;
-    map<string, vector<ArrheniusRate>> rates_;
+    // void setContext(const Reaction& rxn, const Kinetics& kin);
+    // UnitStack rate_units_;
+
     map<string,ArrheniusRate> eig0_;
     map<string,ArrheniusRate> eig0_extra_;
     map<double, pair<size_t, size_t>> pressures_s_;
@@ -80,7 +82,13 @@ public:
     double log_eig0_mix_ = 0.0;
     double k_LMR_;
 
-// protected:
+    // Reaction reactionInstance;
+    // Composition reactants_ = reactionInstance.reactants;
+
+protected:
+
+    map<string, map<double, pair<size_t, size_t>>> pressures_;
+    map<string, vector<ArrheniusRate>> rates_;
     
     double logP_ = -1000;
     double logP1_ = 1000;
