@@ -5,6 +5,7 @@
 #ifndef CT_LMRRATE_H
 #define CT_LMRRATE_H
 #include "cantera/kinetics/Arrhenius.h"
+#include "cantera/base/Array.h"
 // #include "cantera/kinetics/Reaction.h"
 
 namespace Cantera{
@@ -49,52 +50,67 @@ class LmrRate final : public ReactionRate
 {
 public:
     LmrRate() = default;//! Default constructor.
-
     explicit LmrRate(const std::multimap<double, ArrheniusRate>& rates);
-
     LmrRate(const AnyMap& node, const UnitStack& rate_units={});
-
     unique_ptr<MultiRateBase> newMultiRate() const override {
         return make_unique<MultiRate<LmrRate, LmrData>>();
     } 
-
     const string type() const override { return "LMR_R"; } //! Identifier of reaction rate type
-    
     void setParameters(const AnyMap& node, const UnitStack& rate_units) override;
-    
+
+    void setParametersPLOG(const AnyMap& node, const UnitStack& rate_units, int i, vector<AnyMap> colliders, string species);
+    void setParametersTroe(const AnyMap& node, const UnitStack& rate_units, int i, vector<AnyMap> colliders, string species);
+    void setParametersChebyshev(const AnyMap& node, const UnitStack& rate_units, int i, vector<AnyMap> colliders, string species);
+
+
     void getParameters(AnyMap& rateNode, const Units& rate_units) const;
     void getParameters(AnyMap& rateNode) const override {
         return getParameters(rateNode, Units(0));
     }
     double speciesPlogRate(const LmrData& shared_data);
+    double speciesTroeRate(const LmrData& shared_data);
+    double speciesChebyshevRate(const LmrData& shared_data);
     double evalFromStruct(const LmrData& shared_data);
     void validate(const string& equation, const Kinetics& kin) override;
 
-    // void setContext(const Reaction& rxn, const Kinetics& kin);
-    // UnitStack rate_units_;
-
+    //Global member variables
     map<string,ArrheniusRate> eig0_;
-    map<string,ArrheniusRate> eig0_extra_;
-    map<double, pair<size_t, size_t>> pressures_s_;
-    vector<ArrheniusRate> rates_s_;
+    string fit_;
+    string s_;
+    map<string,ArrheniusRate> eig0_extra_; // for colliders where no fit data is specified
+
+    // PLOG member variables
+    map<string, map<double, pair<size_t, size_t>>> pressures_;
+    map<string, vector<ArrheniusRate>> rates_;
     double logPeff_;
     double eig0_mix_ = 0.0;
     double log_eig0_mix_ = 0.0;
     double k_LMR_;
 
-    // Reaction reactionInstance;
-    // Composition reactants_ = reactionInstance.reactants;
+    //Troe member variables
+    map<string,ArrheniusRate> k0_;
+    map<string,ArrheniusRate> kinf_;
+    map<string,double> m_a;//! parameter a in the 4-parameter Troe falloff function. Dimensionless
+    map<string,double> m_rt3;//! parameter 1/T_3 in the 4-parameter Troe falloff function. [K^-1]
+    map<string,double> m_rt1;//! parameter 1/T_1 in the 4-parameter Troe falloff function. [K^-1]
+    map<string,double> m_t2;//! parameter T_2 in the 4-parameter Troe falloff function. [K]
+
+    //Chebyshev member variables
+    map<string,double> Tmin_, Tmax_; //!< valid temperature range [K]
+    map<string,double> Pmin_, Pmax_; //!< valid pressure range [Pa]
+    map<string,double> TrNum_, TrDen_; //!< terms appearing in the reduced temperature
+    map<string,double> PrNum_, PrDen_; //!< terms appearing in the reduced pressure
+    map<string,Array2D> m_coeffs_; //!<< coefficient array
+    map<string,vector<double>> dotProd_; //!< dot product of coeffs with the reduced pressure polynomial
 
 protected:
-
-    map<string, map<double, pair<size_t, size_t>>> pressures_;
-    map<string, vector<ArrheniusRate>> rates_;
-    
     double logP_ = -1000;
     double logP1_ = 1000;
     double logP2_ = -1000;
     size_t ilow1_, ilow2_, ihigh1_, ihigh2_;
     double rDeltaP_ = -1.0; //!< reciprocal of (logP2 - logP1)
 };
+
+
 }
 #endif
