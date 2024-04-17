@@ -56,21 +56,29 @@ public:
         return make_unique<MultiRate<LmrRate, LmrData>>();
     } 
     const string type() const override { return "LMR_R"; } //! Identifier of reaction rate type
-    void setParameters(const AnyMap& node, const UnitStack& rate_units) override;
+   
 
     void setParametersPLOG(const AnyMap& node, const UnitStack& rate_units, int i, vector<AnyMap> colliders, string species);
     void setParametersTroe(const AnyMap& node, const UnitStack& rate_units, int i, vector<AnyMap> colliders, string species);
     void setParametersChebyshev(const AnyMap& node, const UnitStack& rate_units, int i, vector<AnyMap> colliders, string species);
+    void setParameters(const AnyMap& node, const UnitStack& rate_units) override;
 
-
+    void getParametersPLOG(AnyMap& rateNode, const Units& rate_units) const;
+    void getParametersTroe(AnyMap& rateNode, const Units& rate_units) const;
+    void getParametersChebyshev(AnyMap& rateNode, const Units& rate_units) const;
     void getParameters(AnyMap& rateNode, const Units& rate_units) const;
     void getParameters(AnyMap& rateNode) const override {
         return getParameters(rateNode, Units(0));
     }
-    double speciesPlogRate(const LmrData& shared_data);
-    double speciesTroeRate(const LmrData& shared_data);
-    double speciesChebyshevRate(const LmrData& shared_data);
+
+    double evalFromStructPLOG(const LmrData& shared_data);
+    double evalFromStructTroe(const LmrData& shared_data);
+    double evalFromStructChebyshev(const LmrData& shared_data);
     double evalFromStruct(const LmrData& shared_data);
+
+    void validatePLOG(const string& equation, const Kinetics& kin);
+    void validateTroe(const string& equation, const Kinetics& kin);
+    void validateChebyshev(const string& equation, const Kinetics& kin);
     void validate(const string& equation, const Kinetics& kin) override;
 
     //Global member variables
