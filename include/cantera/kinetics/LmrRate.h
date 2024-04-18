@@ -84,8 +84,10 @@ public:
     //Global member variables
     map<string,ArrheniusRate> eig0_;
     string fit_;
+    vector<string> fitlist_; //stores the fit type (Troe, PLOG, or Chebyshev) for each reaction in sequential order
     string s_;
     map<string,ArrheniusRate> eig0_extra_; // for colliders where no fit data is specified
+    
 
     // PLOG member variables
     map<string, map<double, pair<size_t, size_t>>> pressures_;

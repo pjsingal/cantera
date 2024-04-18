@@ -4,7 +4,7 @@
 
 #include "cantera/kinetics/LmrRate.h"
 #include "cantera/thermo/ThermoPhase.h"
-#include "cantera/kinetics/ChebyshevRate.h"
+// #include "cantera/kinetics/ChebyshevRate.h"
 // #include "cantera/kinetics/Reaction.h"
 // #include <sstream>
 
@@ -69,6 +69,34 @@ LmrRate::LmrRate(const AnyMap& node, const UnitStack& rate_units){
     //     rate_units_.join(1);
     // }
     // writelog("numReactants = {}\n", numReactants);
+
+    // std::string rxn = node["equation"].as<std::string>();
+    // vector<string> reactantList;
+    // string component = "";
+    // for (int i = 0; i < rxn.length(); i++) {
+    //     if (!(rxn[i]=='(') && !(rxn[i]==')') && !(rxn[i]=='+') && !(rxn[i]==' ') && !(rxn[i]=='<') && !(rxn[i]=='=') && !(rxn[i]=='>')){
+    //         component+=rxn[i];
+    //     } else if ((i>0 && rxn[i]==' ' && !(rxn[i-1]==')') && !(rxn[i-1]=='+'))  || rxn[i]==')') {
+    //         reactantList.push_back(component);
+    //         // writelog("component = {}\n", component);
+    //         component = "";
+    //     } else if (rxn[i]=='<'){
+    //         break;
+    //     }
+    // } 
+    // UnitStack rate_units_ = rate_units;
+    // for (int i = 0; i < rxn.length(); i++) {
+    //     if (i==0 && rxn[i]=='2' && rxn[i+1]==' ') {
+    //         rate_units_.join(1);
+    //         break;
+    //     } else if (rxn[i]=='<'){
+    //         break;
+    //     }
+    // } 
+    // if (reactantList.size()>2){
+    //     rate_units_.join(1);
+    // }
+    // writelog("numReactants = {}\n", reactantList.size());
     setParameters(node, rate_units);
 }
 
@@ -84,9 +112,9 @@ LmrRate::LmrRate(const AnyMap& node, const UnitStack& rate_units){
 // }
 
 void LmrRate::setParametersPLOG(const AnyMap& node, const UnitStack& rate_units, int i, vector<AnyMap> colliders, string species){
+    writelog_direct("setParametersPLOG-0\n");
     if(colliders[i].hasKey("rate-constants")){
         fit_="PLOG";
-        writelog("\nPLOG\n");
         ArrheniusRate eig0_i_ = ArrheniusRate(AnyValue(colliders[i]["eig0"]), node.units(), rate_units);       
         map<double, pair<size_t, size_t>> pressures_i_;
         vector<ArrheniusRate> rates_i_; 
@@ -125,11 +153,11 @@ void LmrRate::setParametersPLOG(const AnyMap& node, const UnitStack& rate_units,
     else{ //No fitting data is given, so just save the eig0 and then use the PLOG fit defined for M
         eig0_extra_.insert({species, ArrheniusRate(AnyValue(colliders[i]["eig0"]), node.units(), rate_units)});
     }
+    writelog_direct("setParametersPLOG-1\n");
 }
 
 void LmrRate::setParametersTroe(const AnyMap& node, const UnitStack& rate_units, int i, vector<AnyMap> colliders, string species){
-    writelog("3");
-    writelog("\nTroe\n");
+    writelog_direct("setParametersTroe-0\n");
     fit_="Troe";
     if (colliders[i]["Troe"].hasKey("A") && colliders[i]["Troe"].hasKey("T1") && colliders[i]["Troe"].hasKey("T3")){
         m_a.insert({species, colliders[i]["Troe"]["A"].asDouble()}); // save coefficient "A"
@@ -164,11 +192,13 @@ void LmrRate::setParametersTroe(const AnyMap& node, const UnitStack& rate_units,
     eig0_.insert({species, ArrheniusRate(AnyValue(colliders[i]["eig0"]), node.units(), rate_units)});
     k0_.insert({species, ArrheniusRate(AnyValue(colliders[i]["low-P-rate-constant"]), node.units(), rate_units)});
     kinf_.insert({species, ArrheniusRate(AnyValue(colliders[i]["high-P-rate-constant"]), node.units(), rate_units)});
+    writelog_direct("setParametersTroe-1\n");
 }
 
 void LmrRate::setParametersChebyshev(const AnyMap& node, const UnitStack& rate_units, int i, vector<AnyMap> colliders, string species){
+    writelog_direct("setParametersChebyshev-0\n");    
     fit_="Chebyshev";
-    writelog("\nChebyshev\n");
+    
     Array2D coeffs(0, 0);
     const auto& T_range = colliders[i]["temperature-range"].asVector<AnyValue>(2);
     const auto& P_range = colliders[i]["pressure-range"].asVector<AnyValue>(2);
@@ -214,54 +244,28 @@ void LmrRate::setParametersChebyshev(const AnyMap& node, const UnitStack& rate_u
         dotProd.resize(Array2D(1, 1, NAN).nRows());
         dotProd_.insert({species,dotProd});
     }
+    writelog_direct("setParametersChebyshev-1\n");    
 }
 
 void LmrRate::setParameters(const AnyMap& node, const UnitStack& rate_units){
-    std::string rxn = node["equation"].as<std::string>();
-    vector<string> reactantList;
-    string component = "";
-    // for (int i = 0; i < rxn.length(); i++) {
-    //     if (!(rxn[i]=='(') && !(rxn[i]==')') && !(rxn[i]=='+') && !(rxn[i]==' ') && !(rxn[i]=='<') && !(rxn[i]=='=') && !(rxn[i]=='>')){
-    //         component+=rxn[i];
-    //     } else if ((i>0 && rxn[i]==' ' && !(rxn[i-1]==')') && !(rxn[i-1]=='+'))  || rxn[i]==')') {
-    //         reactantList.push_back(component);
-    //         // writelog("component = {}\n", component);
-    //         component = "";
-    //     } else if (rxn[i]=='<'){
-    //         break;
-    //     }
-    // } 
-    UnitStack rate_units_ = rate_units;
-    for (int i = 0; i < rxn.length(); i++) {
-        if (i==0 && rxn[i]=='2' && rxn[i+1]==' ') {
-            rate_units_.join(1);
-            break;
-        } else if (rxn[i]=='<'){
-            break;
-        }
-    } 
-    // if (reactantList.size()>2){
-    //     rate_units_.join(1);
-    // }
-    // writelog("numReactants = {}\n", reactantList.size());
-    ReactionRate::setParameters(node, rate_units_);
-    writelog("1");
+    writelog_direct("setParameters-0\n");
+
+    ReactionRate::setParameters(node, rate_units);
     if(node.hasKey("fit") && node.hasKey("collider-list")){
         auto& colliders = node["collider-list"].asVector<AnyMap>();
         for (int i = 0; i < colliders.size(); i++){
             if (colliders[i].hasKey("collider") && colliders[i].hasKey("eig0")) {
                 string species = colliders[i]["collider"].as<std::string>();
-                writelog("2");
                 if(node["fit"]=="PLOG" && colliders[i].hasKey("rate-constants")){
-                    setParametersPLOG(node, rate_units_, i, colliders, species);
+                    setParametersPLOG(node, rate_units, i, colliders, species);
                 } else if(node["fit"]=="Troe" && colliders[i].hasKey("high-P-rate-constant")){
-                    setParametersTroe(node, rate_units_, i, colliders, species);
+                    setParametersTroe(node, rate_units, i, colliders, species);
                 } else if(node["fit"]=="Chebyshev" && colliders[i].hasKey("data")){
-                    setParametersChebyshev(node, rate_units_, i, colliders, species);
+                    setParametersChebyshev(node, rate_units, i, colliders, species);
                 } else if (node["fit"]!="PLOG" && node["fit"]!="Troe" && node["fit"]!="Chebyshev") { //user has failed to indicate a valid fit type in yaml
                     throw InputFileError("LmrRate::setParameters", m_input,"Must select a valid fit type: PLOG, Troe, Chebyshev."); 
                 } else { //No fitting data is given, so just save the eig0 and then use the PLOG/Troe/Chebyshev fit defined for M
-                    eig0_extra_.insert({species, ArrheniusRate(AnyValue(colliders[i]["eig0"]), node.units(), rate_units_)});
+                    eig0_extra_.insert({species, ArrheniusRate(AnyValue(colliders[i]["eig0"]), node.units(), rate_units)});
                 }
             } else {
                 throw InputFileError("LmrRate::setParameters", m_input,"An eig0 value must be provided for all colliders");
@@ -270,12 +274,13 @@ void LmrRate::setParameters(const AnyMap& node, const UnitStack& rate_units){
     } else {
         throw InputFileError("LmrRate::setParameters", m_input,"LMR-R entry in yaml lacks the 'fit' and/or 'collider-list' keys");
     }
-    writelog("4");
+    writelog_direct("setParameters-1\n");
 }
 
 
 
 void LmrRate::validatePLOG(const string& equation, const Kinetics& kin){
+    writelog_direct("validatePLOG-0\n");
     if (!valid()) {
         throw InputFileError("LmrRate::validatePLOG", m_input,
             "Rate object for reaction '{}' is not configured.", equation);
@@ -331,65 +336,71 @@ void LmrRate::validatePLOG(const string& equation, const Kinetics& kin){
                     "\nInvalid PLOG rate coefficient, eig0_extra, which represents one of the colliders without a rate constant table.");
         }
     }
+    writelog_direct("validatePLOG-1\n");
 }
 
 void LmrRate::validateTroe(const string& equation, const Kinetics& kin){
-    if (!valid()) {
-        throw InputFileError("LmrRate::validateTroe", m_input,
-            "Rate object for reaction '{}' is not configured.", equation);
-    }
-    fmt::memory_buffer err_reactions1; //for k0-related errors
-    fmt::memory_buffer err_reactions2; //for kinf-related errors
-    fmt::memory_buffer err_reactions3; //for eig0-related errors
-    fmt::memory_buffer err_reactions4; //for eig0_extra-related errors
-    double T[] = {300.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0};
-    for (const auto& pair : k0_) { //iterating through species
-        const std::string& s = pair.first; //s refers only to the species for which LMR data is provided in yaml (e.g. 'H2O', 'M')
-        for (size_t i=0; i < 6; i++) { //iterating through our sample temperature array
-            double k0, kinf,eig0;
-            k0 = k0_[s].evalRate(log(T[i]), 1.0 / T[i]);
-            kinf=kinf_[s].evalRate(log(T[i]), 1.0 / T[i]);
-            eig0 = eig0_[s].evalRate(log(T[i]), 1.0/T[i]);
-            if (!(k0>0)){
-                fmt_append(err_reactions1,"at T = {:.1f}\n", T[i]);
-            } else if (!(kinf>0)){
-                fmt_append(err_reactions2,"at T = {:.1f}\n", T[i]);
-            } else if (!(eig0>0)){
-                fmt_append(err_reactions3,"at T = {:.1f}\n", T[i]);
-            }
-            //Now validate that the eig0 rate constants compute correctly for collider entries lacking other params
-            auto it = eig0_extra_.find(s);
-            if (it != eig0_extra_.end()) {
-                double eig0_extra = eig0_extra_[s].evalRate(log(T[i]), 1.0/T[i]);
-                if (!(eig0_extra > 0)){ //flags error if k at a given T, P is not > 0 
-                    fmt_append(err_reactions3,"T = {:.1f}\n", T[i]);
-                }
-            }
-        } 
-    }
-    if (err_reactions1.size()) {
-        throw InputFileError("LmrRate::validate", m_input,
-                "\nInvalid Troe rate coefficient, k0, for reaction '{}'\n{}",equation, to_string(err_reactions1));
-    } else if (err_reactions2.size()) {
-        throw InputFileError("LmrRate::validate", m_input,
-                "\nInvalid Troe rate coefficient, kinf, for reaction '{}'\n{}",equation, to_string(err_reactions2));
-    } else if (err_reactions3.size()) {
-        throw InputFileError("LmrRate::validate", m_input,
-                "\nInvalid Troe rate coefficient, eig0, which represents one of the colliders without a rate constant table.");
-    } else if (err_reactions4.size()) {
-        throw InputFileError("LmrRate::validate", m_input,
-                "\nInvalid Troe rate coefficient, eig0_extra, which represents one of the colliders without a rate constant table.");
-    }
+    writelog_direct("validateTroe-0\n");
+    // if (!valid()) {
+    //     throw InputFileError("LmrRate::validateTroe", m_input,
+    //         "Rate object for reaction '{}' is not configured.", equation);
+    // }
+    // fmt::memory_buffer err_reactions1; //for k0-related errors
+    // fmt::memory_buffer err_reactions2; //for kinf-related errors
+    // fmt::memory_buffer err_reactions3; //for eig0-related errors
+    // fmt::memory_buffer err_reactions4; //for eig0_extra-related errors
+    // double T[] = {300.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0};
+    // for (const auto& pair : k0_) { //iterating through species
+    //     const std::string& s = pair.first; //s refers only to the species for which LMR data is provided in yaml (e.g. 'H2O', 'M')
+    //     for (size_t i=0; i < 6; i++) { //iterating through our sample temperature array
+    //         double k0, kinf,eig0;
+    //         k0 = k0_[s].evalRate(log(T[i]), 1.0 / T[i]);
+    //         kinf=kinf_[s].evalRate(log(T[i]), 1.0 / T[i]);
+    //         eig0 = eig0_[s].evalRate(log(T[i]), 1.0/T[i]);
+    //         if (!(k0>0)){
+    //             fmt_append(err_reactions1,"at T = {:.1f}\n", T[i]);
+    //         } else if (!(kinf>0)){
+    //             fmt_append(err_reactions2,"at T = {:.1f}\n", T[i]);
+    //         } else if (!(eig0>0)){
+    //             fmt_append(err_reactions3,"at T = {:.1f}\n", T[i]);
+    //         }
+    //         //Now validate that the eig0 rate constants compute correctly for collider entries lacking other params
+    //         auto it = eig0_extra_.find(s);
+    //         if (it != eig0_extra_.end()) {
+    //             double eig0_extra = eig0_extra_[s].evalRate(log(T[i]), 1.0/T[i]);
+    //             if (!(eig0_extra > 0)){ //flags error if k at a given T, P is not > 0 
+    //                 fmt_append(err_reactions3,"T = {:.1f}\n", T[i]);
+    //             }
+    //         }
+    //     } 
+    // }
+    // if (err_reactions1.size()) {
+    //     throw InputFileError("LmrRate::validate", m_input,
+    //             "\nInvalid Troe rate coefficient, k0, for reaction '{}'\n{}",equation, to_string(err_reactions1));
+    // } else if (err_reactions2.size()) {
+    //     throw InputFileError("LmrRate::validate", m_input,
+    //             "\nInvalid Troe rate coefficient, kinf, for reaction '{}'\n{}",equation, to_string(err_reactions2));
+    // } else if (err_reactions3.size()) {
+    //     throw InputFileError("LmrRate::validate", m_input,
+    //             "\nInvalid Troe rate coefficient, eig0, which represents one of the colliders without a rate constant table.");
+    // } else if (err_reactions4.size()) {
+    //     throw InputFileError("LmrRate::validate", m_input,
+    //             "\nInvalid Troe rate coefficient, eig0_extra, which represents one of the colliders without a rate constant table.");
+    // }
+    writelog_direct("validateTroe-1\n");
 }  
 
 void LmrRate::validateChebyshev(const string& equation, const Kinetics& kin){
+    writelog_direct("validateChebyshev-0\n");
     if (!valid()) {
         throw InputFileError("LmrRate::validateChebyshev", m_input,
             "Rate object for reaction '{}' is not configured.", equation);
     }
+    writelog_direct("validateChebyshev-1\n");
 }
 
 void LmrRate::validate(const string& equation, const Kinetics& kin){
+    writelog_direct("validate-0\n");
     if (fit_=="PLOG"){
         LmrRate::validatePLOG(equation, kin);
     } else if (fit_=="Troe"){
@@ -397,10 +408,11 @@ void LmrRate::validate(const string& equation, const Kinetics& kin){
     } else if (fit_=="Chebyshev"){
         LmrRate::validateChebyshev(equation, kin);
     }
+    writelog_direct("validate-1\n");
 }
 
 double LmrRate::evalFromStructPLOG(const LmrData& shared_data){
-    writelog("PLOG 1");
+    writelog_direct("evalFromStructPLOG-0\n");
     // auto iter = pressures_s_.upper_bound(logPeff_);
     auto iter = pressures_[s_].upper_bound(logP_);
     // AssertThrowMsg(iter != pressures_s_.end(), "LmrRate::speciesPlogRate","Reduced-pressure out of range: {}", logPeff_);
@@ -435,12 +447,12 @@ double LmrRate::evalFromStructPLOG(const LmrData& shared_data){
         }
         log_k2 = std::log(k);
     }
-    writelog("PLOG 2");
+    writelog_direct("evalFromStructPLOG-1\n");
     return exp(log_k1 + (log_k2-log_k1)*rDeltaP_*(logPeff_-logP1_));
 }
 
 double LmrRate::evalFromStructTroe(const LmrData& shared_data){
-    writelog("Troe 1");
+    writelog_direct("evalFromStructTroe-0\n");
     double T = pow(10.,shared_data.logT);
     double Fcent = (1.0 - m_a[s_]) * exp(-T*m_rt3[s_]) + m_a[s_] * exp(-T*m_rt1[s_]);
     if (m_t2[s_]) {
@@ -454,12 +466,12 @@ double LmrRate::evalFromStructTroe(const LmrData& shared_data){
     double nn = 0.75 - 1.27 * log10(std::max(Fcent, SmallNumber));
     double f1 = (pr+cc)/(nn-0.14*(pr+cc)); //need to verify that reduced pressure can actually be represented by logPeff. I'm not sure
     double F = pow(10.0,log10(std::max(Fcent,SmallNumber))/(1.0+f1*f1));
-    writelog("Troe 2");
+    writelog_direct("evalFromStructTroe-1\n");
     return kinf*pr/(1+pr)*F;
 }
 
 double LmrRate::evalFromStructChebyshev(const LmrData& shared_data) {
-    writelog("Chebyshev 1");
+    writelog_direct("evalFromStructChebyshev-0\n");
     double Pr = (2 * exp(logPeff_) + PrNum_[s_]) * PrDen_[s_];
     double Cnm1 = Pr;
     double Cn = 1;
@@ -484,11 +496,12 @@ double LmrRate::evalFromStructChebyshev(const LmrData& shared_data) {
         Cnm1 = Cn;
         Cn = Cnp1;
     }
-    writelog("Chebyshev 2");
+    writelog_direct("evalFromStructChebyshev-1\n");
     return std::pow(10, logk);
 }
 
 double LmrRate::evalFromStruct(const LmrData& shared_data){
+    writelog_direct("evalFromStruct-0\n");
     k_LMR_=0;
     double eig0_mix=0;
     vector<double> moleFractions = shared_data.moleFractions;
@@ -536,10 +549,12 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
             k_LMR_ += k_M*Xtilde;
         }
     }
+    writelog_direct("evalFromStruct-1\n");
     return k_LMR_;
 }
 
 void LmrRate::getParametersPLOG(AnyMap& rateNode, const Units& rate_units) const{
+    writelog_direct("getParametersPLOG-0\n");
     //Create copies of existing variables
     map<string, map<double, pair<size_t, size_t>>> pressures__ = pressures_;
     map<string, vector<ArrheniusRate>> rates__ = rates_;
@@ -582,6 +597,7 @@ void LmrRate::getParametersPLOG(AnyMap& rateNode, const Units& rate_units) const
         topLevelList.push_back(std::move(speciesNode));
     }
     rateNode["collider-list"]=std::move(topLevelList);
+    writelog_direct("getParametersPLOG-1\n");
 }
 
 // void LmrRate::getParametersTroe(AnyMap& rateNode, const Units& rate_units) const{
@@ -640,6 +656,7 @@ void LmrRate::getParametersPLOG(AnyMap& rateNode, const Units& rate_units) const
 
 
 void LmrRate::getParameters(AnyMap& rateNode, const Units& rate_units) const{
+    writelog_direct("getParameters-0\n");
     if (fit_=="PLOG"){
         LmrRate::getParametersPLOG(rateNode, rate_units);
     } 
@@ -648,6 +665,7 @@ void LmrRate::getParameters(AnyMap& rateNode, const Units& rate_units) const{
     // } else if (fit_=="Chebyshev"){
     //     LmrRate::getParametersChebyshev(rateNode, rate_units);
     // }
+    writelog_direct("getParameters-1\n");
 }
 }
 
