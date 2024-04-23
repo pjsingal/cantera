@@ -56,69 +56,48 @@ public:
         return make_unique<MultiRate<LmrRate, LmrData>>();
     } 
     const string type() const override { return "LMR_R"; } //! Identifier of reaction rate type
-   
 
-    void setParametersPLOG(const AnyMap& node, const UnitStack& rate_units, int i, vector<AnyMap> colliders, string species);
-    void setParametersTroe(const AnyMap& node, const UnitStack& rate_units, int i, vector<AnyMap> colliders, string species);
-    void setParametersChebyshev(const AnyMap& node, const UnitStack& rate_units, int i, vector<AnyMap> colliders, string species);
+    map<string, AnyMap> plogList_;
+    map<string, AnyMap> troeList_;
+    map<string, AnyMap> chebList_;
     void setParameters(const AnyMap& node, const UnitStack& rate_units) override;
-
-    void getParametersPLOG(AnyMap& rateNode, const Units& rate_units) const;
-    void getParametersTroe(AnyMap& rateNode, const Units& rate_units) const;
-    void getParametersChebyshev(AnyMap& rateNode, const Units& rate_units) const;
     void getParameters(AnyMap& rateNode, const Units& rate_units) const;
     void getParameters(AnyMap& rateNode) const override {
         return getParameters(rateNode, Units(0));
     }
-
-    double evalFromStructPLOG(const LmrData& shared_data);
-    double evalFromStructTroe(const LmrData& shared_data);
-    double evalFromStructChebyshev(const LmrData& shared_data);
     double evalFromStruct(const LmrData& shared_data);
-
-    void validatePLOG(const string& equation, const Kinetics& kin);
-    void validateTroe(const string& equation, const Kinetics& kin);
-    void validateChebyshev(const string& equation, const Kinetics& kin);
-    void validate(const string& equation, const Kinetics& kin) override;
-
-    //Global member variables
+    void validate(const string& equation, const Kinetics& kin) override; //removed from cpp, but re-insert later
+    UnitStack rate_units_;
     map<string,ArrheniusRate> eig0_;
-    string fit_;
-    vector<string> fitlist_; //stores the fit type (Troe, PLOG, or Chebyshev) for each reaction in sequential order
-    string s_;
-    map<string,ArrheniusRate> eig0_extra_; // for colliders where no fit data is specified
-    
+    // map<string, map<double, pair<size_t, size_t>>> pressures_;
+    // map<string, vector<ArrheniusRate>> rates_;
+    // double logPeff_;
+    // double eig0_mix_ = 0.0;
+    // double log_eig0_mix_ = 0.0;
+    // double k_LMR_;
 
-    // PLOG member variables
-    map<string, map<double, pair<size_t, size_t>>> pressures_;
-    map<string, vector<ArrheniusRate>> rates_;
-    double logPeff_;
-    double eig0_mix_ = 0.0;
-    double log_eig0_mix_ = 0.0;
-    double k_LMR_;
+    // //Troe member variables
+    // map<string,ArrheniusRate> k0_;
+    // map<string,ArrheniusRate> kinf_;
+    // map<string,double> m_a;//! parameter a in the 4-parameter Troe falloff function. Dimensionless
+    // map<string,double> m_rt3;//! parameter 1/T_3 in the 4-parameter Troe falloff function. [K^-1]
+    // map<string,double> m_rt1;//! parameter 1/T_1 in the 4-parameter Troe falloff function. [K^-1]
+    // map<string,double> m_t2;//! parameter T_2 in the 4-parameter Troe falloff function. [K]
 
-    //Troe member variables
-    map<string,ArrheniusRate> k0_;
-    map<string,ArrheniusRate> kinf_;
-    map<string,double> m_a;//! parameter a in the 4-parameter Troe falloff function. Dimensionless
-    map<string,double> m_rt3;//! parameter 1/T_3 in the 4-parameter Troe falloff function. [K^-1]
-    map<string,double> m_rt1;//! parameter 1/T_1 in the 4-parameter Troe falloff function. [K^-1]
-    map<string,double> m_t2;//! parameter T_2 in the 4-parameter Troe falloff function. [K]
-
-    //Chebyshev member variables
-    map<string,double> Tmin_, Tmax_; //!< valid temperature range [K]
-    map<string,double> Pmin_, Pmax_; //!< valid pressure range [Pa]
-    map<string,double> TrNum_, TrDen_; //!< terms appearing in the reduced temperature
-    map<string,double> PrNum_, PrDen_; //!< terms appearing in the reduced pressure
-    map<string,Array2D> m_coeffs_; //!<< coefficient array
-    map<string,vector<double>> dotProd_; //!< dot product of coeffs with the reduced pressure polynomial
+    // //Chebyshev member variables
+    // map<string,double> Tmin_, Tmax_; //!< valid temperature range [K]
+    // map<string,double> Pmin_, Pmax_; //!< valid pressure range [Pa]
+    // map<string,double> TrNum_, TrDen_; //!< terms appearing in the reduced temperature
+    // map<string,double> PrNum_, PrDen_; //!< terms appearing in the reduced pressure
+    // map<string,Array2D> m_coeffs_; //!<< coefficient array
+    // map<string,vector<double>> dotProd_; //!< dot product of coeffs with the reduced pressure polynomial
 
 protected:
     double logP_ = -1000;
-    double logP1_ = 1000;
-    double logP2_ = -1000;
-    size_t ilow1_, ilow2_, ihigh1_, ihigh2_;
-    double rDeltaP_ = -1.0; //!< reciprocal of (logP2 - logP1)
+    // double logP1_ = 1000;
+    // double logP2_ = -1000;
+    // size_t ilow1_, ilow2_, ihigh1_, ihigh2_;
+    // double rDeltaP_ = -1.0; //!< reciprocal of (logP2 - logP1)
 };
 
 
