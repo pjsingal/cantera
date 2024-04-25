@@ -7,6 +7,8 @@
 #include "cantera/kinetics/Falloff.h"
 #include "cantera/kinetics/ChebyshevRate.h"
 #include "cantera/kinetics/PlogRate.h"
+#include "cantera/kinetics/ReactionRateFactory.h"
+#include "cantera/base/FactoryBase.h"
 // #include "cantera/kinetics/Reaction.h"
 // #include <sstream>
 
@@ -73,11 +75,12 @@ void LmrRate::setParameters(const AnyMap& node, const UnitStack& rate_units){
                 string species = colliders[i]["collider"].as<std::string>();
                 eig0_.insert({species , ArrheniusRate(AnyValue(colliders[i]["eig0"]), node.units(), rate_units)});
                 if(colliders[i].hasKey("rate-constants")){ //PLOG type            
-                    plogList_.insert({species, colliders[i]});
+                    plogObjects.insert({species, new PlogRate(colliders[i],rate_units)});
                 } else if(colliders[i].hasKey("Troe")){ //Troe type
-                    troeList_.insert({species, colliders[i]});
+                    // troeObjects.push_back(new TroeRate(colliders[i],rate_units));
+                    troeObjects.insert({species, new TroeRate(colliders[i],rate_units)});
                 } else if(colliders[i].hasKey("data")&&colliders[i].hasKey("pressure-range")&&colliders[i].hasKey("temperature-range")){ //Chebyshev type
-                    chebList_.insert({species, colliders[i]});
+                    chebObjects.insert({species, new ChebyshevRate(colliders[i],rate_units)});
                 }
             } else {
                 throw InputFileError("LmrRate::setParameters", m_input,"An eig0 value must be provided for all colliders");
@@ -113,26 +116,25 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
         string flag;
         double Xi = moleFractions[i];
         std::map<string, ArrheniusRate>::iterator it1 = eig0_.find(shared_data.allSpecies_[i]);
-        std::map<string, AnyMap>::iterator it2 = plogList_.find(shared_data.allSpecies_[i]);
+
+        std::map<string, PlogRate*>::iterator it2 = plogObjects.find(shared_data.allSpecies_[i]);
+
         eig0=eig0_[shared_data.allSpecies_[i]].evalRate(shared_data.logT, shared_data.recipT); 
         //Case 1: collider specified in PLOG format
-        if (it2 != plogList_.end()){ 
-            PlogData dataObj;
-            PlogRate rateObj;
-            AnyMap colliderNode = plogList_[shared_data.allSpecies_[i]];
+        if (it2 != plogObjects.end()){ 
             double logPeff_=logP_+log_eig0_mix-log(eig0);
-            dataObj.logP=logPeff_; //use the effective pressure instead of P_abs for PLOG calculation
-            rateObj.setParameters(colliderNode,rate_units_);
+            // dataObj.logP=logPeff_; //use the effective pressure instead of P_abs for PLOG calculation
+            plogObjects[shared_data.allSpecies_[i]]->evalFromStruct();
             k = rateObj.evalFromStruct(dataObj);
             if (shared_data.allSpecies_[i]=="M"){
                 k_M = k;
             }
         }
         //Case 2: collider specified in Troe format
-        else if (std::find(troeList_.begin(), troeList_.end(), shared_data.allSpecies_[i]) != troeList_.end()){ 
+        else if (std::find(troeObjects.begin(), troeObjects.end(), shared_data.allSpecies_[i]) != troeObjects.end()){ 
             FalloffData dataObj;
             FalloffRate rateObj;
-            AnyMap colliderNode = troeList_[shared_data.allSpecies_[i]];
+            AnyMap colliderNode = troeObjects[shared_data.allSpecies_[i]];
             rateObj.setParameters(colliderNode,rate_units_);
             k = rateObj.evalFromStruct(dataObj);
             if (shared_data.allSpecies_[i]=="M"){
@@ -140,10 +142,10 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
             }
         }
         //Case 3: collider specified in Chebyshev format
-        else if (std::find(chebList_.begin(), chebList_.end(), shared_data.allSpecies_[i]) != chebList_.end()){ 
+        else if (std::find(chebObjects.begin(), chebObjects.end(), shared_data.allSpecies_[i]) != chebObjects.end()){ 
             ChebyshevData dataObj;
             ChebyshevRate rateObj;
-            AnyMap colliderNode = chebList_[shared_data.allSpecies_[i]];
+            AnyMap colliderNode = chebObjects[shared_data.allSpecies_[i]];
             rateObj.setParameters(colliderNode,rate_units_);
             k = rateObj.evalFromStruct(dataObj);
             if (shared_data.allSpecies_[i]=="M"){
