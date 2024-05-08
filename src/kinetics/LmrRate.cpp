@@ -92,21 +92,21 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
 
     //STEP 1: GET EIG0_M
     double eig0_M;
-    map<string, pair<const AnyMap&,const UnitStack&>>::iterator it = colliderInfo.find("M");
-        if (it != colliderInfo.end()){ 
-            const AnyMap& colliders_i = it->second.first;
-            const UnitStack& rate_units_i = it->second.second;
+    map<string, pair<const AnyMap&,const UnitStack&>>::iterator it1 = colliderInfo.find("M");
+        if (it1 != colliderInfo.end()){ 
+            const AnyMap& colliders_i = it1->second.first;
+            const UnitStack& rate_units_i = it1->second.second;
             eig0_M=ArrheniusRate(AnyValue(colliders_i["eig0"]), colliders_i.units(), rate_units_i).evalRate(logT, recipT);
     }
 
     //STEP 2: GET EIG0_MIX
     double eig0_mix=0.0;
     for (size_t i=0; i<yamlSpecies.size(); i++){ //testing each species listed at the top of yaml file
-        map<string, pair<const AnyMap&,const UnitStack&>>::iterator it = colliderInfo.find(yamlSpecies[i]);
+        map<string, pair<const AnyMap&,const UnitStack&>>::iterator it2 = colliderInfo.find(yamlSpecies[i]);
         //Case 2.1: yaml species has at least an eig0 value provided for LMRR 
-        if (it != colliderInfo.end()) {
-            const AnyMap& colliders_i = it->second.first;
-            const UnitStack& rate_units_i = it->second.second;
+        if (it2 != colliderInfo.end()) {
+            const AnyMap& colliders_i = it2->second.first;
+            const UnitStack& rate_units_i = it2->second.second;
             eig0_mix += X[i]*ArrheniusRate(AnyValue(colliders_i["eig0"]), colliders_i.units(), rate_units_i).evalRate(logT, recipT);
         }
         //Case 2.2: yaml species has no data provided for LMRR (treat as "M")
@@ -125,10 +125,10 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
     
     //STEP 4: GET K FOR THE GENERIC COLLIDER 'M'
     double k_M;
-    map<string, pair<const AnyMap&,const UnitStack&>>::iterator it = colliderInfo.find("M");
-    if (it != colliderInfo.end()){ 
-        const AnyMap& colliders_i = it->second.first;
-        const UnitStack& rate_units_i = it->second.second;
+    map<string, pair<const AnyMap&,const UnitStack&>>::iterator it3 = colliderInfo.find("M");
+    if (it3 != colliderInfo.end()){ 
+        const AnyMap& colliders_i = it3->second.first;
+        const UnitStack& rate_units_i = it3->second.second;
         //Case 4.1: "M" is of PLOG type
         if(colliders_i.hasKey("rate-constants")){ 
             plog_data.logP = logP_+log(eig0_mix)-log(eig0_M); //CRUCIAL STEP: replace logP with log of the effective pressure w.r.t. eig0_M
@@ -153,11 +153,11 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
     for (size_t i=0; i<yamlSpecies.size(); i++){ //testing each species listed at the top of yaml file
         double k;
         double eig0;
-        map<string, pair<const AnyMap&,const UnitStack&>>::iterator it = colliderInfo.find(yamlSpecies[i]);
+        map<string, pair<const AnyMap&,const UnitStack&>>::iterator it4 = colliderInfo.find(yamlSpecies[i]);
         //Case 5.1: yaml species has at least an eig0 value provided for LMRR
-        if (it != colliderInfo.end()){ 
-            const AnyMap& colliders_i = it->second.first;
-            const UnitStack& rate_units_i = it->second.second;
+        if (it4 != colliderInfo.end()){ 
+            const AnyMap& colliders_i = it4->second.first;
+            const UnitStack& rate_units_i = it4->second.second;
             eig0 = ArrheniusRate(AnyValue(colliders_i["eig0"]), colliders_i.units(), rate_units_i).evalRate(logT, recipT);
             //Case 5.1.1: yaml species has LMRR data provided in PLOG format
             if(colliders_i.hasKey("rate-constants")){
