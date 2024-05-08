@@ -82,6 +82,49 @@ void LmrRate::setParameters(const AnyMap& node, const UnitStack& rate_units){
     }
 }
 
+void LmrRate::getParameters(AnyMap& rateNode, const Units& rate_units) const{ //STILL NEED TO ACCOUNT FOR TROE AND PLOG DATA ENTRY
+    vector<AnyMap> topLevelList;
+    for (const auto& entry : colliderInfo) {
+        string name = entry.first;
+        const AnyMap& colliders_i = entry.second.first;
+        const UnitStack& rate_units_i = entry.second.second;
+        AnyMap colliderNode;
+        if(colliders_i.hasKey("rate-constants")){
+            colliderNode["collider"]=name;
+            colliderNode["eig0"]=colliders_i["eig0"];
+            colliderNode["rate-constants"]=colliders_i["rate-constants"];
+        } 
+        else if(colliders_i.hasKey("Troe")){
+            colliderNode["collider"]=name;
+            colliderNode["eig0"]=colliders_i["eig0"];
+            colliderNode["low-P-rate-constant"]=colliders_i["low-P-rate-constant"];
+            colliderNode["high-P-rate-constant"]=colliders_i["high-P-rate-constant"];
+            colliderNode["Troe"]=colliders_i["Troe"];
+        } 
+        else if(colliders_i.hasKey("data")&&colliders_i.hasKey("pressure-range")&&colliders_i.hasKey("temperature-range")){ //"M" is of Chebyshev type
+            colliderNode["collider"]=name;
+            colliderNode["eig0"]=colliders_i["eig0"];
+            colliderNode["temperature-range"]=colliders_i["temperature-range"];
+            colliderNode["pressure-range"]=colliders_i["pressure-range"];
+            colliderNode["data"]=colliders_i["data"];
+        } 
+        else {
+            colliderNode["collider"]=name;
+            colliderNode["eig0"]=colliders_i["eig0"];
+        }
+        topLevelList.push_back(std::move(colliderNode));
+    }
+    rateNode["collider-list"]=std::move(topLevelList);
+}
+
+void LmrRate::validate(const string& equation, const Kinetics& kin)
+{
+    if (!valid()) {
+        throw InputFileError("LmrRate::validate", m_input,
+            "Rate object for reaction '{}' is not configured.", equation);
+    }
+}
+
 double LmrRate::evalFromStruct(const LmrData& shared_data){
     //STEP 0: CALL PARAMS FROM SHARED DATA STRUCT
     vector<double> X = shared_data.moleFractions;
@@ -188,40 +231,7 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
     return k_LMR;
 }
 
-void LmrRate::getParameters(AnyMap& rateNode, const Units& rate_units) const{ //STILL NEED TO ACCOUNT FOR TROE AND PLOG DATA ENTRY
-    vector<AnyMap> topLevelList;
-    for (const auto& entry : colliderInfo) {
-        string name = entry.first;
-        const AnyMap& colliders_i = entry.second.first;
-        const UnitStack& rate_units_i = entry.second.second;
-        AnyMap colliderNode;
-        if(colliders_i.hasKey("rate-constants")){
-            colliderNode["collider"]=name;
-            colliderNode["eig0"]=colliders_i["eig0"];
-            colliderNode["rate-constants"]=colliders_i["rate-constants"];
-        } 
-        else if(colliders_i.hasKey("Troe")){
-            colliderNode["collider"]=name;
-            colliderNode["eig0"]=colliders_i["eig0"];
-            colliderNode["low-P-rate-constant"]=colliders_i["low-P-rate-constant"];
-            colliderNode["high-P-rate-constant"]=colliders_i["high-P-rate-constant"];
-            colliderNode["Troe"]=colliders_i["Troe"];
-        } 
-        else if(colliders_i.hasKey("data")&&colliders_i.hasKey("pressure-range")&&colliders_i.hasKey("temperature-range")){ //"M" is of Chebyshev type
-            colliderNode["collider"]=name;
-            colliderNode["eig0"]=colliders_i["eig0"];
-            colliderNode["temperature-range"]=colliders_i["temperature-range"];
-            colliderNode["pressure-range"]=colliders_i["pressure-range"];
-            colliderNode["data"]=colliders_i["data"];
-        } 
-        else {
-            colliderNode["collider"]=name;
-            colliderNode["eig0"]=colliders_i["eig0"];
-        }
-        topLevelList.push_back(std::move(colliderNode));
-    }
-    rateNode["collider-list"]=std::move(topLevelList);
-}
+
 
 }
 
