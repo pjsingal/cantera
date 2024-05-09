@@ -23,7 +23,6 @@ bool LmrData::update(const ThermoPhase& phase, const Kinetics& kin){
     double P = phase.pressure(); //find out what units this is in
     int X = phase.stateMFNumber();
 
-
     //Get the list of all species in yaml (not just the ones for which LMRR data exists)
     if (allSpecies_.empty()){
         allSpecies_ = phase.speciesNames();
@@ -82,47 +81,37 @@ void LmrRate::setParameters(const AnyMap& node, const UnitStack& rate_units){
     }
 }
 
-void LmrRate::getParameters(AnyMap& rateNode, const Units& rate_units) const{ //STILL NEED TO ACCOUNT FOR TROE AND PLOG DATA ENTRY
-    vector<AnyMap> topLevelList;
-    for (const auto& entry : colliderInfo) {
-        string name = entry.first;
-        const AnyMap& colliders_i = entry.second.first;
-        const UnitStack& rate_units_i = entry.second.second;
-        AnyMap colliderNode;
-        if(colliders_i.hasKey("rate-constants")){
-            colliderNode["collider"]=name;
-            colliderNode["eig0"]=colliders_i["eig0"];
-            colliderNode["rate-constants"]=colliders_i["rate-constants"];
-        } 
-        else if(colliders_i.hasKey("Troe")){
-            colliderNode["collider"]=name;
-            colliderNode["eig0"]=colliders_i["eig0"];
-            colliderNode["low-P-rate-constant"]=colliders_i["low-P-rate-constant"];
-            colliderNode["high-P-rate-constant"]=colliders_i["high-P-rate-constant"];
-            colliderNode["Troe"]=colliders_i["Troe"];
-        } 
-        else if(colliders_i.hasKey("data")&&colliders_i.hasKey("pressure-range")&&colliders_i.hasKey("temperature-range")){ //"M" is of Chebyshev type
-            colliderNode["collider"]=name;
-            colliderNode["eig0"]=colliders_i["eig0"];
-            colliderNode["temperature-range"]=colliders_i["temperature-range"];
-            colliderNode["pressure-range"]=colliders_i["pressure-range"];
-            colliderNode["data"]=colliders_i["data"];
-        } 
-        else {
-            colliderNode["collider"]=name;
-            colliderNode["eig0"]=colliders_i["eig0"];
-        }
-        topLevelList.push_back(std::move(colliderNode));
-    }
-    rateNode["collider-list"]=std::move(topLevelList);
-}
-
 void LmrRate::validate(const string& equation, const Kinetics& kin)
 {
     if (!valid()) {
         throw InputFileError("LmrRate::validate", m_input,
             "Rate object for reaction '{}' is not configured.", equation);
     }
+}
+
+void LmrRate::syncPlogData(const LmrData& shared_data, PlogData& plog_data){
+    plog_data.logP = shared_data.logP;
+    plog_data.logT = shared_data.logT;
+    plog_data.pressure = shared_data.pressure;
+    plog_data.recipT = shared_data.recipT;
+    plog_data.temperature = shared_data.temperature;
+}
+
+void LmrRate::syncTroeData(const LmrData& shared_data, FalloffData& troe_data){
+    troe_data.conc_3b = shared_data.moleFractions;
+    troe_data.logT = shared_data.logT;
+    // troe_data.molar_density = shared_data.pressure; //
+    troe_data.ready = shared_data.ready;
+    troe_data.recipT = shared_data.recipT;
+    troe_data.temperature = shared_data.temperature;
+}
+
+void LmrRate::syncChebData(const LmrData& shared_data, ChebyshevData& cheb_data){
+    cheb_data.log10P=shared_data.logP;
+    cheb_data.logT=shared_data.logT;
+    cheb_data.pressure=shared_data.pressure;
+    cheb_data.recipT=shared_data.recipT;
+    cheb_data.temperature=shared_data.temperature;
 }
 
 double LmrRate::evalFromStruct(const LmrData& shared_data){
@@ -158,13 +147,15 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
         }
     }
 
+
     //STEP 3: DEFINE DATA OBJECTS FOR PLOG, TROE, AND CHEBYSHEV
+    
     PlogData plog_data;
     FalloffData troe_data;
     ChebyshevData cheb_data;
-    // plog_data.logT, plog_data.recipT, plog_data.logP = logT, recipT, logP_; 
-    // troe_data.logT, troe_data.recipT = logT, recipT; 
-    // cheb_data.logT, cheb_data.recipT = logT, recipT; 
+    syncPlogData(shared_data, plog_data);
+    syncTroeData(shared_data, troe_data);
+    syncChebData(shared_data, cheb_data);
     
     //STEP 4: GET K FOR THE GENERIC COLLIDER 'M'
     double k_M;
@@ -174,16 +165,24 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
         const UnitStack& rate_units_i = it3->second.second;
         //Case 4.1: "M" is of PLOG type
         if(colliders_i.hasKey("rate-constants")){ 
+            
             plog_data.logP = logP_+log(eig0_mix)-log(eig0_M); //CRUCIAL STEP: replace logP with log of the effective pressure w.r.t. eig0_M
+            
+            //calling PlogRate(colliders_i,rate_units_i); is basically just calling setParameters within PlogRate
+            // newobj.
+            
             k_M = PlogRate(colliders_i,rate_units_i).evalFromStruct(plog_data);
+            // k_M = 0.005;
         } 
         //Case 4.2: "M" is of Troe type
         else if(colliders_i.hasKey("Troe")){ 
             k_M = TroeRate(colliders_i,rate_units_i).evalFromStruct(troe_data);
+            // k_M = 0.005;
         } 
         //Case 4.3: "M" is of Chebyshev type
         else if(colliders_i.hasKey("data")&&colliders_i.hasKey("pressure-range")&&colliders_i.hasKey("temperature-range")){ 
             k_M = ChebyshevRate(colliders_i,rate_units_i).evalFromStruct(cheb_data);
+            // k_M = 0.005;
         } 
         //Case 4.4: insufficient data has been provided for "M"
         else {
@@ -206,14 +205,17 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
             if(colliders_i.hasKey("rate-constants")){
                 plog_data.logP = logP_+log(eig0_mix)-log(eig0); //CRUCIAL STEP: replace logP with log of the effective pressure w.r.t. eig0
                 k = PlogRate(colliders_i,rate_units_i).evalFromStruct(plog_data);
+                // k=0.005;
             } 
             //Case 5.1.2: yaml species has LMRR data provided in Troe format
             else if(colliders_i.hasKey("Troe")){ //"M" is of Troe type
                 k = TroeRate(colliders_i,rate_units_i).evalFromStruct(troe_data);
+                // k=0.005;
             } 
             //Case 5.1.3: yaml species has LMRR data provided in Chebyshev format
             else if(colliders_i.hasKey("data")&&colliders_i.hasKey("pressure-range")&&colliders_i.hasKey("temperature-range")){ //"M" is of Chebyshev type
                 k = ChebyshevRate(colliders_i,rate_units_i).evalFromStruct(cheb_data);
+                // k=0.005;
             } 
             //Case 5.1.4: yaml species has an eig0 but no additional LMRR data, so treat its rate as same as "M"
             else {
@@ -231,7 +233,40 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
     return k_LMR;
 }
 
-
+void LmrRate::getParameters(AnyMap& rateNode, const Units& rate_units) const{ //STILL NEED TO ACCOUNT FOR TROE AND PLOG DATA ENTRY
+    vector<AnyMap> topLevelList;
+    for (const auto& entry : colliderInfo) {
+        string name = entry.first;
+        const AnyMap& colliders_i = entry.second.first;
+        const UnitStack& rate_units_i = entry.second.second;
+        AnyMap colliderNode;
+        if(colliders_i.hasKey("rate-constants")){
+            colliderNode["collider"]=name;
+            colliderNode["eig0"]=colliders_i["eig0"];
+            colliderNode["rate-constants"]=colliders_i["rate-constants"];
+        } 
+        else if(colliders_i.hasKey("Troe")){
+            colliderNode["collider"]=name;
+            colliderNode["eig0"]=colliders_i["eig0"];
+            colliderNode["low-P-rate-constant"]=colliders_i["low-P-rate-constant"];
+            colliderNode["high-P-rate-constant"]=colliders_i["high-P-rate-constant"];
+            colliderNode["Troe"]=colliders_i["Troe"];
+        } 
+        else if(colliders_i.hasKey("data")&&colliders_i.hasKey("pressure-range")&&colliders_i.hasKey("temperature-range")){ //"M" is of Chebyshev type
+            colliderNode["collider"]=name;
+            colliderNode["eig0"]=colliders_i["eig0"];
+            colliderNode["temperature-range"]=colliders_i["temperature-range"];
+            colliderNode["pressure-range"]=colliders_i["pressure-range"];
+            colliderNode["data"]=colliders_i["data"];
+        } 
+        else {
+            colliderNode["collider"]=name;
+            colliderNode["eig0"]=colliders_i["eig0"];
+        }
+        topLevelList.push_back(std::move(colliderNode));
+    }
+    rateNode["collider-list"]=std::move(topLevelList);
+}
 
 }
 

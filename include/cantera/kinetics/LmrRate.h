@@ -5,7 +5,10 @@
 #ifndef CT_LMRRATE_H
 #define CT_LMRRATE_H
 #include "cantera/kinetics/Arrhenius.h"
-#include "cantera/base/Array.h"
+#include "cantera/kinetics/Falloff.h"
+#include "cantera/kinetics/ChebyshevRate.h"
+#include "cantera/kinetics/PlogRate.h"
+// #include "cantera/base/Array.h"
 // #include "cantera/base/FactoryBase.h"
 // #include "cantera/kinetics/Reaction.h"
 
@@ -14,14 +17,12 @@ namespace Cantera{
 struct LmrData : public ReactionData{
     // LmrData() = default;
     LmrData();
-    
-    //recent adds
+
     void update(double T, double P) override {
         ReactionData::update(T);
         pressure = P;
         logP = std::log(P);
     }
-    //end of recent adds
 
     bool update(const ThermoPhase& phase, const Kinetics& kin) override;
     using ReactionData::update;
@@ -42,11 +43,14 @@ struct LmrData : public ReactionData{
     bool ready = false; //!< boolean indicating whether vectors are accessible
     vector<double> moleFractions;
     int mfNumber; 
-    vector<string> allSpecies_; //list of all yaml species (not just those for which LMRR data exists)
+    vector<string> allSpecies_; //list of all yaml species (not just those for which LMRR data exists)  
     
-    
-protected:
+// protected:
     double m_pressure_buf = -1.0; //!< buffered pressure
+
+
+    //Troe params
+
 };
 
 
@@ -57,16 +61,26 @@ public:
     LmrRate() = default;//! Default constructor.
     explicit LmrRate(const std::multimap<double, ArrheniusRate>& rates);
     LmrRate(const AnyMap& node, const UnitStack& rate_units={});
+    unique_ptr<MultiRateBase> newMultiRate() const override {
+        return make_unique<MultiRate<LmrRate, LmrData>>();
+    }
     const string type() const override { return "LMR_R"; } //! Identifier of reaction rate type
 
-    map<string, pair<const AnyMap&,const UnitStack&>> colliderInfo;
+    
     void setParameters(const AnyMap& node, const UnitStack& rate_units) override;
     void getParameters(AnyMap& rateNode, const Units& rate_units) const;
     void getParameters(AnyMap& rateNode) const override {
         return getParameters(rateNode, Units(0));
     }
+
+    void syncPlogData(const LmrData& shared_data, PlogData& plog_data);
+    void syncTroeData(const LmrData& shared_data, FalloffData& troe_data);
+    void syncChebData(const LmrData& shared_data, ChebyshevData& cheb_data);
+
     double evalFromStruct(const LmrData& shared_data);
     void validate(const string& equation, const Kinetics& kin) override; //removed from cpp, but re-insert later
+
+    map<string, pair<const AnyMap&,const UnitStack&>> colliderInfo;
 
 protected:
     double logP_ = -1000;
