@@ -24,11 +24,11 @@ bool LmrData::update(const ThermoPhase& phase, const Kinetics& kin){
     int X = phase.stateMFNumber();
 
     //Get the list of all species in yaml (not just the ones for which LMRR data exists)
-    if (allSpecies.empty()){
-        allSpecies = phase.speciesNames();
+    if (allSpecies_.empty()){
+        allSpecies_ = phase.speciesNames();
     }
     if (moleFractions.empty()){
-        moleFractions.resize(allSpecies.size());
+        moleFractions.resize(allSpecies_.size());
     }
     if (P != pressure || T != temperature || X != mfNumber) {
         ReactionData::update(T);
@@ -93,11 +93,10 @@ void LmrRate::validate(const string& equation, const Kinetics& kin)
 }
 
 double LmrRate::evalPlogRate(const LmrData& shared_data, double eig0val){
-    //writelog("1\n");
     // writelog("syncPlogData-0\n");
     PlogData plog_data;
     PlogRate plog_rate;
-    plog_data.logP = shared_data.logP+log(eig0_mix)-log(eig0val); //CRUCIAL STEP: replace logP with log of the effective pressure w.r.t. eig0_M
+    plog_data.logP = logP_+log(eig0_mix)-log(eig0val); //CRUCIAL STEP: replace logP with log of the effective pressure w.r.t. eig0_M
     plog_data.logT = shared_data.logT;
     plog_data.pressure = shared_data.pressure;
     plog_data.recipT = shared_data.recipT;
@@ -105,19 +104,7 @@ double LmrRate::evalPlogRate(const LmrData& shared_data, double eig0val){
     plog_rate.setParameters(colliders_i,rate_units_i);
     plog_rate.updateFromStruct(plog_data);
     // writelog("syncPlogData-0\n");
-    double logPeff = shared_data.logP+log(eig0_mix)-log(eig0val);
-    // writelog("logPeff = ");
-    // writelog(std::to_string(logPeff));
-    // writelog("\n");
-    // writelog("eig0_mix = ");
-    // writelog(std::to_string(eig0_mix));
-    // writelog("\n");
-    double kM = plog_rate.evalFromStruct(plog_data);
-    writelog("kM = ");
-    writelog(std::to_string(kM));
-    writelog("\n");
-    //writelog("2\n");
-    return kM;
+    return plog_rate.evalFromStruct(plog_data);
 }
 
 double LmrRate::evalTroeRate(const LmrData& shared_data, double eig0val){
@@ -132,11 +119,8 @@ double LmrRate::evalTroeRate(const LmrData& shared_data, double eig0val){
     troe_data.temperature = shared_data.temperature;
     troe_rate.setParameters(colliders_i,rate_units_i);
     // writelog("syncTroeData-1");
-    double kM = troe_rate.evalFromStruct(troe_data);
-    writelog("kM = ");
-    writelog(std::to_string(kM));
-    writelog("\n");
-    return kM;
+    return troe_rate.evalFromStruct(troe_data);
+
 }
 
 double LmrRate::evalChebyshevRate(const LmrData& shared_data, double eig0val){
@@ -151,21 +135,17 @@ double LmrRate::evalChebyshevRate(const LmrData& shared_data, double eig0val){
     cheb_rate.setParameters(colliders_i,rate_units_i);
     cheb_rate.updateFromStruct(cheb_data);
     // writelog("syncChebData-1");
-    double kM = cheb_rate.evalFromStruct(cheb_data);
-    writelog("kM = ");
-    writelog(std::to_string(kM));
-    writelog("\n");
-    return kM;
+    return cheb_rate.evalFromStruct(cheb_data);
 }
 
 double LmrRate::evalFromStruct(const LmrData& shared_data){
-
     // writelog("evalfromstruct-0\n");
     //STEP 0: CALL PARAMS FROM SHARED DATA STRUCT
-    // vector<double> X = shared_data.moleFractions;
-    // double logT = shared_data.logT;
-    // double recipT = shared_data.recipT;
-    // logP_ = shared_data.logP;
+    vector<double> X = shared_data.moleFractions;
+    double logT = shared_data.logT;
+    double recipT = shared_data.recipT;
+    logP_ = shared_data.logP;
+    vector<string> yamlSpecies = shared_data.allSpecies_;
 
     // if (colliderInfo.empty()){
     //     throw InputFileError("LmrRate::evalFromStruct", m_input,"Not enough data provided for species 'M'.");
@@ -174,47 +154,34 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
     //STEP 1: GET EIG0_M
     
     // map<string, pair<const AnyMap&,const UnitStack&>>::iterator it1 = colliderInfo.find("M");
-    // auto& it1 = colliderInfo.find("M");
-    double eig0_M;
-    // auto& it1 = colliderInfo.find("M");
-    // if (it1 != colliderInfo.end()){ 
-    //     colliders_M = it1->second.first;
-    //     rate_units_M = it1->second.second;
-    //     eig0_M=ArrheniusRate(AnyValue(colliders_M["eig0"]), colliders_M.units(), rate_units_M).evalRate(shared_data.logT, shared_data.recipT); //SEGFAULT LIKELY STEMS FROM RIGHT HERE
-    // }
-    auto it1 =colliderInfo.begin();
-    auto colliders_M=it1->second.first;
-    auto rate_units_M = it1->second.second;
-    eig0_M=ArrheniusRate(AnyValue(colliders_M["eig0"]), colliders_M.units(), rate_units_M).evalRate(shared_data.logT, shared_data.recipT);
-
-    writelog("eig0_M = ");
-    writelog(std::to_string(eig0_M));
-    writelog("\n");
+    map<string, pair<AnyMap,UnitStack>>::iterator it1 = colliderInfo.find("M");
+        if (it1 != colliderInfo.end()){ 
+            const AnyMap& colliders_i = it1->second.first;
+            const UnitStack& rate_units_i = it1->second.second;
+            eig0_M=ArrheniusRate(AnyValue(colliders_i["eig0"]), colliders_i.units(), rate_units_i).evalRate(logT, recipT); //SEGFAULT LIKELY STEMS FROM RIGHT HERE
+    }
 
     //STEP 2: GET EIG0_MIX
     
-    for (size_t i=0; i<shared_data.allSpecies.size(); i++){ //testing each species listed at the top of yaml file
+    for (size_t i=0; i<yamlSpecies.size(); i++){ //testing each species listed at the top of yaml file
         // map<string, pair<const AnyMap&,const UnitStack&>>::iterator it2 = colliderInfo.find(yamlSpecies[i]);
-        auto it2 = colliderInfo.find(shared_data.allSpecies[i]);
+        map<string, pair<AnyMap,UnitStack>>::iterator it2 = colliderInfo.find(yamlSpecies[i]);
         //Case 2.1: yaml species has at least an eig0 value provided for LMRR 
         if (it2 != colliderInfo.end()) {
-            colliders_i = it2->second.first;
-            rate_units_i = it2->second.second;
-            eig0_mix += shared_data.moleFractions[i]*ArrheniusRate(AnyValue(colliders_i["eig0"]), colliders_i.units(), rate_units_i).evalRate(shared_data.logT, shared_data.recipT); //SEGFAULT LIKELY STEMS FROM RIGHT HERE
+            const AnyMap& colliders_i = it2->second.first;
+            const UnitStack& rate_units_i = it2->second.second;
+            eig0_mix += X[i]*ArrheniusRate(AnyValue(colliders_i["eig0"]), colliders_i.units(), rate_units_i).evalRate(logT, recipT); //SEGFAULT LIKELY STEMS FROM RIGHT HERE
         }
         //Case 2.2: yaml species has no data provided for LMRR (treat as "M")
         else {
-            eig0_mix += shared_data.moleFractions[i]*eig0_M;
+            eig0_mix += X[i]*eig0_M;
         }
     }
-    writelog("eig0_mix = ");
-    writelog(std::to_string(eig0_mix));
-    writelog("\n");
 
     //STEP 4: GET K FOR THE GENERIC COLLIDER 'M'
     double k_M;
     // map<string, pair<const AnyMap&,const UnitStack&>>::iterator it3 = colliderInfo.find("M");
-    auto it3 = colliderInfo.find("M");
+    map<string, pair<AnyMap,UnitStack>>::iterator it3 = colliderInfo.find("M");
     if (it3 != colliderInfo.end()){ 
         colliders_i = it3->second.first;
         rate_units_i = it3->second.second;
@@ -223,7 +190,7 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
             k_M = evalPlogRate(shared_data, eig0_M);
         } 
         //Case 4.2: "M" is of Troe type
-        else if(colliders_i.hasKey("low-P-rate-constant")&&colliders_i.hasKey("high-P-rate-constant")&&colliders_i.hasKey("Troe")){ 
+        else if(colliders_i.hasKey("Troe")){ 
             k_M = evalTroeRate(shared_data, eig0_M);
         } 
         //Case 4.3: "M" is of Chebyshev type
@@ -236,69 +203,21 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
         }
     }
 
-    // //STEP 3: GET K FOR THE GENERIC COLLIDER 'M'
-    
-    // //Case 4.1: "M" is of PLOG type
-    // if(colliders_M.hasKey("rate-constants")){
-    //     writelog("0\n");
-    //     k_M = evalPlogRate(shared_data, eig0_M); //requires eig0_mix
-    //     writelog("4\n");
-    // } 
-    // //Case 4.2: "M" is of Troe type
-    // else if(colliders_M.hasKey("Troe")){ 
-    //     k_M = evalTroeRate(shared_data, eig0_M);
-    // } 
-    // //Case 4.3: "M" is of Chebyshev type
-    // else if(colliders_M.hasKey("pressure-range")){ 
-    //     k_M = evalChebyshevRate(shared_data, eig0_M);
-    // } 
-    // //Case 4.4: insufficient data has been provided for "M"
-    // else {
-    //     throw InputFileError("LmrRate::evalFromStruct", m_input,"Not enough data provided for species 'M'.");
-    // }
-
-    writelog("k_M = ");
-    writelog(std::to_string(k_M));
-    writelog("\n");
-
-
-    // auto it3 = colliderInfo.find("M");
-    // if (it3 != colliderInfo.end()){ 
-    //     colliders_i = it3->second.first;
-    //     rate_units_i = it3->second.second;
-    //     //Case 4.1: "M" is of PLOG type
-    //     if(colliders_i.hasKey("rate-constants")){
-    //         k_M = evalPlogRate(shared_data, eig0_M);
-    //     } 
-    //     //Case 4.2: "M" is of Troe type
-    //     else if(colliders_i.hasKey("Troe")){ 
-    //         k_M = evalTroeRate(shared_data, eig0_M);
-    //     } 
-    //     //Case 4.3: "M" is of Chebyshev type
-    //     else if(colliders_i.hasKey("pressure-range")){ 
-    //         k_M = evalChebyshevRate(shared_data, eig0_M);
-    //     } 
-    //     //Case 4.4: insufficient data has been provided for "M"
-    //     else {
-    //         throw InputFileError("LmrRate::evalFromStruct", m_input,"Not enough data provided for species 'M'.");
-    //     }
-    // }
-
     //STEP 5: GET K AND EIG0 FOR ALL SPECIES LISTED AT TOP OF YAML FILE AND THEN COMPUTE K_LMR
     double k_LMR=0.0;
-    for (size_t i=0; i<shared_data.allSpecies.size(); i++){ //testing each species listed at the top of yaml file
+    for (size_t i=0; i<yamlSpecies.size(); i++){ //testing each species listed at the top of yaml file
         double k;
         double eig0;
-        auto it4 = colliderInfo.find(shared_data.allSpecies[i]);
+        map<string, pair<AnyMap,UnitStack>>::iterator it4 = colliderInfo.find(yamlSpecies[i]);
         //Case 5.1: yaml species has at least an eig0 value provided for LMRR
         if (it4 != colliderInfo.end()){ 
             // writelog("A  ");
-            // string speciesID = it4->first;
+            string speciesID = it4->first;
             // writelog(speciesID);
             // writelog("\n");
             colliders_i = it4->second.first;
             rate_units_i = it4->second.second;
-            eig0 = ArrheniusRate(AnyValue(colliders_i["eig0"]), colliders_i.units(), rate_units_i).evalRate(shared_data.logT, shared_data.recipT);
+            eig0 = ArrheniusRate(AnyValue(colliders_i["eig0"]), colliders_i.units(), rate_units_i).evalRate(logT, recipT);
             //Case 5.1.1: yaml species has LMRR data provided in PLOG format
             if(colliders_i.hasKey("rate-constants")){
                 // writelog("plog");
@@ -310,7 +229,7 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
                 k = evalTroeRate(shared_data, eig0);
             } 
             //Case 5.1.3: yaml species has LMRR data provided in Chebyshev format
-            else if(colliders_i.hasKey("pressure-range")){ //"M" is of Chebyshev type
+            else if(colliders_i.hasKey("data")&&colliders_i.hasKey("pressure-range")&&colliders_i.hasKey("temperature-range")){ //"M" is of Chebyshev type
                 k = evalChebyshevRate(shared_data, eig0);
             } 
             //Case 5.1.4: yaml species has an eig0 but no additional LMRR data, so treat its rate as same as "M"
@@ -324,7 +243,8 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
             k=k_M;
             eig0=eig0_M;
         }
-        k_LMR += k*eig0*shared_data.moleFractions[i]/eig0_mix; //Note: Xtilde = eig0*shared_data.moleFractions[i]/eig0_mix;
+        double Xtilde = eig0*X[i]/eig0_mix; 
+        k_LMR += k*Xtilde;
     }
     // writelog("evalfromstruct-1\n");
     return k_LMR;

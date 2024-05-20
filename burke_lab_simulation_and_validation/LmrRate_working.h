@@ -43,7 +43,7 @@ struct LmrData : public ReactionData{
     bool ready = false; //!< boolean indicating whether vectors are accessible
     vector<double> moleFractions;
     int mfNumber; 
-    vector<string> allSpecies; //list of all yaml species (not just those for which LMRR data exists)  
+    vector<string> allSpecies_; //list of all yaml species (not just those for which LMRR data exists)  
     
 // protected:
     double m_pressure_buf = -1.0; //!< buffered pressure
@@ -79,18 +79,16 @@ public:
     double evalPlogRate(const LmrData& shared_data, double eig0val);
     double evalTroeRate(const LmrData& shared_data, double eig0val);
     double evalChebyshevRate(const LmrData& shared_data, double eig0val);
+
     double evalFromStruct(const LmrData& shared_data);
     void validate(const string& equation, const Kinetics& kin) override; //removed from cpp, but re-insert later
 
     double eig0_mix=0.0;
-    
+    double eig0_M;
     AnyMap colliders_i;
-    // AnyMap colliders_M;
-
     UnitStack rate_units_i;
-    // UnitStack rate_units_M;
-    // double eig0_M;
-    // double k_M;
+
+
 
 
 protected:

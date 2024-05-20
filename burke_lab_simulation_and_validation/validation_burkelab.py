@@ -6,8 +6,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 bklabct.print_stack_trace_on_segfault()
 
-file = 'C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\kineticsfromscratch_LMRtest.yaml'
-reactions = ['H + O2 <=> HO2']
+file = 'C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_testcopy.yaml'
+# reactions = ['2 OH (+ M) <=>  H2O2 (+ M)','H + O2 <=> HO2','HO2 <=> OH + O']
+reactions = ['NH3 (+M) <=> H + NH2 (+M)','2 NH2 (+M) <=> N2H4 (+M)']
+# reactions = ['NH3 (+M) <=> H + NH2 (+M)']
 gas = bklabct.Solution(file)
 #Temp = np.linspace(750,2500,50)
 Temp=[1000]
