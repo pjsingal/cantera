@@ -104,20 +104,15 @@ double LmrRate::evalPlogRate(const LmrData& shared_data, double eig0val){
     plog_data.temperature = shared_data.temperature;
     plog_rate.setParameters(colliders_i,rate_units_i);
     plog_rate.updateFromStruct(plog_data);
-    // writelog("syncPlogData-0\n");
-    double logPeff = shared_data.logP+log(eig0_mix)-log(eig0val);
+    // // writelog("syncPlogData-0\n");
+    // double logPeff = shared_data.logP+log(eig0_mix)-log(eig0val);
     // writelog("logPeff = ");
     // writelog(std::to_string(logPeff));
     // writelog("\n");
     // writelog("eig0_mix = ");
     // writelog(std::to_string(eig0_mix));
     // writelog("\n");
-    double kM = plog_rate.evalFromStruct(plog_data);
-    writelog("kM = ");
-    writelog(std::to_string(kM));
-    writelog("\n");
-    //writelog("2\n");
-    return kM;
+    return plog_rate.evalFromStruct(plog_data);
 }
 
 double LmrRate::evalTroeRate(const LmrData& shared_data, double eig0val){
@@ -130,13 +125,10 @@ double LmrRate::evalTroeRate(const LmrData& shared_data, double eig0val){
     troe_data.ready = shared_data.ready;
     troe_data.recipT = shared_data.recipT;
     troe_data.temperature = shared_data.temperature;
+    // colliders_i["type"]; 
     troe_rate.setParameters(colliders_i,rate_units_i);
     // writelog("syncTroeData-1");
-    double kM = troe_rate.evalFromStruct(troe_data);
-    writelog("kM = ");
-    writelog(std::to_string(kM));
-    writelog("\n");
-    return kM;
+    return troe_rate.evalFromStruct(troe_data);
 }
 
 double LmrRate::evalChebyshevRate(const LmrData& shared_data, double eig0val){
@@ -151,11 +143,7 @@ double LmrRate::evalChebyshevRate(const LmrData& shared_data, double eig0val){
     cheb_rate.setParameters(colliders_i,rate_units_i);
     cheb_rate.updateFromStruct(cheb_data);
     // writelog("syncChebData-1");
-    double kM = cheb_rate.evalFromStruct(cheb_data);
-    writelog("kM = ");
-    writelog(std::to_string(kM));
-    writelog("\n");
-    return kM;
+    return cheb_rate.evalFromStruct(cheb_data);
 }
 
 double LmrRate::evalFromStruct(const LmrData& shared_data){
@@ -212,23 +200,34 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
     writelog("\n");
 
     //STEP 4: GET K FOR THE GENERIC COLLIDER 'M'
-    double k_M;
+    double k_M=0.0;
     // map<string, pair<const AnyMap&,const UnitStack&>>::iterator it3 = colliderInfo.find("M");
     auto it3 = colliderInfo.find("M");
     if (it3 != colliderInfo.end()){ 
         colliders_i = it3->second.first;
         rate_units_i = it3->second.second;
+        
         //Case 4.1: "M" is of PLOG type
         if(colliders_i.hasKey("rate-constants")){
-            k_M = evalPlogRate(shared_data, eig0_M);
+            k_M += evalPlogRate(shared_data, eig0_M);
+            writelog("kM_plog = ");
+            writelog(std::to_string(k_M));
+            writelog("\n");
         } 
         //Case 4.2: "M" is of Troe type
         else if(colliders_i.hasKey("low-P-rate-constant")&&colliders_i.hasKey("high-P-rate-constant")&&colliders_i.hasKey("Troe")){ 
-            k_M = evalTroeRate(shared_data, eig0_M);
+            k_M += evalTroeRate(shared_data, eig0_M);
+            writelog("kM_troe = ");
+            writelog(std::to_string(k_M));
+            writelog("\n");
+            // colliders_i["type"]="LMR_R"; //this dummy key needs to be defined because falloff.cpp requires it
         } 
         //Case 4.3: "M" is of Chebyshev type
         else if(colliders_i.hasKey("data")&&colliders_i.hasKey("pressure-range")&&colliders_i.hasKey("temperature-range")){ 
-            k_M = evalChebyshevRate(shared_data, eig0_M);
+            k_M += evalChebyshevRate(shared_data, eig0_M);
+            writelog("kM_cheb = ");
+            writelog(std::to_string(k_M));
+            writelog("\n");
         } 
         //Case 4.4: insufficient data has been provided for "M"
         else {
@@ -257,7 +256,7 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
     //     throw InputFileError("LmrRate::evalFromStruct", m_input,"Not enough data provided for species 'M'.");
     // }
 
-    writelog("k_M = ");
+    writelog("k_M_overall = ");
     writelog(std::to_string(k_M));
     writelog("\n");
 
@@ -298,24 +297,38 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
             // writelog("\n");
             colliders_i = it4->second.first;
             rate_units_i = it4->second.second;
+            
             eig0 = ArrheniusRate(AnyValue(colliders_i["eig0"]), colliders_i.units(), rate_units_i).evalRate(shared_data.logT, shared_data.recipT);
             //Case 5.1.1: yaml species has LMRR data provided in PLOG format
             if(colliders_i.hasKey("rate-constants")){
                 // writelog("plog");
                 k = evalPlogRate(shared_data, eig0);
+                writelog("k_plog = ");
+                writelog(std::to_string(k));
+                writelog("\n");
             } 
             //Case 5.1.2: yaml species has LMRR data provided in Troe format
             else if(colliders_i.hasKey("Troe")){ //"M" is of Troe type
                 // writelog("troe");
+                // colliders_i["type"]="LMR_R"; //this dummy key needs to be defined because falloff.cpp requires it
                 k = evalTroeRate(shared_data, eig0);
+                writelog("k_troe = ");
+                writelog(std::to_string(k));
+                writelog("\n");
             } 
             //Case 5.1.3: yaml species has LMRR data provided in Chebyshev format
             else if(colliders_i.hasKey("pressure-range")){ //"M" is of Chebyshev type
                 k = evalChebyshevRate(shared_data, eig0);
+                writelog("k_cheb = ");
+                writelog(std::to_string(k));
+                writelog("\n");
             } 
             //Case 5.1.4: yaml species has an eig0 but no additional LMRR data, so treat its rate as same as "M"
             else {
                 k = k_M;
+                writelog("k_eigOnly = ");
+                writelog(std::to_string(k));
+                writelog("\n");
             }
         }
         //Case 5.2: yaml species has no LMRR data, so treat its rate and eig0 as same as "M"
@@ -323,6 +336,9 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
             // writelog("B\n");
             k=k_M;
             eig0=eig0_M;
+                writelog("k_noLMRR = ");
+                writelog(std::to_string(k));
+                writelog("\n");
         }
         k_LMR += k*eig0*shared_data.moleFractions[i]/eig0_mix; //Note: Xtilde = eig0*shared_data.moleFractions[i]/eig0_mix;
     }

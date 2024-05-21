@@ -955,20 +955,20 @@ reactions:
   - collider: "H2O"
     eig0: {A: 1.14560e+01, b: 1.27501e-01, Ea: 1.31367e+03}
 
-- equation: 2 NH2 (+M) <=> N2H4 (+M)  # Reaction 90 (modified by Patrick Singal)
-  type: LMR_R
-  collider-list: 
-  - collider: "M" # data is actually for Ar
-    # type: falloff 
-    eig0: {A: 1, b: 0, Ea: 0} # all efficiencies from jasper
-    low-P-rate-constant: {A: 1.6e+34, b: -5.49, Ea: 1987.0}
-    high-P-rate-constant: {A: 5.6e+14, b: -0.414, Ea: 66.0}
-    Troe: {A: 0.31, T3: 1.0e-30, T1: 1.0e+30, T2: 1.0e+30}
-  - collider: "N2"
-    eig0: {A: 1.46848e+01, b: -3.00962e-01, Ea: 6.91004e+02}
-  - collider: "O2"
-    eig0: {A: 1.53608e+00, b: -3.90857e-02, Ea: 1.85675e+01}
-  - collider: "NH3"
-    eig0: {A: 1.64196e+01, b: -7.29636e-02, Ea: 1.53183e+03}
-  - collider: "H2O"
-    eig0: {A: 2.17658e+01, b: -1.14715e-01, Ea: 1.75408e+03}
+# - equation: 2 NH2 (+M) <=> N2H4 (+M)  # Reaction 90 (modified by Patrick Singal)
+#   type: LMR_R
+#   collider-list: 
+#   - collider: "M" # data is actually for Ar
+#     # type: falloff 
+#     eig0: {A: 1, b: 0, Ea: 0} # all efficiencies from jasper
+#     low-P-rate-constant: {A: 1.6e+34, b: -5.49, Ea: 1987.0}
+#     high-P-rate-constant: {A: 5.6e+14, b: -0.414, Ea: 66.0}
+#     Troe: {A: 0.31, T3: 1.0e-30, T1: 1.0e+30, T2: 1.0e+30}
+#   - collider: "N2"
+#     eig0: {A: 1.46848e+01, b: -3.00962e-01, Ea: 6.91004e+02}
+#   - collider: "O2"
+#     eig0: {A: 1.53608e+00, b: -3.90857e-02, Ea: 1.85675e+01}
+#   - collider: "NH3"
+#     eig0: {A: 1.64196e+01, b: -7.29636e-02, Ea: 1.53183e+03}
+#   - collider: "H2O"
+#     eig0: {A: 2.17658e+01, b: -1.14715e-01, Ea: 1.75408e+03}
