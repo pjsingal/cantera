@@ -12,7 +12,8 @@
     #include <Eigen/Dense>
     #endif
 #else
-#include "cantera/ext/eigen/Eigen/Dense"
+// #include "cantera/ext/eigen/Eigen/Dense"
+#include "cantera/ext/Eigen/Dense"
 #endif
 
 namespace Cantera
