@@ -4,6 +4,8 @@
 
 #include "cantera/kinetics/LmrRate.h"
 #include "cantera/thermo/ThermoPhase.h"
+// #include "cantera/kinetics/Reaction.h"
+// #include <sstream>
 
 namespace Cantera{
 
@@ -59,11 +61,49 @@ void LmrData::restore(){
 
 // Methods of class LmrRate
 LmrRate::LmrRate(const AnyMap& node, const UnitStack& rate_units){
+    // Reaction reactionInstance;
+    // size_t numReactants = reactionInstance.reactants.size();
+    // UnitStack rate_units_ = rate_units;
+    // if (numReactants>0) {
+    //     rate_units_.join(1);
+    // }
+    // writelog("numReactants = {}\n", numReactants);
+
     setParameters(node, rate_units);
 }
 
+// void BlowersMaselRate::setContext(const Reaction& rxn, const Kinetics& kin)
+// {
+//     m_stoich_coeffs.clear();
+//     for (const auto& [name, stoich] : rxn.reactants) {
+//         m_stoich_coeffs.emplace_back(kin.kineticsSpeciesIndex(name), -stoich);
+//     }
+//     for (const auto& [name, stoich] : rxn.products) {
+//         m_stoich_coeffs.emplace_back(kin.kineticsSpeciesIndex(name), stoich);
+//     }
+// }
+
 void LmrRate::setParameters(const AnyMap& node, const UnitStack& rate_units){
-    ReactionRate::setParameters(node, rate_units);
+    std::string rxn = node["equation"].as<std::string>();
+    vector<string> reactantList;
+    string component = "";
+    for (int i = 0; i < rxn.length(); i++) {
+        if (!(rxn[i]=='(') && !(rxn[i]==')') && !(rxn[i]=='+') && !(rxn[i]==' ') && !(rxn[i]=='<') && !(rxn[i]=='=') && !(rxn[i]=='>')){
+            component+=rxn[i];
+        } else if ((i>0 && rxn[i]==' ' && !(rxn[i-1]==')') && !(rxn[i-1]=='+'))  || rxn[i]==')') {
+            reactantList.push_back(component);
+            // writelog("component = {}\n", component);
+            component = "";
+        } else if (rxn[i]=='<'){
+            break;
+        }
+    } 
+    UnitStack rate_units_ = rate_units;
+    if (reactantList.size()>2){
+        rate_units_.join(1);
+    }
+    // writelog("numReactants = {}\n", reactantList.size());
+    ReactionRate::setParameters(node, rate_units_);
     if (node.hasKey("collider-list")) {
         // writelog_direct("TRUE1\n");
         auto& colliders = node["collider-list"].asVector<AnyMap>();
@@ -72,13 +112,13 @@ void LmrRate::setParameters(const AnyMap& node, const UnitStack& rate_units){
                 if(colliders[i].hasKey("rate-constants")){
                     string species_i_ = colliders[i]["collider"].as<std::string>();
                     // writelog("species_i_ = {}\n", species_i_);
-                    ArrheniusRate eig0_i_ = ArrheniusRate(AnyValue(colliders[i]["low-P-rate-constant"]), node.units(), rate_units);       
+                    ArrheniusRate eig0_i_ = ArrheniusRate(AnyValue(colliders[i]["low-P-rate-constant"]), node.units(), rate_units_);       
                     map<double, pair<size_t, size_t>> pressures_i_;
                     vector<ArrheniusRate> rates_i_; 
                     std::multimap<double, ArrheniusRate> multi_rates;
                     auto& rates = colliders[i]["rate-constants"].asVector<AnyMap>();
                     for (const auto& rate : rates){
-                        multi_rates.insert({rate.convert("P","Pa"),ArrheniusRate(AnyValue(rate), node.units(), rate_units)});
+                        multi_rates.insert({rate.convert("P","Pa"),ArrheniusRate(AnyValue(rate), node.units(), rate_units_)});
                     }
                     rates_i_.reserve(multi_rates.size());
                     m_valid = !multi_rates.empty(); //if rates object empty, m_valid==FALSE. if rates is not empty, m_valid==TRUE
@@ -109,7 +149,7 @@ void LmrRate::setParameters(const AnyMap& node, const UnitStack& rate_units){
                 }
                 else{
                     string species_i_extra_ = colliders[i]["collider"].as<std::string>();
-                    ArrheniusRate eig0_i_extra_ = ArrheniusRate(AnyValue(colliders[i]["low-P-rate-constant"]), node.units(), rate_units);
+                    ArrheniusRate eig0_i_extra_ = ArrheniusRate(AnyValue(colliders[i]["low-P-rate-constant"]), node.units(), rate_units_);
                     eig0_extra_.insert({species_i_extra_, eig0_i_extra_});
                 }
             }
@@ -180,9 +220,12 @@ void LmrRate::validate(const string& equation, const Kinetics& kin){
 }
 
 double LmrRate::speciesPlogRate(const LmrData& shared_data){
-    auto iter = pressures_s_.upper_bound(logPeff_);
-    AssertThrowMsg(iter != pressures_s_.end(), "LmrRate::speciesPlogRate","Reduced-pressure out of range: {}", logPeff_);
-    AssertThrowMsg(iter != pressures_s_.begin(), "LmrRate::speciesPlogRate","Reduced-pressure out of range: {}", logPeff_); 
+    // auto iter = pressures_s_.upper_bound(logPeff_);
+    auto iter = pressures_s_.upper_bound(logP_);
+    // AssertThrowMsg(iter != pressures_s_.end(), "LmrRate::speciesPlogRate","Reduced-pressure out of range: {}", logPeff_);
+    // AssertThrowMsg(iter != pressures_s_.begin(), "LmrRate::speciesPlogRate","Reduced-pressure out of range: {}", logPeff_); 
+    AssertThrowMsg(iter != pressures_s_.end(), "LmrRate::speciesPlogRate","Log-Pressure out of range: {}", logP_);
+    AssertThrowMsg(iter != pressures_s_.begin(), "LmrRate::speciesPlogRate","Log-Pressure out of range: {}", logP_); 
     logP2_ = iter->first;
     ihigh1_ = iter->second.first;
     ihigh2_ = iter->second.second;
@@ -206,6 +249,7 @@ double LmrRate::speciesPlogRate(const LmrData& shared_data){
     } else {
         double k = 1e-300;
         for (size_t i = ihigh1_; i < ihigh2_; i++) {
+            
             k += rates_s_[i].evalRate(shared_data.logT, shared_data.recipT);
         }
         log_k2 = std::log(k);
@@ -216,53 +260,99 @@ double LmrRate::speciesPlogRate(const LmrData& shared_data){
 double LmrRate::evalFromStruct(const LmrData& shared_data){
     k_LMR_=0;
     double eig0_mix=0;
-    double eig0_M=eig0_["M"].evalRate(shared_data.logT, shared_data.recipT);
 
+
+
+    // double eig0_M=eig0_["M"].evalRate(shared_data.logT, shared_data.recipT);
     //writelog("eig0_M = {}\n", eig0_M);
-
     vector<double> moleFractions = shared_data.moleFractions;
     
     for (size_t i=0; i<shared_data.allSpecies_.size(); i++){ //testing each species listed at the top of yaml file
         double Xi = moleFractions[i];
-        //writelog("1 Xi = {}\n", Xi);
-        std::map<string, ArrheniusRate>::iterator it = eig0_.find(shared_data.allSpecies_[i]);
-        if (it != eig0_.end()) {//key found, i.e. species has corresponding LMR data  
+        // writelog("Xi = {}\n", Xi);
+        std::map<string, ArrheniusRate>::iterator it1 = eig0_.find(shared_data.allSpecies_[i]);
+        std::map<string, ArrheniusRate>::iterator it2 = eig0_extra_.find(shared_data.allSpecies_[i]);
+        if ((it1 != eig0_.end()) && (it2 == eig0_extra_.end())) {//key found, i.e. species has corresponding LMR data  
+            // writelog("1. eig0 contributed to eig0mix = {}\n",Xi*eig0_[shared_data.allSpecies_[i]].evalRate(shared_data.logT, shared_data.recipT));
+            // writelog("1. species = {}\n",shared_data.allSpecies_[i]);
             eig0_mix += Xi*eig0_[shared_data.allSpecies_[i]].evalRate(shared_data.logT, shared_data.recipT);
-        } else {//no LMR data for this species, so use M data as default
-            eig0_mix += Xi*eig0_M;
+        } 
+        else if ( (it1 == eig0_.end()) && (it2 != eig0_extra_.end()) ) {
+            // writelog("2. eig0_extra contributed to eig0mix = {}\n",Xi*eig0_extra_[shared_data.allSpecies_[i]].evalRate(shared_data.logT, shared_data.recipT));
+            // writelog("2. species = {}\n",shared_data.allSpecies_[i]);
+            eig0_mix += Xi*eig0_extra_[shared_data.allSpecies_[i]].evalRate(shared_data.logT, shared_data.recipT);
+        }
+        else {//no LMR data for this species, so use M data as default
+            // writelog("3. eig0_M contributed to eig0mix = {}\n",Xi*eig0_["M"].evalRate(shared_data.logT, shared_data.recipT));
+            // writelog("3. species = {}\n",shared_data.allSpecies_[i]);
+            eig0_mix += Xi*eig0_["M"].evalRate(shared_data.logT, shared_data.recipT);;
         }
     }
+    // writelog("OVERALL eig0_mix = {}\n",eig0_mix);
+    // writelog("eig0_M = {}\n",eig0_M);
+    // writelog("eig0_mix = {}\n",eig0_mix);
     // writelog("eig0_mix = {}\n", eig0_mix);
     double log_eig0_mix = std::log(eig0_mix);
     //writelog("log_eig0_mix = {}\n", log_eig0_mix);
+    
+    double eig0; //eig0 val of a single species
+
+    double eig0_M = eig0_["M"].evalRate(shared_data.logT, shared_data.recipT);
+
+    pressures_s_=pressures_["M"];
+    rates_s_=rates_["M"];
+    logP_=shared_data.logP; 
+    logPeff_=logP_+log_eig0_mix-log(eig0_M);
+    double k_M = LmrRate::speciesPlogRate(shared_data); //single-component rate constant of species M    k_m(T,R_LMR)
+
     for (size_t i=0; i<shared_data.allSpecies_.size(); i++){ //testing each species listed at the top of yaml file
         double Xi = moleFractions[i];
         //writelog("2 Xi={}\n", Xi);
-        double eig0; //eig0 val of a single species
-        std::map<string, ArrheniusRate>::iterator it1 = eig0_.find(shared_data.allSpecies_[i]);
+        // logP_=shared_data.logP;
+        // logPeff_=logP_+log_eig0_mix-log(eig0_M);
+        
+        // std::map<string, ArrheniusRate>::iterator it1 = eig0_.find(shared_data.allSpecies_[i]);
         std::map<string, ArrheniusRate>::iterator it2 = eig0_extra_.find(shared_data.allSpecies_[i]);
-        if ( (it1 != eig0_.end()) && (it2 == eig0_extra_.end()) ) { //species is LMRR-specified with a PLOG table
-            eig0 = eig0_[shared_data.allSpecies_[i]].evalRate(shared_data.logT, shared_data.recipT);
-            // writelog("1\n", eig0);
-            pressures_s_=pressures_[shared_data.allSpecies_[i]];
-            rates_s_=rates_[shared_data.allSpecies_[i]];
-        } 
-        else if ( (it1 == eig0_.end()) && (it2 != eig0_extra_.end()) ) { //species is LMRR-specified without a PLOG table
-            eig0 = eig0_extra_[shared_data.allSpecies_[i]].evalRate(shared_data.logT, shared_data.recipT);
-            // writelog("2\n", eig0);
-            pressures_s_=pressures_["M"];
-            rates_s_=rates_["M"];
+        // if ( (it1 != eig0_.end()) && (it2 == eig0_extra_.end()) ) { //species is LMRR-specified with a PLOG table
+        //     eig0 = eig0_[shared_data.allSpecies_[i]].evalRate(shared_data.logT, shared_data.recipT);
+        //     // writelog("1. eig0 = {}\n",eig0);
+        //     pressures_s_=pressures_[shared_data.allSpecies_[i]];
+        //     rates_s_=rates_[shared_data.allSpecies_[i]];
+        //     // logP_=shared_data.logP; 
+        //     // logPeff_=logP_+log_eig0_mix-log(eig0);
+        //     k_LMR_ += LmrRate::speciesPlogRate(shared_data)*eig0*Xi/eig0_mix;
+        // } 
+        if (it2 != eig0_extra_.end()) { //species is LMRR-specified without a PLOG table
+            double eig0 = eig0_extra_[shared_data.allSpecies_[i]].evalRate(shared_data.logT, shared_data.recipT);
+            // writelog("2. eig0 = {}\n",eig0);
+            // for (const auto& entry : pressures_["M"]) {
+            //     double modifiedKey = entry.first*30000;
+            //     pressures_s_[modifiedKey] = entry.second;
+            // rates_s_=rates_["M"];
+            // logP_=shared_data.logP; 
+            // logPeff_=logP_+log_eig0_mix-log(eig0);
+            // k_LMR_ += LmrRate::speciesPlogRate(shared_data)*eig0*Xi/eig0_mix;
+            double Xtilde = eig0*Xi/eig0_mix; 
+            k_LMR_ += k_M*Xtilde;
+            // writelog("2. k_M*Xtilde = {}\n",k_M*Xtilde);
         }
         else { //species is not LMRR-specified; use generic parameters for species "M"
-            eig0 = eig0_M;
-            // writelog("3\n", eig0);
-            pressures_s_=pressures_["M"];
-            rates_s_=rates_["M"];
+            double eig0 = eig0_["M"].evalRate(shared_data.logT, shared_data.recipT);
+            // writelog("3. eig0 = {}\n",eig0);
+            // pressures_s_=pressures_["M"];
+            // rates_s_=rates_["M"];
+            // logP_=shared_data.logP; 
+            // logPeff_=logP_+log_eig0_mix-log(eig0);
+            // k_LMR_ += LmrRate::speciesPlogRate(shared_data)*eig0_M*Xi/eig0_mix;
+            double Xtilde = eig0*Xi/eig0_mix;
+            k_LMR_ += k_M*Xtilde;
+            // writelog("3. k_M*Xtilde; = {}\n",k_M*Xtilde);
         }
-        logP_=shared_data.logP; 
-        logPeff_=logP_+log_eig0_mix-log(eig0);
-        k_LMR_ += LmrRate::speciesPlogRate(shared_data)*eig0*Xi/eig0_mix;
+        // writelog("logPeff_ = {}\n",logPeff_);
+        // writelog("shared_data.allSpecies_[i] = {}\n",shared_data.allSpecies_[i]);
+        // writelog("k_LMR_ (cumulative) = {}\n",k_LMR_);
     }
+    // writelog("\n\n\n",logPeff_);
     return k_LMR_;
 }
 
