@@ -971,7 +971,7 @@ reactions:
   type: LMR_R                         # Rxn direction has been reversed
   collider-list: 
   - collider: "M" # Data is actually for N2 (NOTE: IT IS NOT FOR AR)
-    eig0: {A: 1, b: 0, Ea: 0}
+    low-P-rate-constant: {A: 1, b: 0, Ea: 0}
     rate-constants: #plog table calculated by me
     - {P: 1.000e-04 atm, A: 5.30605e+15, b: -2.80727e+00, Ea: 4.99303e+02}
     - {P: 1.000e-03 atm, A: 5.25729e+16, b: -2.80633e+00, Ea: 5.00005e+02}
@@ -983,9 +983,9 @@ reactions:
     - {P: 1.000e+03 atm, A: 4.94429e+18, b: -1.58979e+00, Ea: 1.01215e+03}
     - {P: 1.000e+04 atm, A: 7.50415e+15, b: -5.90325e-01, Ea: 4.78283e+02}
   - collider: "AR" #efficiencies taken from jasper
-    eig0: {A: 2.20621e-02, b: 4.74036e-01, Ea: -4.73434e+02}
+    low-P-rate-constant: {A: 2.20621e-02, b: 4.74036e-01, Ea: -4.73434e+02}
   - collider: "H2O"
-    eig0: {A: 1.04529e-01, b: 5.50787e-01, Ea: -9.73558e+02}
+    low-P-rate-constant: {A: 1.04529e-01, b: 5.50787e-01, Ea: -9.73558e+02}
 
 - equation: H2O + O2 <=> H + OH + O2  # Reaction 14
   duplicate: true
@@ -997,7 +997,7 @@ reactions:
   type: LMR_R
   collider-list: 
   - collider: "M" # Data is actually for Ar
-    eig0: {A: 1, b: 0, Ea: 0}
+    low-P-rate-constant: {A: 1, b: 0, Ea: 0}
     rate-constants:
     - {P: 1.316e-02 atm, A: 9.40457e+14, b: -2.14348e+00, Ea: 7.72730e+01}
     - {P: 1.316e-01 atm, A: 1.07309e+16, b: -2.15999e+00, Ea: 1.30239e+02}
@@ -1008,17 +1008,21 @@ reactions:
     - {P: 3.000e+01 atm, A: 1.49861e+18, b: -2.10026e+00, Ea: 4.87579e+02}
     - {P: 1.000e+02 atm, A: 3.82417e+18, b: -2.07057e+00, Ea: 6.65984e+02}
   - collider: "HE"
-    eig0: {A: 3.37601e-01, b: 1.82568e-01, Ea: 1.51639e+02}
-  - collider: "N2"
-    eig0: {A: 1.24932e+02, b: -5.93263e-01, Ea: 2.26332e+03}
+    low-P-rate-constant: {A: 3.37601e-01, b: 1.82568e-01, Ea: 1.51639e+02}
+  # - collider: "N2"
+  #   low-P-rate-constant: {A: 1.24932e+02, b: -5.93263e-01, Ea: 2.26332e+03}
   - collider: "H2"
-    eig0: {A: 3.13717e+04, b: -1.25419e+00, Ea: 4.72497e+03}
-  - collider: "CO2"
-    eig0: {A: 1.62413e+08, b: -2.27622e+00, Ea: 8.24384e+03}
+    low-P-rate-constant: {A: 3.13717e+04, b: -1.25419e+00, Ea: 4.72497e+03}
+  # - collider: "CO2"
+  #   low-P-rate-constant: {A: 1.62413e+08, b: -2.27622e+00, Ea: 8.24384e+03}
   - collider: "NH3"
-    eig0: {A: 4.97750e+00, b: 1.64855e-01, Ea: -1.17304e+03}
+    low-P-rate-constant: {A: 4.97750e+00, b: 1.64855e-01, Ea: -1.17304e+03}
   - collider: "H2O"
-    eig0: {A: 3.69146e+01, b: -7.12902e-02, Ea: 1.33512e+02}
+    low-P-rate-constant: {A: 3.69146e+01, b: -7.12902e-02, Ea: 1.33512e+02}
+  - collider: "CO2"
+    low-P-rate-constant: {A: 9, b: 0, Ea: 0}
+  - collider: "N2"
+    low-P-rate-constant: {A: 1.6, b: 0, Ea: 0}
 
 - equation: HO2 + H <=> H2 + O2  # Reaction 17
   rate-constant: {A: 2.8e+06, b: 2.09, Ea: -1451.0}
@@ -1043,7 +1047,7 @@ reactions:
   type: LMR_R
   collider-list: 
   - collider: "M" # Data is actually for Ar
-    eig0: {A: 1, b: 0, Ea: 0}
+    low-P-rate-constant: {A: 1, b: 0, Ea: 0}
     rate-constants:
     - {P: 1.000e-04 atm, A: 2.71622e+18, b: -3.29277e+00, Ea: 4.87751e+04}
     - {P: 1.000e-03 atm, A: 2.81583e+19, b: -3.29786e+00, Ea: 4.88063e+04}
@@ -1055,13 +1059,13 @@ reactions:
     - {P: 1.000e+03 atm, A: 1.21632e+19, b: -1.40247e+00, Ea: 5.02104e+04}
     - {P: 1.000e+04 atm, A: 2.12510e+16, b: -4.29000e-01, Ea: 4.97239e+04}
   - collider: "N2" #all efficiencies taken from jasper
-    eig0: {A: 1.14813e+00, b: 4.60090e-02, Ea: -1.22351e+01}
+    low-P-rate-constant: {A: 1.14813e+00, b: 4.60090e-02, Ea: -1.22351e+01}
   - collider: "CO2"
-    eig0: {A: 8.98839e+01, b: -4.27974e-01, Ea: 1.01003e+03}
+    low-P-rate-constant: {A: 8.98839e+01, b: -4.27974e-01, Ea: 1.01003e+03}
   - collider: "H2O2"
-    eig0: {A: 6.45295e-01, b: 4.26266e-01, Ea: 1.79473e+02}
+    low-P-rate-constant: {A: 6.45295e-01, b: 4.26266e-01, Ea: 1.79473e+02}
   - collider: "H2O"
-    eig0: {A: 1.36377e+00, b: 3.06592e-01, Ea: 8.79010e+02}
+    low-P-rate-constant: {A: 1.36377e+00, b: 3.06592e-01, Ea: 8.79010e+02}
 
 - equation: H2O2 + H <=> H2O + OH  # Reaction 26
   rate-constant: {A: 2.4e+13, b: 0.0, Ea: 3970.0}
@@ -1213,24 +1217,24 @@ reactions:
   type: LMR_R                          # Rxn direction is reversed
   collider-list: 
   - collider: "M" # data is actually for Ar
-    eig0: {A: 1, b: 0, Ea: 0}
+    low-P-rate-constant: {A: 1, b: 0, Ea: 0}
     rate-constants:
     - {P: 0.1 atm, A: 7.23e+29, b: -5.316, Ea: 110862.4}
     - {P: 1 atm, A: 3.497e+30, b: -5.224, Ea: 111163.3}
     - {P: 10 atm, A: 1.975e+31, b: -5.155, Ea: 111887.8}
     - {P: 100 atm, A: 2.689e+31, b: -4.920, Ea: 112778.7}
   - collider: "N2"
-    eig0: {A: 4.49281e+00, b: -9.46265e-02, Ea: -4.60560e+02}
+    low-P-rate-constant: {A: 4.49281e+00, b: -9.46265e-02, Ea: -4.60560e+02}
   - collider: "O2"
-    eig0: {A: 1.15210e-01, b: 3.41234e-01, Ea: -1.62853e+03}
+    low-P-rate-constant: {A: 1.15210e-01, b: 3.41234e-01, Ea: -1.62853e+03}
   - collider: "CO2"
-    eig0: {A: 9.19583e+00, b: 6.10696e-02, Ea: 3.77033e+02}
+    low-P-rate-constant: {A: 9.19583e+00, b: 6.10696e-02, Ea: 3.77033e+02}
   - collider: "NH3"
-    eig0: {A: 1.49004e+01, b: 6.06535e-02, Ea: 1.03623e+03}
+    low-P-rate-constant: {A: 1.49004e+01, b: 6.06535e-02, Ea: 1.03623e+03}
   # - collider: "CH4"
-  #   eig0: {A: 1.26838e+01, b: 2.32014e-02, Ea: 9.38044e+02}
+  #   low-P-rate-constant: {A: 1.26838e+01, b: 2.32014e-02, Ea: 9.38044e+02}
   - collider: "H2O"
-    eig0: {A: 1.14560e+01, b: 1.27501e-01, Ea: 1.31367e+03}
+    low-P-rate-constant: {A: 1.14560e+01, b: 1.27501e-01, Ea: 1.31367e+03}
 
 - equation: NH3 + H <=> NH2 + H2  # Reaction 73
   rate-constant: {A: 5.4e+05, b: 2.4, Ea: 9916.0}
@@ -1276,7 +1280,7 @@ reactions:
   type: LMR_R
   collider-list: 
   - collider: "M" # data is actually for Ar
-    eig0: {A: 1, b: 0, Ea: 0} # all efficiencies from jasper
+    low-P-rate-constant: {A: 1, b: 0, Ea: 0} # all efficiencies from jasper
     rate-constants: #Data obtained by doing a PLOG fit based on Troe params from glarborg
     - {P: 1.000e-04 atm, A: 1.20024e+25, b: -6.43982e+00, Ea: 2.05356e+03}
     - {P: 1.000e-03 atm, A: 1.19856e+26, b: -6.43893e+00, Ea: 2.16055e+03}
@@ -1288,13 +1292,13 @@ reactions:
     - {P: 1.000e+03 atm, A: 8.99670e+16, b: -2.12230e+00, Ea: 1.37012e+03}
     - {P: 1.000e+04 atm, A: 5.28067e+13, b: -1.06166e+00, Ea: 5.64223e+02}
   - collider: "N2"
-    eig0: {A: 1.46848e+01, b: -3.00962e-01, Ea: 6.91004e+02}
+    low-P-rate-constant: {A: 1.46848e+01, b: -3.00962e-01, Ea: 6.91004e+02}
   - collider: "O2"
-    eig0: {A: 1.53608e+00, b: -3.90857e-02, Ea: 1.85675e+01}
+    low-P-rate-constant: {A: 1.53608e+00, b: -3.90857e-02, Ea: 1.85675e+01}
   - collider: "NH3"
-    eig0: {A: 1.64196e+01, b: -7.29636e-02, Ea: 1.53183e+03}
+    low-P-rate-constant: {A: 1.64196e+01, b: -7.29636e-02, Ea: 1.53183e+03}
   - collider: "H2O"
-    eig0: {A: 2.17658e+01, b: -1.14715e-01, Ea: 1.75408e+03}
+    low-P-rate-constant: {A: 2.17658e+01, b: -1.14715e-01, Ea: 1.75408e+03}
 
 - equation: NH2 + NH2 <=> tHNNH + H2  # Reaction 91
   rate-constant: {A: 1.7e+08, b: 1.02, Ea: 1.1783e+04}
@@ -1471,7 +1475,7 @@ reactions:
   type: LMR_R                         # Rxn direction has been reversed
   collider-list: 
   - collider: "M" # data is actually for Ar
-    eig0: {A: 1, b: 0, Ea: 0}
+    low-P-rate-constant: {A: 1, b: 0, Ea: 0}
     rate-constants:
     - {P: 0.1 atm, A: 2.0121e+19, b: -3.021, Ea: 47792.0}
     - {P: 1 atm, A: 1.8259e+20, b: -3.008, Ea: 47880.0}
@@ -1479,9 +1483,9 @@ reactions:
     - {P: 100 atm, A: 5.6445e+21, b: -2.855, Ea: 48459.0}
     - {P: 1000 atm, A: 9.7111e+21, b: -2.642, Ea: 48940.0}
   - collider: "N2"
-    eig0: {A: 7.56771e+00, b: -1.96878e-01, Ea: 1.05930e+03}
+    low-P-rate-constant: {A: 7.56771e+00, b: -1.96878e-01, Ea: 1.05930e+03}
   - collider: "H2O"
-    eig0: {A: 3.35451e+00, b: 1.33352e-01, Ea: 2.78096e+02}
+    low-P-rate-constant: {A: 3.35451e+00, b: 1.33352e-01, Ea: 2.78096e+02}
 
 - equation: HNO + H <=> NO + H2  # Reaction 168
   rate-constant: {A: 6.6e+10, b: 0.94, Ea: 495.0}
