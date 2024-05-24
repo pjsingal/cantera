@@ -1009,20 +1009,20 @@ reactions:
     - {P: 1.000e+02 atm, A: 3.82417e+18, b: -2.07057e+00, Ea: 6.65984e+02}
   - collider: "HE"
     low-P-rate-constant: {A: 3.37601e-01, b: 1.82568e-01, Ea: 1.51639e+02}
-  # - collider: "N2"
-  #   low-P-rate-constant: {A: 1.24932e+02, b: -5.93263e-01, Ea: 2.26332e+03}
+  - collider: "N2"
+    low-P-rate-constant: {A: 1.24932e+02, b: -5.93263e-01, Ea: 2.26332e+03}
   - collider: "H2"
     low-P-rate-constant: {A: 3.13717e+04, b: -1.25419e+00, Ea: 4.72497e+03}
-  # - collider: "CO2"
-  #   low-P-rate-constant: {A: 1.62413e+08, b: -2.27622e+00, Ea: 8.24384e+03}
+  - collider: "CO2"
+    low-P-rate-constant: {A: 1.62413e+08, b: -2.27622e+00, Ea: 8.24384e+03}
   - collider: "NH3"
     low-P-rate-constant: {A: 4.97750e+00, b: 1.64855e-01, Ea: -1.17304e+03}
   - collider: "H2O"
     low-P-rate-constant: {A: 3.69146e+01, b: -7.12902e-02, Ea: 1.33512e+02}
-  - collider: "CO2"
-    low-P-rate-constant: {A: 9, b: 0, Ea: 0}
-  - collider: "N2"
-    low-P-rate-constant: {A: 1.6, b: 0, Ea: 0}
+  # - collider: "CO2"
+  #   low-P-rate-constant: {A: 9, b: 0, Ea: 0}
+  # - collider: "N2"
+  #   low-P-rate-constant: {A: 1.6, b: 0, Ea: 0}
 
 - equation: HO2 + H <=> H2 + O2  # Reaction 17
   rate-constant: {A: 2.8e+06, b: 2.09, Ea: -1451.0}
