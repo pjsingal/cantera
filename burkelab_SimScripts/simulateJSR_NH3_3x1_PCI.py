@@ -12,15 +12,38 @@ from os import path
 import matplotlib.pyplot as plt
 plt.rcParams.update(plt.rcParamsDefault)
 import matplotlib as mpl
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--figwidth', type=float, help="figwidth = ")
+parser.add_argument('--figheight', type=float, help="figheight = ")
+parser.add_argument('--fsz', type=float, help="mpl.rcParams['font.size'] = ", default=8)
+parser.add_argument('--fszxtick', type=float, help="mpl.rcParams['xtick.labelsize'] = ", default=7)
+parser.add_argument('--fszytick', type=float, help="mpl.rcParams['ytick.labelsize'] = ", default=7)
+parser.add_argument('--fszaxlab', type=float, help="mpl.rcParams['axes.labelsize'] = ", default=8)
+parser.add_argument('--lw', type=float, help="lw = ", default=0.7)
+parser.add_argument('--mw', type=float, help="mw = ", default=0.5)
+parser.add_argument('--msz', type=float, help="msz = ", default=2.5)
+parser.add_argument('--lgdw', type=float, help="lgdw = ", default=0.6)
+parser.add_argument('--lgdfsz', type=float, help="lgdw = ", default=5)
+parser.add_argument('--gridsz', type=int, help="gridsz = ", default=10)
+parser.add_argument('--dpi', type=int, help="dpi = ", default=1000)
+args = parser.parse_args()
+lw=args.lw
+mw=args.mw
+msz=args.msz
+dpi=args.dpi
+lgdw=args.lgdw
+lgdfsz=args.lgdfsz
+gridsz=args.gridsz
 
 mpl.rc('font',family='Times New Roman')
 mpl.rcParams['mathtext.fontset'] = 'stix'
-
-mpl.rcParams['font.size'] = 10
-mpl.rcParams['xtick.labelsize'] = 6
-mpl.rcParams['ytick.labelsize'] = 6
+mpl.rcParams['font.size'] = args.fsz
+mpl.rcParams['xtick.labelsize'] = args.fszxtick
+mpl.rcParams['ytick.labelsize'] = args.fszytick
 from matplotlib.legend_handler import HandlerTuple
-plt.rcParams['axes.labelsize'] = 8
+plt.rcParams['axes.labelsize'] = args.fszaxlab
 mpl.rcParams['xtick.major.width'] = 0.5  # Width of major ticks on x-axis
 mpl.rcParams['ytick.major.width'] = 0.5  # Width of major ticks on y-axis
 mpl.rcParams['xtick.minor.width'] = 0.5  # Width of minor ticks on x-axis
@@ -31,13 +54,14 @@ mpl.rcParams['xtick.minor.size'] = 1.5  # Length of minor ticks on x-axis
 mpl.rcParams['ytick.minor.size'] = 1.5  # Length of minor ticks on y-axis
 
 save_plots = True
-f, ax = plt.subplots(3, 1, figsize=(3.5, 7))
+# figsize=(3.5,7)
+f, ax = plt.subplots(3,1, figsize=(args.figwidth, args.figheight)) 
 
 import matplotlib.ticker as ticker
 # plt.subplots_adjust(hspace=0.3)
 plt.subplots_adjust(wspace=0.3)
 ax[0].yaxis.set_major_locator(ticker.MultipleLocator(5))
-ax[1].yaxis.set_major_locator(ticker.MultipleLocator(0.25))
+ax[1].yaxis.set_major_locator(ticker.MultipleLocator(0.5))
 ax[2].yaxis.set_major_locator(ticker.MultipleLocator(0.5))
 ax[0].xaxis.set_major_locator(ticker.MultipleLocator(50))
 ax[1].xaxis.set_major_locator(ticker.MultipleLocator(50))
@@ -58,14 +82,15 @@ ax[2].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
 # lgdw=1
 # lgdfsz=6
 # gridsz=50
-lw=0.7
-mw=0.5
-msz=3.5
-dpi=1000
-lgdw=0.6
-lgdfsz=7
-gridsz=50
+# lw=0.7
+# mw=0.5
+# msz=3.5
+# dpi=1000
+# lgdw=0.6
+# lgdfsz=7
+# gridsz=50
 
+plt.subplots_adjust(wspace=0.18)
 
 # name = 'JSR_NH3_V1'
 # colors = ['r','b']
@@ -80,13 +105,11 @@ gridsz=50
 #           r'H$_2$O':"test/data/alzuetamechanism_LMRR_allH2O.yaml",
 #           'Alzueta':"test/data/alzuetamechanism.yaml",            
 #           }
-name = 'JSR_NH3_V3'
-# colors = ['r','b',"xkcd:grey",'xkcd:purple']
+name = 'JSR_NH3'
 colors = ['r','b','xkcd:purple']
 models = {
           'Ar':"test/data/alzuetamechanism_LMRR_allAR.yaml",
           r'H$_2$O':"test/data/alzuetamechanism_LMRR_allH2O.yaml",
-        #   'Alzueta':"test/data/alzuetamechanism.yaml",
           'LMR-R':"test/data/alzuetamechanism_LMRR.yaml",              
           }
 
@@ -307,12 +330,12 @@ for k,m in enumerate(models):
 
             
      
-ax[0].set_xlabel('Temperature [K]')
+# ax[0].set_xlabel('Temperature [K]')
 ax[0].set_ylabel('$\Delta$ T [K]')
 ax[0].tick_params(axis='both',direction='in')
 ax[0].legend(fontsize=lgdfsz,frameon=False,loc='upper left', handlelength=lgdw)
             
-ax[1].set_xlabel('Temperature [K]')
+# ax[1].set_xlabel('Temperature [K]')
 ax[1].set_ylabel('O$_2$ mole fraction [%]')
 ax[1].tick_params(axis='both',direction='in')
 # ax[1].legend(frameon=False,fontsize=15)#,loc='upper right')
@@ -323,6 +346,6 @@ ax[2].tick_params(axis='both',direction='in')
 # ax[2].legend(frameon=False,loc='lower right', handlelength=lgdw)
 
 if save_plots == True:
-    plt.savefig('burkelab_SimScripts/figures/PCI_'+name+'.pdf', dpi=1000, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/PCI_'+name+'.png', dpi=dpi, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.pdf', dpi=2000, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.png', dpi=2000, bbox_inches='tight')
 # plt.show()     

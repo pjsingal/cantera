@@ -1,4 +1,3 @@
-#%%
 import sys, os
 sys.path.append("C:/Users/pjsin/Documents/cantera/build/python")
 import cantera as ct
@@ -7,14 +6,38 @@ import pandas as pd
 import time
 import numpy as np
 import matplotlib as mpl
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--figwidth', type=float, help="figwidth = ")
+parser.add_argument('--figheight', type=float, help="figheight = ")
+parser.add_argument('--fsz', type=float, help="mpl.rcParams['font.size'] = ", default=8)
+parser.add_argument('--fszxtick', type=float, help="mpl.rcParams['xtick.labelsize'] = ", default=7)
+parser.add_argument('--fszytick', type=float, help="mpl.rcParams['ytick.labelsize'] = ", default=7)
+parser.add_argument('--fszaxlab', type=float, help="mpl.rcParams['axes.labelsize'] = ", default=8)
+parser.add_argument('--lw', type=float, help="lw = ", default=0.7)
+parser.add_argument('--mw', type=float, help="mw = ", default=0.5)
+parser.add_argument('--msz', type=float, help="msz = ", default=2.5)
+parser.add_argument('--lgdw', type=float, help="lgdw = ", default=0.6)
+parser.add_argument('--lgdfsz', type=float, help="lgdw = ", default=5)
+parser.add_argument('--gridsz', type=int, help="gridsz = ", default=10)
+parser.add_argument('--dpi', type=int, help="dpi = ", default=1000)
+args = parser.parse_args()
+lw=args.lw
+mw=args.mw
+msz=args.msz
+dpi=args.dpi
+lgdw=args.lgdw
+lgdfsz=args.lgdfsz
+gridsz=args.gridsz
+
 mpl.rc('font',family='Times New Roman')
 mpl.rcParams['mathtext.fontset'] = 'stix'
-
-mpl.rcParams['font.size'] = 8
-mpl.rcParams['xtick.labelsize'] = 7
-mpl.rcParams['ytick.labelsize'] = 7
+mpl.rcParams['font.size'] = args.fsz
+mpl.rcParams['xtick.labelsize'] = args.fszxtick
+mpl.rcParams['ytick.labelsize'] = args.fszytick
 from matplotlib.legend_handler import HandlerTuple
-plt.rcParams['axes.labelsize'] = 8
+plt.rcParams['axes.labelsize'] = args.fszaxlab
 mpl.rcParams['xtick.major.width'] = 0.5  # Width of major ticks on x-axis
 mpl.rcParams['ytick.major.width'] = 0.5  # Width of major ticks on y-axis
 mpl.rcParams['xtick.minor.width'] = 0.5  # Width of minor ticks on x-axis
@@ -24,12 +47,21 @@ mpl.rcParams['ytick.major.size'] = 2.5  # Length of major ticks on y-axis
 mpl.rcParams['xtick.minor.size'] = 1.5  # Length of minor ticks on x-axis
 mpl.rcParams['ytick.minor.size'] = 1.5  # Length of minor ticks on y-axis
 
+f, ax = plt.subplots(1, 4, figsize=(args.figwidth, args.figheight)) 
+
+# figsize = (6.5, 1.5) # (width, height)
+# lw=0.7
+# mw=0.5
+# msz=2.5
+# dpi=1000
+# lgdw=0.6
+# lgdfsz=5
+# gridsz=10
+
 save_plots = True
-figsize = (6.5, 1.5) # (width, height)
-fig, ax = plt.subplots(1, 4, figsize=figsize)
 
 import matplotlib.ticker as ticker
-plt.subplots_adjust(wspace=0.18)
+plt.subplots_adjust(wspace=0.25)
 ax[0].yaxis.set_major_locator(ticker.LogLocator(base=10.0, numticks=3))
 ax[1].yaxis.set_major_locator(ticker.LogLocator(base=10.0, numticks=3))
 ax[2].yaxis.set_major_locator(ticker.LogLocator(base=10.0, numticks=3))
@@ -49,33 +81,20 @@ ax[2].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1e}"))
 ax[3].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 ax[3].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1e}"))
 
-fig.text(0.5, -0.1, r'Temperature [K]', ha='center', va='center')
-
-# lw=0.7
-# mw=0.5
-# msz=2.5
-# dpi=3000
-# lgdw=1
-# lgdfsz=8
-# gridsz=10
-lw=0.7
-mw=0.5
-msz=3.5
-dpi=1000
-lgdw=0.6
-lgdfsz=7
-gridsz=10
+f.text(0.5, -0.1, r'Temperature [K]', ha='center', va='center')
 
 name = 'IDT_shao'
 path=os.getcwd()
 
-colors = ['r','b',"xkcd:grey",'xkcd:purple']
-models = {
+models = {    
+          'Alzueta':"test/data/alzuetamechanism.yaml",            
           'Ar':"test/data/alzuetamechanism_LMRR_allAR.yaml",
           r'H$_2$O':"test/data/alzuetamechanism_LMRR_allH2O.yaml",
-          'Alzueta':"test/data/alzuetamechanism.yaml",
-          'LMR-R':"test/data/alzuetamechanism_LMRR.yaml",              
+          'LMR-R':"test/data/alzuetamechanism_LMRR.yaml", 
           }
+colors = ["xkcd:grey",'r','b','xkcd:purple']
+lines =['-','-','-','-','-']
+
 
 def ignitionDelay(states, species):
     # i_ign = states(species).Y.argmax()
@@ -89,7 +108,7 @@ df = pd.read_csv(path+'Shao_IDT\\1.csv')
 p_df = df['P']
 T_df = df['T']
 IDT_df = df['IDT']
-
+ax[0].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.')
 T_list = np.linspace(1100,1300,gridsz)#[::-1]
 for k, m in enumerate(models):
     estimatedIgnitionDelayTimes = np.ones(len(T_list))
@@ -114,7 +133,7 @@ for k, m in enumerate(models):
         ignitionDelays_RG[j] = tau
     ax[0].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid', linewidth=lw, color=colors[k], label=m)
     
-ax[0].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.')
+
 # ax[0].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw)
 ax[0].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]')
 # ax[0, 0].set_xlabel(r'Temperature [K]', fontsize=18)
@@ -129,6 +148,7 @@ p_df = df['P']
 T_df = df['T']
 IDT_df = df['IDT']
 T_list = np.linspace(1100,1300,gridsz)#[::-1]
+ax[1].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.')
 for k, m in enumerate(models):
     estimatedIgnitionDelayTimes = np.ones(len(T_list))
     estimatedIgnitionDelayTimes[:] = 0.05
@@ -152,7 +172,7 @@ for k, m in enumerate(models):
         ignitionDelays_RG[j] = tau
     ax[1].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m)
     
-ax[1].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.')
+
 # ax[1].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw) 
 # ax[0,1].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]', fontsize=18)
 # ax[0,1].set_xlabel(r'Temperature [K]', fontsize=18)
@@ -169,6 +189,7 @@ T_df = df['T']
 IDT_df = df['IDT']
 H2O_df = df['H2O']
 T_list = np.linspace(1200,1400,gridsz)#[::-1]
+ax[2].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.')
 for k, m in enumerate(models):
     estimatedIgnitionDelayTimes = np.ones(len(T_list))
     estimatedIgnitionDelayTimes[:] = 0.05
@@ -191,7 +212,7 @@ for k, m in enumerate(models):
         t1 = time.time()
         ignitionDelays_RG[j] = tau
     ax[2].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m)
-ax[2].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.')
+
 # ax[2].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw)
 # ax[2].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]')
 # ax[2].set_xlabel(r'Temperature [K]')
@@ -206,6 +227,7 @@ p_df = df['P']
 T_df = df['T']
 IDT_df = df['IDT']
 T_list = np.linspace(1100,1300,gridsz)#[::-1]
+ax[3].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.')
 for k, m in enumerate(models):
     estimatedIgnitionDelayTimes = np.ones(len(T_list))
     estimatedIgnitionDelayTimes[:] = 0.05
@@ -228,17 +250,17 @@ for k, m in enumerate(models):
         t1 = time.time()
         ignitionDelays_RG[j] = tau
     ax[3].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m)
-ax[3].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.')
+
 ax[3].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw)
 # ax[1,1].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]', fontsize=18)
 # ax[3].set_xlabel(r'Temperature [K]')
 ax[3].tick_params(axis='both', direction="in")
 ax[3].tick_params(axis='both', which='minor', direction="in")#, bottom=False)
 # ax[3].annotate('(d)', xy=(0.95, 0.9), xycoords='axes fraction',ha='right', va='top')
-# plt.subplots_adjust(wspace=0.4, hspace=0.4)
+plt.subplots_adjust(hspace=0.3)
 
 # plt.subplots_adjust(top=0.98)
 if save_plots == True:
-    plt.savefig('burkelab_SimScripts/figures/ESSCI_'+name+'.pdf', dpi=1000, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/ESSCI_'+name+'.png', dpi=dpi, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.pdf', dpi=2000, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.png', dpi=2000, bbox_inches='tight')
 # plt.show()     

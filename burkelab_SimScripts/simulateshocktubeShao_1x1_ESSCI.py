@@ -11,15 +11,51 @@ import scipy.optimize
 from scipy.optimize import curve_fit
 import numpy as np
 from matplotlib import gridspec
-
+import argparse
 
 import matplotlib as mpl
 import sys, os
+parser = argparse.ArgumentParser()
+parser.add_argument('--figwidth', type=float, help="figwidth = ")
+parser.add_argument('--figheight', type=float, help="figheight = ")
+parser.add_argument('--fsz', type=float, help="mpl.rcParams['font.size'] = ", default=8)
+parser.add_argument('--fszxtick', type=float, help="mpl.rcParams['xtick.labelsize'] = ", default=7)
+parser.add_argument('--fszytick', type=float, help="mpl.rcParams['ytick.labelsize'] = ", default=7)
+parser.add_argument('--fszaxlab', type=float, help="mpl.rcParams['axes.labelsize'] = ", default=8)
+parser.add_argument('--lw', type=float, help="lw = ", default=0.7)
+parser.add_argument('--mw', type=float, help="mw = ", default=0.5)
+parser.add_argument('--msz', type=float, help="msz = ", default=2.5)
+parser.add_argument('--lgdw', type=float, help="lgdw = ", default=0.6)
+parser.add_argument('--lgdfsz', type=float, help="lgdw = ", default=5)
+parser.add_argument('--gridsz', type=int, help="gridsz = ", default=10)
+parser.add_argument('--dpi', type=int, help="dpi = ", default=1000)
+args = parser.parse_args()
+lw=args.lw
+mw=args.mw
+msz=args.msz
+dpi=args.dpi
+lgdw=args.lgdw
+lgdfsz=args.lgdfsz
+gridsz=args.gridsz
+
 mpl.rc('font',family='Times New Roman')
 mpl.rcParams['mathtext.fontset'] = 'stix'
+mpl.rcParams['font.size'] = args.fsz
+mpl.rcParams['xtick.labelsize'] = args.fszxtick
+mpl.rcParams['ytick.labelsize'] = args.fszytick
 from matplotlib.legend_handler import HandlerTuple
+plt.rcParams['axes.labelsize'] = args.fszaxlab
+mpl.rcParams['xtick.major.width'] = 0.5  # Width of major ticks on x-axis
+mpl.rcParams['ytick.major.width'] = 0.5  # Width of major ticks on y-axis
+mpl.rcParams['xtick.minor.width'] = 0.5  # Width of minor ticks on x-axis
+mpl.rcParams['ytick.minor.width'] = 0.5  # Width of minor ticks on y-axis
+mpl.rcParams['xtick.major.size'] = 2.5  # Length of major ticks on x-axis
+mpl.rcParams['ytick.major.size'] = 2.5  # Length of major ticks on y-axis
+mpl.rcParams['xtick.minor.size'] = 1.5  # Length of minor ticks on x-axis
+mpl.rcParams['ytick.minor.size'] = 1.5  # Length of minor ticks on y-axis
 save_plots = True
-fig, ax = plt.subplots(1, 1, figsize=(3.8, 2))
+# figsize=(3.8,2)
+f, ax = plt.subplots(1, 1, figsize=(args.figwidth, args.figheight)) 
 name = 'ShockTubeSpeciesProfile_H2O' #os.path.splitext(os.path.basename(__file__))[0]
 
 refSpecies='H2O'
@@ -47,7 +83,7 @@ def plotXvsTime(fname,pltlabel,pltcolour,lstyle='solid'):
     timeShift=0 # [seconds]
     shiftedTime = tConv*(timeHistory.t - timeShift)
     moleFrac = timeHistory(refSpecies).X 
-    ax.plot(shiftedTime, moleFrac*100, color=pltcolour,label=pltlabel,linestyle=lstyle,linewidth=0.7)
+    ax.plot(shiftedTime, moleFrac*100, color=pltcolour,label=pltlabel,linestyle=lstyle,linewidth=lw)
 
 path="G:\\Mon disque\\Columbia\\Burke Lab\\01 Mixture Rules Project\\Graph Reading\\"
 # path=os.getcwd()
@@ -61,13 +97,13 @@ plotXvsTime("test/data/alzuetamechanism_LMRR_allAR.yaml","Ar","r")
 plotXvsTime("test/data/alzuetamechanism_LMRR_allH2O.yaml",r'$\rm H_2O$',"b")
 plotXvsTime("test/data/alzuetamechanism_LMRR.yaml","LMR-R","xkcd:purple")
 # plotPoints(path+'\\7 SP H2O X vs t (Shock Tube) (Shao)\\expData.csv',pltLabel='Shao et al.',line=':',colour='k')
-plotPoints(path+'\\7 SP H2O X vs t (Shock Tube) (Shao)\\expData.csv',mkr='o',mkrsz=3.5,pltLabel='Shao et al.',mkrw=0.5)
+plotPoints(path+'\\7 SP H2O X vs t (Shock Tube) (Shao)\\expData.csv',mkr='o',mkrsz=msz,pltLabel='Shao et al.',mkrw=mw)
 # plotPoints(path+'\\7 SP H2O X vs t (Shock Tube) (Shao)\\troe_k0co2.csv',pltLabel='Troe et al.',line='solid',colour='g')
     
-ax.legend(fontsize=7, frameon=False, loc='lower right')  
-ax.set_ylabel(r'$\rm H_2O$ mole fraction [%]', fontsize=10) #CHECK UNITS OF Y-AXIS
-ax.set_xlabel(r'Time [$\mathdefault{\mu s}$]', fontsize=10)
-ax.tick_params(axis='both', direction="in", labelsize=7)
+ax.legend(fontsize=lgdfsz, frameon=False, loc='lower right')  
+ax.set_ylabel(r'$\rm H_2O$ mole fraction [%]')
+ax.set_xlabel(r'Time [$\mathdefault{\mu s}$]')
+ax.tick_params(axis='both', direction="in")#, labelsize=7)
 ax.set_xlim([0,300])
 ax.set_ylim([0.001*100,0.003*100])
 
@@ -76,6 +112,6 @@ ax.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 ax.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.2f}"))
 
 if save_plots == True:
-    plt.savefig('burkelab_SimScripts/figures/ESSCI_'+name+'.pdf', dpi=1000, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/ESSCI_'+name+'.png', dpi=1000, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.pdf', dpi=2000, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.png', dpi=2000, bbox_inches='tight')
 # plt.show()     

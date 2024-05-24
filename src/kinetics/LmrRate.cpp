@@ -87,21 +87,29 @@ void LmrRate::setParameters(const AnyMap& node, const UnitStack& rate_units){
     std::string rxn = node["equation"].as<std::string>();
     vector<string> reactantList;
     string component = "";
+    // for (int i = 0; i < rxn.length(); i++) {
+    //     if (!(rxn[i]=='(') && !(rxn[i]==')') && !(rxn[i]=='+') && !(rxn[i]==' ') && !(rxn[i]=='<') && !(rxn[i]=='=') && !(rxn[i]=='>')){
+    //         component+=rxn[i];
+    //     } else if ((i>0 && rxn[i]==' ' && !(rxn[i-1]==')') && !(rxn[i-1]=='+'))  || rxn[i]==')') {
+    //         reactantList.push_back(component);
+    //         // writelog("component = {}\n", component);
+    //         component = "";
+    //     } else if (rxn[i]=='<'){
+    //         break;
+    //     }
+    // } 
+    UnitStack rate_units_ = rate_units;
     for (int i = 0; i < rxn.length(); i++) {
-        if (!(rxn[i]=='(') && !(rxn[i]==')') && !(rxn[i]=='+') && !(rxn[i]==' ') && !(rxn[i]=='<') && !(rxn[i]=='=') && !(rxn[i]=='>')){
-            component+=rxn[i];
-        } else if ((i>0 && rxn[i]==' ' && !(rxn[i-1]==')') && !(rxn[i-1]=='+'))  || rxn[i]==')') {
-            reactantList.push_back(component);
-            // writelog("component = {}\n", component);
-            component = "";
+        if (i==0 && rxn[i]=='2' && rxn[i+1]==' ') {
+            rate_units_.join(1);
+            break;
         } else if (rxn[i]=='<'){
             break;
         }
     } 
-    UnitStack rate_units_ = rate_units;
-    if (reactantList.size()>2){
-        rate_units_.join(1);
-    }
+    // if (reactantList.size()>2){
+    //     rate_units_.join(1);
+    // }
     // writelog("numReactants = {}\n", reactantList.size());
     ReactionRate::setParameters(node, rate_units_);
     if (node.hasKey("collider-list")) {
