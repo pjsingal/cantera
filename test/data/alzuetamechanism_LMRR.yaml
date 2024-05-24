@@ -1019,9 +1019,9 @@ reactions:
     low-P-rate-constant: {A: 4.97750e+00, b: 1.64855e-01, Ea: -1.17304e+03}
   - collider: "H2O"
     low-P-rate-constant: {A: 3.69146e+01, b: -7.12902e-02, Ea: 1.33512e+02}
-  - collider: "CO2" ##ADDED IN TEMPORARILY ON MAY 22
+  - collider: "CO2"
     low-P-rate-constant: {A: 9, b: 0, Ea: 0}
-  - collider: "N2" ##ADDED IN TEMPORARILY ON MAY 22
+  - collider: "N2"
     low-P-rate-constant: {A: 1.6, b: 0, Ea: 0}
 
 - equation: HO2 + H <=> H2 + O2  # Reaction 17
