@@ -23,7 +23,7 @@ pltcolours = ['k','g','b','r','olive','orange','brown','indigo']
 path="G:\\Mon disque\\Columbia\\Burke Lab\\01 Mixture Rules Project\\"
 fname=path+"rateConstantCalculations_SKJFig5.csv"
 plt.figure(figsize=(8,6))
-p_list = [10,100,300,760,2280,7600,22800,76000]
+p_list = [10,100,300,760,2280,7600,22800,76000] #torr
 # p_list = [76000]
 dataset = pd.read_csv(fname)
 for i,p in enumerate(p_list):
@@ -32,13 +32,15 @@ for i,p in enumerate(p_list):
     T_data=dataset_p['T'] # K
     N_A = 6.022e23 # molec/mol
     lnk_M_raw = dataset_p['lnK/M (cm6/molec^2/sec)']
-    k_M_data=np.multiply(np.exp(lnk_M_raw),np.square(N_A)) # ln(cm6/molec^2/s) converted to cm6/mol^2/s
-    R=82.1 #cm3atm/K/mol
-    conc = np.divide(np.divide(p,R),T_data) #mol/cm3
-    # e^(K/M)*Na^2*conc
-    k_data = np.multiply(k_M_data,conc) #cm3/mol/sec
+    # k_M_data=np.multiply(np.exp(lnk_M_raw),np.square(N_A)) # ln(cm6/molec^2/s) converted to cm6/mol^2/s
+    # R=82.1 #cm3atm/K/mol
+    # conc = np.divide(np.divide(np.divide(p,760),R),T_data) #mol/cm3
+    # # e^(K/M)*Na^2*conc
+    # k_data = np.multiply(k_M_data,conc) #cm3/mol/sec
+    conc = dataset_p['Conc (P/R/T) (mol/cm3)']
+    k_data = dataset_p['K (cm3/mol/sec)']
     popt, pcov = curve_fit(arrhenius, T_data, np.log(k_data),maxfev = 2000)
-    print(("- {P: %.3e, A: %.5e, b: %.5e, Ea: %.5e}")%(p/760, popt[0],popt[1],popt[2]))
+    print(("- {P: %.3e atm, A: %.5e, b: %.5e, Ea: %.5e}")%(p/760, popt[0],popt[1],popt[2]))
     lnk_fit = arrhenius(T_data,popt[0],popt[1],popt[2])
     lnk_M_fit = np.log(np.divide(np.divide(np.exp(lnk_fit),conc),np.square(N_A))) # ln(cm6/molec^2/s)
     plt.plot(T_data,lnk_M_fit,label=str(p) + ' fit',linestyle='solid',color=pltcolours[i])

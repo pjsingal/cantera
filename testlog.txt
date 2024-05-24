@@ -6,7 +6,7 @@ Compiling with MSVC toolset 14.3 (default)
 Compiling for architecture: amd64
 Compiling using the following toolchain(s): ['default']
 INFO: Compiling on 'Intel64 Family 6 Model 140 Stepping 1, GenuineIntel'
-INFO: Building Cantera from git commit '33999e29b'
+INFO: Building Cantera from git commit '9c01acb30'
 INFO: Configuration variables read from 'cantera.conf' and command line:
     toolchain = 'msvc'
     prefix = 'C:\\Users\\pjsin\\Documents'
@@ -76,5 +76,310 @@ ConfigBuilder(["build\ext\sundials_config.h.build"], ["ext\sundials_config.h.in"
 INFO: Generating build\ext\sundials_config.h.build with the following settings:
     SUNDIALS_BLAS_LAPACK                *undefined*
     SUNDIALS_USE_GENERIC_MATH           *undefined*
-scons: *** [build\python\cantera\cantera_shared.dll] C:\Users\pjsin\Documents\cantera\build\python\cantera\cantera_shared.dll: Accès refusé
-scons: building terminated because of errors.
+gtestRunner(["build\test\kinetics\kinetics.exe.passed"], ["build\test\kinetics\kinetics.exe"])
+Running main() from pdep.cpp
+[==========] Running 130 tests from 13 test suites.
+[----------] Global test environment set-up.
+[----------] 34 tests from KineticsFromScratch
+[ RUN      ] KineticsFromScratch.add_elementary_reaction1
+[       OK ] KineticsFromScratch.add_elementary_reaction1 (20 ms)
+[ RUN      ] KineticsFromScratch.add_elementary_reaction2
+[       OK ] KineticsFromScratch.add_elementary_reaction2 (2 ms)
+[ RUN      ] KineticsFromScratch.add_three_body_reaction1
+[       OK ] KineticsFromScratch.add_three_body_reaction1 (2 ms)
+[ RUN      ] KineticsFromScratch.add_three_body_reaction2
+[       OK ] KineticsFromScratch.add_three_body_reaction2 (2 ms)
+[ RUN      ] KineticsFromScratch.add_three_body_reaction3
+[       OK ] KineticsFromScratch.add_three_body_reaction3 (2 ms)
+[ RUN      ] KineticsFromScratch.multiple_third_bodies1
+[       OK ] KineticsFromScratch.multiple_third_bodies1 (2 ms)
+[ RUN      ] KineticsFromScratch.multiple_third_bodies2
+[       OK ] KineticsFromScratch.multiple_third_bodies2 (2 ms)
+[ RUN      ] KineticsFromScratch.multiple_third_bodies3
+[       OK ] KineticsFromScratch.multiple_third_bodies3 (2 ms)
+[ RUN      ] KineticsFromScratch.multiple_third_bodies4
+[       OK ] KineticsFromScratch.multiple_third_bodies4 (2 ms)
+[ RUN      ] KineticsFromScratch.multiple_third_bodies5
+[       OK ] KineticsFromScratch.multiple_third_bodies5 (2 ms)
+[ RUN      ] KineticsFromScratch.multiple_third_bodies6
+[       OK ] KineticsFromScratch.multiple_third_bodies6 (2 ms)
+[ RUN      ] KineticsFromScratch.multiple_third_bodies7
+[       OK ] KineticsFromScratch.multiple_third_bodies7 (2 ms)
+[ RUN      ] KineticsFromScratch.multiple_third_bodies8
+[       OK ] KineticsFromScratch.multiple_third_bodies8 (2 ms)
+[ RUN      ] KineticsFromScratch.multiple_third_bodies9
+[       OK ] KineticsFromScratch.multiple_third_bodies9 (2 ms)
+[ RUN      ] KineticsFromScratch.add_two_temperature_plasma
+[       OK ] KineticsFromScratch.add_two_temperature_plasma (2 ms)
+[ RUN      ] KineticsFromScratch.undefined_third_body
+[       OK ] KineticsFromScratch.undefined_third_body (2 ms)
+[ RUN      ] KineticsFromScratch.skip_undefined_third_body
+[       OK ] KineticsFromScratch.skip_undefined_third_body (2 ms)
+[ RUN      ] KineticsFromScratch.skip_explicit_third_body
+[       OK ] KineticsFromScratch.skip_explicit_third_body (2 ms)
+[ RUN      ] KineticsFromScratch.third_body_composition
+[       OK ] KineticsFromScratch.third_body_composition (2 ms)
+[ RUN      ] KineticsFromScratch.add_falloff_reaction1
+[       OK ] KineticsFromScratch.add_falloff_reaction1 (2 ms)
+[ RUN      ] KineticsFromScratch.add_falloff_reaction2
+[       OK ] KineticsFromScratch.add_falloff_reaction2 (2 ms)
+[ RUN      ] KineticsFromScratch.missing_third_body
+[       OK ] KineticsFromScratch.missing_third_body (2 ms)
+[ RUN      ] KineticsFromScratch.add_plog_reaction
+[       OK ] KineticsFromScratch.add_plog_reaction (2 ms)
+[ RUN      ] KineticsFromScratch.plog_invalid_rate
+[       OK ] KineticsFromScratch.plog_invalid_rate (2 ms)
+[ RUN      ] KineticsFromScratch.add_chebyshev_reaction
+[       OK ] KineticsFromScratch.add_chebyshev_reaction (2 ms)
+[ RUN      ] KineticsFromScratch.undeclared_species
+[       OK ] KineticsFromScratch.undeclared_species (2 ms)
+[ RUN      ] KineticsFromScratch.skip_undeclared_species
+[       OK ] KineticsFromScratch.skip_undeclared_species (2 ms)
+[ RUN      ] KineticsFromScratch.negative_A_error
+[       OK ] KineticsFromScratch.negative_A_error (2 ms)
+[ RUN      ] KineticsFromScratch.allow_negative_A
+[       OK ] KineticsFromScratch.allow_negative_A (2 ms)
+[ RUN      ] KineticsFromScratch.invalid_reversible_with_orders
+[       OK ] KineticsFromScratch.invalid_reversible_with_orders (2 ms)
+[ RUN      ] KineticsFromScratch.negative_order_override
+[       OK ] KineticsFromScratch.negative_order_override (2 ms)
+[ RUN      ] KineticsFromScratch.invalid_negative_orders
+[       OK ] KineticsFromScratch.invalid_negative_orders (2 ms)
+[ RUN      ] KineticsFromScratch.nonreactant_order_override
+[       OK ] KineticsFromScratch.nonreactant_order_override (2 ms)
+[ RUN      ] KineticsFromScratch.invalid_nonreactant_order
+[       OK ] KineticsFromScratch.invalid_nonreactant_order (2 ms)
+[----------] 34 tests from KineticsFromScratch (101 ms total)
+
+[----------] 3 tests from InterfaceKineticsFromScratch
+[ RUN      ] InterfaceKineticsFromScratch.add_surface_reaction
+[       OK ] InterfaceKineticsFromScratch.add_surface_reaction (66 ms)
+[ RUN      ] InterfaceKineticsFromScratch.add_sticking_reaction
+[       OK ] InterfaceKineticsFromScratch.add_sticking_reaction (3 ms)
+[ RUN      ] InterfaceKineticsFromScratch.unbalanced_sites
+[       OK ] InterfaceKineticsFromScratch.unbalanced_sites (3 ms)
+[----------] 3 tests from InterfaceKineticsFromScratch (74 ms total)
+
+[----------] 2 tests from KineticsAddSpecies
+[ RUN      ] KineticsAddSpecies.add_species_sequential
+[       OK ] KineticsAddSpecies.add_species_sequential (4 ms)
+[ RUN      ] KineticsAddSpecies.add_species_err_first
+[       OK ] KineticsAddSpecies.add_species_err_first (3 ms)
+[----------] 2 tests from KineticsAddSpecies (8 ms total)
+
+[----------] 2 tests from ReactionRate
+[ RUN      ] ReactionRate.ModifyArrheniusRate
+[       OK ] ReactionRate.ModifyArrheniusRate (14 ms)
+[ RUN      ] ReactionRate.ArrheniusUnits
+[       OK ] ReactionRate.ArrheniusUnits (0 ms)
+[----------] 2 tests from ReactionRate (14 ms total)
+
+[----------] 25 tests from Reaction
+[ RUN      ] Reaction.ElementaryFromYaml
+[       OK ] Reaction.ElementaryFromYaml (14 ms)
+[ RUN      ] Reaction.ThreeBodyFromYaml1
+[       OK ] Reaction.ThreeBodyFromYaml1 (13 ms)
+[ RUN      ] Reaction.ThreeBodyFromYaml2
+[       OK ] Reaction.ThreeBodyFromYaml2 (14 ms)
+[ RUN      ] Reaction.ThreeBodyFromYaml3
+[       OK ] Reaction.ThreeBodyFromYaml3 (14 ms)
+[ RUN      ] Reaction.ThreeBodyFromYaml4
+[       OK ] Reaction.ThreeBodyFromYaml4 (13 ms)
+[ RUN      ] Reaction.ThreeBodyFromYaml5
+[       OK ] Reaction.ThreeBodyFromYaml5 (13 ms)
+[ RUN      ] Reaction.ThreeBodyFromYaml6
+[       OK ] Reaction.ThreeBodyFromYaml6 (13 ms)
+[ RUN      ] Reaction.ThreeBodyFromYamlMissingM
+[       OK ] Reaction.ThreeBodyFromYamlMissingM (13 ms)
+[ RUN      ] Reaction.ThreeBodyFromYamlMultiple
+[       OK ] Reaction.ThreeBodyFromYamlMultiple (14 ms)
+[ RUN      ] Reaction.ThreeBodyFromYamlIncompatible1
+[       OK ] Reaction.ThreeBodyFromYamlIncompatible1 (14 ms)
+[ RUN      ] Reaction.ThreeBodyFromYamlIncompatible2
+[       OK ] Reaction.ThreeBodyFromYamlIncompatible2 (13 ms)
+[ RUN      ] Reaction.ThreeBodyFromYamlIncompatible3
+[       OK ] Reaction.ThreeBodyFromYamlIncompatible3 (13 ms)
+[ RUN      ] Reaction.ThreeBodyFromYamlIncompatible4
+[       OK ] Reaction.ThreeBodyFromYamlIncompatible4 (15 ms)
+[ RUN      ] Reaction.ThreeBodyFromYamlIncompatible5
+[       OK ] Reaction.ThreeBodyFromYamlIncompatible5 (17 ms)
+[ RUN      ] Reaction.FalloffFromYaml1
+[       OK ] Reaction.FalloffFromYaml1 (17 ms)
+[ RUN      ] Reaction.FalloffFromYaml2
+[       OK ] Reaction.FalloffFromYaml2 (16 ms)
+[ RUN      ] Reaction.FalloffFromYaml3
+[       OK ] Reaction.FalloffFromYaml3 (17 ms)
+[ RUN      ] Reaction.ChemicallyActivatedFromYaml
+[       OK ] Reaction.ChemicallyActivatedFromYaml (18 ms)
+[ RUN      ] Reaction.PlogFromYaml
+[       OK ] Reaction.PlogFromYaml (18 ms)
+[ RUN      ] Reaction.ChebyshevFromYaml
+[       OK ] Reaction.ChebyshevFromYaml (20 ms)
+[ RUN      ] Reaction.BlowersMaselFromYaml
+[       OK ] Reaction.BlowersMaselFromYaml (28 ms)
+[ RUN      ] Reaction.ThreeBodyBlowersMaselFromYaml
+[       OK ] Reaction.ThreeBodyBlowersMaselFromYaml (20 ms)
+[ RUN      ] Reaction.InvalidBlowersMaselFromYaml
+[       OK ] Reaction.InvalidBlowersMaselFromYaml (23 ms)
+[ RUN      ] Reaction.TwoTempPlasmaFromYaml
+[       OK ] Reaction.TwoTempPlasmaFromYaml (4 ms)
+[ RUN      ] Reaction.PythonExtensibleRate
+[       OK ] Reaction.PythonExtensibleRate (226 ms)
+[----------] 25 tests from Reaction (611 ms total)
+
+[----------] 6 tests from Kinetics
+[ RUN      ] Kinetics.BulkKineticsFromYaml1
+[       OK ] Kinetics.BulkKineticsFromYaml1 (5 ms)
+[ RUN      ] Kinetics.BulkKineticsFromYaml2
+[       OK ] Kinetics.BulkKineticsFromYaml2 (2 ms)
+[ RUN      ] Kinetics.EfficienciesFromYaml
+[       OK ] Kinetics.EfficienciesFromYaml (1 ms)
+[ RUN      ] Kinetics.InterfaceKineticsFromYaml
+[       OK ] Kinetics.InterfaceKineticsFromYaml (8 ms)
+[ RUN      ] Kinetics.BMInterfaceKineticsFromYaml
+[       OK ] Kinetics.BMInterfaceKineticsFromYaml (129 ms)
+[ RUN      ] Kinetics.ElectrochemFromYaml
+[       OK ] Kinetics.ElectrochemFromYaml (0 ms)
+[----------] 6 tests from Kinetics (148 ms total)
+
+[----------] 12 tests from KineticsFromYaml
+[ RUN      ] KineticsFromYaml.NoKineticsModelOrReactionsField1
+[       OK ] KineticsFromYaml.NoKineticsModelOrReactionsField1 (2 ms)
+[ RUN      ] KineticsFromYaml.NoKineticsModelOrReactionsField2
+[       OK ] KineticsFromYaml.NoKineticsModelOrReactionsField2 (2 ms)
+[ RUN      ] KineticsFromYaml.KineticsModelWithReactionsNone1
+[       OK ] KineticsFromYaml.KineticsModelWithReactionsNone1 (1 ms)
+[ RUN      ] KineticsFromYaml.KineticsModelWithReactionsNone2
+[       OK ] KineticsFromYaml.KineticsModelWithReactionsNone2 (1 ms)
+[ RUN      ] KineticsFromYaml.KineticsModelWithoutReactionsSection1
+[       OK ] KineticsFromYaml.KineticsModelWithoutReactionsSection1 (1 ms)
+[ RUN      ] KineticsFromYaml.KineticsModelWithoutReactionsSection2
+[       OK ] KineticsFromYaml.KineticsModelWithoutReactionsSection2 (1 ms)
+[ RUN      ] KineticsFromYaml.KineticsModelWithoutReactionsSection3
+[       OK ] KineticsFromYaml.KineticsModelWithoutReactionsSection3 (1 ms)
+[ RUN      ] KineticsFromYaml.KineticsModelWithoutReactionsSection4
+[       OK ] KineticsFromYaml.KineticsModelWithoutReactionsSection4 (0 ms)
+[ RUN      ] KineticsFromYaml.KineticsModelWithoutReactionsField
+[       OK ] KineticsFromYaml.KineticsModelWithoutReactionsField (2 ms)
+[ RUN      ] KineticsFromYaml.ReactionsFieldWithoutKineticsModel1
+[       OK ] KineticsFromYaml.ReactionsFieldWithoutKineticsModel1 (0 ms)
+[ RUN      ] KineticsFromYaml.ReactionsFieldWithoutKineticsModel2
+[       OK ] KineticsFromYaml.ReactionsFieldWithoutKineticsModel2 (0 ms)
+[ RUN      ] KineticsFromYaml.InvalidExtension
+[       OK ] KineticsFromYaml.InvalidExtension (20 ms)
+[----------] 12 tests from KineticsFromYaml (37 ms total)
+
+[----------] 15 tests from ReactionToYaml
+[ RUN      ] ReactionToYaml.elementary
+[       OK ] ReactionToYaml.elementary (2 ms)
+[ RUN      ] ReactionToYaml.threeBody
+[       OK ] ReactionToYaml.threeBody (3 ms)
+[ RUN      ] ReactionToYaml.TroeFalloff
+[       OK ] ReactionToYaml.TroeFalloff (4 ms)
+[ RUN      ] ReactionToYaml.SriFalloff
+[       OK ] ReactionToYaml.SriFalloff (7 ms)
+[ RUN      ] ReactionToYaml.TsangFalloff
+[       OK ] ReactionToYaml.TsangFalloff (7 ms)
+[ RUN      ] ReactionToYaml.chemicallyActivated
+[       OK ] ReactionToYaml.chemicallyActivated (4 ms)
+[ RUN      ] ReactionToYaml.pdepArrhenius
+[       OK ] ReactionToYaml.pdepArrhenius (19 ms)
+[ RUN      ] ReactionToYaml.Chebyshev
+[       OK ] ReactionToYaml.Chebyshev (3 ms)
+[ RUN      ] ReactionToYaml.surface
+[       OK ] ReactionToYaml.surface (7 ms)
+[ RUN      ] ReactionToYaml.electrochemical
+[       OK ] ReactionToYaml.electrochemical (8 ms)
+[ RUN      ] ReactionToYaml.unconvertible1
+[       OK ] ReactionToYaml.unconvertible1 (0 ms)
+[ RUN      ] ReactionToYaml.unconvertible2
+[       OK ] ReactionToYaml.unconvertible2 (0 ms)
+[ RUN      ] ReactionToYaml.unconvertible3
+[       OK ] ReactionToYaml.unconvertible3 (0 ms)
+[ RUN      ] ReactionToYaml.BlowersMaselRate
+[       OK ] ReactionToYaml.BlowersMaselRate (4 ms)
+[ RUN      ] ReactionToYaml.BlowersMaselInterface
+[       OK ] ReactionToYaml.BlowersMaselInterface (5 ms)
+[----------] 15 tests from ReactionToYaml (80 ms total)
+
+[----------] 12 tests from LmrTest
+[ RUN      ] LmrTest.reactionCounts
+[       OK ] LmrTest.reactionCounts (0 ms)
+[ RUN      ] LmrTest.PlogLowPressure
+[       OK ] LmrTest.PlogLowPressure (0 ms)
+[ RUN      ] LmrTest.PlogHighPressure
+[       OK ] LmrTest.PlogHighPressure (0 ms)
+[ RUN      ] LmrTest.PlogDuplicatePressures
+[       OK ] LmrTest.PlogDuplicatePressures (0 ms)
+[ RUN      ] LmrTest.PlogCornerCases
+[       OK ] LmrTest.PlogCornerCases (0 ms)
+[ RUN      ] LmrTest.PlogIntermediatePressure1
+[       OK ] LmrTest.PlogIntermediatePressure1 (0 ms)
+[ RUN      ] LmrTest.PlogIntermediatePressure2
+[       OK ] LmrTest.PlogIntermediatePressure2 (0 ms)
+[ RUN      ] LmrTest.PlogIntermediatePressure3
+[       OK ] LmrTest.PlogIntermediatePressure3 (0 ms)
+[ RUN      ] LmrTest.ChebyshevIntermediate1
+[       OK ] LmrTest.ChebyshevIntermediate1 (0 ms)
+[ RUN      ] LmrTest.ChebyshevIntermediate2
+[       OK ] LmrTest.ChebyshevIntermediate2 (0 ms)
+[ RUN      ] LmrTest.ChebyshevIntermediateROP
+[       OK ] LmrTest.ChebyshevIntermediateROP (0 ms)
+[ RUN      ] LmrTest.ChebyshevEdgeCases
+[       OK ] LmrTest.ChebyshevEdgeCases (0 ms)
+[----------] 12 tests from LmrTest (4 ms total)
+
+[----------] 12 tests from PdepTest
+[ RUN      ] PdepTest.reactionCounts
+[       OK ] PdepTest.reactionCounts (0 ms)
+[ RUN      ] PdepTest.PlogLowPressure
+[       OK ] PdepTest.PlogLowPressure (0 ms)
+[ RUN      ] PdepTest.PlogHighPressure
+[       OK ] PdepTest.PlogHighPressure (0 ms)
+[ RUN      ] PdepTest.PlogDuplicatePressures
+[       OK ] PdepTest.PlogDuplicatePressures (0 ms)
+[ RUN      ] PdepTest.PlogCornerCases
+[       OK ] PdepTest.PlogCornerCases (0 ms)
+[ RUN      ] PdepTest.PlogIntermediatePressure1
+[       OK ] PdepTest.PlogIntermediatePressure1 (0 ms)
+[ RUN      ] PdepTest.PlogIntermediatePressure2
+[       OK ] PdepTest.PlogIntermediatePressure2 (0 ms)
+[ RUN      ] PdepTest.PlogIntermediatePressure3
+[       OK ] PdepTest.PlogIntermediatePressure3 (0 ms)
+[ RUN      ] PdepTest.ChebyshevIntermediate1
+[       OK ] PdepTest.ChebyshevIntermediate1 (0 ms)
+[ RUN      ] PdepTest.ChebyshevIntermediate2
+[       OK ] PdepTest.ChebyshevIntermediate2 (0 ms)
+[ RUN      ] PdepTest.ChebyshevIntermediateROP
+[       OK ] PdepTest.ChebyshevIntermediateROP (0 ms)
+[ RUN      ] PdepTest.ChebyshevEdgeCases
+[       OK ] PdepTest.ChebyshevEdgeCases (0 ms)
+[----------] 12 tests from PdepTest (3 ms total)
+
+[----------] 5 tests from FracCoeffTest
+[ RUN      ] FracCoeffTest.StoichCoeffs
+[       OK ] FracCoeffTest.StoichCoeffs (8 ms)
+[ RUN      ] FracCoeffTest.RateConstants
+[       OK ] FracCoeffTest.RateConstants (1 ms)
+[ RUN      ] FracCoeffTest.RatesOfProgress
+[       OK ] FracCoeffTest.RatesOfProgress (1 ms)
+[ RUN      ] FracCoeffTest.CreationDestructionRates
+[       OK ] FracCoeffTest.CreationDestructionRates (2 ms)
+[ RUN      ] FracCoeffTest.EquilibriumConstants
+[       OK ] FracCoeffTest.EquilibriumConstants (2 ms)
+[----------] 5 tests from FracCoeffTest (17 ms total)
+
+[----------] 1 test from NegativePreexponentialFactor
+[ RUN      ] NegativePreexponentialFactor.fromYaml
+[       OK ] NegativePreexponentialFactor.fromYaml (9 ms)
+[----------] 1 test from NegativePreexponentialFactor (10 ms total)
+
+[----------] 1 test from InterfaceReaction
+[ RUN      ] InterfaceReaction.CoverageDependency
+[       OK ] InterfaceReaction.CoverageDependency (43 ms)
+[----------] 1 test from InterfaceReaction (43 ms total)
+
+[----------] Global test environment tear-down
+[==========] 130 tests from 13 test suites ran. (1187 ms total)
+[  PASSED  ] 130 tests.
+scons: done building targets.
