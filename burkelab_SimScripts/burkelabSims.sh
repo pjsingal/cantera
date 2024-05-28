@@ -8,13 +8,13 @@ msz=2.5
 lgdw=1.0
 lgdfsz=7
 
-python burkelab_SimScripts/simulateIDT_Shao_1x4_ESSCI.py \
---figwidth 6 --figheight 1.66667 --fsz $fsz --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
---lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 10 &
+# python burkelab_SimScripts/simulateIDT_Shao_1x4_ESSCI.py \
+# --figwidth 6 --figheight 1.66667 --fsz $fsz --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
+# --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 10 &
 
 python burkelab_SimScripts/simulateIDT_Shao_4x1_PCI.py \
 --figwidth 3.5 --figheight 6.66667 --fsz $fsz --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
---lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 10 &
+--lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 10
 
 # python burkelab_SimScripts/simulateJSR_H2O_1x3_ESSCI.py \
 # --figwidth 6 --figheight 1.66667 --fsz $fsz --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \

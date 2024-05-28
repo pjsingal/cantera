@@ -9,21 +9,21 @@ bklabct.print_stack_trace_on_segfault()
 file = 'C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\kineticsfromscratch_LMRtest.yaml'
 # reactions = ['2 OH (+ M) <=>  H2O2 (+ M)','H + O2 <=> HO2','HO2 <=> OH + O']
 # reactions = ['NH3 (+M) <=> H + NH2 (+M)','2 NH2 (+M) <=> N2H4 (+M)']
-reactions = ['H + O2 <=> HO2']
+reactions = ['H + O2 (+M) <=> HO2 (+M)']
 # reactions = ['NH3 (+M) <=> H + NH2 (+M)']
 gas = bklabct.Solution(file)
 #Temp = np.linspace(750,2500,50)
 Temp=[1000]
 # Pres = np.logspace(-2,2,5)
-# Pres = [101325] # units: Pa
-Pres=[1e-6,1e-5,1e-4,0.001,0.01,0.1, 1, 10, 100, 1000, 10000, 100000, 1e6, 1e7, 1e8]
+Pres = [101325] # units: Pa
+# Pres=[1e-6,1e-5,1e-4,0.001,0.01,0.1, 1, 10, 100, 1000, 10000, 100000, 1e6, 1e7, 1e8]
 for i, R in enumerate(reactions):
     k_list=[]
     for j, P in enumerate(Pres):
         temp_list = []
         for k,T in enumerate(Temp):
             # gas.TPX = T,P,{'H2O':0.5,'Ar':0.5}
-            gas.TPX = T,P*101325,{'H2O':0.5,'Ar':0.5}
+            gas.TPX = T,P,{'Ar':1}
             # print(gas.TPX)
             rc = gas.forward_rate_constants[gas.reaction_equations().index(R)]
             temp_list.append(rc)
