@@ -71,17 +71,42 @@ for i,p in enumerate(p_list):
     T_data=dataset_p['T'] # K
     k_data_og=dataset_p['lnK/M (cm6/molec^2/sec)'] # ln(cm6/molec^2*s)
     N_A = 6.022e23 # molec/mol
-    k_converted = np.multiply(np.exp(k_data_og),np.square(N_A)) # cm6/mol2*s
+    k_converted = np.multiply(np.power(10,k_data_og),np.square(N_A)) # cm6/mol2*s
     popt, pcov = curve_fit(arrhenius, T_data, np.log(k_converted),maxfev = 2000)
     print(("- {P: %.3e, A: %.5e, b: %.5e, Ea: %.5e}")%(p/760, popt[0],popt[1],popt[2]))
     lnk_fit = arrhenius(T_data,popt[0],popt[1],popt[2])
-    plt.plot(T_data,np.log(np.divide(np.exp(lnk_fit),np.square(N_A))),label=str(p) + ' fit',linestyle='solid',color=pltcolours[i])
-    plt.scatter(T_data,np.log(np.divide(k_converted,np.square(N_A))),marker='x',color=pltcolours[i],label=str(p) + ' data')
+    plt.plot(T_data,np.log10(np.divide(np.exp(lnk_fit),np.square(N_A))),label=str(p) + ' fit',linestyle='solid',color=pltcolours[i])
+    # plt.scatter(T_data,np.log(np.divide(k_converted,np.square(N_A))),marker='x',color=pltcolours[i],label=str(p) + ' data')
+    plt.scatter(T_data,k_data_og,marker='x',color=pltcolours[i],label=str(p) + ' data')
 plt.title('PLOG Fit for H + O2 (+Ar) <-> HO2 (+Ar) [Data from Graph-Reading]')
 plt.xlabel('Temperature [K]')
 plt.ylabel('ln ( k/[M] [cm^6/molecule^2*s] )')
 plt.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
 plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #%%
 #STEP 1b: ALTERNATIVE TO PERFORM A PLOG FIT FOR AR COLLIDER, USING GRAPH-READ DATA FROM FIGURE 5 OF SJK PAPER
@@ -174,7 +199,7 @@ for i,p in enumerate(p_list):
     # conc = dataset_p['Conc (P/R/T) (mol/cm3)']
     # k_data = dataset_p['K (cm3/mol/sec)']
     # popt, pcov = curve_fit(arrhenius, T_data, np.log(k_data),maxfev = 2000)
-    popt=ratefit1(T_data,k_raw_converted)
+    popt=ratefit1(T_data,k_M_raw_converted)
     # popt, pcov = curve_fit(arrhenius, T_data, np.log(k_raw_converted),maxfev = 2000)
     print(("- {P: %.3e atm, A: %.5e, b: %.5e, Ea: %.5e}")%(p/760, popt[0],popt[1],popt[2]))
     # k_fit_converted = np.exp(arrhenius(T_data,popt[0],popt[1],popt[2])) #cm3/mol/s
