@@ -228,12 +228,12 @@ void LmrRate::validate(const string& equation, const Kinetics& kin){
 }
 
 double LmrRate::speciesPlogRate(const LmrData& shared_data){
-    // auto iter = pressures_s_.upper_bound(logPeff_);
-    auto iter = pressures_s_.upper_bound(logP_);
-    // AssertThrowMsg(iter != pressures_s_.end(), "LmrRate::speciesPlogRate","Reduced-pressure out of range: {}", logPeff_);
-    // AssertThrowMsg(iter != pressures_s_.begin(), "LmrRate::speciesPlogRate","Reduced-pressure out of range: {}", logPeff_); 
-    AssertThrowMsg(iter != pressures_s_.end(), "LmrRate::speciesPlogRate","Log-Pressure out of range: {}", logP_);
-    AssertThrowMsg(iter != pressures_s_.begin(), "LmrRate::speciesPlogRate","Log-Pressure out of range: {}", logP_); 
+    auto iter = pressures_s_.upper_bound(logPeff_);
+    // auto iter = pressures_s_.upper_bound(logP_);
+    AssertThrowMsg(iter != pressures_s_.end(), "LmrRate::speciesPlogRate","Reduced-pressure out of range: {}", logPeff_);
+    AssertThrowMsg(iter != pressures_s_.begin(), "LmrRate::speciesPlogRate","Reduced-pressure out of range: {}", logPeff_); 
+    // AssertThrowMsg(iter != pressures_s_.end(), "LmrRate::speciesPlogRate","Log-Pressure out of range: {}", logP_);
+    // AssertThrowMsg(iter != pressures_s_.begin(), "LmrRate::speciesPlogRate","Log-Pressure out of range: {}", logP_); 
     logP2_ = iter->first;
     ihigh1_ = iter->second.first;
     ihigh2_ = iter->second.second;
