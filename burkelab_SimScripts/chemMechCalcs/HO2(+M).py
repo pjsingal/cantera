@@ -15,6 +15,45 @@ from matplotlib import gridspec
 
 hfont = {'fontname':'sans-serif','fontweight':550,'fontsize':10,'fontstretch':500}
 
+# #%%
+# #STEP 1: PERFORM A PLOG FIT FOR AR COLLIDER, USING GRAPH-READ DATA FROM FIGURE 5 OF SJK PAPER
+# def arrhenius(T, A, n, Ea):
+#     return np.log(A) + n*np.log(T)+ (-Ea/(1.987*T))
+# pltcolours = ['k','g','b','r','olive','orange','brown','indigo']
+# path="G:\\Mon disque\\Columbia\\Burke Lab\\01 Mixture Rules Project\\"
+# fname=path+"rateConstantCalculations_SKJFig5.csv"
+# plt.figure(figsize=(8,6))
+# p_list = [10,100,300,760,2280,7600,22800,76000] #torr
+# # p_list = [76000]
+# dataset = pd.read_csv(fname)
+# for i,p in enumerate(p_list):
+#     dataset_p = dataset[dataset['P(torr)']==p]
+#     p_data = dataset_p['P(atm)'] # atm
+#     T_data=dataset_p['T'] # K
+#     N_A = 6.022e23 # molec/mol
+#     lnk_M_raw = dataset_p['lnK/M (cm6/molec^2/sec)']
+#     k_M_raw = np.exp(lnk_M_raw) # cm6/molec^2/s
+#     k_M_raw_converted = np.multiply(k_M_raw,np.square(N_A)) #cm6/mol^2/s
+#     R=82.1 #cm3atm/K/mol
+#     conc = np.divide(np.divide(np.divide(p,760),R),T_data) #mol/cm3
+#     k_raw_converted = np.multiply(k_M_raw_converted, conc) #cm3/mol/s
+#     # conc = dataset_p['Conc (P/R/T) (mol/cm3)']
+#     # k_data = dataset_p['K (cm3/mol/sec)']
+#     popt, pcov = curve_fit(arrhenius, T_data, np.log(k_raw_converted),maxfev = 2000)
+#     print(("- {P: %.3e atm, A: %.5e, b: %.5e, Ea: %.5e}")%(p/760, popt[0],popt[1],popt[2]))
+#     k_fit_converted = np.exp(arrhenius(T_data,popt[0],popt[1],popt[2])) #cm3/mol/s
+#     k_M_fit_converted = np.divide(k_fit_converted,conc)
+#     k_M_fit = np.divide(k_M_fit_converted,np.square(N_A))  #cm6/mol^2/s
+#     lnk_M_fit = np.log(k_M_fit)
+#     # lnk_M_fit = np.log(np.divide(np.divide(np.exp(lnk_fit),conc),np.square(N_A))) # ln(cm6/molec^2/s)
+#     plt.plot(T_data,lnk_M_fit,label=str(p) + ' fit',linestyle='solid',color=pltcolours[i])
+#     plt.scatter(T_data,lnk_M_raw,marker='x',color=pltcolours[i],label=str(p) + ' data')
+# plt.title('PLOG Fit for H + O2 (+Ar) <-> HO2 (+Ar) [Data from Graph-Reading]')
+# plt.xlabel('Temperature [K]')
+# plt.ylabel('lnk/[M] [cm^6/molecule^2*s] ')
+# plt.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
+# plt.show()
+
 #%%
 #STEP 1: PERFORM A PLOG FIT FOR AR COLLIDER, USING GRAPH-READ DATA FROM FIGURE 5 OF SJK PAPER
 def arrhenius(T, A, n, Ea):
@@ -32,17 +71,21 @@ for i,p in enumerate(p_list):
     T_data=dataset_p['T'] # K
     N_A = 6.022e23 # molec/mol
     lnk_M_raw = dataset_p['lnK/M (cm6/molec^2/sec)']
-    # k_M_data=np.multiply(np.exp(lnk_M_raw),np.square(N_A)) # ln(cm6/molec^2/s) converted to cm6/mol^2/s
+    # k_M_raw = np.exp(lnk_M_raw) # cm6/molec^2/s
+    # k_M_raw_converted = np.multiply(k_M_raw,np.square(N_A)) #cm6/mol^2/s
     # R=82.1 #cm3atm/K/mol
     # conc = np.divide(np.divide(np.divide(p,760),R),T_data) #mol/cm3
-    # # e^(K/M)*Na^2*conc
-    # k_data = np.multiply(k_M_data,conc) #cm3/mol/sec
+    # k_raw_converted = np.multiply(k_M_raw_converted, conc) #cm3/mol/s
     conc = dataset_p['Conc (P/R/T) (mol/cm3)']
     k_data = dataset_p['K (cm3/mol/sec)']
     popt, pcov = curve_fit(arrhenius, T_data, np.log(k_data),maxfev = 2000)
+    # popt, pcov = curve_fit(arrhenius, T_data, np.log(k_raw_converted),maxfev = 2000)
     print(("- {P: %.3e atm, A: %.5e, b: %.5e, Ea: %.5e}")%(p/760, popt[0],popt[1],popt[2]))
-    lnk_fit = arrhenius(T_data,popt[0],popt[1],popt[2])
-    lnk_M_fit = np.log(np.divide(np.divide(np.exp(lnk_fit),conc),np.square(N_A))) # ln(cm6/molec^2/s)
+    k_fit_converted = np.exp(arrhenius(T_data,popt[0],popt[1],popt[2])) #cm3/mol/s
+    k_M_fit_converted = np.divide(k_fit_converted,conc)
+    k_M_fit = np.divide(k_M_fit_converted,np.square(N_A))  #cm6/mol^2/s
+    lnk_M_fit = np.log(k_M_fit)
+    # lnk_M_fit = np.log(np.divide(np.divide(np.exp(lnk_fit),conc),np.square(N_A))) # ln(cm6/molec^2/s)
     plt.plot(T_data,lnk_M_fit,label=str(p) + ' fit',linestyle='solid',color=pltcolours[i])
     plt.scatter(T_data,lnk_M_raw,marker='x',color=pltcolours[i],label=str(p) + ' data')
 plt.title('PLOG Fit for H + O2 (+Ar) <-> HO2 (+Ar) [Data from Graph-Reading]')
@@ -50,6 +93,7 @@ plt.xlabel('Temperature [K]')
 plt.ylabel('lnk/[M] [cm^6/molecule^2*s] ')
 plt.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
 plt.show()
+
 # %%
 #STEP 2: MANUALLY PASTE THE PARAMETERS INTO "sandbox.yaml"
 
