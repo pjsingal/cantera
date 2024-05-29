@@ -6,7 +6,7 @@ Compiling with MSVC toolset 14.3 (default)
 Compiling for architecture: amd64
 Compiling using the following toolchain(s): ['default']
 INFO: Compiling on 'Intel64 Family 6 Model 140 Stepping 1, GenuineIntel'
-INFO: Building Cantera from git commit 'a03b450ae'
+INFO: Building Cantera from git commit 'bb14dc7f5'
 INFO: Configuration variables read from 'cantera.conf' and command line:
     toolchain = 'msvc'
     prefix = 'C:\\Users\\pjsin\\Documents'
@@ -85,17 +85,17 @@ Processing c:\users\pjsin\documents\cantera\build\python
   Preparing metadata (pyproject.toml): started
   Running command Preparing metadata (pyproject.toml)
   running dist_info
-  creating C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-1o6zil58\Cantera.egg-info
-  writing C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-1o6zil58\Cantera.egg-info\PKG-INFO
-  writing dependency_links to C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-1o6zil58\Cantera.egg-info\dependency_links.txt
-  writing entry points to C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-1o6zil58\Cantera.egg-info\entry_points.txt
-  writing requirements to C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-1o6zil58\Cantera.egg-info\requires.txt
-  writing top-level names to C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-1o6zil58\Cantera.egg-info\top_level.txt
-  writing manifest file 'C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-1o6zil58\Cantera.egg-info\SOURCES.txt'
-  reading manifest file 'C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-1o6zil58\Cantera.egg-info\SOURCES.txt'
+  creating C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-lbwcfwgl\Cantera.egg-info
+  writing C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-lbwcfwgl\Cantera.egg-info\PKG-INFO
+  writing dependency_links to C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-lbwcfwgl\Cantera.egg-info\dependency_links.txt
+  writing entry points to C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-lbwcfwgl\Cantera.egg-info\entry_points.txt
+  writing requirements to C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-lbwcfwgl\Cantera.egg-info\requires.txt
+  writing top-level names to C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-lbwcfwgl\Cantera.egg-info\top_level.txt
+  writing manifest file 'C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-lbwcfwgl\Cantera.egg-info\SOURCES.txt'
+  reading manifest file 'C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-lbwcfwgl\Cantera.egg-info\SOURCES.txt'
   adding license file 'LICENSE.txt'
-  writing manifest file 'C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-1o6zil58\Cantera.egg-info\SOURCES.txt'
-  creating 'C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-1o6zil58\Cantera-3.1.0a1.dist-info'
+  writing manifest file 'C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-lbwcfwgl\Cantera.egg-info\SOURCES.txt'
+  creating 'C:\Users\pjsin\AppData\Local\Temp\pip-modern-metadata-lbwcfwgl\Cantera-3.1.0a1.dist-info'
   adding license file "LICENSE.txt" (matched pattern "LICENSE.txt")
   Preparing metadata (pyproject.toml): finished with status 'done'
 Building wheels for collected packages: Cantera
@@ -192,7 +192,7 @@ Building wheels for collected packages: Cantera
   running install_scripts
   adding license file "LICENSE.txt" (matched pattern "LICENSE.txt")
   creating build\bdist.win-amd64\wheel\Cantera-3.1.0a1.dist-info\WHEEL
-  creating 'C:\Users\pjsin\AppData\Local\Temp\pip-wheel-kkensam7\.tmp-h_b7s5pp\Cantera-3.1.0a1-cp38-cp38-win_amd64.whl' and adding 'build\bdist.win-amd64\wheel' to it
+  creating 'C:\Users\pjsin\AppData\Local\Temp\pip-wheel-l4h00ib0\.tmp-gqgdf7ge\Cantera-3.1.0a1-cp38-cp38-win_amd64.whl' and adding 'build\bdist.win-amd64\wheel' to it
   adding 'cantera/__init__.pxd'
   adding 'cantera/__init__.py'
   adding 'cantera/_cantera.cp38-win_amd64.pyd'
@@ -265,8 +265,8 @@ Building wheels for collected packages: Cantera
   C:\Users\pjsin\.conda\envs\MSI\lib\site-packages\wheel\bdist_wheel.py:80: RuntimeWarning: Config variable 'Py_DEBUG' is unset, Python ABI tag may be incorrect
     if get_flag('Py_DEBUG',
   Building wheel for Cantera (pyproject.toml): finished with status 'done'
-  Created wheel for Cantera: filename=Cantera-3.1.0a1-cp38-cp38-win_amd64.whl size=5276080 sha256=d9091195308e747d743fc958a08440a6dae00fcf35abf7c530b0f1dd8c0b7de5
-  Stored in directory: C:\Users\pjsin\AppData\Local\Temp\pip-ephem-wheel-cache-md_n9lue\wheels\fd\a2\f8\ef16c302e22956f888fa87126180cad261dc89024345502ca9
+  Created wheel for Cantera: filename=Cantera-3.1.0a1-cp38-cp38-win_amd64.whl size=5276083 sha256=3823d5e16c035e64006063222199d1477d3523ffb1cbe54446dc4856596b0ad7
+  Stored in directory: C:\Users\pjsin\AppData\Local\Temp\pip-ephem-wheel-cache-025teore\wheels\fd\a2\f8\ef16c302e22956f888fa87126180cad261dc89024345502ca9
 Successfully built Cantera
 gtestRunner(["build\test\kinetics\kinetics.exe.passed"], ["build\test\kinetics\kinetics.exe"])
 Running main() from pdep.cpp
@@ -274,37 +274,37 @@ Running main() from pdep.cpp
 [----------] Global test environment set-up.
 [----------] 34 tests from KineticsFromScratch
 [ RUN      ] KineticsFromScratch.add_elementary_reaction1
-[       OK ] KineticsFromScratch.add_elementary_reaction1 (63 ms)
+[       OK ] KineticsFromScratch.add_elementary_reaction1 (36 ms)
 [ RUN      ] KineticsFromScratch.add_elementary_reaction2
-[       OK ] KineticsFromScratch.add_elementary_reaction2 (6 ms)
+[       OK ] KineticsFromScratch.add_elementary_reaction2 (3 ms)
 [ RUN      ] KineticsFromScratch.add_three_body_reaction1
-[       OK ] KineticsFromScratch.add_three_body_reaction1 (6 ms)
+[       OK ] KineticsFromScratch.add_three_body_reaction1 (5 ms)
 [ RUN      ] KineticsFromScratch.add_three_body_reaction2
-[       OK ] KineticsFromScratch.add_three_body_reaction2 (7 ms)
+[       OK ] KineticsFromScratch.add_three_body_reaction2 (3 ms)
 [ RUN      ] KineticsFromScratch.add_three_body_reaction3
-[       OK ] KineticsFromScratch.add_three_body_reaction3 (5 ms)
+[       OK ] KineticsFromScratch.add_three_body_reaction3 (3 ms)
 [ RUN      ] KineticsFromScratch.multiple_third_bodies1
-[       OK ] KineticsFromScratch.multiple_third_bodies1 (7 ms)
+[       OK ] KineticsFromScratch.multiple_third_bodies1 (3 ms)
 [ RUN      ] KineticsFromScratch.multiple_third_bodies2
-[       OK ] KineticsFromScratch.multiple_third_bodies2 (7 ms)
+[       OK ] KineticsFromScratch.multiple_third_bodies2 (3 ms)
 [ RUN      ] KineticsFromScratch.multiple_third_bodies3
-[       OK ] KineticsFromScratch.multiple_third_bodies3 (6 ms)
+[       OK ] KineticsFromScratch.multiple_third_bodies3 (3 ms)
 [ RUN      ] KineticsFromScratch.multiple_third_bodies4
-[       OK ] KineticsFromScratch.multiple_third_bodies4 (6 ms)
+[       OK ] KineticsFromScratch.multiple_third_bodies4 (3 ms)
 [ RUN      ] KineticsFromScratch.multiple_third_bodies5
-[       OK ] KineticsFromScratch.multiple_third_bodies5 (4 ms)
+[       OK ] KineticsFromScratch.multiple_third_bodies5 (2 ms)
 [ RUN      ] KineticsFromScratch.multiple_third_bodies6
-[       OK ] KineticsFromScratch.multiple_third_bodies6 (6 ms)
+[       OK ] KineticsFromScratch.multiple_third_bodies6 (2 ms)
 [ RUN      ] KineticsFromScratch.multiple_third_bodies7
-[       OK ] KineticsFromScratch.multiple_third_bodies7 (5 ms)
+[       OK ] KineticsFromScratch.multiple_third_bodies7 (2 ms)
 [ RUN      ] KineticsFromScratch.multiple_third_bodies8
-[       OK ] KineticsFromScratch.multiple_third_bodies8 (6 ms)
+[       OK ] KineticsFromScratch.multiple_third_bodies8 (4 ms)
 [ RUN      ] KineticsFromScratch.multiple_third_bodies9
-[       OK ] KineticsFromScratch.multiple_third_bodies9 (6 ms)
+[       OK ] KineticsFromScratch.multiple_third_bodies9 (3 ms)
 [ RUN      ] KineticsFromScratch.add_two_temperature_plasma
-[       OK ] KineticsFromScratch.add_two_temperature_plasma (4 ms)
+[       OK ] KineticsFromScratch.add_two_temperature_plasma (2 ms)
 [ RUN      ] KineticsFromScratch.undefined_third_body
-[       OK ] KineticsFromScratch.undefined_third_body (4 ms)
+[       OK ] KineticsFromScratch.undefined_third_body (2 ms)
 [ RUN      ] KineticsFromScratch.skip_undefined_third_body
 [       OK ] KineticsFromScratch.skip_undefined_third_body (4 ms)
 [ RUN      ] KineticsFromScratch.skip_explicit_third_body
@@ -312,7 +312,7 @@ Running main() from pdep.cpp
 [ RUN      ] KineticsFromScratch.third_body_composition
 [       OK ] KineticsFromScratch.third_body_composition (4 ms)
 [ RUN      ] KineticsFromScratch.add_falloff_reaction1
-[       OK ] KineticsFromScratch.add_falloff_reaction1 (4 ms)
+[       OK ] KineticsFromScratch.add_falloff_reaction1 (5 ms)
 [ RUN      ] KineticsFromScratch.add_falloff_reaction2
 [       OK ] KineticsFromScratch.add_falloff_reaction2 (5 ms)
 [ RUN      ] KineticsFromScratch.missing_third_body
@@ -320,7 +320,7 @@ Running main() from pdep.cpp
 [ RUN      ] KineticsFromScratch.add_plog_reaction
 [       OK ] KineticsFromScratch.add_plog_reaction (5 ms)
 [ RUN      ] KineticsFromScratch.plog_invalid_rate
-[       OK ] KineticsFromScratch.plog_invalid_rate (5 ms)
+[       OK ] KineticsFromScratch.plog_invalid_rate (4 ms)
 [ RUN      ] KineticsFromScratch.add_chebyshev_reaction
 [       OK ] KineticsFromScratch.add_chebyshev_reaction (4 ms)
 [ RUN      ] KineticsFromScratch.undeclared_species
@@ -330,115 +330,115 @@ Running main() from pdep.cpp
 [ RUN      ] KineticsFromScratch.negative_A_error
 [       OK ] KineticsFromScratch.negative_A_error (4 ms)
 [ RUN      ] KineticsFromScratch.allow_negative_A
-[       OK ] KineticsFromScratch.allow_negative_A (4 ms)
+[       OK ] KineticsFromScratch.allow_negative_A (2 ms)
 [ RUN      ] KineticsFromScratch.invalid_reversible_with_orders
-[       OK ] KineticsFromScratch.invalid_reversible_with_orders (4 ms)
+[       OK ] KineticsFromScratch.invalid_reversible_with_orders (2 ms)
 [ RUN      ] KineticsFromScratch.negative_order_override
-[       OK ] KineticsFromScratch.negative_order_override (5 ms)
+[       OK ] KineticsFromScratch.negative_order_override (4 ms)
 [ RUN      ] KineticsFromScratch.invalid_negative_orders
-[       OK ] KineticsFromScratch.invalid_negative_orders (5 ms)
+[       OK ] KineticsFromScratch.invalid_negative_orders (4 ms)
 [ RUN      ] KineticsFromScratch.nonreactant_order_override
-[       OK ] KineticsFromScratch.nonreactant_order_override (7 ms)
+[       OK ] KineticsFromScratch.nonreactant_order_override (3 ms)
 [ RUN      ] KineticsFromScratch.invalid_nonreactant_order
-[       OK ] KineticsFromScratch.invalid_nonreactant_order (8 ms)
-[----------] 34 tests from KineticsFromScratch (253 ms total)
+[       OK ] KineticsFromScratch.invalid_nonreactant_order (2 ms)
+[----------] 34 tests from KineticsFromScratch (164 ms total)
 
 [----------] 3 tests from InterfaceKineticsFromScratch
 [ RUN      ] InterfaceKineticsFromScratch.add_surface_reaction
-[       OK ] InterfaceKineticsFromScratch.add_surface_reaction (216 ms)
+[       OK ] InterfaceKineticsFromScratch.add_surface_reaction (98 ms)
 [ RUN      ] InterfaceKineticsFromScratch.add_sticking_reaction
-[       OK ] InterfaceKineticsFromScratch.add_sticking_reaction (8 ms)
+[       OK ] InterfaceKineticsFromScratch.add_sticking_reaction (3 ms)
 [ RUN      ] InterfaceKineticsFromScratch.unbalanced_sites
-[       OK ] InterfaceKineticsFromScratch.unbalanced_sites (7 ms)
-[----------] 3 tests from InterfaceKineticsFromScratch (232 ms total)
+[       OK ] InterfaceKineticsFromScratch.unbalanced_sites (3 ms)
+[----------] 3 tests from InterfaceKineticsFromScratch (105 ms total)
 
 [----------] 2 tests from KineticsAddSpecies
 [ RUN      ] KineticsAddSpecies.add_species_sequential
-[       OK ] KineticsAddSpecies.add_species_sequential (11 ms)
+[       OK ] KineticsAddSpecies.add_species_sequential (4 ms)
 [ RUN      ] KineticsAddSpecies.add_species_err_first
-[       OK ] KineticsAddSpecies.add_species_err_first (9 ms)
-[----------] 2 tests from KineticsAddSpecies (20 ms total)
+[       OK ] KineticsAddSpecies.add_species_err_first (4 ms)
+[----------] 2 tests from KineticsAddSpecies (8 ms total)
 
 [----------] 2 tests from ReactionRate
 [ RUN      ] ReactionRate.ModifyArrheniusRate
-[       OK ] ReactionRate.ModifyArrheniusRate (42 ms)
+[       OK ] ReactionRate.ModifyArrheniusRate (16 ms)
 [ RUN      ] ReactionRate.ArrheniusUnits
 [       OK ] ReactionRate.ArrheniusUnits (0 ms)
-[----------] 2 tests from ReactionRate (43 ms total)
+[----------] 2 tests from ReactionRate (16 ms total)
 
 [----------] 25 tests from Reaction
 [ RUN      ] Reaction.ElementaryFromYaml
-[       OK ] Reaction.ElementaryFromYaml (37 ms)
+[       OK ] Reaction.ElementaryFromYaml (14 ms)
 [ RUN      ] Reaction.ThreeBodyFromYaml1
-[       OK ] Reaction.ThreeBodyFromYaml1 (38 ms)
+[       OK ] Reaction.ThreeBodyFromYaml1 (18 ms)
 [ RUN      ] Reaction.ThreeBodyFromYaml2
-[       OK ] Reaction.ThreeBodyFromYaml2 (34 ms)
+[       OK ] Reaction.ThreeBodyFromYaml2 (25 ms)
 [ RUN      ] Reaction.ThreeBodyFromYaml3
-[       OK ] Reaction.ThreeBodyFromYaml3 (42 ms)
+[       OK ] Reaction.ThreeBodyFromYaml3 (15 ms)
 [ RUN      ] Reaction.ThreeBodyFromYaml4
-[       OK ] Reaction.ThreeBodyFromYaml4 (32 ms)
+[       OK ] Reaction.ThreeBodyFromYaml4 (14 ms)
 [ RUN      ] Reaction.ThreeBodyFromYaml5
-[       OK ] Reaction.ThreeBodyFromYaml5 (31 ms)
+[       OK ] Reaction.ThreeBodyFromYaml5 (15 ms)
 [ RUN      ] Reaction.ThreeBodyFromYaml6
-[       OK ] Reaction.ThreeBodyFromYaml6 (38 ms)
+[       OK ] Reaction.ThreeBodyFromYaml6 (25 ms)
 [ RUN      ] Reaction.ThreeBodyFromYamlMissingM
-[       OK ] Reaction.ThreeBodyFromYamlMissingM (49 ms)
+[       OK ] Reaction.ThreeBodyFromYamlMissingM (15 ms)
 [ RUN      ] Reaction.ThreeBodyFromYamlMultiple
-[       OK ] Reaction.ThreeBodyFromYamlMultiple (33 ms)
+[       OK ] Reaction.ThreeBodyFromYamlMultiple (16 ms)
 [ RUN      ] Reaction.ThreeBodyFromYamlIncompatible1
-[       OK ] Reaction.ThreeBodyFromYamlIncompatible1 (33 ms)
+[       OK ] Reaction.ThreeBodyFromYamlIncompatible1 (22 ms)
 [ RUN      ] Reaction.ThreeBodyFromYamlIncompatible2
-[       OK ] Reaction.ThreeBodyFromYamlIncompatible2 (38 ms)
+[       OK ] Reaction.ThreeBodyFromYamlIncompatible2 (16 ms)
 [ RUN      ] Reaction.ThreeBodyFromYamlIncompatible3
-[       OK ] Reaction.ThreeBodyFromYamlIncompatible3 (35 ms)
+[       OK ] Reaction.ThreeBodyFromYamlIncompatible3 (17 ms)
 [ RUN      ] Reaction.ThreeBodyFromYamlIncompatible4
-[       OK ] Reaction.ThreeBodyFromYamlIncompatible4 (37 ms)
+[       OK ] Reaction.ThreeBodyFromYamlIncompatible4 (17 ms)
 [ RUN      ] Reaction.ThreeBodyFromYamlIncompatible5
-[       OK ] Reaction.ThreeBodyFromYamlIncompatible5 (36 ms)
+[       OK ] Reaction.ThreeBodyFromYamlIncompatible5 (26 ms)
 [ RUN      ] Reaction.FalloffFromYaml1
-[       OK ] Reaction.FalloffFromYaml1 (43 ms)
+[       OK ] Reaction.FalloffFromYaml1 (26 ms)
 [ RUN      ] Reaction.FalloffFromYaml2
-[       OK ] Reaction.FalloffFromYaml2 (29 ms)
+[       OK ] Reaction.FalloffFromYaml2 (20 ms)
 [ RUN      ] Reaction.FalloffFromYaml3
-[       OK ] Reaction.FalloffFromYaml3 (31 ms)
+[       OK ] Reaction.FalloffFromYaml3 (18 ms)
 [ RUN      ] Reaction.ChemicallyActivatedFromYaml
-[       OK ] Reaction.ChemicallyActivatedFromYaml (33 ms)
+[       OK ] Reaction.ChemicallyActivatedFromYaml (21 ms)
 [ RUN      ] Reaction.PlogFromYaml
-[       OK ] Reaction.PlogFromYaml (23 ms)
+[       OK ] Reaction.PlogFromYaml (29 ms)
 [ RUN      ] Reaction.ChebyshevFromYaml
-[       OK ] Reaction.ChebyshevFromYaml (22 ms)
+[       OK ] Reaction.ChebyshevFromYaml (25 ms)
 [ RUN      ] Reaction.BlowersMaselFromYaml
 [       OK ] Reaction.BlowersMaselFromYaml (20 ms)
 [ RUN      ] Reaction.ThreeBodyBlowersMaselFromYaml
 [       OK ] Reaction.ThreeBodyBlowersMaselFromYaml (17 ms)
 [ RUN      ] Reaction.InvalidBlowersMaselFromYaml
-[       OK ] Reaction.InvalidBlowersMaselFromYaml (19 ms)
+[       OK ] Reaction.InvalidBlowersMaselFromYaml (17 ms)
 [ RUN      ] Reaction.TwoTempPlasmaFromYaml
-[       OK ] Reaction.TwoTempPlasmaFromYaml (11 ms)
+[       OK ] Reaction.TwoTempPlasmaFromYaml (9 ms)
 [ RUN      ] Reaction.PythonExtensibleRate
-[       OK ] Reaction.PythonExtensibleRate (320 ms)
-[----------] 25 tests from Reaction (1094 ms total)
+[       OK ] Reaction.PythonExtensibleRate (1762 ms)
+[----------] 25 tests from Reaction (2232 ms total)
 
 [----------] 6 tests from Kinetics
 [ RUN      ] Kinetics.BulkKineticsFromYaml1
-[       OK ] Kinetics.BulkKineticsFromYaml1 (19 ms)
+[       OK ] Kinetics.BulkKineticsFromYaml1 (13 ms)
 [ RUN      ] Kinetics.BulkKineticsFromYaml2
-[       OK ] Kinetics.BulkKineticsFromYaml2 (13 ms)
+[       OK ] Kinetics.BulkKineticsFromYaml2 (7 ms)
 [ RUN      ] Kinetics.EfficienciesFromYaml
 [       OK ] Kinetics.EfficienciesFromYaml (1 ms)
 [ RUN      ] Kinetics.InterfaceKineticsFromYaml
-[       OK ] Kinetics.InterfaceKineticsFromYaml (19 ms)
+[       OK ] Kinetics.InterfaceKineticsFromYaml (14 ms)
 [ RUN      ] Kinetics.BMInterfaceKineticsFromYaml
-[       OK ] Kinetics.BMInterfaceKineticsFromYaml (171 ms)
+[       OK ] Kinetics.BMInterfaceKineticsFromYaml (153 ms)
 [ RUN      ] Kinetics.ElectrochemFromYaml
 [       OK ] Kinetics.ElectrochemFromYaml (0 ms)
-[----------] 6 tests from Kinetics (226 ms total)
+[----------] 6 tests from Kinetics (190 ms total)
 
 [----------] 12 tests from KineticsFromYaml
 [ RUN      ] KineticsFromYaml.NoKineticsModelOrReactionsField1
-[       OK ] KineticsFromYaml.NoKineticsModelOrReactionsField1 (10 ms)
+[       OK ] KineticsFromYaml.NoKineticsModelOrReactionsField1 (8 ms)
 [ RUN      ] KineticsFromYaml.NoKineticsModelOrReactionsField2
-[       OK ] KineticsFromYaml.NoKineticsModelOrReactionsField2 (7 ms)
+[       OK ] KineticsFromYaml.NoKineticsModelOrReactionsField2 (10 ms)
 [ RUN      ] KineticsFromYaml.KineticsModelWithReactionsNone1
 [       OK ] KineticsFromYaml.KineticsModelWithReactionsNone1 (1 ms)
 [ RUN      ] KineticsFromYaml.KineticsModelWithReactionsNone2
@@ -452,47 +452,47 @@ Running main() from pdep.cpp
 [ RUN      ] KineticsFromYaml.KineticsModelWithoutReactionsSection4
 [       OK ] KineticsFromYaml.KineticsModelWithoutReactionsSection4 (0 ms)
 [ RUN      ] KineticsFromYaml.KineticsModelWithoutReactionsField
-[       OK ] KineticsFromYaml.KineticsModelWithoutReactionsField (2 ms)
+[       OK ] KineticsFromYaml.KineticsModelWithoutReactionsField (1 ms)
 [ RUN      ] KineticsFromYaml.ReactionsFieldWithoutKineticsModel1
 [       OK ] KineticsFromYaml.ReactionsFieldWithoutKineticsModel1 (0 ms)
 [ RUN      ] KineticsFromYaml.ReactionsFieldWithoutKineticsModel2
 [       OK ] KineticsFromYaml.ReactionsFieldWithoutKineticsModel2 (0 ms)
 [ RUN      ] KineticsFromYaml.InvalidExtension
-[       OK ] KineticsFromYaml.InvalidExtension (38 ms)
-[----------] 12 tests from KineticsFromYaml (65 ms total)
+[       OK ] KineticsFromYaml.InvalidExtension (23 ms)
+[----------] 12 tests from KineticsFromYaml (48 ms total)
 
 [----------] 15 tests from ReactionToYaml
 [ RUN      ] ReactionToYaml.elementary
-[       OK ] ReactionToYaml.elementary (3 ms)
+[       OK ] ReactionToYaml.elementary (2 ms)
 [ RUN      ] ReactionToYaml.threeBody
-[       OK ] ReactionToYaml.threeBody (4 ms)
+[       OK ] ReactionToYaml.threeBody (2 ms)
 [ RUN      ] ReactionToYaml.TroeFalloff
-[       OK ] ReactionToYaml.TroeFalloff (5 ms)
+[       OK ] ReactionToYaml.TroeFalloff (3 ms)
 [ RUN      ] ReactionToYaml.SriFalloff
-[       OK ] ReactionToYaml.SriFalloff (95 ms)
+[       OK ] ReactionToYaml.SriFalloff (15 ms)
 [ RUN      ] ReactionToYaml.TsangFalloff
-[       OK ] ReactionToYaml.TsangFalloff (31 ms)
+[       OK ] ReactionToYaml.TsangFalloff (13 ms)
 [ RUN      ] ReactionToYaml.chemicallyActivated
-[       OK ] ReactionToYaml.chemicallyActivated (17 ms)
+[       OK ] ReactionToYaml.chemicallyActivated (15 ms)
 [ RUN      ] ReactionToYaml.pdepArrhenius
-[       OK ] ReactionToYaml.pdepArrhenius (44 ms)
+[       OK ] ReactionToYaml.pdepArrhenius (29 ms)
 [ RUN      ] ReactionToYaml.Chebyshev
 [       OK ] ReactionToYaml.Chebyshev (6 ms)
 [ RUN      ] ReactionToYaml.surface
-[       OK ] ReactionToYaml.surface (10 ms)
+[       OK ] ReactionToYaml.surface (8 ms)
 [ RUN      ] ReactionToYaml.electrochemical
-[       OK ] ReactionToYaml.electrochemical (27 ms)
+[       OK ] ReactionToYaml.electrochemical (20 ms)
 [ RUN      ] ReactionToYaml.unconvertible1
-[       OK ] ReactionToYaml.unconvertible1 (0 ms)
+[       OK ] ReactionToYaml.unconvertible1 (1 ms)
 [ RUN      ] ReactionToYaml.unconvertible2
 [       OK ] ReactionToYaml.unconvertible2 (0 ms)
 [ RUN      ] ReactionToYaml.unconvertible3
 [       OK ] ReactionToYaml.unconvertible3 (0 ms)
 [ RUN      ] ReactionToYaml.BlowersMaselRate
-[       OK ] ReactionToYaml.BlowersMaselRate (5 ms)
+[       OK ] ReactionToYaml.BlowersMaselRate (4 ms)
 [ RUN      ] ReactionToYaml.BlowersMaselInterface
-[       OK ] ReactionToYaml.BlowersMaselInterface (8 ms)
-[----------] 15 tests from ReactionToYaml (262 ms total)
+[       OK ] ReactionToYaml.BlowersMaselInterface (5 ms)
+[----------] 15 tests from ReactionToYaml (131 ms total)
 
 [----------] 12 tests from LmrTest
 [ RUN      ] LmrTest.reactionCounts
@@ -519,7 +519,7 @@ Running main() from pdep.cpp
 [       OK ] LmrTest.ChebyshevIntermediateROP (0 ms)
 [ RUN      ] LmrTest.ChebyshevEdgeCases
 [       OK ] LmrTest.ChebyshevEdgeCases (0 ms)
-[----------] 12 tests from LmrTest (4 ms total)
+[----------] 12 tests from LmrTest (3 ms total)
 
 [----------] 12 tests from PdepTest
 [ RUN      ] PdepTest.reactionCounts
@@ -546,11 +546,11 @@ Running main() from pdep.cpp
 [       OK ] PdepTest.ChebyshevIntermediateROP (0 ms)
 [ RUN      ] PdepTest.ChebyshevEdgeCases
 [       OK ] PdepTest.ChebyshevEdgeCases (0 ms)
-[----------] 12 tests from PdepTest (4 ms total)
+[----------] 12 tests from PdepTest (3 ms total)
 
 [----------] 5 tests from FracCoeffTest
 [ RUN      ] FracCoeffTest.StoichCoeffs
-[       OK ] FracCoeffTest.StoichCoeffs (7 ms)
+[       OK ] FracCoeffTest.StoichCoeffs (11 ms)
 [ RUN      ] FracCoeffTest.RateConstants
 [       OK ] FracCoeffTest.RateConstants (1 ms)
 [ RUN      ] FracCoeffTest.RatesOfProgress
@@ -558,20 +558,20 @@ Running main() from pdep.cpp
 [ RUN      ] FracCoeffTest.CreationDestructionRates
 [       OK ] FracCoeffTest.CreationDestructionRates (1 ms)
 [ RUN      ] FracCoeffTest.EquilibriumConstants
-[       OK ] FracCoeffTest.EquilibriumConstants (1 ms)
-[----------] 5 tests from FracCoeffTest (15 ms total)
+[       OK ] FracCoeffTest.EquilibriumConstants (0 ms)
+[----------] 5 tests from FracCoeffTest (16 ms total)
 
 [----------] 1 test from NegativePreexponentialFactor
 [ RUN      ] NegativePreexponentialFactor.fromYaml
-[       OK ] NegativePreexponentialFactor.fromYaml (14 ms)
-[----------] 1 test from NegativePreexponentialFactor (14 ms total)
+[       OK ] NegativePreexponentialFactor.fromYaml (16 ms)
+[----------] 1 test from NegativePreexponentialFactor (16 ms total)
 
 [----------] 1 test from InterfaceReaction
 [ RUN      ] InterfaceReaction.CoverageDependency
-[       OK ] InterfaceReaction.CoverageDependency (74 ms)
-[----------] 1 test from InterfaceReaction (74 ms total)
+[       OK ] InterfaceReaction.CoverageDependency (44 ms)
+[----------] 1 test from InterfaceReaction (44 ms total)
 
 [----------] Global test environment tear-down
-[==========] 130 tests from 13 test suites ran. (2348 ms total)
+[==========] 130 tests from 13 test suites ran. (3005 ms total)
 [  PASSED  ] 130 tests.
 scons: done building targets.

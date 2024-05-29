@@ -25,10 +25,11 @@ fig, ax = plt.subplots(1, 1, figsize=(3.8, 2))
 
 
 models = {
-          'LMR-R':"test/data/alzuetamechanism_LMRR.yaml", 
-          'Alzueta':"test/data/alzuetamechanism.yaml",                 
-          'Ar':"test/data/alzuetamechanism_LMRR_allAR.yaml",
-          r'H$_2$O':"test/data/alzuetamechanism_LMRR_allH2O.yaml",
+          
+          'Alzueta':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism.yaml",            
+          'Ar':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allAR.yaml",
+          r'H$_2$O':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allH2O.yaml",
+          'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR.yaml", 
           }
 
 
@@ -53,11 +54,11 @@ Tin = 300.0  # unburned gas temperature [K]
 width = 0.03  # m
 loglevel = 1  # amount of diagnostic output (0 to 8)
 
-# alpha_list = [1.0,0.8,0.6,0.4,0.2,0.0]
-# a_st = [0.75,0.7,0.65,0.6,0.55,0.5]
+alpha_list = [1.0,0.8,0.6,0.4,0.2,0.0]
+a_st = [0.75,0.7,0.65,0.6,0.55,0.5]
 
-alpha_list = [1]
-a_st = [0.75]
+# alpha_list = [1]
+# a_st = [0.75]
 
 for x, alpha in enumerate(alpha_list):
     for k, m in enumerate(models):
@@ -78,14 +79,15 @@ for x, alpha in enumerate(alpha_list):
                 gas.TPX = Tin, (p/760)*ct.one_atm, X
                 f = ct.FreeFlame(gas, width=width)
                 f.set_refine_criteria(ratio=3, slope=0.06/2, curve=0.12/2)
-                f.transport_model = 'mixture-averaged'
-                # f.transport_model = 'multicomponent'
+                # f.transport_model = 'mixture-averaged'
+                f.transport_model = 'multicomponent'
+                f.soret_enabled = True
                 f.solve(loglevel=loglevel, auto=True)
                 mbr.append(f.velocity[0] * 100) # cm/s
             # ax.plot(phi_list,mbr,label=m, color=colors[k],linestyle=lines[i])
 
             # Save phi_list and mbr to CSV
-            csv_filename = f'RonneyResults_Mar04\\{m}_{i}_data_{alpha}alpha.csv'
+            csv_filename = f'C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\RonneyResults_May28\\{m}_{i}_data_{alpha}alpha.csv'
             data = zip(phi_list, mbr)
             save_to_csv(csv_filename, data)
         

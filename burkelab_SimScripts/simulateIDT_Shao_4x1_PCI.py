@@ -122,9 +122,13 @@ for k, m in enumerate(models):
         tau = ignitionDelay(timeHistory, 'oh')
         t1 = time.time()
         ignitionDelays_RG[j] = tau
-    ax[0].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid', linewidth=lw, color=colors[k], label=m)
+    if colors[k] == 'xkcd:purple':
+        zorder_value = 10  # Higher z-order for purple line
+    else:
+        zorder_value = k  # Default z-order for other lines
+    ax[0].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid', linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
     
-ax[0].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.')
+ax[0].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
 # ax[0].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw)
 ax[0].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]')
 # ax[0, 0].set_xlabel(r'Temperature [K]', fontsize=18)
@@ -160,9 +164,13 @@ for k, m in enumerate(models):
         tau = ignitionDelay(timeHistory, 'oh')
         t1 = time.time()
         ignitionDelays_RG[j] = tau
-    ax[1].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m)
+    if colors[k] == 'xkcd:purple':
+        zorder_value = 10  # Higher z-order for purple line
+    else:
+        zorder_value = k  # Default z-order for other lines
+    ax[1].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
     
-ax[1].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.')
+ax[1].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
 # ax[1].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw) 
 ax[1].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]')
 # ax[0,1].set_xlabel(r'Temperature [K]', fontsize=18)
@@ -200,8 +208,12 @@ for k, m in enumerate(models):
         tau = ignitionDelay(timeHistory, 'oh')
         t1 = time.time()
         ignitionDelays_RG[j] = tau
-    ax[2].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m)
-ax[2].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.')
+    if colors[k] == 'xkcd:purple':
+        zorder_value = 10  # Higher z-order for purple line
+    else:
+        zorder_value = k  # Default z-order for other lines
+    ax[2].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
+ax[2].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
 # ax[2].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw)
 ax[2].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]')
 # ax[2].set_xlabel(r'Temperature [K]')
@@ -237,8 +249,12 @@ for k, m in enumerate(models):
         tau = ignitionDelay(timeHistory, 'oh')
         t1 = time.time()
         ignitionDelays_RG[j] = tau
-    ax[3].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m)
-ax[3].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.')
+    if colors[k] == 'xkcd:purple':
+        zorder_value = 10  # Higher z-order for purple line
+    else:
+        zorder_value = k  # Default z-order for other lines
+    ax[3].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
+ax[3].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
 ax[0].legend(fontsize=lgdfsz, frameon=False, loc='lower left',handlelength=lgdw)
 # ax[1,1].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]', fontsize=18)
 ax[3].set_xlabel(r'Temperature [K]')

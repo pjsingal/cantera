@@ -1005,25 +1005,25 @@ reactions:
 #   - {P: 3.000e+01, A: 9.72855e+34, b: -4.77838e-01, Ea: 2.11753e+02}
 #   - {P: 1.000e+02, A: 8.66276e+34, b: -4.64944e-01, Ea: 2.89233e+02}
 
-# - equation: NH2 + NH2 (+M) <=> N2H4 (+M)  # Reaction 87 (modified by Patrick Singal)
-#   type: falloff
-#   low-P-rate-constant: {A: 1.6e+34, b: -5.49, Ea: 1987} #all params from glarborg
-#   high-P-rate-constant: {A: 5.6e+14, b: -0.414, Ea: 66}
-#   Troe: {A: 0.31, T3: 1.00000e-30, T1: 1.00000e+30, T2: 1.00000e+30}
-#   note: SJ Klippenstein LB Harding B Ruscic R Sivaramakrishnan NK Srinivasan
-#     M-C Su JV Michael JPCA 113 (2009) 10241-10259.
+- equation: NH2 + NH2 (+M) <=> N2H4 (+M)  # Reaction 87 (modified by Patrick Singal)
+  type: falloff
+  low-P-rate-constant: {A: 1.6e+34, b: -5.49, Ea: 1987} #all params from glarborg
+  high-P-rate-constant: {A: 5.6e+14, b: -0.414, Ea: 66}
+  Troe: {A: 0.31, T3: 1.00000e-30, T1: 1.00000e+30, T2: 1.00000e+30}
+  note: SJ Klippenstein LB Harding B Ruscic R Sivaramakrishnan NK Srinivasan
+    M-C Su JV Michael JPCA 113 (2009) 10241-10259.
 
-# - equation: H + OH (+M) <=> H2O (+M)  # Reaction 11 (modified by Patrick Singal)
-#   type: falloff
-#   low-P-rate-constant: {A: 4.5300E+21, b: -1.8100E+00, Ea: 4.9870E+02} #all params from Burke's email
-#   high-P-rate-constant: {A: 2.5100E+13, b: 0.234, Ea: -114.2}
-#   Troe: {A: 7.3000E-01, T3: 1.00000e-30, T1: 1.00000e+30, T2: 1.00000e+30}
+- equation: H + OH (+M) <=> H2O (+M)  # Reaction 11 (modified by Patrick Singal)
+  type: falloff
+  low-P-rate-constant: {A: 4.5300E+21, b: -1.8100E+00, Ea: 4.9870E+02} #all params from Burke's email
+  high-P-rate-constant: {A: 2.5100E+13, b: 0.234, Ea: -114.2}
+  Troe: {A: 7.3000E-01, T3: 1.00000e-30, T1: 1.00000e+30, T2: 1.00000e+30}
 
-# - equation: H2O2 (+M) <=> OH + OH (+M)  # Reaction 22 (modified by Patrick Singal)
-#   type: falloff
-#   low-P-rate-constant: {A: 2.5e+24, b: -2.3, Ea: 4.8749e+04}
-#   high-P-rate-constant: {A: 2.0e+12, b: 0.9, Ea: 4.8749e+04}
-#   Troe: {A: 0.43, T3: 1.0e-30, T1: 1.0e+30}
+- equation: H2O2 (+M) <=> OH + OH (+M)  # Reaction 22 (modified by Patrick Singal)
+  type: falloff
+  low-P-rate-constant: {A: 2.5e+24, b: -2.3, Ea: 4.8749e+04}
+  high-P-rate-constant: {A: 2.0e+12, b: 0.9, Ea: 4.8749e+04}
+  Troe: {A: 0.43, T3: 1.0e-30, T1: 1.0e+30}
 
 # # - equation: H2O + M <=> H + OH + M  # Reaction 11 (modified by Patrick Singal)
 # #   duplicate: true

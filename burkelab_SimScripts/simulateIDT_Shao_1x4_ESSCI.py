@@ -108,7 +108,7 @@ df = pd.read_csv(path+'Shao_IDT\\1.csv')
 p_df = df['P']
 T_df = df['T']
 IDT_df = df['IDT']
-ax[0].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.')
+ax[0].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
 T_list = np.linspace(1100,1300,gridsz)#[::-1]
 for k, m in enumerate(models):
     estimatedIgnitionDelayTimes = np.ones(len(T_list))
@@ -131,7 +131,11 @@ for k, m in enumerate(models):
         tau = ignitionDelay(timeHistory, 'oh')
         t1 = time.time()
         ignitionDelays_RG[j] = tau
-    ax[0].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid', linewidth=lw, color=colors[k], label=m)
+    if colors[k] == 'xkcd:purple':
+        zorder_value = 10  # Higher z-order for purple line
+    else:
+        zorder_value = k  # Default z-order for other lines
+    ax[0].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid', linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
     
 
 # ax[0].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw)
@@ -148,7 +152,7 @@ p_df = df['P']
 T_df = df['T']
 IDT_df = df['IDT']
 T_list = np.linspace(1100,1300,gridsz)#[::-1]
-ax[1].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.')
+ax[1].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
 for k, m in enumerate(models):
     estimatedIgnitionDelayTimes = np.ones(len(T_list))
     estimatedIgnitionDelayTimes[:] = 0.05
@@ -170,7 +174,11 @@ for k, m in enumerate(models):
         tau = ignitionDelay(timeHistory, 'oh')
         t1 = time.time()
         ignitionDelays_RG[j] = tau
-    ax[1].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m)
+    if colors[k] == 'xkcd:purple':
+        zorder_value = 10  # Higher z-order for purple line
+    else:
+        zorder_value = k  # Default z-order for other lines
+    ax[1].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
     
 
 # ax[1].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw) 
@@ -189,7 +197,7 @@ T_df = df['T']
 IDT_df = df['IDT']
 H2O_df = df['H2O']
 T_list = np.linspace(1200,1400,gridsz)#[::-1]
-ax[2].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.')
+ax[2].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
 for k, m in enumerate(models):
     estimatedIgnitionDelayTimes = np.ones(len(T_list))
     estimatedIgnitionDelayTimes[:] = 0.05
@@ -211,7 +219,11 @@ for k, m in enumerate(models):
         tau = ignitionDelay(timeHistory, 'oh')
         t1 = time.time()
         ignitionDelays_RG[j] = tau
-    ax[2].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m)
+    if colors[k] == 'xkcd:purple':
+        zorder_value = 10  # Higher z-order for purple line
+    else:
+        zorder_value = k  # Default z-order for other lines
+    ax[2].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
 
 # ax[2].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw)
 # ax[2].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]')
@@ -227,7 +239,7 @@ p_df = df['P']
 T_df = df['T']
 IDT_df = df['IDT']
 T_list = np.linspace(1100,1300,gridsz)#[::-1]
-ax[3].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.')
+ax[3].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
 for k, m in enumerate(models):
     estimatedIgnitionDelayTimes = np.ones(len(T_list))
     estimatedIgnitionDelayTimes[:] = 0.05
@@ -249,7 +261,11 @@ for k, m in enumerate(models):
         tau = ignitionDelay(timeHistory, 'oh')
         t1 = time.time()
         ignitionDelays_RG[j] = tau
-    ax[3].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m)
+    if colors[k] == 'xkcd:purple':
+        zorder_value = 10  # Higher z-order for purple line
+    else:
+        zorder_value = k  # Default z-order for other lines
+    ax[3].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
 
 ax[3].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw)
 # ax[1,1].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]', fontsize=18)
