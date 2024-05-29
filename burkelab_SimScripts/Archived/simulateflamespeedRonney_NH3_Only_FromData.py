@@ -76,7 +76,7 @@ models = {
 # dataset=pd.read_csv(path+'\\6 FS NH3 (Stagni-Ronney)\\760torr.csv')
 # ax.plot(dataset.iloc[:,0],dataset.iloc[:,1]*100,marker='o',markersize=7,linewidth=3,fillstyle='none',linestyle='none',color='k',label='Ronney')
 
-path="C:\\Users\\pjsin\\Documents\\cantera\\RonneyResults_Mar04\\"
+path="C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\RonneyResults_Mar04\\"
 
 dataset=pd.read_csv(path+f'Ar_0_data_1alpha.csv')
 ax.plot(dataset.iloc[2:,0],dataset.iloc[2:,1],linewidth=lw,color='r',label='Ar')
@@ -112,7 +112,7 @@ ax.set_xlim([0.6, 1.8])
 
 name = f'ronney_flamespeed_Mar04_3'
 if save_plots == True:
-    plt.savefig(name+'.pdf', dpi=1000, bbox_inches='tight')
-    plt.savefig(name+'.png', dpi=dpi, bbox_inches='tight')
+    plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\Flame Speed Plots\\"+name+'.pdf', dpi=1000, bbox_inches='tight')
+    plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\Flame Speed Plots\\"+name+'.png', dpi=dpi, bbox_inches='tight')
 
 # plt.show()     

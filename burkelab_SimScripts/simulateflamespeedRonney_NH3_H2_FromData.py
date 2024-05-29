@@ -46,10 +46,10 @@ dpi=1000
 lgdw=0.6
 lgdfsz=5
 
-# alpha_list=[1.0,0.8,0.6,0.4,0.2,0.0]
-# idxs=[(0,0),(0,1),(0,2),(1,0),(1,1),(1,2)]
-alpha_list=[1]
-idxs=[(0,0)]
+alpha_list=[1.0,0.8,0.6,0.4,0.2,0.0]
+idxs=[(0,0),(0,1),(0,2),(1,0),(1,1),(1,2)]
+# alpha_list=[1]
+# idxs=[(0,0)]
 # pct=["1pt0","0pt8","0pt6","0pt4","0pt2"]
 plt.subplots_adjust(wspace=0.3,hspace=0.3)
 for x, alpha in enumerate(alpha_list):
@@ -88,17 +88,17 @@ for x, alpha in enumerate(alpha_list):
 
 
 
-    path="C:\\Users\\pjsin\\Documents\\cantera\\RonneyResults_Mar04\\"
-    dataset=pd.read_csv(path+f'Alzueta_0_data_{alpha}alpha.csv')
+    path="C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\RonneyResults_Feb13\\"
+    dataset=pd.read_csv(path+f'Alzueta_0_data_{alpha}alphaXX.csv')
     ax[idxs[x]].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:grey",label='Alzueta')
 
-    dataset=pd.read_csv(path+f'Ar_0_data_{alpha}alpha.csv')
+    dataset=pd.read_csv(path+f'Ar_0_data_{alpha}alphaXX.csv')
     ax[idxs[x]].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='r',label='Ar')
 
-    dataset=pd.read_csv(path+f'H2O_0_data_{alpha}alpha.csv')
+    dataset=pd.read_csv(path+f'H2O_0_data_{alpha}alphaXX.csv')
     ax[idxs[x]].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='b',label=r'H$_2$O')
 
-    dataset=pd.read_csv(path+f'LMR-R_0_data_{alpha}alpha.csv')
+    dataset=pd.read_csv(path+f'LMR-R_0_data_{alpha}alphaXX.csv')
     ax[idxs[x]].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='xkcd:purple',label='LMR-R')
 
     ax[idxs[x]].set_title(f'alpha,NH3 = {alpha}')
@@ -135,9 +135,9 @@ for x, alpha in enumerate(alpha_list):
     ax[idxs[x]].tick_params(axis='both', which='minor', direction="in")
     ax[idxs[x]].set_xlim([0.6, 1.8])
 
-name = f'ronney_flamespeed_allAlpha_Mar04'
+name = f'ronney_flamespeed_allAlpha_Feb13'
 if save_plots == True:
-    plt.savefig(name+'.pdf', dpi=1000, bbox_inches='tight')
-    plt.savefig(name+'.png', dpi=dpi, bbox_inches='tight')
+    plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\Flame Speed Plots\\"+name+'.pdf', dpi=1000, bbox_inches='tight')
+    plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\Flame Speed Plots\\"+name+'.png', dpi=dpi, bbox_inches='tight')
 
 # plt.show()     
