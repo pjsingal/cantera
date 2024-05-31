@@ -101,7 +101,7 @@ plotXvsTime("test/data/alzuetamechanism_LMRR.yaml","LMR-R","xkcd:purple")
 plotPoints(path+'\\7 SP H2O X vs t (Shock Tube) (Shao)\\expData.csv',mkr='o',mkrsz=msz,pltLabel='Shao et al.',mkrw=mw)
 # plotPoints(path+'\\7 SP H2O X vs t (Shock Tube) (Shao)\\troe_k0co2.csv',pltLabel='Troe et al.',line='solid',colour='g')
     
-ax.legend(fontsize=7, frameon=False, loc='lower right')  
+ax.legend(fontsize=args.lgdfsz, handlelength=lgdw, frameon=False, loc='lower right')  
 ax.set_ylabel(r'$\rm H_2O$ mole fraction [%]')#, fontsize=10) #CHECK UNITS OF Y-AXIS
 ax.set_xlabel(r'Time [$\mathdefault{\mu s}$]')#, fontsize=10)
 ax.tick_params(axis='both', direction="in")#, labelsize=7)
@@ -115,6 +115,6 @@ ax.yaxis.set_major_locator(ticker.MultipleLocator(0.03))
 ax.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.2f}"))
 
 if save_plots == True:
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.pdf', dpi=2000, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.png', dpi=2000, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.pdf', dpi=500, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.png', dpi=500, bbox_inches='tight')
 # plt.show()     

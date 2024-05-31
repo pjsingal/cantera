@@ -345,6 +345,6 @@ ax[2].set_xlim([780,1070])
 # ax[2].set_ylim([0.6,3.4])
 
 if save_plots == True:
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.pdf', dpi=2000, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.png', dpi=2000, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.pdf', dpi=1000, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.png', dpi=1000, bbox_inches='tight')
 # plt.show()     

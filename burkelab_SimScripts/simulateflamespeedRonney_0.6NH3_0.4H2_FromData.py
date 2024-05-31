@@ -81,6 +81,15 @@ ax[1].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
 ax[1].yaxis.set_major_locator(ticker.MultipleLocator(10))
 ax[1].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 
+path="G:\\Mon disque\\Columbia\\Burke Lab\\01 Mixture Rules Project\\Graph Reading\\"
+
+dataset = pd.read_csv(path+'\\6 FS NH3 (Stagni-Ronney)\\760torr.csv')
+NH3_list = np.divide(dataset.iloc[:,0],100)
+ox_frac_list = np.subtract(1,NH3_list)
+O2_list = np.multiply(ox_frac_list, 0.21)
+phi_list = np.divide(np.divide(NH3_list,O2_list),np.divide(4,3))
+ax[0].plot(phi_list,dataset.iloc[:,1],marker='o',fillstyle='none',markersize=msz,markeredgewidth=mw,linestyle='none',color='k',label='Ronney',zorder=100)
+
 
 
 if fslope != -1:
@@ -107,6 +116,8 @@ ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='b',label=r'H$
 dataset=pd.read_csv(path+f'LMR-R_0_data_1.0alpha.csv')
 ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='xkcd:purple',label='LMR-R',zorder=50)
 
+ax[0].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw) 
+# ax[0].set_xlabel(r'Equivalence Ratio')
 
 #### SECOND PLOT
 
@@ -132,16 +143,8 @@ ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='xkcd:purple',
 # ax.set_title(f'{round(alpha*100)}% NH3/{round((1-alpha)*100)}% H2')
 
 #### ADD DATA POINTS
-path="G:\\Mon disque\\Columbia\\Burke Lab\\01 Mixture Rules Project\\Graph Reading\\"
 
-dataset = pd.read_csv(path+'\\6 FS NH3 (Stagni-Ronney)\\760torr.csv')
-NH3_list = np.divide(dataset.iloc[:,0],100)
-ox_frac_list = np.subtract(1,NH3_list)
-O2_list = np.multiply(ox_frac_list, 0.21)
-phi_list = np.divide(np.divide(NH3_list,O2_list),np.divide(4,3))
-ax[0].plot(phi_list,dataset.iloc[:,1],marker='o',fillstyle='none',markersize=msz,markeredgewidth=mw,linestyle='none',color='k',label='Ronney',zorder=100)
-ax[0].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw) 
-# ax[0].set_xlabel(r'Equivalence Ratio')
+path="G:\\Mon disque\\Columbia\\Burke Lab\\01 Mixture Rules Project\\Graph Reading\\"
 
 ax[0].tick_params(axis='both', direction="in")
 ax[0].tick_params(axis='both', which='minor', direction="in")
@@ -158,7 +161,7 @@ ax[1].tick_params(axis='both', which='minor', direction="in")
 
 
 if args.paper == 'PCI':
-    fig.text(0, 0.5, r'Burning velocity [cm $\rm s^{-1}$]', ha='center', va='center',rotation=90,fontsize=args.fszaxlab)
+    fig.text(.03, 0.5, r'Burning velocity [cm $\rm s^{-1}$]', ha='center', va='center',rotation=90,fontsize=args.fszaxlab)
     ax[1].set_xlabel(r'Equivalence Ratio')
     ax[0].set_xlim([0.6001, 1.7999])
     ax[0].set_ylim([0.001, 11.9999])
@@ -180,6 +183,6 @@ else:
     
 if save_plots == True:
     plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\Flame Speed Plots\\"+name+'.pdf', dpi=1000, bbox_inches='tight')
-    plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\Flame Speed Plots\\"+name+'.png', dpi=dpi, bbox_inches='tight')
+    plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\Flame Speed Plots\\"+name+'.png', dpi=1000, bbox_inches='tight')
 
 # plt.show()     

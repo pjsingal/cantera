@@ -143,6 +143,13 @@ heatTransferCoefficient = 7.9496*2.2
 tempDependence = []
 
 ##############################################################################################################################
+path="G:\\Mon disque\\Columbia\\Burke Lab\\01 Mixture Rules Project\\Graph Reading\\1 JSR H2O\\"
+T_20_data = pd.read_csv(path+'JSR_T_H2O_20_data.csv') 
+O2_20_data = pd.read_csv(path+'JSR_O2_H2O_20_data.csv') 
+H2_20_data = pd.read_csv(path+'JSR_H2_H2O_20_data.csv') 
+ax[0].plot(T_20_data.iloc[:, 0],T_20_data.iloc[:, 1],marker='o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw, label="Sabia et al.", zorder=110)
+ax[1].plot(O2_20_data.iloc[:, 0],O2_20_data.iloc[:, 1],marker='o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label="Sabia et al.", zorder=110)
+ax[2].plot(H2_20_data.iloc[:, 0],H2_20_data.iloc[:, 1],marker='o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw, label="Sabia et al.", zorder=110)
 
 for k,m in enumerate(models):
     for i, H2Opercent in enumerate(H2Opercent_list):
@@ -234,14 +241,9 @@ for k,m in enumerate(models):
         ax[1].plot(tempDependence[i].index, tempDependence[i]['O2']*100, color=colors[k], linestyle='solid', linewidth=lw, label=m, zorder=zorder_value)   
         ax[2].plot(tempDependence[i].index, tempDependence[i]['H2']*100, color=colors[k], linestyle='solid', linewidth=lw, label=m, zorder=zorder_value) 
 
-path="G:\\Mon disque\\Columbia\\Burke Lab\\01 Mixture Rules Project\\Graph Reading\\1 JSR H2O\\"
+
  
-T_20_data = pd.read_csv(path+'JSR_T_H2O_20_data.csv') 
-O2_20_data = pd.read_csv(path+'JSR_O2_H2O_20_data.csv') 
-H2_20_data = pd.read_csv(path+'JSR_H2_H2O_20_data.csv') 
-ax[0].plot(T_20_data.iloc[:, 0],T_20_data.iloc[:, 1],marker='o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw, label="Sabia et al.", zorder=110)
-ax[1].plot(O2_20_data.iloc[:, 0],O2_20_data.iloc[:, 1],marker='o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label="Sabia et al.", zorder=110)
-ax[2].plot(H2_20_data.iloc[:, 0],H2_20_data.iloc[:, 1],marker='o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw, label="Sabia et al.", zorder=110)
+path="G:\\Mon disque\\Columbia\\Burke Lab\\01 Mixture Rules Project\\Graph Reading\\1 JSR H2O\\"
 
 # ax[0].set_xlabel('Temperature [K]')
 ax[0].set_ylabel(r'$\Delta$ T [K]')
@@ -267,6 +269,6 @@ ax[2].set_xlim([780,1070])
 ax[2].legend(fontsize=lgdfsz,frameon=False,loc='upper right', handlelength=lgdw)
 
 if save_plots == True:
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.pdf', dpi=2000, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.png', dpi=2000, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.pdf', dpi=1000, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.png', dpi=1000, bbox_inches='tight')
 # plt.show()     

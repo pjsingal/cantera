@@ -104,7 +104,7 @@ plotXvsTime("test/data/alzuetamechanism_LMRR.yaml","LMR-R","xkcd:purple",zorder_
 plotPoints(path+'\\7 SP H2O X vs t (Shock Tube) (Shao)\\expData.csv',mkr='o',mkrsz=msz,pltLabel='Shao et al.',mkrw=mw,zorder_value=110)
 # plotPoints(path+'\\7 SP H2O X vs t (Shock Tube) (Shao)\\troe_k0co2.csv',pltLabel='Troe et al.',line='solid',colour='g')
     
-ax.legend(fontsize=lgdfsz, frameon=False, loc='lower right')  
+ax.legend(fontsize=lgdfsz,handlelength=lgdw, frameon=False, loc='lower right')  
 ax.set_ylabel(r'$\rm H_2O$ mole fraction [%]')
 ax.set_xlabel(r'Time [$\mathdefault{\mu s}$]')
 ax.tick_params(axis='both', direction="in")#, labelsize=7)
@@ -118,6 +118,6 @@ ax.yaxis.set_major_locator(ticker.MultipleLocator(0.03))
 ax.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.2f}"))
 
 if save_plots == True:
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.pdf', dpi=2000, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.png', dpi=2000, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.pdf', dpi=1000, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.png', dpi=1000, bbox_inches='tight')
 # plt.show()     

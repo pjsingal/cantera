@@ -46,13 +46,12 @@ dpi=args.dpi
 lgdw=args.lgdw
 lgdfsz=args.lgdfsz
 gridsz=args.gridsz
-
+from matplotlib.legend_handler import HandlerTuple
 mpl.rc('font',family='Times New Roman')
 mpl.rcParams['mathtext.fontset'] = 'stix'
 mpl.rcParams['font.size'] = args.fsz
 mpl.rcParams['xtick.labelsize'] = args.fszxtick
 mpl.rcParams['ytick.labelsize'] = args.fszytick
-from matplotlib.legend_handler import HandlerTuple
 plt.rcParams['axes.labelsize'] = args.fszaxlab
 mpl.rcParams['xtick.major.width'] = 0.5  # Width of major ticks on x-axis
 mpl.rcParams['ytick.major.width'] = 0.5  # Width of major ticks on y-axis
@@ -68,8 +67,8 @@ save_plots = True
 f, ax = plt.subplots(3, 1, figsize=(args.figwidth, args.figheight)) 
 
 import matplotlib.ticker as ticker
-# plt.subplots_adjust(hspace=0.3)
-plt.subplots_adjust(wspace=0.3)
+plt.subplots_adjust(hspace=0.3)
+# plt.subplots_adjust(wspace=0.3)
 ax[0].yaxis.set_major_locator(ticker.MultipleLocator(5))
 ax[1].yaxis.set_major_locator(ticker.MultipleLocator(0.5))
 ax[2].yaxis.set_major_locator(ticker.MultipleLocator(1))
@@ -262,6 +261,6 @@ ax[2].set_xlim([780,1070])
 # ax[2].set_ylim([0.0001,3.4])
 
 if save_plots == True:
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.pdf', dpi=2000, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.png', dpi=2000, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.pdf', dpi=500, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.png', dpi=500, bbox_inches='tight')
 # plt.show()     

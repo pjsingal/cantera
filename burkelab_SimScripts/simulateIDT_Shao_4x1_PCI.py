@@ -22,7 +22,7 @@ parser.add_argument('--msz', type=float, help="msz = ", default=2.5)
 parser.add_argument('--lgdw', type=float, help="lgdw = ", default=0.6)
 parser.add_argument('--lgdfsz', type=float, help="lgdw = ", default=5)
 parser.add_argument('--gridsz', type=int, help="gridsz = ", default=10)
-parser.add_argument('--dpi', type=int, help="dpi = ", default=1000)
+parser.add_argument('--dpi', type=int, help="dpi = ", default=500)
 
 args = parser.parse_args()
 lw=args.lw
@@ -273,6 +273,6 @@ ax[3].tick_params(axis='both', which='minor', direction="in")#, bottom=False)
 
 # plt.subplots_adjust(top=0.98)
 if save_plots == True:
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.pdf', dpi=2000, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.png', dpi=2000, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.pdf', dpi=500, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.png', dpi=500, bbox_inches='tight')
 # plt.show()     

@@ -78,8 +78,9 @@ def plot_ratefit(temperatures, rate_constants, pltcolour, labell,idx): #3-parame
     A_fit, beta_fit, Ea_fit = result.x
     T_range = np.linspace(200, 2000, 100)
     fit_curve = np.exp(np.log(arrhenius_rate(T_range, A_fit, beta_fit, Ea_fit)))
-    ax[idx].plot(T_range, np.log10(fit_curve),linewidth=lw, label=labell, color=pltcolour)
-    ax[idx].plot(temperatures, np.log10(rate_constants),marker='o',fillstyle='full',markersize=msz,markeredgewidth=mw,linestyle='none',color=pltcolour,label=None)
+    ax[idx].semilogy(T_range, fit_curve,linewidth=lw, label=labell, color=pltcolour)
+    ax[idx].semilogy(temperatures, rate_constants,marker='o',fillstyle='full',markersize=msz,markeredgewidth=mw,linestyle='none',color=pltcolour,label=None)
+    ax[idx].yaxis.set_major_locator(ticker.LogLocator(base=10.0, numticks=5))
 
 
 pltcolours = ["xkcd:grey", 'black', "xkcd:teal", 'r', 'b', 'xkcd:purple','olive', 'brown','goldenrod']
@@ -92,7 +93,7 @@ plot_ratefit(np.array(T_list), np.array([8.97/2.51,8.55/1.62,8.75/1.20]), pltcol
 # ax[idx].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
 # ax[idx].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 ax[idx].legend(fontsize=lgdfsz, frameon=False,loc='right') 
-ax[idx].set_title("M:N$_2$ for H + OH (+M) $\leftrightharpoons$ H$_2$O (+M)")
+ax[idx].set_title("$\epsilon_{M}:\epsilon_{N_2}$ for H + OH (+M) $\leftrightharpoons$ H$_2$O (+M)")
 ax[idx].tick_params(axis='both', direction="in")
 ax[idx].tick_params(axis='both', which='minor', direction="in")
 # ax[idx].set_xlim(xrange)
@@ -110,7 +111,7 @@ plot_ratefit(np.array(T_list), np.array([20.4,17.9,18.7]), pltcolours[3], "NH$_3
 # ax[idx].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
 # ax[idx].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 ax[idx].legend(fontsize=lgdfsz, frameon=False,loc='right') 
-ax[idx].set_title("M:Ar for H + O$_2$ (+M) $\leftrightharpoons$ HO$_2$ (+M)")
+ax[idx].set_title("$\epsilon_{M}:\epsilon_{Ar}$ for H + O$_2$ (+M) $\leftrightharpoons$ HO$_2$ (+M)")
 ax[idx].tick_params(axis='both', direction="in")
 ax[idx].tick_params(axis='both', which='minor', direction="in")
 ax[idx].set_xlim(xrange)
@@ -126,11 +127,11 @@ plot_ratefit(np.array([300,1000,2000]), np.array([1.50,1.58,1.63]), pltcolours[0
 # ax[idx].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
 # ax[idx].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 ax[idx].legend(fontsize=lgdfsz, frameon=False,loc='right') 
-ax[idx].set_title("M:Ar for H$_2$O$_2$ (+M) $\leftrightharpoons$ OH + OH (+M)")
+ax[idx].set_title("$\epsilon_{M}:\epsilon_{Ar}$ for H$_2$O$_2$ (+M) $\leftrightharpoons$ OH + OH (+M)")
 ax[idx].tick_params(axis='both', direction="in")
 ax[idx].tick_params(axis='both', which='minor', direction="in")
 ax[idx].set_xlim(xrange)
-ax[idx].set_ylabel(r'log(k)')
+ax[idx].set_ylabel(r'Relative third-body efficiency ($\epsilon$)')
 
 idx=(1,1)
 T_list=[300,1000,2000]
@@ -145,7 +146,7 @@ plot_ratefit(np.array([300, 1000, 2000]), np.array([1.55,1.48,1.70]), pltcolours
 # ax[idx].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
 # ax[idx].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 ax[idx].legend(fontsize=lgdfsz, frameon=False,loc='right') 
-ax[idx].set_title("M:Ar for NH$_3$ (+M) $\leftrightharpoons$ H + NH$_2$ (+M)")
+ax[idx].set_title("$\epsilon_{M}:\epsilon_{Ar}$ for NH$_3$ (+M) $\leftrightharpoons$ H + NH$_2$ (+M)")
 ax[idx].tick_params(axis='both', direction="in")
 ax[idx].tick_params(axis='both', which='minor', direction="in")
 # ax[idx].set_xlim(xrange)
@@ -162,7 +163,7 @@ plot_ratefit(np.array([300,1000,2000]), np.array([1.22,1.17,1.14]), pltcolours[1
 # ax[idx].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
 # ax[idx].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 ax[idx].legend(fontsize=lgdfsz, frameon=False,loc='right') 
-ax[idx].set_title("M:Ar for NH$_2$ + NH$_2$ (+M) $\leftrightharpoons$ N$_2$H$_4$ (+M)")
+ax[idx].set_title("$\epsilon_{M}:\epsilon_{Ar}$ for NH$_2$ + NH$_2$ (+M) $\leftrightharpoons$ N$_2$H$_4$ (+M)")
 ax[idx].tick_params(axis='both', direction="in")
 ax[idx].tick_params(axis='both', which='minor', direction="in")
 # ax[idx].set_xlim(xrange)
@@ -175,7 +176,7 @@ plot_ratefit(np.array([300, 1000, 2000]), np.array([1.61,1.71,1.59]), pltcolours
 # ax[idx].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
 # ax[idx].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 ax[idx].legend(fontsize=lgdfsz, frameon=False,loc='right') 
-ax[idx].set_title("M:Ar for HNO (+M) $\leftrightharpoons$ H + NO (+M)")
+ax[idx].set_title("$\epsilon_{M}:\epsilon_{Ar}$ for HNO (+M) $\leftrightharpoons$ H + NO (+M)")
 ax[idx].tick_params(axis='both', direction="in")
 ax[idx].tick_params(axis='both', which='minor', direction="in")
 # ax[idx].set_xlim(xrange)
@@ -183,5 +184,5 @@ ax[idx].tick_params(axis='both', which='minor', direction="in")
 fig.text(0.5, 0.07, r'Temperature [K]', ha='center', va='center',fontsize=args.fszaxlab)
 name = f'allArrheniusFits'
 if save_plots == True:
-    plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\"+name+'.pdf', dpi=1000, bbox_inches='tight')
-    plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\"+name+'.png', dpi=dpi, bbox_inches='tight')
+    plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\"+name+'.pdf', dpi=500, bbox_inches='tight')
+    plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\"+name+'.png', dpi=500, bbox_inches='tight')

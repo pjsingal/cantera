@@ -79,17 +79,24 @@ if fslope != -1:
     path="C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\BurkeSongResults_"+date+f' (slope={fslope} curve={fcurve})\\'
 else:
     path="C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\BurkeSongResults_"+date+'\\'
+
+# dataset=pd.read_csv(path+f'Alzueta_data.csv')
+# ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:grey",label='Alzueta',zorder=80)
+
+# dataset=pd.read_csv(path+f'Alzueta-300K_data.csv')
+# ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:goldenrod",label='$\epsilon_{NH_3}(300K)$',zorder=60)
+
+# dataset=pd.read_csv(path+f'Alzueta-2000K_data.csv')
+# ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:teal",label='$\epsilon_{NH_3}(2000K)$',zorder=70)
+
 dataset=pd.read_csv(path+f'Ar_data.csv')
-ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='r',label='Ar',zorder=60)
+ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='r',label='Ar',zorder=20)
 
 dataset=pd.read_csv(path+f'H2O_data.csv')
-ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='b',label=r'H$_2$O',zorder=40)
-
-dataset=pd.read_csv(path+f'Alzueta_data.csv')
-ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:grey",label='Alzueta',zorder=20)
+ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='b',label=r'H$_2$O',zorder=300)
 
 dataset=pd.read_csv(path+f'LMR-R_data.csv')
-ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='xkcd:purple',label='LMR-R',zorder=90)
+ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='xkcd:purple',label='LMR-R',zorder=100)
 
 # if args.title != 'null':
 #     ax.set_title(args.title)
@@ -103,8 +110,8 @@ path="G:\\Mon disque\\Columbia\\Burke Lab\\01 Mixture Rules Project\\Graph Readi
 dataset = pd.read_csv(path+'\\5 FS H2O (Burke)\\exp_pts.csv',header=None)
 pressures = dataset.iloc[:,0]
 mbr_list = dataset.iloc[:,1]
-ax.plot(pressures,mbr_list,marker='o',fillstyle='none',markersize=msz,markeredgewidth=mw,linestyle='none',color='k',label='Exp',zorder=100)
-ax.legend(fontsize=lgdfsz, frameon=False, loc='upper left', handlelength=lgdw) 
+ax.plot(pressures,mbr_list,marker='o',fillstyle='none',markersize=msz,markeredgewidth=mw,linestyle='none',color='k',label='Burke/Song',zorder=100)
+ax.legend(fontsize=lgdfsz, frameon=False, loc='right', handlelength=lgdw) 
 
 ax.set_ylabel(r'Mass burning rate [g $\rm cm^{-2}$ $\rm s^{-1}$]')
 ax.set_xlabel(r'Pressure [atm]')
@@ -121,7 +128,7 @@ else:
 
 path="C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\Flame Speed Plots\\"
 if save_plots == True:
-    plt.savefig(path+name+'.pdf', dpi=1000, bbox_inches='tight')
-    plt.savefig(path+name+'.png', dpi=dpi, bbox_inches='tight')
+    plt.savefig(path+name+'.pdf', dpi=500, bbox_inches='tight')
+    plt.savefig(path+name+'.png', dpi=500, bbox_inches='tight')
 
 # plt.show()     
