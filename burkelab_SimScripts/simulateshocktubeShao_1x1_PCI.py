@@ -29,6 +29,7 @@ parser.add_argument('--lgdw', type=float, help="lgdw = ", default=0.6)
 parser.add_argument('--lgdfsz', type=float, help="lgdw = ", default=5)
 parser.add_argument('--gridsz', type=int, help="gridsz = ", default=10)
 parser.add_argument('--dpi', type=int, help="dpi = ", default=1000)
+
 args = parser.parse_args()
 lw=args.lw
 mw=args.mw
@@ -104,11 +105,13 @@ ax.legend(fontsize=7, frameon=False, loc='lower right')
 ax.set_ylabel(r'$\rm H_2O$ mole fraction [%]')#, fontsize=10) #CHECK UNITS OF Y-AXIS
 ax.set_xlabel(r'Time [$\mathdefault{\mu s}$]')#, fontsize=10)
 ax.tick_params(axis='both', direction="in")#, labelsize=7)
-ax.set_xlim([0,300])
-ax.set_ylim([0.001*100,0.003*100])
+ax.set_xlim([0.0001,299.999])
+ax.set_ylim([0.10001,0.29999])
 
 import matplotlib.ticker as ticker
+ax.xaxis.set_major_locator(ticker.MultipleLocator(50))
 ax.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
+ax.yaxis.set_major_locator(ticker.MultipleLocator(0.03))
 ax.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.2f}"))
 
 if save_plots == True:

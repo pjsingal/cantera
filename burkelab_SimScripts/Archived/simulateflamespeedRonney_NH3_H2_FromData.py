@@ -58,6 +58,8 @@ save_plots = True
 fig, ax = plt.subplots(2,3,figsize=(args.figwidth, args.figheight))
 # plt.subplots_adjust(wspace=0.4, hspace=1)
 import matplotlib.ticker as ticker
+
+
 if args.title != 'null':
     fig.text(0.5, 1, args.title, ha='center', va='center')
 
@@ -78,11 +80,9 @@ idxs=[(0,0),(0,1),(0,2),(1,0),(1,1),(1,2)]
 # pct=["1pt0","0pt8","0pt6","0pt4","0pt2"]
 plt.subplots_adjust(wspace=0.3,hspace=0.3)
 for x, alpha in enumerate(alpha_list):
-    
-    # ax[idxs[x]].yaxis.set_major_locator(ticker.MultipleLocator(5))
-    # ax[idxs[x]].xaxis.set_major_locator(ticker.MultipleLocator(50))
-    # ax[idxs[x]].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
-    # ax[idxs[x]].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
+    ax[idxs[x]].xaxis.set_major_locator(ticker.MultipleLocator(0.2))
+    ax[idxs[x]].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
+    ax[idxs[x]].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 
     models = {
             'LMR-R':"test/data/alzuetamechanism_LMRR.yaml", 
@@ -159,7 +159,7 @@ for x, alpha in enumerate(alpha_list):
         ax[idxs[x]].set_ylabel(r'Burning velocity [cm $\rm s^{-1}$]')
     ax[idxs[x]].tick_params(axis='both', direction="in")
     ax[idxs[x]].tick_params(axis='both', which='minor', direction="in")
-    ax[idxs[x]].set_xlim([0.6, 1.8])
+    ax[idxs[x]].set_xlim([0.6001,1.7999])
 
 if fslope != -1:
     name = f'ronney_flamespeed_allAlpha_'+date+f' (slope={fslope} curve={fcurve})'

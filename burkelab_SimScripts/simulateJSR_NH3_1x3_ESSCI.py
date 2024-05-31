@@ -28,6 +28,7 @@ parser.add_argument('--lgdw', type=float, help="lgdw = ", default=0.6)
 parser.add_argument('--lgdfsz', type=float, help="lgdw = ", default=5)
 parser.add_argument('--gridsz', type=int, help="gridsz = ", default=10)
 parser.add_argument('--dpi', type=int, help="dpi = ", default=1000)
+
 args = parser.parse_args()
 lw=args.lw
 mw=args.mw
@@ -71,6 +72,7 @@ ax[1].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 ax[1].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
 ax[2].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 ax[2].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
+
 # ax[0].annotate('(a)', xy=(0.85, 0.95), xycoords='axes fraction',ha='right', va='top')
 # ax[1].annotate('(b)', xy=(0.95, 0.95), xycoords='axes fraction',ha='right', va='top')
 # ax[2].annotate('(c)', xy=(0.95, 0.95), xycoords='axes fraction',ha='right', va='top')
@@ -93,14 +95,16 @@ ax[2].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
 
 name = 'JSR_NH3'
 
-models = {
-          
-          'Alzueta':"test/data/alzuetamechanism.yaml",            
-          'Ar':"test/data/alzuetamechanism_LMRR_allAR.yaml",
-          r'H$_2$O':"test/data/alzuetamechanism_LMRR_allH2O.yaml",
-          'LMR-R':"test/data/alzuetamechanism_LMRR.yaml", 
+models = {    
+          'Alzueta':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism.yaml",  
+          r"$\epsilon_{NH_3}(300K)$":"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=300K.yaml",  
+          r"$\epsilon_{NH_3}(2000K)$":"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=2000K.yaml",            
+          'Ar':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allAR.yaml",
+          r'H$_2$O':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allH2O.yaml",
+          'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR.yaml", 
           }
-colors = ["xkcd:grey",'r','b','xkcd:purple']
+colors = ["xkcd:grey", "xkcd:goldenrod", "xkcd:teal", 'r', 'b', 'xkcd:purple']
+# colors = ["xkcd:grey", "xkcd:goldenrod", 'r', 'b']
 lines =['-','-','-','-','-']
 
 
@@ -256,9 +260,15 @@ for k,m in enumerate(models):
         #     ax[2].plot(list(tempDependence[i].index)[chopped_index[1]:], list(tempDependence[i]['H2']*100)[chopped_index[1]:], color=colors[i], linestyle=lines[i])   
                                             
         # else:
-        ax[0].plot(tempDependence[i].index, np.subtract(tempDependence[i]['temperature'],tempDependence[i].index), color=colors[k], linestyle='solid',linewidth=lw, label=m) 
-        ax[1].plot(tempDependence[i].index, tempDependence[i]['O2']*100, color=colors[k], linestyle='solid',linewidth=lw, label=m)   
-        ax[2].plot(tempDependence[i].index, tempDependence[i]['H2']*100, color=colors[k], linestyle='solid',linewidth=lw, label=m) 
+        if colors[k] == 'xkcd:purple':
+            zorder_value = 100
+        elif colors[k] == "xkcd:grey":
+            zorder_value = 90
+        else:   
+            zorder_value = k
+        ax[0].plot(tempDependence[i].index, np.subtract(tempDependence[i]['temperature'],tempDependence[i].index), color=colors[k], linestyle='solid',linewidth=lw, label=m,zorder=zorder_value) 
+        ax[1].plot(tempDependence[i].index, tempDependence[i]['O2']*100, color=colors[k], linestyle='solid',linewidth=lw, label=m,zorder=zorder_value)   
+        ax[2].plot(tempDependence[i].index, tempDependence[i]['H2']*100, color=colors[k], linestyle='solid',linewidth=lw, label=m,zorder=zorder_value) 
         
 path="G:\\Mon disque\\Columbia\\Burke Lab\\01 Mixture Rules Project\\Graph Reading\\2 JSR NH3\\"
         
@@ -289,19 +299,19 @@ H2_10_data = pd.read_csv(path+'JSR_H2_NH3_10_data.csv')
 # ax[0].plot(T_2_data.iloc[:, 0],T_2_data.iloc[:, 1],marker='o',color=colors[1], markersize=6, zorder=2, fillstyle='none', linestyle = 'None')
 # ax[0].plot(T_5_data.iloc[:, 0],T_5_data.iloc[:, 1],marker='o',color=colors[2], markersize=6, zorder=2, fillstyle='none', linestyle = 'None')
 # ax[0].plot(T_7pt5_data.iloc[:, 0],T_7pt5_data.iloc[:, 1],marker='o',color=colors[3], markersize=6, zorder=2, fillstyle='none', linestyle = 'None')
-ax[0].plot(T_10_data.iloc[:, 0],T_10_data.iloc[:, 1],marker='o',fillstyle='none',zorder=2,linestyle='none',color='k',markersize=msz,markeredgewidth=mw, label="Sabia et al.")
+ax[0].plot(T_10_data.iloc[:, 0],T_10_data.iloc[:, 1],marker='o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw, label="Sabia et al.",zorder=110)
 
 # ax[1].plot(O2_0_data.iloc[:, 0],O2_0_data.iloc[:, 1],marker='o',color=colors[0], markersize=6, zorder=2, fillstyle='none', linestyle = 'None')
 # ax[1].plot(O2_2_data.iloc[:, 0],O2_2_data.iloc[:, 1],marker='o',color=colors[1], markersize=6, zorder=2, fillstyle='none', linestyle = 'None')
 # ax[1].plot(O2_5_data.iloc[:, 0],O2_5_data.iloc[:, 1],marker='o',color=colors[2], markersize=6, zorder=2, fillstyle='none', linestyle = 'None')
 # ax[1].plot(O2_7pt5_data.iloc[:, 0],O2_7pt5_data.iloc[:, 1],marker='o',color=colors[3], markersize=6, zorder=2, fillstyle='none', linestyle = 'None')
-ax[1].plot(O2_10_data.iloc[:, 0],O2_10_data.iloc[:, 1],marker='o',fillstyle='none',zorder=2,linestyle='none',color='k',markersize=msz,markeredgewidth=mw, label="Sabia et al.")
+ax[1].plot(O2_10_data.iloc[:, 0],O2_10_data.iloc[:, 1],marker='o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw, label="Sabia et al.",zorder=110)
 
 # ax[2].plot(H2_0_data.iloc[:, 0],H2_0_data.iloc[:, 1],marker='o',color=colors[0], markersize=6, zorder=2, fillstyle='none', linestyle = 'None')
 # ax[2].plot(H2_2_data.iloc[:, 0],H2_2_data.iloc[:, 1],marker='o',color=colors[1], markersize=6, zorder=2, fillstyle='none', linestyle = 'None')
 # ax[2].plot(H2_5_data.iloc[:, 0],H2_5_data.iloc[:, 1],marker='o',color=colors[2], markersize=6, zorder=2, fillstyle='none', linestyle = 'None')
 # ax[2].plot(H2_7pt5_data.iloc[:, 0],H2_7pt5_data.iloc[:, 1],marker='o',color=colors[3], markersize=6, zorder=2, fillstyle='none', linestyle = 'None')
-ax[2].plot(H2_10_data.iloc[:, 0],H2_10_data.iloc[:, 1],marker='o',fillstyle='none',zorder=2,linestyle='none',color='k',markersize=msz,markeredgewidth=mw, label="Sabia et al.")
+ax[2].plot(H2_10_data.iloc[:, 0],H2_10_data.iloc[:, 1],marker='o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw, label="Sabia et al.",zorder=110)
     
 # ax[1].plot(O2_0_df.iloc[:, 0],O2_0_df.iloc[:, 1],color=colors[0], linestyle = 'dashed')
 # ax[1].plot(O2_2_df.iloc[:, 0],O2_2_df.iloc[:, 1],color=colors[1], linestyle = 'dashed')
@@ -323,9 +333,16 @@ ax[1].tick_params(axis='both',direction='in')
 # ax[1].legend(frameon=False,fontsize=15)#,loc='upper right')
 
 # ax[2].set_xlabel('Temperature [K]')
-ax[2].set_ylabel('NH$_3$ mole fraction [%]')
+ax[2].set_ylabel('H$_2$ mole fraction [%]')
 ax[2].tick_params(axis='both',direction='in')
 # ax[2].legend(frameon=False,loc='lower right', handlelength=lgdw)
+
+ax[0].set_xlim([780,1070])
+# ax[0].set_ylim([-1,27])
+ax[1].set_xlim([780,1070])
+# ax[1].set_ylim([0.6,3.4])
+ax[2].set_xlim([780,1070])
+# ax[2].set_ylim([0.6,3.4])
 
 if save_plots == True:
     plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.pdf', dpi=2000, bbox_inches='tight')

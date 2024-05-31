@@ -23,6 +23,7 @@ parser.add_argument('--lgdw', type=float, help="lgdw = ", default=0.6)
 parser.add_argument('--lgdfsz', type=float, help="lgdw = ", default=5)
 parser.add_argument('--gridsz', type=int, help="gridsz = ", default=10)
 parser.add_argument('--dpi', type=int, help="dpi = ", default=1000)
+
 args = parser.parse_args()
 lw=args.lw
 mw=args.mw
@@ -71,6 +72,7 @@ ax[2].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 ax[2].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1e}"))
 ax[3].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 ax[3].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1e}"))
+
 
 # f.text(0.5, -0.1, r'Temperature [K]', ha='center', va='center')
 
@@ -263,6 +265,11 @@ ax[3].tick_params(axis='both', direction="in")
 ax[3].tick_params(axis='both', which='minor', direction="in")#, bottom=False)
 # ax[3].annotate('(d)', xy=(0.95, 0.9), xycoords='axes fraction',ha='right', va='top')
 # plt.subplots_adjust(wspace=0.4, hspace=0.4)
+
+# ax[0].set_xlim([1000.1,1499.99])
+# ax[1].set_xlim([1000.1,1499.99])
+# ax[2].set_xlim([1000.1,1499.99])
+# ax[3].set_xlim([1000.1,1499.99])
 
 # plt.subplots_adjust(top=0.98)
 if save_plots == True:

@@ -28,6 +28,7 @@ parser.add_argument('--lgdw', type=float, help="lgdw = ", default=0.6)
 parser.add_argument('--lgdfsz', type=float, help="lgdw = ", default=5)
 parser.add_argument('--gridsz', type=int, help="gridsz = ", default=10)
 parser.add_argument('--dpi', type=int, help="dpi = ", default=1000)
+
 args = parser.parse_args()
 lw=args.lw
 mw=args.mw
@@ -344,6 +345,13 @@ ax[2].set_xlabel('Temperature [K]')
 ax[2].set_ylabel('H$_2$ mole fraction [%]')
 ax[2].tick_params(axis='both',direction='in')
 # ax[2].legend(frameon=False,loc='lower right', handlelength=lgdw)
+
+ax[0].set_xlim([780,1070])
+# ax[0].set_ylim([-1,27])
+ax[1].set_xlim([780,1070])
+# ax[1].set_ylim([0.6,3.4])
+ax[2].set_xlim([780,1070])
+# ax[2].set_ylim([0.6,3.4])
 
 if save_plots == True:
     plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.pdf', dpi=2000, bbox_inches='tight')

@@ -22,6 +22,8 @@ parser.add_argument('--lgdw', type=float, help="lgdw = ", default=0.6)
 parser.add_argument('--lgdfsz', type=float, help="lgdw = ", default=5)
 parser.add_argument('--gridsz', type=int, help="gridsz = ", default=10)
 parser.add_argument('--dpi', type=int, help="dpi = ", default=1000)
+
+
 args = parser.parse_args()
 lw=args.lw
 mw=args.mw
@@ -81,18 +83,27 @@ ax[2].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1e}"))
 ax[3].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 ax[3].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1e}"))
 
-f.text(0.5, -0.1, r'Temperature [K]', ha='center', va='center')
+f.text(0.5, 0, r'Temperature [K]', ha='center', va='center',fontsize=args.fszaxlab)
 
 name = 'IDT_shao'
 path=os.getcwd()
 
+# models = {    
+#           'Alzueta':"test/data/alzuetamechanism.yaml",            
+#           'Ar':"test/data/alzuetamechanism_LMRR_allAR.yaml",
+#           r'H$_2$O':"test/data/alzuetamechanism_LMRR_allH2O.yaml",
+#           'LMR-R':"test/data/alzuetamechanism_LMRR.yaml", 
+#           }
 models = {    
-          'Alzueta':"test/data/alzuetamechanism.yaml",            
-          'Ar':"test/data/alzuetamechanism_LMRR_allAR.yaml",
-          r'H$_2$O':"test/data/alzuetamechanism_LMRR_allH2O.yaml",
-          'LMR-R':"test/data/alzuetamechanism_LMRR.yaml", 
+          'Alzueta':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism.yaml",  
+          r"$\epsilon_{NH_3}(300K)$":"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=300K.yaml",  
+          r"$\epsilon_{NH_3}(2000K)$":"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=2000K.yaml",            
+          'Ar':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allAR.yaml",
+          r'H$_2$O':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allH2O.yaml",
+          'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR.yaml", 
           }
-colors = ["xkcd:grey",'r','b','xkcd:purple']
+colors = ["xkcd:grey", "xkcd:goldenrod", "xkcd:teal", 'r', 'b', 'xkcd:purple']
+# colors = ["xkcd:grey", "xkcd:goldenrod", 'r', 'b']
 lines =['-','-','-','-','-']
 
 
@@ -108,7 +119,7 @@ df = pd.read_csv(path+'Shao_IDT\\1.csv')
 p_df = df['P']
 T_df = df['T']
 IDT_df = df['IDT']
-ax[0].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
+ax[0].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=120)
 T_list = np.linspace(1100,1300,gridsz)#[::-1]
 for k, m in enumerate(models):
     estimatedIgnitionDelayTimes = np.ones(len(T_list))
@@ -132,8 +143,10 @@ for k, m in enumerate(models):
         t1 = time.time()
         ignitionDelays_RG[j] = tau
     if colors[k] == 'xkcd:purple':
-        zorder_value = 10  # Higher z-order for purple line
-    else:
+        zorder_value = 100
+    elif colors[k] == "xkcd:grey":
+        zorder_value = 90
+    else:   
         zorder_value = k  # Default z-order for other lines
     ax[0].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid', linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
     
@@ -152,7 +165,7 @@ p_df = df['P']
 T_df = df['T']
 IDT_df = df['IDT']
 T_list = np.linspace(1100,1300,gridsz)#[::-1]
-ax[1].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
+ax[1].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=120)
 for k, m in enumerate(models):
     estimatedIgnitionDelayTimes = np.ones(len(T_list))
     estimatedIgnitionDelayTimes[:] = 0.05
@@ -175,8 +188,10 @@ for k, m in enumerate(models):
         t1 = time.time()
         ignitionDelays_RG[j] = tau
     if colors[k] == 'xkcd:purple':
-        zorder_value = 10  # Higher z-order for purple line
-    else:
+        zorder_value = 100
+    elif colors[k] == "xkcd:grey":
+        zorder_value = 90
+    else:   
         zorder_value = k  # Default z-order for other lines
     ax[1].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
     
@@ -197,7 +212,7 @@ T_df = df['T']
 IDT_df = df['IDT']
 H2O_df = df['H2O']
 T_list = np.linspace(1200,1400,gridsz)#[::-1]
-ax[2].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
+ax[2].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=120)
 for k, m in enumerate(models):
     estimatedIgnitionDelayTimes = np.ones(len(T_list))
     estimatedIgnitionDelayTimes[:] = 0.05
@@ -220,8 +235,10 @@ for k, m in enumerate(models):
         t1 = time.time()
         ignitionDelays_RG[j] = tau
     if colors[k] == 'xkcd:purple':
-        zorder_value = 10  # Higher z-order for purple line
-    else:
+        zorder_value = 100
+    elif colors[k] == "xkcd:grey":
+        zorder_value = 90
+    else:   
         zorder_value = k  # Default z-order for other lines
     ax[2].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
 
@@ -239,7 +256,7 @@ p_df = df['P']
 T_df = df['T']
 IDT_df = df['IDT']
 T_list = np.linspace(1100,1300,gridsz)#[::-1]
-ax[3].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
+ax[3].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=120)
 for k, m in enumerate(models):
     estimatedIgnitionDelayTimes = np.ones(len(T_list))
     estimatedIgnitionDelayTimes[:] = 0.05
@@ -262,8 +279,10 @@ for k, m in enumerate(models):
         t1 = time.time()
         ignitionDelays_RG[j] = tau
     if colors[k] == 'xkcd:purple':
-        zorder_value = 10  # Higher z-order for purple line
-    else:
+        zorder_value = 100
+    elif colors[k] == "xkcd:grey":
+        zorder_value = 90
+    else:   
         zorder_value = k  # Default z-order for other lines
     ax[3].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
 
@@ -273,6 +292,12 @@ ax[3].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw
 ax[3].tick_params(axis='both', direction="in")
 ax[3].tick_params(axis='both', which='minor', direction="in")#, bottom=False)
 # ax[3].annotate('(d)', xy=(0.95, 0.9), xycoords='axes fraction',ha='right', va='top')
+
+# ax[0].set_xlim([1000.1,1499.99])
+# ax[1].set_xlim([1000.1,1499.99])
+# ax[2].set_xlim([1000.1,1499.99])
+# ax[3].set_xlim([1000.1,1499.99])
+
 plt.subplots_adjust(hspace=0.3)
 
 # plt.subplots_adjust(top=0.98)

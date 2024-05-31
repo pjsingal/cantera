@@ -32,10 +32,12 @@ args = parser.parse_args()
 gridsz = args.gridsz
 date=args.date
 
-fuel_list = np.linspace(0.14,0.5,gridsz) #fuel mole fractions
-# fuel_list = np.linspace(0.14,0.32,gridsz)
-alpha_list = [1.0,0.8,0.6,0.4,0.2,0.0]
-a_st = [0.75,0.7,0.65,0.6,0.55,0.5]
+# fuel_list = np.linspace(0.14,0.5,gridsz) #fuel mole fractions
+fuel_list = np.linspace(0.14,0.4,gridsz)
+# alpha_list = [1.0,0.8,0.6,0.4,0.2,0.0]
+# a_st = [0.75,0.7,0.65,0.6,0.55,0.5]
+alpha_list = [1.0,0.6]
+a_st = [0.75,0.65]
 # alpha_list = [1]
 # a_st = [0.75]
 fratio=3
@@ -43,7 +45,9 @@ fslope=args.slopeVal #should be low enough that the results don't depend on the 
 fcurve=args.curveVal
 ftransport=args.transport # 'multicomponent' or 'mixture-averaged'
 models = {    
-          'Alzueta':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism.yaml",            
+          'Alzueta':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism.yaml",  
+          'Alzueta-300K':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=300K.yaml",  
+          'Alzueta-2000K':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=2000K.yaml",            
           'Ar':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allAR.yaml",
           r'H$_2$O':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allH2O.yaml",
           'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR.yaml", 

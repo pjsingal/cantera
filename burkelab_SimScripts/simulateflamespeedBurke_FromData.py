@@ -35,6 +35,8 @@ parser.add_argument('--date', type=str, help="sim date = ",default='May28')
 parser.add_argument('--slopeVal', type=float, help="slope value = ",default=-1)
 parser.add_argument('--curveVal', type=float, help="curve value = ",default=-1)
 parser.add_argument('--title', type=str, help="title = ",default='null')
+
+
 args = parser.parse_args()
 mpl.rc('font',family='Times New Roman')
 mpl.rcParams['mathtext.fontset'] = 'stix'
@@ -58,7 +60,6 @@ save_plots = True
 fig, ax = plt.subplots(1,1,figsize=(args.figwidth, args.figheight))
 
 import matplotlib.ticker as ticker
-# ax.yaxis.set_major_locator(ticker.LogLocator(base=10.0, numticks=3))
 ax.xaxis.set_major_locator(ticker.MultipleLocator(4))
 ax.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 ax.yaxis.set_major_locator(ticker.MultipleLocator(0.03))
@@ -90,27 +91,28 @@ ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:grey",label
 dataset=pd.read_csv(path+f'LMR-R_data.csv')
 ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='xkcd:purple',label='LMR-R',zorder=90)
 
-if args.title != 'null':
-    ax.set_title(args.title)
+# if args.title != 'null':
+#     ax.set_title(args.title)
 
 path="G:\\Mon disque\\Columbia\\Burke Lab\\01 Mixture Rules Project\\Graph Reading\\"
 
-dataset = pd.read_csv(path+'\\5 FS H2O (Burke)\\black.csv')
-pressures = dataset.iloc[:,0]
-mbr_list = dataset.iloc[:,1]
-ax.plot(pressures,mbr_list,marker='^',fillstyle='none',markersize=1,markeredgewidth=mw,linestyle='none',color='b',label='Burke Model',zorder=1)
+# dataset = pd.read_csv(path+'\\5 FS H2O (Burke)\\black.csv')
+# pressures = dataset.iloc[:,0]
+# mbr_list = dataset.iloc[:,1]
+# ax.plot(pressures,mbr_list,marker='^',fillstyle='none',markersize=1,markeredgewidth=mw,linestyle='none',color='b',label='Burke Model',zorder=1)
 dataset = pd.read_csv(path+'\\5 FS H2O (Burke)\\exp_pts.csv',header=None)
 pressures = dataset.iloc[:,0]
 mbr_list = dataset.iloc[:,1]
 ax.plot(pressures,mbr_list,marker='o',fillstyle='none',markersize=msz,markeredgewidth=mw,linestyle='none',color='k',label='Exp',zorder=100)
 ax.legend(fontsize=lgdfsz, frameon=False, loc='upper left', handlelength=lgdw) 
 
-ax.set_ylabel(r'MBR [g $\rm cm^{-2}$ $\rm s^{-1}$]')
+ax.set_ylabel(r'Mass burning rate [g $\rm cm^{-2}$ $\rm s^{-1}$]')
 ax.set_xlabel(r'Pressure [atm]')
 ax.tick_params(axis='both', direction="in")
 ax.tick_params(axis='both', which='minor', direction="in")
-ax.set_xlim([0, 20])
-ax.set_ylim([0.001, 0.139])
+ax.set_xlim([0.001, 19.999])
+ax.set_ylim([-0.005, 0.1299])
+
 
 if fslope != -1:
     name = f"burkesong_flamespeed_"+date+f' (slope={fslope} curve={fcurve})'

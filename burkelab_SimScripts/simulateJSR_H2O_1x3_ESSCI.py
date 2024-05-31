@@ -36,6 +36,7 @@ parser.add_argument('--lgdw', type=float, help="lgdw = ", default=0.6)
 parser.add_argument('--lgdfsz', type=float, help="lgdw = ", default=5)
 parser.add_argument('--gridsz', type=int, help="gridsz = ", default=10)
 parser.add_argument('--dpi', type=int, help="dpi = ", default=1000)
+
 args = parser.parse_args()
 lw=args.lw
 mw=args.mw
@@ -67,8 +68,8 @@ f, ax = plt.subplots(1, 3, figsize=(args.figwidth, args.figheight))
 import matplotlib.ticker as ticker
 plt.subplots_adjust(wspace=0.3)
 ax[0].yaxis.set_major_locator(ticker.MultipleLocator(5))
-ax[1].yaxis.set_major_locator(ticker.MultipleLocator(0.25))
-ax[2].yaxis.set_major_locator(ticker.MultipleLocator(0.5))
+ax[1].yaxis.set_major_locator(ticker.MultipleLocator(0.5))
+ax[2].yaxis.set_major_locator(ticker.MultipleLocator(1))
 ax[0].xaxis.set_major_locator(ticker.MultipleLocator(50))
 ax[1].xaxis.set_major_locator(ticker.MultipleLocator(50))
 ax[2].xaxis.set_major_locator(ticker.MultipleLocator(50))
@@ -78,6 +79,7 @@ ax[1].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 ax[1].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
 ax[2].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 ax[2].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
+
 # ax[0].annotate('(d)', xy=(0.95, 0.95), xycoords='axes fraction',ha='right', va='top')
 # ax[1].annotate('(e)', xy=(0.95, 0.95), xycoords='axes fraction',ha='right', va='top')
 # ax[2].annotate('(f)', xy=(0.95, 0.95), xycoords='axes fraction',ha='right', va='top')
@@ -100,14 +102,16 @@ ax[2].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
 # gridsz=50
 
 name = 'JSR_H2O'
-models = {
-          
-          'Alzueta':"test/data/alzuetamechanism.yaml",            
-          'Ar':"test/data/alzuetamechanism_LMRR_allAR.yaml",
-          r'H$_2$O':"test/data/alzuetamechanism_LMRR_allH2O.yaml",
-          'LMR-R':"test/data/alzuetamechanism_LMRR.yaml", 
+models = {    
+          'Alzueta':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism.yaml",  
+          r"$\epsilon_{NH_3}(300K)$":"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=300K.yaml",  
+          r"$\epsilon_{NH_3}(2000K)$":"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=2000K.yaml",            
+          'Ar':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allAR.yaml",
+          r'H$_2$O':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allH2O.yaml",
+          'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR.yaml", 
           }
-colors = ["xkcd:grey",'r','b','xkcd:purple']
+colors = ["xkcd:grey", "xkcd:goldenrod", "xkcd:teal", 'r', 'b', 'xkcd:purple']
+# colors = ["xkcd:grey", "xkcd:goldenrod", 'r', 'b']
 lines =['-','-','-','-','-']
 
 T_list = np.linspace(800,1050,gridsz)
@@ -220,18 +224,24 @@ for k,m in enumerate(models):
             toc = time.time()
             concentrations = stirredReactor.thermo.X
             tempDependence[i].loc[T] = state
-        ax[0].plot(tempDependence[i].index, np.subtract(tempDependence[i]['temperature'],tempDependence[i].index), color=colors[k], linestyle='solid', linewidth=lw, label=m)   
-        ax[1].plot(tempDependence[i].index, tempDependence[i]['O2']*100, color=colors[k], linestyle='solid', linewidth=lw, label=m)   
-        ax[2].plot(tempDependence[i].index, tempDependence[i]['H2']*100, color=colors[k], linestyle='solid', linewidth=lw, label=m) 
+        if colors[k] == 'xkcd:purple':
+            zorder_value = 100
+        elif colors[k] == "xkcd:grey":
+            zorder_value = 90
+        else:   
+            zorder_value = k
+        ax[0].plot(tempDependence[i].index, np.subtract(tempDependence[i]['temperature'],tempDependence[i].index), color=colors[k], linestyle='solid', linewidth=lw, label=m, zorder=zorder_value)   
+        ax[1].plot(tempDependence[i].index, tempDependence[i]['O2']*100, color=colors[k], linestyle='solid', linewidth=lw, label=m, zorder=zorder_value)   
+        ax[2].plot(tempDependence[i].index, tempDependence[i]['H2']*100, color=colors[k], linestyle='solid', linewidth=lw, label=m, zorder=zorder_value) 
 
 path="G:\\Mon disque\\Columbia\\Burke Lab\\01 Mixture Rules Project\\Graph Reading\\1 JSR H2O\\"
  
 T_20_data = pd.read_csv(path+'JSR_T_H2O_20_data.csv') 
 O2_20_data = pd.read_csv(path+'JSR_O2_H2O_20_data.csv') 
 H2_20_data = pd.read_csv(path+'JSR_H2_H2O_20_data.csv') 
-ax[0].plot(T_20_data.iloc[:, 0],T_20_data.iloc[:, 1],marker='o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw, label="Sabia et al.")
-ax[1].plot(O2_20_data.iloc[:, 0],O2_20_data.iloc[:, 1],marker='o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label="Sabia et al.")
-ax[2].plot(H2_20_data.iloc[:, 0],H2_20_data.iloc[:, 1],marker='o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw, label="Sabia et al.")
+ax[0].plot(T_20_data.iloc[:, 0],T_20_data.iloc[:, 1],marker='o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw, label="Sabia et al.", zorder=110)
+ax[1].plot(O2_20_data.iloc[:, 0],O2_20_data.iloc[:, 1],marker='o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label="Sabia et al.", zorder=110)
+ax[2].plot(H2_20_data.iloc[:, 0],H2_20_data.iloc[:, 1],marker='o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw, label="Sabia et al.", zorder=110)
 
 # ax[0].set_xlabel('Temperature [K]')
 ax[0].set_ylabel(r'$\Delta$ T [K]')
@@ -246,6 +256,13 @@ ax[1].tick_params(axis='both',direction='in')
 # ax[2].set_xlabel('Temperature [K]')
 ax[2].set_ylabel('H$_2$ mole fraction [%]')
 ax[2].tick_params(axis='both',direction='in')
+
+ax[0].set_xlim([780,1070])
+# ax[0].set_ylim([-1,29])
+ax[1].set_xlim([780,1070])
+# ax[1].set_ylim([1.1,3.4])
+ax[2].set_xlim([780,1070])
+# ax[2].set_ylim([0.0001,3.4])
 
 ax[2].legend(fontsize=lgdfsz,frameon=False,loc='upper right', handlelength=lgdw)
 

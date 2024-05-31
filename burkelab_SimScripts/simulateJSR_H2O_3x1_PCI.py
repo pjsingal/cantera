@@ -37,6 +37,7 @@ parser.add_argument('--lgdw', type=float, help="lgdw = ", default=0.6)
 parser.add_argument('--lgdfsz', type=float, help="lgdw = ", default=5)
 parser.add_argument('--gridsz', type=int, help="gridsz = ", default=10)
 parser.add_argument('--dpi', type=int, help="dpi = ", default=1000)
+
 args = parser.parse_args()
 lw=args.lw
 mw=args.mw
@@ -70,8 +71,8 @@ import matplotlib.ticker as ticker
 # plt.subplots_adjust(hspace=0.3)
 plt.subplots_adjust(wspace=0.3)
 ax[0].yaxis.set_major_locator(ticker.MultipleLocator(5))
-ax[1].yaxis.set_major_locator(ticker.MultipleLocator(0.25))
-ax[2].yaxis.set_major_locator(ticker.MultipleLocator(0.5))
+ax[1].yaxis.set_major_locator(ticker.MultipleLocator(0.5))
+ax[2].yaxis.set_major_locator(ticker.MultipleLocator(1))
 ax[0].xaxis.set_major_locator(ticker.MultipleLocator(50))
 ax[1].xaxis.set_major_locator(ticker.MultipleLocator(50))
 ax[2].xaxis.set_major_locator(ticker.MultipleLocator(50))
@@ -81,6 +82,7 @@ ax[1].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 ax[1].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
 ax[2].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 ax[2].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
+
 # ax[0].annotate('(d)', xy=(0.95, 0.95), xycoords='axes fraction',ha='right', va='top')
 # ax[1].annotate('(e)', xy=(0.95, 0.95), xycoords='axes fraction',ha='right', va='top')
 # ax[2].annotate('(f)', xy=(0.95, 0.95), xycoords='axes fraction',ha='right', va='top')
@@ -251,6 +253,13 @@ ax[2].set_ylabel('H$_2$ mole fraction [%]')
 ax[2].tick_params(axis='both',direction='in')
 
 ax[2].legend(fontsize=lgdfsz,frameon=False,loc='upper right', handlelength=lgdw)
+
+ax[0].set_xlim([780,1070])
+# ax[0].set_ylim([-1,29])
+ax[1].set_xlim([780,1070])
+# ax[1].set_ylim([1.1,3.4])
+ax[2].set_xlim([780,1070])
+# ax[2].set_ylim([0.0001,3.4])
 
 if save_plots == True:
     plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.pdf', dpi=2000, bbox_inches='tight')
