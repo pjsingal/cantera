@@ -26,12 +26,16 @@ name = 'MBR_BurkeSong'
 #           'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR.yaml", 
 #           }
 
+# models = {    
+#           'Alzueta':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism.yaml",  
+#           'Alzueta-300K':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=300K.yaml",  
+#           'Alzueta-2000K':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=2000K.yaml",            
+#           'Ar':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allAR.yaml",
+#           r'H$_2$O':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allH2O.yaml",
+#           'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR.yaml", 
+#           }
+
 models = {    
-          'Alzueta':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism.yaml",  
-          'Alzueta-300K':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=300K.yaml",  
-          'Alzueta-2000K':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=2000K.yaml",            
-          'Ar':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allAR.yaml",
-          r'H$_2$O':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allH2O.yaml",
           'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR.yaml", 
           }
 
@@ -55,7 +59,7 @@ ftransport=args.transport
 colors = ['xkcd:purple','r','b']
 
 for i, m in enumerate(list(models.keys())):
-    p_list = np.linspace(0,20,gridsz)[1:]
+    p_list = np.linspace(8,12,gridsz)[1:]
     T = 300.0  # unburned gas temperature [K]
     reactants = 'H2:0.1071, O2:0.1785, He:0.7144'  # premixed gas composition
     width = 0.03  # m

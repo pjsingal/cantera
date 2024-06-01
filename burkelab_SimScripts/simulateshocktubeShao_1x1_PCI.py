@@ -116,5 +116,5 @@ ax.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.2f}"))
 
 if save_plots == True:
     plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.pdf', dpi=500, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.png', dpi=500, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.svg', dpi=500, bbox_inches='tight')
 # plt.show()     

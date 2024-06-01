@@ -95,8 +95,8 @@ def plotPoints(filename,mkr='none',mkrw='none',mkrsz='none',line='none',fill='no
     ax.plot(dataset.iloc[:,0],dataset.iloc[:,1]*100,mkr,linewidth=0.7,fillstyle=fill,linestyle=line,color=colour,label=pltLabel,markersize=mkrsz,markeredgewidth=mkrw,zorder=zorder_value)
 
 plotXvsTime("test/data/alzuetamechanism.yaml","Alzueta","xkcd:grey",zorder_value=90)
-plotXvsTime("C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=300K.yaml",r"$\epsilon_{NH_3}(300K)$","xkcd:goldenrod",zorder_value=82)
-plotXvsTime("C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=2000K.yaml",r"$\epsilon_{NH_3}(2000K)$","xkcd:teal",zorder_value=81)
+plotXvsTime("C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=300K.yaml",r"$\epsilon_{0,NH_3}(300K)$","orange",zorder_value=82)
+plotXvsTime("C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=2000K.yaml",r"$\epsilon_{0,NH_3}(2000K)$","xkcd:teal",zorder_value=81)
 plotXvsTime("test/data/alzuetamechanism_LMRR_allAR.yaml","Ar","r",zorder_value=70)
 plotXvsTime("test/data/alzuetamechanism_LMRR_allH2O.yaml",r'$\rm H_2O$',"b",zorder_value=80)
 plotXvsTime("test/data/alzuetamechanism_LMRR.yaml","LMR-R","xkcd:purple",zorder_value=100)
@@ -119,5 +119,5 @@ ax.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.2f}"))
 
 if save_plots == True:
     plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.pdf', dpi=1000, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.png', dpi=1000, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.svg', dpi=1000, bbox_inches='tight')
 # plt.show()     

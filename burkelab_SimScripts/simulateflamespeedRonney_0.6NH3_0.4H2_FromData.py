@@ -102,10 +102,10 @@ if args.paper == 'ESSCI':
     ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:grey",label='Alzueta',zorder=30)
 
     dataset=pd.read_csv(path+f'Alzueta-300K_0_data_1.0alpha.csv')
-    ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:goldenrod",label=r"$\epsilon_{NH_3}(300K)$",zorder=28)
+    ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="orange",label=r"$\epsilon_{0,NH_3}(300K)$",zorder=28)
 
     dataset=pd.read_csv(path+f'Alzueta-2000K_0_data_1.0alpha.csv')
-    ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:teal",label=r"$\epsilon_{NH_3}(2000K)$",zorder=29)
+    ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:teal",label=r"$\epsilon_{0,NH_3}(2000K)$",zorder=29)
 
 dataset=pd.read_csv(path+f'Ar_0_data_1.0alpha.csv')
 ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='r',label='Ar',zorder=27)
@@ -126,7 +126,7 @@ if args.paper == 'ESSCI':
     ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:grey",zorder=30)
 
     dataset=pd.read_csv(path+f'Alzueta-300K_0_data_0.6alpha.csv')
-    ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:goldenrod",zorder=28)
+    ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="orange",zorder=28)
 
     dataset=pd.read_csv(path+f'Alzueta-2000K_0_data_0.6alpha.csv')
     ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:teal",zorder=29)
@@ -159,6 +159,8 @@ ax[1].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw
 ax[1].tick_params(axis='both', direction="in")
 ax[1].tick_params(axis='both', which='minor', direction="in")
 
+ax[0].annotate('(a)', xy=(0.11, 0.95), xycoords='axes fraction',ha='right', va='top')
+ax[1].annotate('(b)', xy=(0.11, 0.95), xycoords='axes fraction',ha='right', va='top')
 
 if args.paper == 'PCI':
     fig.text(.03, 0.5, r'Burning velocity [cm $\rm s^{-1}$]', ha='center', va='center',rotation=90,fontsize=args.fszaxlab)
@@ -183,6 +185,6 @@ else:
     
 if save_plots == True:
     plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\Flame Speed Plots\\"+name+'.pdf', dpi=1000, bbox_inches='tight')
-    plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\Flame Speed Plots\\"+name+'.png', dpi=1000, bbox_inches='tight')
+    plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\Flame Speed Plots\\"+name+'.svg', dpi=1000, bbox_inches='tight')
 
 # plt.show()     

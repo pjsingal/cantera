@@ -136,7 +136,7 @@ ax[0].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]')
 # ax[0, 0].set_xlabel(r'Temperature [K]', fontsize=18)
 ax[0].tick_params(axis='both', direction="in")
 ax[0].tick_params(axis='both', which='minor', direction="in")#, bottom=False)
-# ax[0].annotate('(a)', xy=(0.95, 0.9), xycoords='axes fraction', ha='right', va='top')
+ax[0].annotate('(a)', xy=(0.95, 0.9), xycoords='axes fraction', ha='right', va='top')
 
 ################################################################################################
 
@@ -179,7 +179,7 @@ ax[1].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]')
 # ax[0,1].legend(fontsize=10, frameon=False, loc='upper right')  
 ax[1].tick_params(axis='both', direction="in")
 ax[1].tick_params(axis='both', which='minor', direction="in")#, bottom=False)
-# ax[1].annotate('(b)', xy=(0.95, 0.9), xycoords='axes fraction', ha='right', va='top')
+ax[1].annotate('(b)', xy=(0.95, 0.9), xycoords='axes fraction', ha='right', va='top')
 
 ################################################################################################
 
@@ -221,7 +221,7 @@ ax[2].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]')
 # ax[2].set_xlabel(r'Temperature [K]')
 ax[2].tick_params(axis='both', direction="in")
 ax[2].tick_params(axis='both', which='minor', direction="in")#, bottom=False)
-# ax[2].annotate('(c)', xy=(0.95, 0.9), xycoords='axes fraction',ha='right', va='top')
+ax[2].annotate('(c)', xy=(0.95, 0.9), xycoords='axes fraction',ha='right', va='top')
 
 ################################################################################################
 
@@ -263,7 +263,7 @@ ax[3].set_xlabel(r'Temperature [K]')
 ax[3].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]')
 ax[3].tick_params(axis='both', direction="in")
 ax[3].tick_params(axis='both', which='minor', direction="in")#, bottom=False)
-# ax[3].annotate('(d)', xy=(0.95, 0.9), xycoords='axes fraction',ha='right', va='top')
+ax[3].annotate('(d)', xy=(0.95, 0.9), xycoords='axes fraction',ha='right', va='top')
 # plt.subplots_adjust(wspace=0.4, hspace=0.4)
 
 # ax[0].set_xlim([1000.1,1499.99])
@@ -274,5 +274,5 @@ ax[3].tick_params(axis='both', which='minor', direction="in")#, bottom=False)
 # plt.subplots_adjust(top=0.98)
 if save_plots == True:
     plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.pdf', dpi=500, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.png', dpi=500, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.svg', dpi=500, bbox_inches='tight')
 # plt.show()     

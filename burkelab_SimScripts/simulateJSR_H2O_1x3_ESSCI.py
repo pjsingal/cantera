@@ -104,14 +104,14 @@ ax[2].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
 name = 'JSR_H2O'
 models = {    
           'Alzueta':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism.yaml",  
-          r"$\epsilon_{NH_3}(300K)$":"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=300K.yaml",  
-          r"$\epsilon_{NH_3}(2000K)$":"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=2000K.yaml",            
+          r"$\epsilon_{0,NH_3}(300K)$":"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=300K.yaml",  
+          r"$\epsilon_{0,NH_3}(2000K)$":"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=2000K.yaml",            
           'Ar':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allAR.yaml",
           r'H$_2$O':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allH2O.yaml",
           'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR.yaml", 
           }
-colors = ["xkcd:grey", "xkcd:goldenrod", "xkcd:teal", 'r', 'b', 'xkcd:purple']
-# colors = ["xkcd:grey", "xkcd:goldenrod", 'r', 'b']
+colors = ["xkcd:grey", "orange", "xkcd:teal", 'r', 'b', 'xkcd:purple']
+# colors = ["xkcd:grey", "orange", 'r', 'b']
 lines =['-','-','-','-','-']
 
 T_list = np.linspace(800,1050,gridsz)
@@ -270,5 +270,5 @@ ax[2].legend(fontsize=lgdfsz,frameon=False,loc='upper right', handlelength=lgdw)
 
 if save_plots == True:
     plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.pdf', dpi=1000, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.png', dpi=1000, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.svg', dpi=1000, bbox_inches='tight')
 # plt.show()     
