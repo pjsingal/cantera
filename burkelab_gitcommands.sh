@@ -17,11 +17,9 @@
 # Git branch <branchname>
 
 # Create a new local branch according to a specific commit found within a pre-existing branch.
-commitToCopy=
 newBranchName=burkelab_PCI2024_newCode
-git checkout -b <newbranchname> <ID of commit in existing branch>
-git checkout -b burkelabNew 547572d29e9b9327986f2b9325ee10c36696db01
-git checkout -b burkelabNov30_newcode 7bc49b1b8bad8cddc0b45e213a8e7a358babd826
+commitToCopy=24ac148a9f791c9f72da40e5e3edf2cd4ef89e31
+git checkout -b $newBranchName $commitToCopy
 
 # # Push a new locally created branch to the github repository:
 # Git push origin <new_branch>
