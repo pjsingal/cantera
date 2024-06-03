@@ -1,5 +1,5 @@
-# # Run a test build:
-# scons test-kinetics toolchain=msvc verbose_tests=y -j4 googletest=submodule > testlog.txt 2>&1
+# Run a test build:
+scons test-kinetics toolchain=msvc verbose_tests=y -j4 googletest=submodule > testlog.txt 2>&1
 
 # # Move a folder into another folder
 # mv <path_to_folder> <path_to_destination>
@@ -28,12 +28,12 @@
 # git log <branch_name>
 # git log burkelab --pretty=format:"%h - %an, %ar : %s"
 
-# Delete a branch both locally and remotely:
-# 1.	Delete the local branch: 
-branchName=burkelab_PCI2024_newCode
-git branch -d $branchName # (if the branch has unmerged changes, you may need to force delet it using ‘-D’ instead of ‘-d’)
-# 2.	Delete the remote branch: 
-git push origin --delete $branchName
+# # Delete a branch both locally and remotely:
+# # 1.	Delete the local branch: 
+# branchName=burkelab_PCI2024_newCode
+# git branch -d $branchName # (if the branch has unmerged changes, you may need to force delet it using ‘-D’ instead of ‘-d’)
+# # 2.	Delete the remote branch: 
+# git push origin --delete $branchName
 
 # # Rename a branch both locally and remotely:
 # git checkout old_branch_name # 1
