@@ -1,9 +1,9 @@
 # # Run a test build:
 # scons test-kinetics toolchain=msvc verbose_tests=y -j4 googletest=submodule > testlog.txt 2>&1
 
-# Run validation script
-fname=C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\validation_burkelab.py
-python $fname
+# # Run validation script
+# fname=C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\validation_burkelab.py
+# python $fname
 
 # # Move a folder into another folder
 # mv <path_to_folder> <path_to_destination>
@@ -28,9 +28,10 @@ python $fname
 # # Push a new locally created branch to the github repository:
 # Git push origin <new_branch>
 
-# # See commit history on a specific branch: (press ‘q’ to quit once done)
-# git log <branch_name>
-# git log burkelab --pretty=format:"%h - %an, %ar : %s"
+# See commit history on a specific branch: (press ‘q’ to quit once done)
+branchName=burkelabNov30_newcode
+# git log $branchName
+git log $branchName --pretty=format:"%h - %an, %ar : %s"
 
 # # Delete a branch both locally and remotely:
 # # 1.	Delete the local branch: 
