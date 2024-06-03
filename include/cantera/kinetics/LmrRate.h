@@ -82,7 +82,7 @@ public:
     double evalFromStruct(const LmrData& shared_data);
     void validate(const string& equation, const Kinetics& kin) override; //removed from cpp, but re-insert later
     double geteig0mix(const LmrData& shared_data);
-    double getkM(const LmrData& shared_data);
+    vector<double> get_eig0M_kM(const LmrData& shared_data);
     double geteig0(const LmrData& shared_data, map<string,AnyMap>::iterator it);
     void writeMsg(string str, double dbl){writelog(str); writelog(std::to_string(dbl)); writelog("\n");}
     UnitStack rate_units_;

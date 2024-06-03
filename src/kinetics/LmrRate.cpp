@@ -145,37 +145,51 @@ double LmrRate::geteig0mix(const LmrData& shared_data){
     return eig0mix;
 }
 
-double LmrRate::getkM(const LmrData& shared_data){
+vector<double> LmrRate::get_eig0M_kM(const LmrData& shared_data){
     double kM;
+    double eig0M;
     auto it = colliderInfo.find("M");
     if (it != colliderInfo.end() && it->second.hasKey("rate-constants")){ 
-        kM = evalPlogRate(shared_data, eig0_M,it);
+        eig0M=ArrheniusRate(AnyValue(it->second["eig0"]), it->second.units(), rate_units_).evalRate(shared_data.logT, shared_data.recipT);
+        kM = evalPlogRate(shared_data, eig0M,it);
+        writeMsg("eig0_M = ",eig0M);
         writeMsg("kM_plog = ",kM);
     } 
     else if(it != colliderInfo.end() && it->second.hasKey("Troe")){ 
-        kM = evalTroeRate(shared_data, eig0_M,it);
+        eig0M=ArrheniusRate(AnyValue(it->second["eig0"]), it->second.units(), rate_units_).evalRate(shared_data.logT, shared_data.recipT);
+        kM = evalTroeRate(shared_data, eig0M,it);
+        writeMsg("eig0_M = ",eig0M);
         writeMsg("kM_troe = ",kM);
         // colliders_i["type"]="LMR_R"; //this dummy key needs to be defined because falloff.cpp requires it
     }
     else if(it != colliderInfo.end() && it->second.hasKey("pressure-range")){
-        kM = evalChebyshevRate(shared_data, eig0_M,it);
+        eig0M=ArrheniusRate(AnyValue(it->second["eig0"]), it->second.units(), rate_units_).evalRate(shared_data.logT, shared_data.recipT);
+        kM = evalChebyshevRate(shared_data, eig0M,it);
+        writeMsg("eig0_M = ",eig0M);
         writeMsg("kM_cheb = ",kM);
     }
     else {
         throw InputFileError("LmrRate::getkM", m_input,"Not enough data provided for species 'M'.");
     }
-    return kM;
+    return {eig0M,kM};
 }
 
 double LmrRate::evalFromStruct(const LmrData& shared_data){
-    eig0_M = geteig0(shared_data,colliderInfo.begin());
+    // auto it = colliderInfo.find("M");
+    // if (it != colliderInfo.end()){ 
+    //     eig0_M = geteig0(shared_data,it);
+    // }
+    vector<double> Mvals = get_eig0M_kM(shared_data);
+    eig0_M = Mvals[0];
+    k_M = Mvals[1];
+
     eig0_mix = geteig0mix(shared_data);
-    k_M = getkM(shared_data);
-    writeMsg("eig0_M = ",eig0_M); writeMsg("k_M_overall = ",k_M);
+    writeMsg("k_M_overall = ",k_M);
     k_LMR=0.0;
     for (size_t i=0; i<shared_data.allSpecies.size(); i++){ //testing each species listed at the top of yaml file
         auto it = colliderInfo.find(shared_data.allSpecies[i]);
         // if (it != colliderInfo.end() && it->second.hasKey("rate-constants")){ 
+        // double k_i;
         if (it != colliderInfo.end() && it->second.hasKey("rate-constants")){ 
             writelog(it->first);writelog("\n"); //speciesID
             eig0_i = geteig0(shared_data,it);
@@ -209,6 +223,7 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
         else{
             throw InputFileError("LmrRate::evalFromStruct", m_input,"LMRR reaction has invalid yaml input.");
         }
+        writeMsg("k_i_final = ",k_i);
         k_LMR += k_i*eig0_i*shared_data.moleFractions[i]/eig0_mix; //Note: Xtilde = eig0_i*shared_data.moleFractions[i]/eig0_mix;
     }
     writeMsg("k_LMR = ",k_LMR);

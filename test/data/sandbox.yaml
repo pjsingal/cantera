@@ -933,6 +933,11 @@ species:
     rotational-relaxation: 4.0
 
 reactions:
+
+
+
+
+
 - equation: H + O2 (+M) <=> HO2 (+M)
   type: pressure-dependent-Arrhenius
   rate-constants:
