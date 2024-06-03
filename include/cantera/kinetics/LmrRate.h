@@ -76,22 +76,22 @@ public:
     // void syncChebData(const LmrData& shared_data, ChebyshevData cheb_data);
 
     // void syncPlogData(const LmrData& shared_data, PlogData);
-    double evalPlogRate(const LmrData& shared_data, double eig0val, map<string,AnyMap>::iterator it);
-    double evalTroeRate(const LmrData& shared_data, double eig0val, map<string,AnyMap>::iterator it);
-    double evalChebyshevRate(const LmrData& shared_data, double eig0val, map<string,AnyMap>::iterator it);
+    double evalPlogRate(map<string,AnyMap>::iterator it);
+    double evalTroeRate(map<string,AnyMap>::iterator it);
+    double evalChebyshevRate(map<string,AnyMap>::iterator it);
+
     double evalFromStruct(const LmrData& shared_data);
     void validate(const string& equation, const Kinetics& kin) override; //removed from cpp, but re-insert later
-    double geteig0mix(const LmrData& shared_data);
-    vector<double> get_eig0M_kM(const LmrData& shared_data);
-    double geteig0(const LmrData& shared_data, map<string,AnyMap>::iterator it);
+    // double geteig0mix(const LmrData& shared_data);
+    // vector<double> get_eig0M_kM();
+    // double geteig0(map<string,AnyMap>::iterator it);
     void writeMsg(string str, double dbl){writelog(str); writelog(std::to_string(dbl)); writelog("\n");}
     UnitStack rate_units_;
-    double eig0_mix;
-    double eig0_M;
-    double k_M;
-    double k_i;
-    double eig0_i;
-    double k_LMR;
+    // double eig0_mix;
+    // double eig0_M;
+    // double k_M;
+    // double eig0_i;
+    // double k_LMR;
 
     // AnyMap colliders_i;
     // AnyMap colliders_M;
@@ -101,9 +101,23 @@ public:
     // double eig0_M;
     // double k_M;
 
+    double logP_;
+    double logT_;
+    double pressure_;
+    double recipT_;
+    double temperature_;
+    bool ready_;
+    vector<double> moleFractions_;
+    // vector<string> speciesList_;
+
+    double logPeff_;
+    double eig0_mix_=0.0;
+    double k_LMR_;
 
 protected:
-    double logP_ = -1000;
+    // double logP_ = -1000;
+
+
 };
 
 

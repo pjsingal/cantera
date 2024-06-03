@@ -35,6 +35,7 @@ phases:
 
 reactions:
 - equation: H + O2 (+M) <=> HO2 (+M)  # Reaction 13 (modified by Patrick Singal)
+# - equation: HO2 (+M) <=> H + O2 (+M)  # Reaction 13 (modified by Patrick Singal)
   type: LMR_R
   collider-list: 
   - collider: "M" # Data is actually for Ar
@@ -49,7 +50,7 @@ reactions:
     - {P: 3.000e+01 atm, A: 1.49784e+18, b: -2.10026e+00, Ea: 4.87579e+02}
     - {P: 1.000e+02 atm, A: 3.82218e+18, b: -2.07057e+00, Ea: 6.65984e+02}
   - collider: "H2O"
-    eig0: {A: 10, b: 0, Ea: 0}
+    eig0: {A: 1000, b: 0, Ea: 0}
     rate-constants:
     - {P: 1.316e-03 atm, A: 9.39968e+14, b: -2.14348e+00, Ea: 7.72730e+01}
     - {P: 1.316e-02 atm, A: 1.07254e+16, b: -2.15999e+00, Ea: 1.30239e+02}

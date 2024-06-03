@@ -8,6 +8,7 @@ bklabct.print_stack_trace_on_segfault()
 
 file = 'C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\kineticsfromscratch_LMRtest.yaml'
 reactions = ['H + O2 (+M) <=> HO2 (+M)']
+# reactions = ['HO2 (+M) <=> H + O2 (+M)']
 gas = bklabct.Solution(file)
 #Temp = np.linspace(750,2500,50)
 Temp=[1000]
@@ -25,7 +26,7 @@ for i, R in enumerate(reactions):
             rc = gas.forward_rate_constants[gas.reaction_equations().index(R)]
             temp_list.append(rc)
         k_list.append(temp_list)  
-        print(k_list[j]) 
+        print("%.5e" % k_list[j][0])
 
     # plt.figure()
     # plt.title(R)
