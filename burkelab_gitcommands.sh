@@ -16,10 +16,10 @@
 # # Switch to a specific local branch:
 # Git branch <branchname>
 
-# Create a new local branch according to a specific commit found within a pre-existing branch.
-newBranchName=burkelab_PCI2024_newCode
-commitToCopy=24ac148a9f791c9f72da40e5e3edf2cd4ef89e31
-git checkout -b $newBranchName $commitToCopy
+# # Create a new local branch according to a specific commit found within a pre-existing branch.
+# newBranchName=burkelab_PCI2024_newCode
+# commitToCopy=24ac148a9f791c9f72da40e5e3edf2cd4ef89e31
+# git checkout -b $newBranchName $commitToCopy
 
 # # Push a new locally created branch to the github repository:
 # Git push origin <new_branch>
@@ -28,12 +28,12 @@ git checkout -b $newBranchName $commitToCopy
 # git log <branch_name>
 # git log burkelab --pretty=format:"%h - %an, %ar : %s"
 
-# # Delete a branch both locally and remotely:
-# # 1.	Delete the local branch: 
-# branchName=burkelab_PCI2024_newCode
-# git branch -d $branchName # (if the branch has unmerged changes, you may need to force delet it using ‘-D’ instead of ‘-d’)
-# # 2.	Delete the remote branch: 
-# git push origin --delete $branchName
+# Delete a branch both locally and remotely:
+# 1.	Delete the local branch: 
+branchName=burkelab_PCI2024_newCode
+git branch -d $branchName # (if the branch has unmerged changes, you may need to force delet it using ‘-D’ instead of ‘-d’)
+# 2.	Delete the remote branch: 
+git push origin --delete $branchName
 
 # # Rename a branch both locally and remotely:
 # git checkout old_branch_name # 1
