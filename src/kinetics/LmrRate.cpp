@@ -258,6 +258,7 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
             double k_i = evalPlogRate(it4);
             double Xtilde = eig0*Xi/eig0_mix;
             k_LMR_ += k_i*Xtilde;
+            // k_LMR_ += evalPlogRate(it4)*eig0*Xi/eig0_mix;
             writeMsg("eig0_i_plog = ",eig0); writeMsg("k_i_plog = ",k_i);
         } 
         else if(it4 != colliderInfo.end() && it4->second.hasKey("Troe")){ 
@@ -267,6 +268,7 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
             double k_i = evalTroeRate(it4);
             double Xtilde = eig0*Xi/eig0_mix;
             k_LMR_ += k_i*Xtilde;
+            // k_LMR_ += evalTroeRate(it4)*eig0*Xi/eig0_mix;
             writeMsg("eig0_i_troe = ",eig0); writeMsg("k_i_troe = ",k_i);
         }
         else if(it4 != colliderInfo.end() && it4->second.hasKey("pressure-range")){ 
@@ -274,7 +276,8 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
             double eig0 = ArrheniusRate(AnyValue(it4->second["eig0"]), it4->second.units(), rate_units_).evalRate(logT_, recipT_);
             double k_i = evalChebyshevRate(it4);
             double Xtilde = eig0*Xi/eig0_mix;
-            k_LMR_ += k_i*Xtilde;            
+            k_LMR_ += k_i*Xtilde;    
+            // k_LMR_ += evalChebyshevRate(it4)*eig0*Xi/eig0_mix;        
             writeMsg("eig0_i_cheb = ",eig0); writeMsg("k_i_cheb = ",k_i);
         }
         else if(it4 != colliderInfo.end() && !(it4->second.hasKey("pressure-range")) && !(it4->second.hasKey("Troe")) && !(it4->second.hasKey("rate-constants"))){ //yaml species has an eig0 but no additional LMRR data, so treat its rate as same as "M"
@@ -282,11 +285,13 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
             double eig0 = ArrheniusRate(AnyValue(it4->second["eig0"]), it4->second.units(), rate_units_).evalRate(logT_, recipT_);
             double Xtilde = eig0*Xi/eig0_mix;
             k_LMR_ += k_M*Xtilde;  
+            // k_LMR_ += k_M*eig0*Xi/eig0_mix;
             writeMsg("eig0_i_eigOnly = ",eig0); writeMsg("k_i_eigOnly = ",k_M);
         }
         else if(it4 == colliderInfo.end()){ //yaml species has no LMRR data, so treat its rate and eig0 as same as "M"
             double Xtilde = eig0_M*Xi/eig0_mix;
             k_LMR_ += k_M*Xtilde; 
+            // k_LMR_ += k_M*eig0_M*Xi/eig0_mix;
             writeMsg("eig0_i_noLMR = ",eig0_M); writeMsg("k_i_noLMR = ",k_M);
         }
         else{
