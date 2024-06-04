@@ -223,12 +223,13 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
     recipT_=shared_data.recipT;
     temperature_=shared_data.temperature;
     ready_=shared_data.ready;
-    logPeff_= logP_+log(eig0_mix)-log(eig0_M); //need to update this every time before evalPlogRate
+    
 
     // GET K_M
     double k_M;
     auto it3 = colliderInfo.find("M");
     if (it3 != colliderInfo.end() && it3->second.hasKey("rate-constants")){ 
+        logPeff_= logP_+log(eig0_mix)-log(eig0_M); //need to update this every time before evalPlogRate
         k_M = evalPlogRate(it3);
         writeMsg("kM_plog = ",k_M);
     } 
@@ -266,6 +267,9 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
             // colliders_i["type"]="LMR_R"; //this dummy key needs to be defined because falloff.cpp requires it
             double eig0 = ArrheniusRate(AnyValue(it4->second["eig0"]), it4->second.units(), rate_units_).evalRate(logT_, recipT_);
             double k_i = evalTroeRate(it4);
+
+
+
             double Xtilde = eig0*Xi/eig0_mix;
             k_LMR_ += k_i*Xtilde;
             // k_LMR_ += evalTroeRate(it4)*eig0*Xi/eig0_mix;
