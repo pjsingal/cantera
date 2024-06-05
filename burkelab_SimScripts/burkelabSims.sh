@@ -53,10 +53,16 @@ lgdfsz=7
 # # # python burkelab_SimScripts/simulateflamespeedRonney_NH3_H2.py --gridsz 40 --date 'May31' --slopeVal 0.05 --curveVal 0.05 --transport 'multicomponent'
 # # # python burkelab_SimScripts/simulateflamespeedRonney_NH3only.py --gridsz 50 --date 'May30' --slopeVal 0.05 --curveVal 0.05 --transport 'multicomponent'
 
+# python burkelab_SimScripts/simulateflamespeedBurke_compareA.py --gridsz 11 --date 'Jun05' --slopeVal 0.05 --curveVal 0.05 --transport 'multicomponent'
+
+# python burkelab_SimScripts/simulateflamespeedBurke_sensitivity.py --gridsz 11 --date 'Jun05' --slopeVal 0.05 --curveVal 0.05 --transport 'multicomponent'
+
+# python burkelab_SimScripts//simulateK_vs_T.py
+
 # # # ## PLOT FLAME SPEED DATA
-python burkelab_SimScripts/simulateflamespeedBurke_FromData_ESSCI.py \
+python burkelab_SimScripts/simulateflamespeedBurke_FromData_compareA.py \
 --figwidth 5.5 --figheight 2.5 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
---lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --date 'Jun02' --slopeVal 0.05 --curveVal 0.05 &
+--lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --date 'Jun05' --slopeVal 0.05 --curveVal 0.05 &
 
 # python burkelab_SimScripts/simulateflamespeedBurke_FromData_PCI.py \
 # --figwidth 2.5 --figheight 2.5 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
