@@ -41,6 +41,8 @@ name = 'MBR_BurkeSong'
 #           }
 
 models = {    
+        #   'Alzueta':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism.yaml",     
+        #   'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR.yaml", 
           'A1':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allAR.yaml", 
           'A3':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allAR_Ax3.yaml", 
           'A5':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allAR_Ax5.yaml", 
@@ -81,12 +83,20 @@ for i, m in enumerate(list(models.keys())):
     f.set_refine_criteria(ratio=fratio, slope=fslope, curve=fcurve)
     f.transport_model = ftransport
     f.soret_enabled = True
-    f.solve(loglevel=loglevel, auto=True)
-
+    f.solve(loglevel=loglevel,auto=True)
+    Su0=f.velocity[0]
     sensitivities = pd.DataFrame(index=gas.reaction_equations(), columns=["base_case"])
-    sens = f.get_flame_speed_reaction_sensitivities()
+    # sens = f.get_flame_speed_reaction_sensitivities()
+    dk = 0.1
     for r in range(gas.n_reactions):
-        sensitivities.iloc[r,0]=sens[r]
+        gas.set_multiplier(1.0)
+        gas.set_multiplier(1+dk,r)
+        f.solve(loglevel=0, refine_grid=False, auto=False)
+        Su = f.velocity[0]
+        sensitivities.iloc[r,0]=(Su-Su0)/(Su0*dk)
+        # sensitivities.iloc[r,0]=sens[r]
+    gas.set_multiplier(1.0)
+
     
     # Reaction mechanisms can contains thousands of elementary steps. Choose a threshold
     # to see only the top few
@@ -110,7 +120,10 @@ for i, m in enumerate(list(models.keys())):
     # Uncomment the following to save the plot. A higher than usual resolution (dpi) helps
     path=f'C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\BurkeSongResults_'+date+f' (sensitivity)\\'
     os.makedirs(path,exist_ok=True)
-    plt.savefig(path+f'allAR_{m}_10atm.png', dpi=300)
+    if m=="Alzueta" or m=="LMR-R":
+        plt.savefig(path+f'{m}_10atm.png', dpi=300)
+    else:
+        plt.savefig(path+f'allAR_{m}_10atm.png', dpi=300)
 
 # sys.stdout = sys.__stdout__
 # sys.stderr = sys.__stderr__

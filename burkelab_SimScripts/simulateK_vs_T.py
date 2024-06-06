@@ -20,7 +20,7 @@ pltcolours = ["xkcd:grey", "xkcd:teal", 'xkcd:purple','olive', 'brown','goldenro
 plt.figure(figsize=(6, 4))
 for i, m in enumerate(list(models.keys())):
     gas = ct.Solution(list(models.values())[i])
-    Temp = np.linspace(300,3000,70)
+    Temp = np.linspace(1000,3000,70)
     # Temp=[1000]
     # Pres = np.logspace(-2,2,5)
     Pres = [10] # units: Pa
@@ -43,7 +43,7 @@ for i, m in enumerate(list(models.keys())):
         if q==1:
             plt.semilogy(Temp,k_list,label=m+" "+R,linewidth=0.7,linestyle="--",color=pltcolours[i])
 plt.title("10 atm")
-plt.legend(fontsize=7,frameon=False,loc='lower right', handlelength=1.0)
+plt.legend(fontsize=5,frameon=False,loc='upper left', handlelength=1.0)
 plt.xlabel('Temperature [K]')
 plt.ylabel('Rate constant (k)')
 

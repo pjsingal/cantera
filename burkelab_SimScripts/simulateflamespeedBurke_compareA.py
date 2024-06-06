@@ -68,7 +68,7 @@ ftransport=args.transport
 colors = ['xkcd:purple','r','b']
 
 for i, m in enumerate(list(models.keys())):
-    p_list = np.linspace(1,12,gridsz)[1:]
+    p_list = np.linspace(0,2,gridsz)[1:]
     T = 300.0  # unburned gas temperature [K]
     reactants = 'H2:0.1071, O2:0.1785, He:0.7144'  # premixed gas composition
     width = 0.03  # m
