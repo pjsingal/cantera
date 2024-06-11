@@ -41,11 +41,20 @@ lgdfsz=7
 # --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 14 &
 
 
-# # # python burkelab_SimScripts/simulateIDT_Keromnes.py \
-# # # --figwidth 3.5 --figheight 6.66667 --fsz $fsz --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
-# # # --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 9 &
+python burkelab_SimScripts/simulateIDT_Keromnes.py \
+--figwidth 3.5 --figheight 2.5 --fsz $fsz --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
+--lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 75 &
+# python burkelab_SimScripts/simulateflamespeedKeromnes_H2_CO.py --gridsz 25 --date 'June10' --slopeVal 0.05 --curveVal 0.05 --transport 'multicomponent'
+python burkelab_SimScripts/simulateflamespeedKeromnes_0.95CO_0.05H2_FromData.py \
+--figwidth 3.5 --figheight 2.5 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
+--lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz $lgdfsz --date 'June10' --slopeVal 0.05 --curveVal 0.05 --paper 'ESSCI' &
+python burkelab_SimScripts/simulateJSR_NH3_MannaGlarborg.py \
+--figwidth 3.5 --figheight 2.5 --fsz $fsz --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
+--lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 50 &
 
 # # ## FLAME SPEED CALCULATIONS
+
+
 # # # python burkelab_SimScripts/simulateflamespeedRonney_NH3_H2.py --gridsz 30 --date 'May28' --slopeVal 0.01 --curveVal 0.01 --transport 'multicomponent'
 # # # python burkelab_SimScripts/simulateflamespeedRonney_NH3_H2.py --gridsz 30 --date 'May28' --slopeVal 0.05 --curveVal 0.05 --transport 'multicomponent'
 # python burkelab_SimScripts/simulateflamespeedBurke.py --gridsz 15 --date 'Jun02' --slopeVal 0.05 --curveVal 0.05 --transport 'multicomponent'
@@ -55,7 +64,7 @@ lgdfsz=7
 
 # python burkelab_SimScripts/simulateflamespeedBurke_compareA.py --gridsz 3 --date 'Jun06' --slopeVal 0.05 --curveVal 0.05 --transport 'multicomponent'
 
-python burkelab_SimScripts/simulateflamespeedBurke_sensitivity.py --gridsz 11 --date 'Jun06' --slopeVal 0.05 --curveVal 0.05 --transport 'multicomponent'
+# python burkelab_SimScripts/simulateflamespeedBurke_sensitivity.py --gridsz 11 --date 'Jun06' --slopeVal 0.05 --curveVal 0.05 --transport 'multicomponent'
 
 # python burkelab_SimScripts//simulateK_vs_T.py
 
@@ -71,6 +80,8 @@ python burkelab_SimScripts/simulateflamespeedBurke_sensitivity.py --gridsz 11 --
 # python burkelab_SimScripts/simulateflamespeedRonney_0.6NH3_0.4H2_FromData.py \
 # --figwidth 6.5 --figheight 2.72 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
 # --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz $lgdfsz --date 'May31' --slopeVal 0.05 --curveVal 0.05 --paper 'ESSCI' &
+
+
 
 # python burkelab_SimScripts/simulateflamespeedRonney_0.6NH3_0.4H2_FromData.py \
 # --figwidth 2.5 --figheight 4.5 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
@@ -96,6 +107,14 @@ python burkelab_SimScripts/simulateflamespeedBurke_sensitivity.py --gridsz 11 --
 ## USEFUL COMMANDS
 # # Convert a cti to a yaml
 # python interfaces\\cython\\cantera\\cti2yaml.py "G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\09 Nitrogen\\Shrestha\\shrestha2018.cti" 
+
+# # Convert chemkin to yaml
+# python interfaces\\cython\\cantera\\cti2yaml.py "G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\09 Nitrogen\\Shrestha\\shrestha2018.cti" 
+
+# chem="C:\\Users\\pjsin\\OneDrive\\Desktop\\chem.inp"
+# therm="C:\\Users\\pjsin\\OneDrive\\Desktop\\therm.dat"
+# tran="C:\\Users\\pjsin\\OneDrive\\Desktop\\tran.dat"
+# python interfaces\\cython\\cantera\\ck2yaml.py --input=$chem --thermo=$therm --transport=$tran --permissive
 
 # # To make this file executable:
 # chmod +x burkelab_SimScripts/burkelabSims.sh
