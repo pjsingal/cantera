@@ -18,23 +18,19 @@ namespace Cantera{
 struct LmrData : public ReactionData{
     // LmrData() = default;
     LmrData();
-
     void update(double T, double P) override {
         ReactionData::update(T);
         pressure = P;
         logP = std::log(P);
     }
-
     bool update(const ThermoPhase& phase, const Kinetics& kin) override;
     using ReactionData::update;
     void perturbPressure(double deltaP);
     void restore() override;
-
     virtual void resize(size_t nSpecies, size_t nReactions, size_t nPhases) override {
         moleFractions.resize(nSpecies, NAN);
         ready = true;
     }
-
     void invalidateCache() override {
         ReactionData::invalidateCache();
         pressure = NAN;
@@ -45,24 +41,29 @@ struct LmrData : public ReactionData{
     vector<double> moleFractions;
     int mfNumber; 
     vector<string> allSpecies; //list of all yaml species (not just those for which LMRR data exists)  
-
 // protected:
     double m_pressure_buf = -1.0; //!< buffered pressure
 };
-
-
 
 class LmrRate final : public ReactionRate
 {
 public:
     LmrRate() = default;//! Default constructor.
+    // LmrData shared_dat;
+    // LmrRate() : dataPtr(nullptr) {};
+
+    // void setLmrDataPtr(LmrData* data) {
+    //     dataPtr = data;
+    // }
+
+    // LmrData* shared_data;
+
     explicit LmrRate(const std::multimap<double, ArrheniusRate>& rates);
     LmrRate(const AnyMap& node, const UnitStack& rate_units={});
     unique_ptr<MultiRateBase> newMultiRate() const override {
         return make_unique<MultiRate<LmrRate, LmrData>>();
     }
     const string type() const override { return "LMR_R"; } //! Identifier of reaction rate type
-
     // map<string, pair<const AnyMap&,const UnitStack&>> colliderInfo;
     // map<string, AnyMap> colliderInfo;
     map<string, AnyMap> colliderInfo;
@@ -74,23 +75,18 @@ public:
     // vector<std::any> dataObjs;
     vector<AnyMap> colliderNodes;
     vector<ArrheniusRate> eigObjs;
-
-    
     void setParameters(const AnyMap& node, const UnitStack& rate_units) override;
     void getParameters(AnyMap& rateNode, const Units& rate_units) const;
     void getParameters(AnyMap& rateNode) const override {
         return getParameters(rateNode, Units(0));
     }
-
     // void syncPlogData(const LmrData& shared_data, PlogData plog_data);
     // void syncTroeData(const LmrData& shared_data, FalloffData troe_data);
     // void syncChebData(const LmrData& shared_data, ChebyshevData cheb_data);
-
     // void syncPlogData(const LmrData& shared_data, PlogData);
     // double evalPlogRate(map<string,AnyMap>::iterator it);
     // double evalTroeRate(map<string,AnyMap>::iterator it);
     // double evalChebyshevRate(map<string,AnyMap>::iterator it);
-
     double evalFromStruct(const LmrData& shared_data);
     void validate(const string& equation, const Kinetics& kin) override; //removed from cpp, but re-insert later
     // double geteig0mix(const LmrData& shared_data);

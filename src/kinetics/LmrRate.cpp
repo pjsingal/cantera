@@ -5,6 +5,7 @@
 #include "cantera/kinetics/LmrRate.h"
 #include "cantera/thermo/ThermoPhase.h"
 // #include "cantera/kinetics/Falloff.h"
+#include "cantera/kinetics/Kinetics.h"
 // #include "cantera/kinetics/ChebyshevRate.h"
 // #include "cantera/kinetics/PlogRate.h"
 #include <boost/variant.hpp>
@@ -63,6 +64,7 @@ LmrRate::LmrRate(const AnyMap& node, const UnitStack& rate_units){
 }
 
 void LmrRate::setParameters(const AnyMap& node, const UnitStack& rate_units){
+    writelog("1"); writelog("\n");
     ReactionRate::setParameters(node, rate_units);
     if(!node.hasKey("collider-list")){
         throw InputFileError("LmrRate::setParameters", m_input,"Yaml input for LMR-R does not follow the necessary structure.");
@@ -77,64 +79,88 @@ void LmrRate::setParameters(const AnyMap& node, const UnitStack& rate_units){
         }
         colliderInfo.insert({colliders[i]["collider"].as<std::string>(), colliders[i]});
     }
+    rate_units_=rate_units;
+}
 
+void LmrRate::validate(const string& equation, const Kinetics& kin){
     ArrheniusRate eig0_M;
     RateTypes rateObj_M;
     DataTypes dataObj_M;
     AnyMap node_M;
 
+    writelog("2"); writelog("\n");
     auto it1 = colliderInfo.find("M");
     if (it1 != colliderInfo.end() && it1->second.hasKey("rate-constants")){ 
+        writelog("2.1"); writelog("\n");
         node_M=it1->second;
-        eig0_M=ArrheniusRate(AnyValue(it1->second["eig0"]), it1->second.units(), rate_units);
+        eig0_M=ArrheniusRate(AnyValue(it1->second["eig0"]), it1->second.units(), rate_units_);
         rateObj_M = PlogRate();
         dataObj_M = PlogData();
     } 
     else if(it1 != colliderInfo.end() && it1->second.hasKey("Troe")){ 
+        writelog("2.2"); writelog("\n");
         node_M=it1->second;
-        eig0_M=ArrheniusRate(AnyValue(it1->second["eig0"]), it1->second.units(), rate_units);
+        eig0_M=ArrheniusRate(AnyValue(it1->second["eig0"]), it1->second.units(), rate_units_);
         rateObj_M = TroeRate();
         dataObj_M = FalloffData();
     }
     else if(it1 != colliderInfo.end() && it1->second.hasKey("pressure-range")){
+        writelog("2.3"); writelog("\n");
         node_M=it1->second;
-        eig0_M=ArrheniusRate(AnyValue(it1->second["eig0"]), it1->second.units(), rate_units);
+        eig0_M=ArrheniusRate(AnyValue(it1->second["eig0"]), it1->second.units(), rate_units_);
         rateObj_M = ChebyshevRate();
         dataObj_M = ChebyshevData();
     }
     else {
         throw InputFileError("LmrRate::setParameters", m_input,"Not enough data provided for species 'M'.");
     }
-    
-    vector<string> allSpecies=LmrData().allSpecies;
+    writelog("3"); writelog("\n");
 
-    for (size_t i=0; i<allSpecies.size(); i++){ //testing each species listed at the top of yaml file
-        auto it2 = colliderInfo.find(allSpecies[i]);
+
+    // vector<string> allSpecies;
+    // auto nSpecies = kin.nTotalSpecies();
+    // for (size_t i = 0; i < nSpecies; i++){
+    //     allSpecies.push_back(kin.kineticsSpeciesName(i));
+    // }
+    // writelog("species=",kin.kineticsSpeciesName(2));
+
+
+
+    // for (size_t i=0; i<allSpecies.size(); i++){ //testing each species listed at the top of yaml file
+    for (size_t i=0; i<kin.nTotalSpecies(); i++){ //testing each species listed at the top of yaml file
+        // auto it2 = colliderInfo.find(allSpecies[i]);
+        auto it2 = colliderInfo.find(kin.kineticsSpeciesName(i));
+        writelog("species=",kin.kineticsSpeciesName(i)); writelog("\n");
         if (it2 != colliderInfo.end() && it2->second.hasKey("rate-constants")){ 
+            writelog("3.1"); writelog("\n");
             node_M=it1->second;
-            eigObjs.push_back(ArrheniusRate(AnyValue(it2->second["eig0"]), it2->second.units(), rate_units));
+            eigObjs.push_back(ArrheniusRate(AnyValue(it2->second["eig0"]), it2->second.units(), rate_units_));
             rateObjs.push_back(PlogRate());
             dataObjs.push_back(PlogData());
         } 
         else if(it2 != colliderInfo.end() && it2->second.hasKey("Troe")){ 
+            writelog("3.2"); writelog("\n");
             colliderNodes.push_back(it2->second);
-            eigObjs.push_back(ArrheniusRate(AnyValue(it2->second["eig0"]), it2->second.units(), rate_units));
+            eigObjs.push_back(ArrheniusRate(AnyValue(it2->second["eig0"]), it2->second.units(), rate_units_));
             rateObjs.push_back(TroeRate());
             dataObjs.push_back(FalloffData());
         }
         else if(it2 != colliderInfo.end() && it2->second.hasKey("pressure-range")){ 
+            writelog("3.3"); writelog("\n");
             colliderNodes.push_back(it2->second);
-            eigObjs.push_back(ArrheniusRate(AnyValue(it2->second["eig0"]), it2->second.units(), rate_units));
+            eigObjs.push_back(ArrheniusRate(AnyValue(it2->second["eig0"]), it2->second.units(), rate_units_));
             rateObjs.push_back(ChebyshevRate());
             dataObjs.push_back(ChebyshevData());   
         }
         else if(it2 != colliderInfo.end() && !(it2->second.hasKey("pressure-range")) && !(it2->second.hasKey("Troe")) && !(it2->second.hasKey("rate-constants"))){ //yaml species has an eig0 but no additional LMRR data, so treat its rate as same as "M"
+            writelog("3.4"); writelog("\n");
             colliderNodes.push_back(node_M);
-            eigObjs.push_back(ArrheniusRate(AnyValue(it2->second["eig0"]), it2->second.units(), rate_units));
+            eigObjs.push_back(ArrheniusRate(AnyValue(it2->second["eig0"]), it2->second.units(), rate_units_));
             rateObjs.push_back(rateObj_M);
             dataObjs.push_back(dataObj_M);
         }
         else if(it2 == colliderInfo.end()){ //yaml species has no LMRR data, so treat its rate and eig0 as same as "M"
+            writelog("3.5"); writelog("\n");
             colliderNodes.push_back(node_M);
             eigObjs.push_back(eig0_M);
             rateObjs.push_back(rateObj_M);
@@ -144,9 +170,8 @@ void LmrRate::setParameters(const AnyMap& node, const UnitStack& rate_units){
             throw InputFileError("LmrRate::setParameters", m_input,"LMRR reaction has invalid yaml input.");
         }
     }
+    writelog("4"); writelog("\n");
 }
-
-void LmrRate::validate(const string& equation, const Kinetics& kin){}
 
 double LmrRate::evalFromStruct(const LmrData& shared_data){
     logP_=shared_data.logP;

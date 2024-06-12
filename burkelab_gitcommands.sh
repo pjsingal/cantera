@@ -1,3 +1,5 @@
+# ./burkelab_gitcommands.sh
+
 # # Run a test build:
 # scons test-kinetics toolchain=msvc verbose_tests=y -j4 googletest=submodule > testlog.txt 2>&1
 
