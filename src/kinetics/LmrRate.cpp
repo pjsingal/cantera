@@ -116,21 +116,16 @@ void LmrRate::validate(const string& equation, const Kinetics& kin){
     }
     writelog("3"); writelog("\n");
 
+    vector<string> allSpecies;
+    auto nSpecies = kin.nTotalSpecies();
+    for (size_t i = 0; i < nSpecies; i++){
+        allSpecies.push_back(kin.kineticsSpeciesName(i));
+    }
+    writelog("species=",kin.kineticsSpeciesName(2));
 
-    // vector<string> allSpecies;
-    // auto nSpecies = kin.nTotalSpecies();
-    // for (size_t i = 0; i < nSpecies; i++){
-    //     allSpecies.push_back(kin.kineticsSpeciesName(i));
-    // }
-    // writelog("species=",kin.kineticsSpeciesName(2));
-
-
-
-    // for (size_t i=0; i<allSpecies.size(); i++){ //testing each species listed at the top of yaml file
-    for (size_t i=0; i<kin.nTotalSpecies(); i++){ //testing each species listed at the top of yaml file
-        // auto it2 = colliderInfo.find(allSpecies[i]);
-        auto it2 = colliderInfo.find(kin.kineticsSpeciesName(i));
-        writelog("species=",kin.kineticsSpeciesName(i)); writelog("\n");
+    for (size_t i=0; i<allSpecies.size(); i++){ //testing each species listed at the top of yaml file
+        auto it2 = colliderInfo.find(allSpecies[i]);
+        // writelog("species=",kin.kineticsSpeciesName(i)); writelog("\n");
         if (it2 != colliderInfo.end() && it2->second.hasKey("rate-constants")){ 
             writelog("3.1"); writelog("\n");
             node_M=it1->second;
