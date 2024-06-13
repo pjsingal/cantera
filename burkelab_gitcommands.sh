@@ -1,7 +1,7 @@
 # ./burkelab_gitcommands.sh
 
-# # Run a test build:
-# scons test-kinetics toolchain=msvc verbose_tests=y -j4 googletest=submodule > testlog.txt 2>&1
+# Run a test build:
+scons test-kinetics toolchain=msvc verbose_tests=y -j4 googletest=submodule > testlog.txt 2>&1
 
 # # Run validation script
 # fname=C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\validation_burkelab.py
@@ -87,26 +87,26 @@
 # # Conda command to install boost:
 # conda install boost-cpp 
 
-#Update a file in one branch with an equivalent file in another branch
-tgtBranch=burkelabClean
-sourceBranch=burkelab
-fname=include\\cantera\\kinetics\\LmrRate.h
-# Step 1: Checkout the burkelabClean branch
-git checkout $tgtBranch
-# Step 2: Get the LmrRate.h file from the burkelab branch
-git checkout $sourceBranch -- $fname
-# Step 3: Commit the change
-git add $fname
-git commit -m "Replace LmrRate.h with version from burkelab branch"
+# #Update a file in one branch with an equivalent file in another branch
+# tgtBranch=burkelabClean
+# sourceBranch=burkelab
+# fname=include\\cantera\\kinetics\\LmrRate.h
+# # Step 1: Checkout the burkelabClean branch
+# git checkout $tgtBranch
+# # Step 2: Get the LmrRate.h file from the burkelab branch
+# git checkout $sourceBranch -- $fname
+# # Step 3: Commit the change
+# git add $fname
+# git commit -m "Replace LmrRate.h with version from burkelab branch"
 
-#Update a file in one branch with an equivalent file in another branch
-tgtBranch=burkelabClean
-sourceBranch=burkelab
-fname=src\\kinetics\\LmrRate.cpp
-# Step 1: Checkout the burkelabClean branch
-git checkout $tgtBranch
-# Step 2: Get the LmrRate.h file from the burkelab branch
-git checkout $sourceBranch -- $fname
-# Step 3: Commit the change
-git add $fname
-git commit -m "Replace LmrRate.cpp with version from burkelab branch"
+# #Update a file in one branch with an equivalent file in another branch
+# tgtBranch=burkelabClean
+# sourceBranch=burkelab
+# fname=src\\kinetics\\LmrRate.cpp
+# # Step 1: Checkout the burkelabClean branch
+# git checkout $tgtBranch
+# # Step 2: Get the LmrRate.h file from the burkelab branch
+# git checkout $sourceBranch -- $fname
+# # Step 3: Commit the change
+# git add $fname
+# git commit -m "Replace LmrRate.cpp with version from burkelab branch"
