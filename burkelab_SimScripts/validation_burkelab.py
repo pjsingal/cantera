@@ -20,7 +20,7 @@ for i, R in enumerate(reactions):
     for j, P in enumerate(Pres):
         temp_list = []
         for k,T in enumerate(Temp):
-            gas.TPX = T,P,{'H2O':1,'Ar':0.0}
+            gas.TPX = T,P,{'H2O':0.3,'Ar':0.7}
             # gas.TPX = T,P,{'H2O':1.0}
             # gas.TPX = T,P,{'Ar':1.0}
             # print(gas.TPX)

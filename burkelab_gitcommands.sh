@@ -1,11 +1,11 @@
 # ./burkelab_gitcommands.sh
 
-# Run a test build:
-scons test-kinetics toolchain=msvc verbose_tests=y -j4 googletest=submodule > testlog.txt 2>&1
+# # Run a test build:
+# scons test-kinetics toolchain=msvc verbose_tests=y -j4 googletest=submodule > testlog.txt 2>&1
 
-# # Run validation script
-# fname=C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\validation_burkelab.py
-# python $fname
+# Run validation script
+fname=C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\validation_burkelab.py
+python $fname
 
 # # Move a folder into another folder
 # mv <path_to_folder> <path_to_destination>
