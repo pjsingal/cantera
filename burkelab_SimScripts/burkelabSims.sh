@@ -32,9 +32,9 @@ lgdfsz=7
 # --figwidth 2.5 --figheight 5 --fsz $fsz --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
 # --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 50 &
 
-# python burkelab_SimScripts/simulateshocktubeShao_1x1_ESSCI.py \
-# --figwidth 5.5 --figheight 2.5 --fsz $fsz --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
-# --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz $lgdfsz --gridsz 14 &
+python burkelab_SimScripts/simulateshocktubeShao_1x1_ESSCI.py \
+--figwidth 5.5 --figheight 2.5 --fsz $fsz --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
+--lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz $lgdfsz --gridsz 14 &
 
 # python burkelab_SimScripts/simulateshocktubeShao_1x1_PCI.py \
 # --figwidth 2.5 --figheight 2.5 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \

@@ -91,7 +91,7 @@ void LmrRate::setParameters(const AnyMap& node, const UnitStack& rate_units){
     } else {
         throw InputFileError("LmrRate::setParameters", m_input,"The M-collider must be specified in a PLOG, Troe, or Chebyshev format.");    
     }
-    for (size_t i = 1; i <= colliders.size(); i++){ //Starts at 1 because idx 0 is for "M"
+    for (size_t i = 1; i < colliders.size(); i++){ //Starts at 1 because idx 0 is for "M"
         if (!colliders[i].hasKey("collider")) {
             throw InputFileError("LmrRate::setParameters", m_input,"Yaml input for LMR-R does not follow the necessary structure.");
         } else if (!colliders[i].hasKey("eig0")) {
@@ -121,9 +121,13 @@ void LmrRate::setParameters(const AnyMap& node, const UnitStack& rate_units){
     }
 }
 
+void LmrRate::validate(const string& equation, const Kinetics& kin){
+    writelog("validate::1"); writelog("\n");
+}
+
 void LmrRate::setContext(const Reaction& rxn, const Kinetics& kin){   
     writelog("setContext::1"); writelog("\n");
-    for (size_t i=0; i<=names.size();i++){ //Starts at 1, because names[0] == "M" //THIS LOOP IS NOT WORKING
+    for (size_t i=0; i<names.size();i++){ //Starts at 1, because names[0] == "M" //THIS LOOP IS NOT WORKING
         writelog("setContext::2"); writelog("\n");
         colliderIndices.push_back(kin.kineticsSpeciesIndex(names[i]));
         // double val = kin.kineticsSpeciesIndex(names[i]);
@@ -131,9 +135,16 @@ void LmrRate::setContext(const Reaction& rxn, const Kinetics& kin){
     }
     nSpecies = kin.nTotalSpecies();
     // writelog("collisionIndices[0] = ", colliderIndices[0]);
+
+    if (colliderIndices.empty()){
+        throw InputFileError("LmrRate::setContext", m_input,"collidersIndices is empty for some reason");
+    }
+    // if (nSpecies!=9){
+    //     throw InputFileError("LmrRate::setContext", m_input,"nSpecies is incorrect.");
+    // }
 }
 
-void LmrRate::validate(const string& equation, const Kinetics& kin){}
+
 
 double LmrRate::evalPlogRate(PlogRate& rate, PlogData& data, AnyMap node){
     writelog("evalPlogRate::1"); writelog("\n");
@@ -182,9 +193,9 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
 
     double eig0_mix=0;
     double sigmaX_M=0.0;
-    for (size_t i=0; i<=nSpecies; i++){ //testing each species listed at the top of yaml file
+    for (size_t i=0; i<nSpecies; i++){ //testing each species listed at the top of yaml file
         writelog("evalFromStruct::2"); writelog("\n");
-        for (size_t j=0; j<=colliderIndices.size(); j++){
+        for (size_t j=0; j<colliderIndices.size(); j++){
             writelog("evalFromStruct::3"); writelog("\n");
             if (i==colliderIndices[j]){ // Species is in collider list
                 writelog("evalFromStruct::4"); writelog("\n");
@@ -200,15 +211,18 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
     writelog("evalFromStruct::6"); writeMsg(" eig0_mix = ",eig0_mix);
     k_LMR_=0;
     sigmaX_M=0.0;
-    for (size_t i=0; i<=nSpecies; i++){ //testing each species listed at the top of yaml file
+    for (size_t i=0; i<nSpecies; i++){ //testing each species listed at the top of yaml file
         writelog("evalFromStruct::7"); writelog("\n");
-        for (size_t j=0; j<=colliderIndices.size(); j++){
+        for (size_t j=0; j<colliderIndices.size(); j++){
             writelog("evalFromStruct::8"); writelog("\n");
             if (i==colliderIndices[j]){ // Species is in collider list
                 double eig0 = eigObjs[j].evalRate(logT_, recipT_);
+                if (eig0==0){
+                    throw InputFileError("LmrRate::evalFromStruct", m_input,"eig0 is 0 for some reason");
+                }
                 writelog("evalFromStruct::9"); writeMsg(" eig0 = ",eig0);
                 if (rateObjs.at(j).which()==0){ // 0 means PlogRate     
-                    logP_= logP_+log(eig0_mix)-log(eig0); //replaces logP with log of the effective pressure w.r.t. eig0
+                    logP_= shared_data.logP+log(eig0_mix)-log(eig0); //replaces logP with log of the effective pressure w.r.t. eig0
                     PlogData& data = boost::get<PlogData>(dataObjs.at(j));
                     PlogRate& rate = boost::get<PlogRate>(rateObjs.at(j));
                     k_LMR_ += evalPlogRate(rate,data,colliderNodes[j])*eig0*moleFractions_[i]/eig0_mix;
@@ -239,7 +253,7 @@ double LmrRate::evalFromStruct(const LmrData& shared_data){
     }
     writelog("evalFromStruct::14"); writelog("\n");
     if (rateObj_M.which()==0){ // 0 means PlogRate
-        logP_= logP_+log(eig0_mix)-log(eig0_M); //replaces logP with log of the effective pressure w.r.t. eig0_M
+        logP_= shared_data.logP+log(eig0_mix)-log(eig0_M); //replaces logP with log of the effective pressure w.r.t. eig0_M
         k_LMR_ += evalPlogRate(boost::get<PlogRate>(rateObj_M),boost::get<PlogData>(dataObj_M),node_M)*eig0_M*sigmaX_M/eig0_mix;
         logP_ = shared_data.logP; //return to the "normal" logP value to avoid messing up other calcs
         writelog("evalFromStruct::15"); writeMsg(" k_M_plog = ",evalPlogRate(boost::get<PlogRate>(rateObj_M),boost::get<PlogData>(dataObj_M),node_M));
