@@ -49,3 +49,4 @@ environment.y*
 coverage/
 coverage.info
 .coverage
+burkelab_SimScripts/
