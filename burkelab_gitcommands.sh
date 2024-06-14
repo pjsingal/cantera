@@ -110,3 +110,25 @@
 # # Step 3: Commit the change
 # git add $fname
 # git commit -m "Replace LmrRate.cpp with version from burkelab branch"
+
+# burkelab_SimScripts/
+# burkelab_gitcommands.sh
+# testlog.txt
+# test/data/alzuetamechanism.yaml
+# test/data/alzuetamechanism_epsNH3_T=300K.yaml
+# test/data/alzuetamechanism_epsNH3_T=2000K.yaml
+# test/data/alzuetamechanism_LMRR.yaml
+# test/data/alzuetamechanism_LMRR_allAR.yaml
+# test/data/alzuetamechanism_LMRR_allH2O.yaml
+# test/data/kineticsfromscratch_LMRtest.yaml
+
+# #To copy a folder from one branch to another in Git
+# git checkout burkelabClean
+# git restore --source=burkelab --staged --worktree -- burkelab_SimScripts
+# git restore --source=burkelab --staged --worktree -- test/data/alzuetamechanism.yaml
+# git restore --source=burkelab --staged --worktree -- test/data/alzuetamechanism_epsNH3_T=2000K.yaml
+# git restore --source=burkelab --staged --worktree -- test/data/alzuetamechanism_epsNH3_T=300K.yaml
+# git restore --source=burkelab --staged --worktree -- test/data/alzuetamechanism_LMRR.yaml
+# git restore --source=burkelab --staged --worktree -- test/data/alzuetamechanism_LMRR_allAR.yaml
+# git restore --source=burkelab --staged --worktree -- test/data/alzuetamechanism_LMRR_allH2O.yaml
+# git restore --source=burkelab --staged --worktree -- test/data/kineticsfromscratch_LMRtest.yaml
