@@ -124,11 +124,21 @@
 
 # #To copy a folder from one branch to another in Git
 # git checkout burkelabClean
-# git restore --source=burkelab --staged --worktree -- burkelab_SimScripts
-# git restore --source=burkelab --staged --worktree -- test/data/alzuetamechanism.yaml
-# git restore --source=burkelab --staged --worktree -- test/data/alzuetamechanism_epsNH3_T=2000K.yaml
-# git restore --source=burkelab --staged --worktree -- test/data/alzuetamechanism_epsNH3_T=300K.yaml
-# git restore --source=burkelab --staged --worktree -- test/data/alzuetamechanism_LMRR.yaml
-# git restore --source=burkelab --staged --worktree -- test/data/alzuetamechanism_LMRR_allAR.yaml
-# git restore --source=burkelab --staged --worktree -- test/data/alzuetamechanism_LMRR_allH2O.yaml
-# git restore --source=burkelab --staged --worktree -- test/data/kineticsfromscratch_LMRtest.yaml
+# git restore --source=burkelab --staged --worktree -- burkelab_gitcommands.sh
+git restore --source=burkelab --staged --worktree -- burkelab_SimScripts
+git restore --source=burkelab --staged --worktree -- test/data/alzuetamechanism.yaml
+git restore --source=burkelab --staged --worktree -- test/data/alzuetamechanism_epsNH3_T=2000K.yaml
+git restore --source=burkelab --staged --worktree -- test/data/alzuetamechanism_epsNH3_T=300K.yaml
+git restore --source=burkelab --staged --worktree -- test/data/alzuetamechanism_LMRR.yaml
+git restore --source=burkelab --staged --worktree -- test/data/alzuetamechanism_LMRR_allAR.yaml
+git restore --source=burkelab --staged --worktree -- test/data/alzuetamechanism_LMRR_allH2O.yaml
+git restore --source=burkelab --staged --worktree -- test/data/kineticsfromscratch_LMRtest.yaml
+git rm -r --cached burkelab_gitcommands.sh
+git rm -r --cached burkelab_SimScripts
+git rm -r --cached test/data/alzuetamechanism.yaml
+git rm -r --cached test/data/alzuetamechanism_epsNH3_T=2000K.yaml
+git rm -r --cached test/data/alzuetamechanism_epsNH3_T=300K.yaml
+git rm -r --cached test/data/alzuetamechanism_LMRR.yaml
+git rm -r --cached test/data/alzuetamechanism_LMRR_allAR.yaml
+git rm -r --cached test/data/alzuetamechanism_LMRR_allH2O.yaml
+git rm -r --cached test/data/kineticsfromscratch_LMRtest.yaml
