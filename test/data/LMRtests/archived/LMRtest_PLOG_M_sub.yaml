@@ -1,0 +1,1620 @@
+description: |-
+  ************************************************************************
+  ************************************************************************
+  ******************* For further documentation of mechanism:  ***********
+  ******************* see references below and their citations ***********
+  ************************************************************************
+  ************************************************************************
+  Nitrogen subset
+  P. Glarborg, J.A. Miller, B. Ruscic, S.J. Klippenstein,
+  "Modeling Nitrogen Chemistry in Combustion",
+  Prog. Energy Combust. Sci. 67 (2018) 31-68.
+  Updates marked by #
+
+generator: ck2yaml
+input-files: [glarborg2023-mech.txt, glarborg2023-therm.txt, glarborg2023-tran.txt]
+cantera-version: 2.6.0
+date: Tue, 07 Nov 2023 18:48:43 -0500
+
+units: {length: cm, time: s, quantity: mol, activation-energy: cal/mol}
+
+phases:
+- name: gas
+  thermo: ideal-gas
+  elements: [O, H, C, N, He, Ar]
+  species: [NH3, NO2, NO, N2O, H2, O2, O3, H, O, OH, HO2, H2O, H2O2, CO,
+    CO2, HOCO, CH2O, HCO, NH2, NH, N, NNH, N2H4, N2H3, tHNNH, cHNNH, H2NN,
+    NH2OH, H2NO, HNOH, HNO, HON, HONO, HNO2, NO3, HONO2, H2NCO, HNCO, NCO,
+    AR, HE, N2]
+  kinetics: gas
+  transport: mixture-averaged
+  state: {T: 300.0, P: 1 atm}
+
+species:
+- name: NH3
+  composition: {H: 3, N: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 4000.0]
+    data:
+    - [4.14027871, -3.58489142e-03, 1.89475904e-05, -1.9883397e-08, 7.15267961e-12,
+      -6685.45158, -0.0166754883]
+    - [2.36074311, 6.31850146e-03, -2.28966806e-06, 4.11767411e-10, -2.90836787e-14,
+      -6415.96473, 8.02154329]
+    note: |-
+      ATcT3E
+       in Marshall and Glarborg, Proc. Combust. Inst. 35 (2015) 153???160
+       ********************************************************************************
+       ********************************************************************************
+       ***** NH3 NH2 NH N N2H4 N2H3 N2H2 H2NN NNH
+       ********************************************************************************
+       ********************************************************************************
+       NH3 <g> ATcT ver. 1.122, DHf298 = -45.554 ?? 0.030 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 481.0
+    diameter: 2.92
+    dipole: 1.47
+    rotational-relaxation: 10.0
+- name: NO2
+  composition: {N: 1, O: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [3.78712696, -4.29576834e-04, 1.37383818e-05, -1.7426414e-08, 6.71249644e-12,
+      2895.00124, 6.96592162]
+    - [4.90482285, 2.14474498e-03, -8.12654059e-07, 1.55511957e-10, -1.04113963e-14,
+      2289.58979, -0.233567018]
+    note: |-
+      ATcT3E
+       ONO <g> ATcT ver. 1.122, DHf298 = 34.049 ?? 0.065 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 333.59
+    diameter: 3.852
+    dipole: 0.4
+    rotational-relaxation: 1.0
+    note: CJP
+- name: NO
+  composition: {N: 1, O: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [4.0851799, -3.64693188e-03, 8.49607612e-06, -6.62405734e-09, 1.77647373e-12,
+      9840.61267, 2.83578236]
+    - [3.25487317, 1.19869941e-03, -4.330285e-07, 7.02943336e-11, -4.09788575e-15,
+      9906.99836, 6.4039514]
+    note: |-
+      ATcT3E
+       NO <g> ATcT ver. 1.122, DHf298 = 91.121 ?? 0.065 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: linear
+    well-depth: 139.32
+    diameter: 3.339
+    dipole: 0.2
+    polarizability: 1.76
+    rotational-relaxation: 4.0
+    note: CJP
+- name: N2O
+  composition: {N: 2, O: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [2.1394229, 0.0121800874, -1.59189415e-05, 1.20920039e-08, -3.85125915e-12,
+      8870.08622, 11.2477534]
+    - [4.80641382, 2.65307443e-03, -9.70797397e-07, 1.6259015e-10, -9.96738154e-15,
+      8197.98219, -2.10607801]
+    note: |-
+      ATcT3E
+       NNO <g> ATcT ver. 1.122, DHf298 = 82.569 ?? 0.097 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: linear
+    well-depth: 232.4
+    diameter: 3.828
+    rotational-relaxation: 1.0
+    note: '*'
+- name: H2
+  composition: {H: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [2.37694204, 7.73916922e-03, -1.88735073e-05, 1.95517114e-08, -7.17095663e-12,
+      -921.173081, 0.547184736]
+    - [2.90207649, 8.68992581e-04, -1.6586443e-07, 1.90851899e-11, -9.31121789e-16,
+      -797.948726, -0.84559132]
+    note: |-
+      ATcT3E
+       ********************************************************************************
+       ********************************************************************************
+       ***** H2 O2 O3 H O OH HO2 H2O H2O2
+       ********************************************************************************
+       ********************************************************************************
+       H2 <g> ATcT ver. 1.122, DHf298 = 0.000 ?? 0.000 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: linear
+    well-depth: 38.0
+    diameter: 2.92
+    polarizability: 0.79
+    rotational-relaxation: 280.0
+- name: O2
+  composition: {O: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [3.78498258, -3.02002233e-03, 9.92029171e-06, -9.77840434e-09, 3.28877702e-12,
+      -1064.13589, 3.64780709]
+    - [3.65980488, 6.59877372e-04, -1.44158172e-07, 2.14656037e-11, -1.36503784e-15,
+      -1216.03048, 3.42074148]
+    note: |-
+      ATcT3E
+       O2 <g> ATcT ver. 1.122, DHf298 = 0.000 ?? 0.000 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: linear
+    well-depth: 107.4
+    diameter: 3.458
+    polarizability: 1.6
+    rotational-relaxation: 3.8
+- name: O3
+  composition: {O: 3}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [3.31673393, 2.68546939e-03, 1.2241166e-05, -2.07427723e-08, 9.22985344e-12,
+      1.58667815e+04, 8.66105917]
+    - [10.1625308, -7.7689699e-03, 5.47843588e-06, -1.22951829e-09, 8.79720138e-14,
+      1.34525105e+04, -29.0111737]
+    note: |-
+      ATcT3E
+       OOO <g> ATcT ver. 1.122, DHf298 = 141.733 ?? 0.039 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 180.0
+    diameter: 4.1
+    rotational-relaxation: 2.0
+- name: H
+  composition: {H: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [2.49975925, 6.73824499e-07, 1.11807261e-09, -3.70192126e-12, 2.14233822e-15,
+      2.54737665e+04, -0.445574009]
+    - [2.49985211, 2.34582548e-07, -1.16171641e-10, 2.25708298e-14, -1.52992005e-18,
+      2.54738024e+04, -0.445864645]
+    note: |-
+      ATcT3E
+       H <g> ATcT ver. 1.122, DHf298 = 217.998 ?? 0.000 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: atom
+    well-depth: 145.0
+    diameter: 2.05
+- name: O
+  composition: {O: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [3.15906526, -3.21509999e-03, 6.49255543e-06, -5.98755115e-09, 2.06876117e-12,
+      2.91298453e+04, 2.09078344]
+    - [2.55160087, -3.83085457e-05, 8.43197478e-10, 4.01267136e-12, -4.17476574e-16,
+      2.92287628e+04, 4.87617014]
+    note: |-
+      ATcT3E
+       O <g> ATcT ver. 1.122, DHf298 = 249.229 ?? 0.002 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: atom
+    well-depth: 80.0
+    diameter: 2.75
+- name: OH
+  composition: {H: 1, O: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [3.97585165, -2.28555291e-03, 4.33442882e-06, -3.5992664e-09, 1.2670693e-12,
+      3393.41137, -0.0355397262]
+    - [2.84581721, 1.09723818e-03, -2.89121101e-07, 4.0909991e-11, -2.31382258e-15,
+      3717.0661, 5.80339915]
+    note: |-
+      ATcT3E
+       OH <g> ATcT ver. 1.122, DHf298 = 37.490 ?? 0.027 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: linear
+    well-depth: 80.0
+    diameter: 2.75
+- name: HO2
+  composition: {H: 1, O: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [4.2625125, -4.45642032e-03, 2.05164934e-05, -2.35794011e-08, 9.05614257e-12,
+      262.442356, 3.88223684]
+    - [4.1056401, 2.04046836e-03, -3.65877562e-07, 1.85973044e-11, 4.98818315e-16,
+      43.2898769, 3.30808126]
+    note: |-
+      ATcT3E
+       HO2 <g> ATcT ver. 1.122, DHf298 = 12.26 ?? 0.16 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 107.4
+    diameter: 3.458
+    rotational-relaxation: 1.0
+    note: '*'
+- name: H2O
+  composition: {H: 2, O: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [4.20147551, -2.05583546e-03, 6.56547207e-06, -5.5290696e-09, 1.78282605e-12,
+      -3.02950066e+04, -0.860610906]
+    - [2.73117512, 2.95136995e-03, -8.35359785e-07, 1.26088593e-10, -8.40531676e-15,
+      -2.99169082e+04, 6.55183]
+    note: |-
+      ATcT3E
+       H2O <g> ATcT ver. 1.122, DHf298 = -241.833 ?? 0.027 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 572.4
+    diameter: 2.605
+    dipole: 1.844
+    rotational-relaxation: 4.0
+- name: H2O2
+  composition: {H: 2, O: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [4.2385416, -2.49610911e-04, 1.59857901e-05, -2.06919945e-08, 8.2976632e-12,
+      -1.76486003e+04, 3.58850097]
+    - [4.5401748, 4.15970971e-03, -1.30876777e-06, 2.00823615e-10, -1.15509243e-14,
+      -1.79514029e+04, 0.855881745]
+    note: |-
+      ATcT3E
+       H2O2 <g> ATcT ver. 1.122, DHf298 = -135.457 ?? 0.064 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 107.4
+    diameter: 3.458
+    rotational-relaxation: 3.8
+- name: CO
+  composition: {C: 1, O: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [3.59508377, -7.21196937e-04, 1.28238234e-06, 6.52429293e-10, -8.21714806e-13,
+      -1.43448968e+04, 3.44355598]
+    - [3.03397274, 1.37328118e-03, -4.96445087e-07, 8.10281447e-11, -4.85331749e-15,
+      -1.42586044e+04, 6.10076092]
+    note: |-
+      ATcT3E
+       ********************************************************************************
+       ********************************************************************************
+       ***** CO CO2
+       ********************************************************************************
+       ********************************************************************************
+       CO <g> ATcT ver. 1.122, DHf298 = -110.523 ?? 0.026 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: linear
+    well-depth: 98.1
+    diameter: 3.65
+    polarizability: 1.95
+    rotational-relaxation: 1.8
+- name: CO2
+  composition: {C: 1, O: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [2.20664321, 0.0100970086, -9.96338809e-06, 5.47155623e-09, -1.27733965e-12,
+      -4.83529864e+04, 10.5261943]
+    - [4.6353747, 2.74559459e-03, -9.98282389e-07, 1.61013606e-10, -9.22018642e-15,
+      -4.90203677e+04, -1.9288763]
+    note: |-
+      ATcT3E
+       CO2 <g> ATcT ver. 1.122, DHf298 = -393.475 ?? 0.015 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: linear
+    well-depth: 244.0
+    diameter: 3.763
+    polarizability: 2.65
+    rotational-relaxation: 2.1
+- name: HOCO
+  composition: {C: 1, O: 2, H: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 998.402, 3000.0]
+    data:
+    - [2.82191157, 9.66218175e-03, -2.78560177e-06, -4.12692493e-09, 2.61472072e-12,
+      -2.35465218e+04, 11.4284719]
+    - [4.63988707, 5.66362726e-03, -2.67855311e-06, 6.17048884e-10, -5.60953531e-14,
+      -2.40527335e+04, 1.90175132]
+    note: |-
+      FAB/JAN05
+      H298 =-44.33 kcal/mol [FAB/JAN05]
+      S298 = 60.07 cal/mol/K [FAB/JAN05]
+      Cp [FAB/JAN05] (polyfit RAS/GLA08a)
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 498.0
+    diameter: 3.59
+    rotational-relaxation: 2.0
+    note: WKM =OCHO LLNL
+- name: CH2O
+  composition: {C: 1, H: 2, O: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [4.77187231, -9.76266155e-03, 3.70121918e-05, -3.76921617e-08, 1.31326646e-11,
+      -1.43798106e+04, 0.696585679]
+    - [2.91332516, 6.70039926e-03, -2.55520684e-06, 4.27795142e-10, -2.44072521e-14,
+      -1.44622358e+04, 7.43822875]
+    note: |-
+      ATcT3E
+       H2CO <g> ATcT ver. 1.122, DHf298 = -109.188 ?? 0.099 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 498.0
+    diameter: 3.59
+    rotational-relaxation: 2.0
+- name: HCO
+  composition: {C: 1, H: 1, O: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [3.97074749, -1.49121608e-03, 9.54041776e-06, -8.82720349e-09, 2.67645129e-12,
+      3842.03291, 4.44660361]
+    - [3.85781113, 2.6411395e-03, -7.44177294e-07, 1.2331323e-10, -8.88958718e-15,
+      3616.42883, 3.92451197]
+    note: |-
+      ATcT3E
+      REF=ATcT C 2011}  Max Lst Sq Error Cp @ 6000 K 0.49%.
+       from Xiong et al., Combust. Flame 161 (2014) 885???897
+      3-HCOH                  C   1H   2O   1    0G   298.150  6000.000 1000.00      1
+       0.62184153E+01 0.18701090E-02-0.17117529E-06-0.44242689E-10 0.63999362E-14    2
+       0.23486822E+05-0.97996712E+01 0.36513441E+01 0.46834047E-02 0.11223500E-05    3
+      -0.80289814E-09-0.77469460E-12 0.24561953E+05 0.49211311E+01                   4
+      1-HCOH                  C   1H   2O   1    0G   298.150  6000.000 1000.00      1
+       0.57648468E+01 0.21295433E-02-0.19747641E-06-0.51074096E-10 0.74327861E-14    2
+       0.10621689E+05-0.77241540E+01 0.32130404E+01 0.32250737E-02 0.24648079E-05    3
+       0.15449875E-08-0.27946393E-11 0.11899702E+05 0.76449280E+01                   4
+      CHOH trans Hydroxymethylene trans  SIGMA=1  STATWT=1  IA=0.2970  IB=2.3197
+      IC=2.6167  Nu=3634,2827,1536,1330,1224,1099  REF=Burcat G3B3  HF298=108.16+/-.43
+      kJ  REF=Ruscic ATcT D 2013  {HF298=106.47+/-8 kJ  REF=Burcat G3B3}  Max Lst Sq
+      Error Cp @ 6000 K 0.45%.
+      CHOH trans  Hydr  T12/14C  1.H  2.O  1.   0.G   200.000  6000.000  B  30.02598 1
+      3.63500546E+00 5.45479239E-03-1.91285077E-06 3.03882849E-10-1.79904440E-14    2
+      5.28968001E+04 4.34543184E+00 4.72862471E+00-1.02082828E-02 4.21639528E-05    3
+      -4.64774522E-08 1.72559970E-11 5.31829869E+04 1.69093263E+00 5.44279146E+04    4
+       HCO <g> ATcT ver. 1.122, DHf298 = 41.803 ?? 0.099 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 498.0
+    diameter: 3.59
+- name: NH2
+  composition: {H: 2, N: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 3000.0]
+    data:
+    - [4.06463329, -1.10021454e-03, 4.25849068e-06, -2.68223583e-09, 5.89267407e-13,
+      2.11768668e+04, 0.43985077]
+    - [2.62499312, 3.39841177e-03, -1.01630968e-06, 1.25510796e-10, -2.66500843e-15,
+      2.15419104e+04, 7.73537416]
+    note: |-
+      ATcT3E
+       NH2 <g> ATcT ver. 1.122, DHf298 = 186.02 ?? 0.12 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 80.0
+    diameter: 2.65
+    polarizability: 2.26
+    rotational-relaxation: 4.0
+- name: NH
+  composition: {H: 1, N: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [3.45887003, 4.93904408e-04, -1.8786256e-06, 2.85542239e-09, -1.16864671e-12,
+      4.21088372e+04, 2.00373292]
+    - [2.79498941, 1.29259567e-03, -3.85559094e-07, 6.26027608e-11, -3.70421913e-15,
+      4.23408998e+04, 5.68413752]
+    note: |-
+      ATcT3E
+       NH <g> ATcT ver. 1.122, DHf298 = 358.77 ?? 0.17 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: linear
+    well-depth: 80.0
+    diameter: 2.65
+    rotational-relaxation: 4.0
+- name: N
+  composition: {N: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [2.49976643, 5.02149594e-07, 1.93091211e-09, -4.94632629e-12, 2.74089506e-15,
+      5.6076071e+04, 4.19499326]
+    - [2.41604245, 1.74663766e-04, -1.18864562e-07, 3.01850054e-11, -2.03260159e-15,
+      5.61051512e+04, 4.64905706]
+    note: |-
+      ATcT3E
+       N <g> ATcT ver. 1.122, DHf298 = 472.440 ?? 0.024 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: atom
+    well-depth: 71.4
+    diameter: 3.298
+    note: '*'
+- name: NNH
+  composition: {N: 2, H: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [4.25474632, -3.45098298e-03, 1.37788699e-05, -1.33263744e-08, 4.41023397e-12,
+      2.88323793e+04, 3.28551762]
+    - [3.42744423, 3.23295234e-03, -1.17296299e-06, 1.90508356e-10, -1.14491506e-14,
+      2.8806774e+04, 6.39209233]
+    note: |-
+      T 1/06
+       E Goos A Burcat B Ruscic Ideal gas thermochemical database with updates from active thermochemical
+       tables (ftp://ftp.technion.ac.il/pub/supported/aetdd/thermodynamics; mirrored at
+       http://garfield.chem.elte.hu/burcat/burcat.html. Accessed July 2013.
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 71.4
+    diameter: 3.798
+    rotational-relaxation: 1.0
+    note: '*'
+- name: N2H4
+  composition: {N: 2, H: 4}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [3.83472149, -6.49129555e-04, 3.76848463e-05, -5.00709182e-08, 2.03362064e-11,
+      1.00893925e+04, 5.7527203]
+    - [4.93957357, 8.75017187e-03, -2.99399058e-06, 4.67278418e-10, -2.73068599e-14,
+      9282.65548, -2.69439772]
+    note: HYDRAZINE    L 5/90
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 205.0
+    diameter: 4.23
+    polarizability: 4.26
+    rotational-relaxation: 1.5
+- name: N2H3
+  composition: {N: 2, H: 3}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [3.42125505, 1.3490159e-03, 2.23459071e-05, -2.99727732e-08, 1.2097897e-11,
+      2.58198956e+04, 7.83176309]
+    - [4.04483566, 7.31130186e-03, -2.47625799e-06, 3.83733021e-10, -2.23107573e-14,
+      2.5324142e+04, 2.88423392]
+    note: |-
+      Rad.       T 7/11
+       E Goos A Burcat B Ruscic Ideal gas thermochemical database with updates from active thermochemical
+       tables (ftp://ftp.technion.ac.il/pub/supported/aetdd/thermodynamics; mirrored at
+       http://garfield.chem.elte.hu/burcat/burcat.html. Accessed July 2013.
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 200.0
+    diameter: 3.9
+    rotational-relaxation: 1.0
+    note: '*'
+- name: tHNNH
+  composition: {H: 2, N: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [298.0, 1000.0, 3000.0]
+    data:
+    - [3.88929213, -3.2100086e-03, 1.9439051e-05, -1.85473031e-08, 5.73712849e-12,
+      2.28940896e+04, 4.30388193]
+    - [1.90331153, 8.56115359e-03, -3.95855194e-06, 8.78338614e-10, -7.60918709e-14,
+      2.30999238e+04, 12.9282804]
+    note: pw   210418
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 71.4
+    diameter: 3.798
+    rotational-relaxation: 1.0
+    note: = N2H2
+- name: cHNNH
+  composition: {H: 2, N: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [298.0, 1000.0, 3000.0]
+    data:
+    - [3.99834419, -3.85016242e-03, 2.0168314e-05, -1.88422179e-08, 5.76266192e-12,
+      2.54958664e+04, 3.86368201]
+    - [1.79734239, 8.59099031e-03, -3.9491334e-06, 8.73225938e-10, -7.54854178e-14,
+      2.57542095e+04, 13.572957]
+    note: |-
+      pw   210418
+       Marshall and Glarborg (2021)
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 71.4
+    diameter: 3.798
+    rotational-relaxation: 1.0
+    note: = N2H2
+- name: H2NN
+  composition: {N: 2, H: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [4.53204001, -7.32418578e-03, 3.00803713e-05, -3.04000551e-08, 1.04700639e-11,
+      3.49580003e+04, 1.51074195]
+    - [3.0590367, 6.18382347e-03, -2.22171165e-06, 3.58539206e-10, -2.14532905e-14,
+      3.48530149e+04, 6.69893515]
+    note: |-
+      Isodiazene   T 9/11
+       E Goos A Burcat B Ruscic Ideal gas thermochemical database with updates from active thermochemical
+       tables (ftp://ftp.technion.ac.il/pub/supported/aetdd/thermodynamics; mirrored at
+       http://garfield.chem.elte.hu/burcat/burcat.html. Accessed July 2013.
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 71.4
+    diameter: 3.798
+    rotational-relaxation: 1.0
+    note: = N2H2
+- name: NH2OH
+  composition: {N: 1, H: 3, O: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [3.21016092, 6.19671676e-03, 1.10594948e-05, -1.96668262e-08, 8.8251659e-12,
+      -6581.48481, 7.93293571]
+    - [3.88112502, 8.15708448e-03, -2.82615576e-06, 4.37930933e-10, -2.52724604e-14,
+      -6860.18419, 3.79156136]
+    note: |-
+      ATcT/A
+       Klippenstein et al, 2011 paper
+       ********************************************************************************
+       ********************************************************************************
+       ***** NH2OH H2NO HNOH HNO HON NO HONO HNO2 NO2 HONO2 NO3 N2O
+       ********************************************************************************
+       ********************************************************************************
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 116.7
+    diameter: 3.492
+    rotational-relaxation: 1.0
+    note: = NHOH
+- name: H2NO
+  composition: {N: 1, H: 2, O: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [3.93201139, -1.64028165e-04, 1.39161409e-05, -1.62747853e-08, 6.00352834e-12,
+      6711.78975, 4.58837038]
+    - [3.75555914, 5.16219354e-03, -1.76387387e-06, 2.75052692e-10, -1.60643143e-14,
+      6518.26177, 4.30933053]
+    note: |-
+      RADICAL     T09/09
+       E Goos A Burcat B Ruscic Ideal gas thermochemical database with updates from active thermochemical
+       tables (ftp://ftp.technion.ac.il/pub/supported/aetdd/thermodynamics; mirrored at
+       http://garfield.chem.elte.hu/burcat/burcat.html. Accessed July 2013.
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 116.7
+    diameter: 3.492
+    rotational-relaxation: 1.0
+    note: JAM
+- name: HNOH
+  composition: {H: 2, N: 1, O: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [3.95608248, -3.0261102e-03, 2.56874396e-05, -3.1564512e-08, 1.24084574e-11,
+      1.0919979e+04, 5.55950983]
+    - [3.98321933, 4.88846374e-03, -1.65086637e-06, 2.55371446e-10, -1.48308561e-14,
+      1.05780106e+04, 3.62582838]
+    note: |-
+      trans & Equ  T11/11
+       E Goos A Burcat B Ruscic Ideal gas thermochemical database with updates from active thermochemical
+       tables (ftp://ftp.technion.ac.il/pub/supported/aetdd/thermodynamics; mirrored at
+       http://garfield.chem.elte.hu/burcat/burcat.html. Accessed July 2013.
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 116.7
+    diameter: 3.492
+    rotational-relaxation: 1.0
+    note: JAM
+- name: HNO
+  composition: {H: 1, N: 1, O: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [4.5532616, -5.84531688e-03, 1.88853744e-05, -1.76039893e-08, 5.72889621e-12,
+      1.16315603e+04, 1.66850841]
+    - [3.24129053, 2.72377193e-03, -1.60633296e-07, -9.79134982e-11, 1.17103944e-14,
+      1.17745744e+04, 7.27913637]
+    note: |-
+      ATcT3E
+       E Goos A Burcat B Ruscic Ideal gas thermochemical database with updates from active thermochemical
+       tables (ftp://ftp.technion.ac.il/pub/supported/aetdd/thermodynamics; mirrored at
+       http://garfield.chem.elte.hu/burcat/burcat.html. Accessed July 2013.
+      HNOH cis  ATcT C  T11/11H  2.N  1.O  1.   0.G   200.000  6000.000 1000.        1
+       4.11664692E+00 4.81707273E-03-1.63507639E-06 2.53797646E-10-1.47744717E-14    2
+       1.25020921E+04 3.12195287E+00 3.80983976E+00 4.35965662E-04 1.51571801E-05    3
+      -1.96181113E-08 7.75279218E-12 1.28164979E+04 5.90835846E+00 1.40705826E+04    4
+       E Goos A Burcat B Ruscic Ideal gas thermochemical database with updates from active thermochemical
+       tables (ftp://ftp.technion.ac.il/pub/supported/aetdd/thermodynamics; mirrored at
+       http://garfield.chem.elte.hu/burcat/burcat.html. Accessed July 2013.
+       HNO <g> ATcT ver. 1.122, DHf298 = 106.96 ?? 0.11 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 170.0
+    diameter: 3.43
+    dipole: 1.62
+    rotational-relaxation: 1.0
+    note: CJP
+- name: HON
+  composition: {H: 1, N: 1, O: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [4.1527245, -3.87826402e-03, 2.05476031e-05, -2.49049483e-08, 9.87365462e-12,
+      2.46037098e+04, 4.56636321]
+    - [4.12044656, 2.28738122e-03, -7.14685362e-07, 1.03332384e-10, -5.704841e-15,
+      2.43643963e+04, 3.38857665]
+    note: |-
+      ATcT3E
+       NOH <g> ATcT ver. 1.122, DHf298 = 214.57 ?? 0.87 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 116.7
+    diameter: 3.492
+    rotational-relaxation: 1.0
+    note: = HNO
+- name: HONO
+  composition: {H: 1, N: 1, O: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [3.16416438, 8.50517773e-03, 5.48561573e-07, -8.27656474e-09, 4.39957151e-12,
+      -1.07744086e+04, 10.0231941]
+    - [5.79144641, 3.64630732e-03, -1.29112765e-06, 2.06498233e-10, -1.22138679e-14,
+      -1.15974343e+04, -4.07145349]
+    note: |-
+      ATcT3E
+       HONO <g> ATcT ver. 1.122, DHf298 = -78.675 ?? 0.079 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 350.0
+    diameter: 3.95
+    dipole: 1.639
+    rotational-relaxation: 1.0
+    note: CJP
+- name: HNO2
+  composition: {H: 1, N: 1, O: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [4.03779347, -4.46123109e-03, 3.19440815e-05, -3.7935949e-08, 1.44570885e-11,
+      -6530.88236, 5.90620097]
+    - [4.66358504, 4.89854351e-03, -1.79694193e-06, 2.94420361e-10, -1.78235577e-14,
+      -7252.16334, -0.030605364]
+    note: |-
+      ATcT3E
+       HN(O)O <g> ATcT ver. 1.122, DHf298 = -44.2 ?? 1.5 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 350.0
+    diameter: 3.95
+    dipole: 1.639
+    rotational-relaxation: 1.0
+    note: = HONO
+- name: NO3
+  composition: {N: 1, O: 3}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [3.3558685, 0.0106545436, -2.86690494e-06, -5.14711611e-09, 3.08532286e-12,
+      7475.34931, 8.94786516]
+    - [7.37569146, 2.21733003e-03, -5.75695789e-07, 6.69775424e-11, -2.589347e-15,
+      6224.45577, -12.4945323]
+    note: |-
+      ATcT3E
+       NO3 <g> ATcT ver. 1.122, DHf298 = 74.13 ?? 0.19 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 400.0
+    diameter: 4.2
+    dipole: 0.2
+    rotational-relaxation: 1.0
+    note: CJP
+- name: HONO2
+  composition: {H: 1, N: 1, O: 3}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [1.55975056, 0.0201502169, -1.15217296e-05, -2.3189123e-09, 3.17580552e-12,
+      -1.73955871e+04, 17.7294677]
+    - [8.03061257, 4.46368336e-03, -1.72272779e-06, 2.91611606e-10, -1.80487362e-14,
+      -1.93033764e+04, -16.2543421]
+    note: |-
+      ATcT3E
+       HNO3 <g> ATcT ver. 1.122, DHf298 = -134.19 ?? 0.18 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 400.0
+    diameter: 4.2
+    dipole: 0.2
+    rotational-relaxation: 1.0
+    note: = NO3
+- name: H2NCO
+  composition: {C: 1, H: 2, N: 1, O: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [3.53640094, 9.73407134e-03, -3.87292847e-07, -5.90128176e-09, 3.01181866e-12,
+      -3096.23872, 8.47952204]
+    - [5.69169331, 6.08717989e-03, -2.09433522e-06, 3.28448737e-10, -1.9270389e-14,
+      -3810.28606, -3.22710215]
+    note: |-
+      H2N-C*=O  T09/09
+       E Goos A Burcat B Ruscic Ideal gas thermochemical database with updates from active thermochemical
+       tables (ftp://ftp.technion.ac.il/pub/supported/aetdd/thermodynamics; mirrored at
+       http://garfield.chem.elte.hu/burcat/burcat.html. Accessed July 2013.
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 307.8
+    diameter: 4.14
+    rotational-relaxation: 1.0
+    note: = c3h6
+- name: HNCO
+  composition: {H: 1, N: 1, C: 1, O: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [2.24009031, 0.0145600497, -1.5435233e-05, 8.55535028e-09, -1.79631611e-12,
+      -1.54589951e+04, 12.1663775]
+    - [5.30045051, 4.02250821e-03, -1.4096228e-06, 2.23855342e-10, -1.32499966e-14,
+      -1.61995274e+04, -3.11770684]
+    note: Isocyanic AciA 5/05
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 232.4
+    diameter: 3.828
+    rotational-relaxation: 1.0
+    note: OIS
+- name: NCO
+  composition: {N: 1, C: 1, O: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [2.77405177, 9.24523481e-03, -9.91773586e-06, 6.68461303e-09, -2.09520542e-12,
+      1.4236957e+04, 9.7545867]
+    - [5.08064474, 2.37443587e-03, -9.07098904e-07, 1.52286713e-10, -9.31009234e-15,
+      1.35781204e+04, -2.15734434]
+    note: |-
+      (NCO)        A 5/05
+       E Goos A Burcat B Ruscic Ideal gas thermochemical database with updates from active thermochemical
+       tables (ftp://ftp.technion.ac.il/pub/supported/aetdd/thermodynamics; mirrored at
+       http://garfield.chem.elte.hu/burcat/burcat.html. Accessed July 2013.
+  transport:
+    model: gas
+    geometry: linear
+    well-depth: 232.4
+    diameter: 3.828
+    rotational-relaxation: 1.0
+    note: OIS
+- name: AR
+  composition: {Ar: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [2.49988611, 2.1303796e-07, 8.97320772e-10, -2.31395752e-12, 1.30201393e-15,
+      -745.354481, 4.38024367]
+    - [2.49989176, 1.56134837e-07, -7.76108557e-11, 1.52928085e-14, -1.05304493e-18,
+      -745.328403, 4.38029835]
+    note: |-
+      ATcT3E
+       Ar <g> ATcT ver. 1.122, DHf298 = 0.000 ?? 0.000 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: atom
+    well-depth: 136.5
+    diameter: 3.33
+- name: HE
+  composition: {He: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [2.49976293, 1.01013432e-06, -8.24578465e-10, -6.85983306e-13, 7.24751856e-16,
+      -745.340917, 0.929800315]
+    - [2.49985609, 2.19365392e-07, -1.07525085e-10, 2.07198041e-14, -1.39358612e-18,
+      -745.309155, 0.929535014]
+    note: |-
+      ATcT3E
+       He <g> ATcT ver. 1.122, DHf298 = 0.000 ?? 0.000 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: atom
+    well-depth: 10.2
+    diameter: 2.576
+    note: '*'
+- name: N2
+  composition: {N: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [3.53603521, -1.58270944e-04, -4.26984251e-07, 2.3754259e-09, -1.39708206e-12,
+      -1047.49645, 2.94603724]
+    - [2.9380297, 1.4183803e-03, -5.03281045e-07, 8.07555464e-11, -4.76064275e-15,
+      -917.18099, 5.95521985]
+    note: |-
+      ATcT3E
+       Marshall and Glarborg (2021)
+       ********************************************************************************
+       ********************************************************************************
+       ***** N2 AR HE
+       ********************************************************************************
+       ********************************************************************************
+       N2 <g> ATcT ver. 1.122, DHf298 = 0.000 ?? 0.000 kJ/mol - fit JAN17
+  transport:
+    model: gas
+    geometry: linear
+    well-depth: 97.53
+    diameter: 3.621
+    polarizability: 1.76
+    rotational-relaxation: 4.0
+
+reactions:
+- equation: H + OH (+M) <=> H2O (+M) # Reaction 13
+  type: LMR_R
+  collider-list:
+  - collider: 'M' # N2 is reference collider
+    eps: {A: 1, b: 0, Ea: 0}
+    rate-constants:  # N2
+    - {P: 1.000e-06 atm, A: 5.36578e+13, b: -2.80836e+00, Ea: 4.98817e+02}
+    - {P: 1.520e-06 atm, A: 8.14940e+13, b: -2.80829e+00, Ea: 4.98840e+02}
+    - {P: 2.310e-06 atm, A: 1.23766e+14, b: -2.80821e+00, Ea: 4.98865e+02}
+    - {P: 3.511e-06 atm, A: 1.87955e+14, b: -2.80813e+00, Ea: 4.98893e+02}
+    - {P: 5.337e-06 atm, A: 2.85422e+14, b: -2.80805e+00, Ea: 4.98925e+02}
+    - {P: 8.111e-06 atm, A: 4.33410e+14, b: -2.80796e+00, Ea: 4.98961e+02}
+    - {P: 1.233e-05 atm, A: 6.58089e+14, b: -2.80786e+00, Ea: 4.99001e+02}
+    - {P: 1.874e-05 atm, A: 9.99180e+14, b: -2.80776e+00, Ea: 4.99047e+02}
+    - {P: 2.848e-05 atm, A: 1.51696e+15, b: -2.80765e+00, Ea: 4.99099e+02}
+    - {P: 4.329e-05 atm, A: 2.30290e+15, b: -2.80753e+00, Ea: 4.99158e+02}
+    - {P: 6.579e-05 atm, A: 3.49575e+15, b: -2.80740e+00, Ea: 4.99226e+02}
+    - {P: 1.000e-04 atm, A: 5.30605e+15, b: -2.80727e+00, Ea: 4.99303e+02}
+    - {P: 1.520e-04 atm, A: 8.05309e+15, b: -2.80713e+00, Ea: 4.99391e+02}
+    - {P: 2.310e-04 atm, A: 1.22211e+16, b: -2.80697e+00, Ea: 4.99494e+02}
+    - {P: 3.511e-04 atm, A: 1.85446e+16, b: -2.80680e+00, Ea: 4.99612e+02}
+    - {P: 5.337e-04 atm, A: 2.81367e+16, b: -2.80663e+00, Ea: 4.99751e+02}
+    - {P: 8.111e-04 atm, A: 4.26853e+16, b: -2.80643e+00, Ea: 4.99913e+02}
+    - {P: 1.233e-03 atm, A: 6.47487e+16, b: -2.80623e+00, Ea: 5.00105e+02}
+    - {P: 1.874e-03 atm, A: 9.82038e+16, b: -2.80601e+00, Ea: 5.00334e+02}
+    - {P: 2.848e-03 atm, A: 1.48926e+17, b: -2.80578e+00, Ea: 5.00609e+02}
+    - {P: 4.329e-03 atm, A: 2.25818e+17, b: -2.80553e+00, Ea: 5.00943e+02}
+    - {P: 6.579e-03 atm, A: 3.42374e+17, b: -2.80527e+00, Ea: 5.01355e+02}
+    - {P: 1.000e-02 atm, A: 5.19049e+17, b: -2.80501e+00, Ea: 5.01867e+02}
+    - {P: 1.520e-02 atm, A: 7.86869e+17, b: -2.80474e+00, Ea: 5.02515e+02}
+    - {P: 2.310e-02 atm, A: 1.19294e+18, b: -2.80448e+00, Ea: 5.03345e+02}
+    - {P: 3.511e-02 atm, A: 1.80892e+18, b: -2.80425e+00, Ea: 5.04426e+02}
+    - {P: 5.337e-02 atm, A: 2.74408e+18, b: -2.80407e+00, Ea: 5.05856e+02}
+    - {P: 8.111e-02 atm, A: 4.16578e+18, b: -2.80398e+00, Ea: 5.07777e+02}
+    - {P: 1.233e-01 atm, A: 6.33203e+18, b: -2.80404e+00, Ea: 5.10395e+02}
+    - {P: 1.874e-01 atm, A: 9.64449e+18, b: -2.80436e+00, Ea: 5.14012e+02}
+    - {P: 2.848e-01 atm, A: 1.47374e+19, b: -2.80508e+00, Ea: 5.19069e+02}
+    - {P: 4.329e-01 atm, A: 2.26329e+19, b: -2.80641e+00, Ea: 5.26209e+02}
+    - {P: 6.579e-01 atm, A: 3.50245e+19, b: -2.80867e+00, Ea: 5.36371e+02}
+    - {P: 1.000e+00 atm, A: 5.48214e+19, b: -2.81232e+00, Ea: 5.50901e+02}
+    - {P: 1.520e+00 atm, A: 8.72484e+19, b: -2.81800e+00, Ea: 5.71710e+02}
+    - {P: 2.310e+00 atm, A: 1.42176e+20, b: -2.82655e+00, Ea: 6.01416e+02}
+    - {P: 3.511e+00 atm, A: 2.39248e+20, b: -2.83899e+00, Ea: 6.43452e+02}
+    - {P: 5.337e+00 atm, A: 4.19358e+20, b: -2.85633e+00, Ea: 7.01948e+02}
+    - {P: 8.111e+00 atm, A: 7.69665e+20, b: -2.87911e+00, Ea: 7.81165e+02}
+    - {P: 1.233e+01 atm, A: 1.47079e+21, b: -2.90647e+00, Ea: 8.84081e+02}
+    - {P: 1.874e+01 atm, A: 2.84438e+21, b: -2.93460e+00, Ea: 1.00987e+03}
+    - {P: 2.848e+01 atm, A: 5.21642e+21, b: -2.95507e+00, Ea: 1.15067e+03}
+    - {P: 4.329e+01 atm, A: 8.15217e+21, b: -2.95419e+00, Ea: 1.28958e+03}
+    - {P: 6.579e+01 atm, A: 9.53936e+21, b: -2.91554e+00, Ea: 1.40348e+03}
+    - {P: 1.000e+02 atm, A: 7.52104e+21, b: -2.82598e+00, Ea: 1.47145e+03}
+    - {P: 1.520e+02 atm, A: 3.83755e+21, b: -2.68095e+00, Ea: 1.48293e+03}
+    - {P: 2.310e+02 atm, A: 1.30578e+21, b: -2.48501e+00, Ea: 1.43902e+03}
+    - {P: 3.511e+02 atm, A: 3.20836e+20, b: -2.24927e+00, Ea: 1.34868e+03}
+    - {P: 5.337e+02 atm, A: 6.35210e+19, b: -1.98877e+00, Ea: 1.22515e+03}
+    - {P: 8.111e+02 atm, A: 1.15140e+19, b: -1.72088e+00, Ea: 1.08408e+03}
+    - {P: 1.233e+03 atm, A: 2.18073e+18, b: -1.46342e+00, Ea: 9.41983e+02}
+    - {P: 1.874e+03 atm, A: 4.83790e+17, b: -1.23162e+00, Ea: 8.13557e+02}
+    - {P: 2.848e+03 atm, A: 1.34357e+17, b: -1.03411e+00, Ea: 7.07730e+02}
+    - {P: 4.329e+03 atm, A: 4.64051e+16, b: -8.69540e-01, Ea: 6.24095e+02}
+    - {P: 6.579e+03 atm, A: 1.84037e+16, b: -7.26695e-01, Ea: 5.52482e+02}
+    - {P: 1.000e+04 atm, A: 7.50415e+15, b: -5.90325e-01, Ea: 4.78283e+02}
+    - {P: 1.520e+04 atm, A: 2.94090e+15, b: -4.51139e-01, Ea: 3.92222e+02}
+    - {P: 2.310e+04 atm, A: 1.13322e+15, b: -3.12092e-01, Ea: 2.96986e+02}
+    - {P: 3.511e+04 atm, A: 4.66531e+14, b: -1.84226e-01, Ea: 2.03737e+02}
+    - {P: 5.337e+04 atm, A: 2.20643e+14, b: -7.70462e-02, Ea: 1.22859e+02}
+    - {P: 8.111e+04 atm, A: 1.22906e+14, b: 6.45552e-03, Ea: 5.87897e+01}
+    - {P: 1.233e+05 atm, A: 7.95377e+13, b: 6.85046e-02, Ea: 1.08764e+01}
+    - {P: 1.874e+05 atm, A: 5.80484e+13, b: 1.13431e-01, Ea: -2.38197e+01}
+    - {P: 2.848e+05 atm, A: 4.63431e+13, b: 1.45597e-01, Ea: -4.85678e+01}
+    - {P: 4.329e+05 atm, A: 3.94657e+13, b: 1.68585e-01, Ea: -6.61416e+01}
+    - {P: 6.579e+05 atm, A: 3.51786e+13, b: 1.85080e-01, Ea: -7.86474e+01}
+    - {P: 1.000e+06 atm, A: 3.23796e+13, b: 1.97005e-01, Ea: -8.76014e+01}
+    - {P: 1.520e+06 atm, A: 3.04834e+13, b: 2.05709e-01, Ea: -9.40676e+01}
+    - {P: 2.310e+06 atm, A: 2.91596e+13, b: 2.12132e-01, Ea: -9.87847e+01}
+    - {P: 3.511e+06 atm, A: 2.82118e+13, b: 2.16927e-01, Ea: -1.02264e+02}
+    - {P: 5.337e+06 atm, A: 2.75185e+13, b: 2.20549e-01, Ea: -1.04860e+02}
+    - {P: 8.111e+06 atm, A: 2.70017e+13, b: 2.23317e-01, Ea: -1.06819e+02}
+    - {P: 1.233e+07 atm, A: 2.66099e+13, b: 2.25456e-01, Ea: -1.08314e+02}
+    - {P: 1.874e+07 atm, A: 2.63084e+13, b: 2.27128e-01, Ea: -1.09469e+02}
+    - {P: 2.848e+07 atm, A: 2.60734e+13, b: 2.28447e-01, Ea: -1.10370e+02}
+    - {P: 4.329e+07 atm, A: 2.58878e+13, b: 2.29498e-01, Ea: -1.11080e+02}
+    - {P: 6.579e+07 atm, A: 2.57398e+13, b: 2.30343e-01, Ea: -1.11644e+02}
+    - {P: 1.000e+08 atm, A: 2.56205e+13, b: 2.31028e-01, Ea: -1.12098e+02}
+    - {P: 1.520e+08 atm, A: 2.55236e+13, b: 2.31587e-01, Ea: -1.12464e+02}
+    - {P: 2.310e+08 atm, A: 2.54441e+13, b: 2.32045e-01, Ea: -1.12763e+02}
+    - {P: 3.511e+08 atm, A: 2.53786e+13, b: 2.32424e-01, Ea: -1.13008e+02}
+    - {P: 5.337e+08 atm, A: 2.53241e+13, b: 2.32738e-01, Ea: -1.13210e+02}
+    - {P: 8.111e+08 atm, A: 2.52786e+13, b: 2.33001e-01, Ea: -1.13378e+02}
+    - {P: 1.233e+09 atm, A: 2.52404e+13, b: 2.33220e-01, Ea: -1.13518e+02}
+    - {P: 1.874e+09 atm, A: 2.52082e+13, b: 2.33404e-01, Ea: -1.13635e+02}
+    - {P: 2.848e+09 atm, A: 2.51809e+13, b: 2.33559e-01, Ea: -1.13733e+02}
+    - {P: 4.329e+09 atm, A: 2.51576e+13, b: 2.33690e-01, Ea: -1.13816e+02}
+    - {P: 6.579e+09 atm, A: 2.51378e+13, b: 2.33801e-01, Ea: -1.13886e+02}
+    - {P: 1.000e+10 atm, A: 2.51208e+13, b: 2.33894e-01, Ea: -1.13946e+02}
+    - {P: 1.520e+10 atm, A: 2.51061e+13, b: 2.33974e-01, Ea: -1.13996e+02}
+    - {P: 2.310e+10 atm, A: 2.50935e+13, b: 2.34041e-01, Ea: -1.14039e+02}
+    - {P: 3.511e+10 atm, A: 2.50826e+13, b: 2.34098e-01, Ea: -1.14076e+02}
+    - {P: 5.337e+10 atm, A: 2.50732e+13, b: 2.34146e-01, Ea: -1.14107e+02}
+    - {P: 8.111e+10 atm, A: 2.50650e+13, b: 2.34187e-01, Ea: -1.14134e+02}
+    - {P: 1.233e+11 atm, A: 2.50578e+13, b: 2.34222e-01, Ea: -1.14157e+02}
+    - {P: 1.874e+11 atm, A: 2.50516e+13, b: 2.34251e-01, Ea: -1.14177e+02}
+    - {P: 2.848e+11 atm, A: 2.50461e+13, b: 2.34275e-01, Ea: -1.14193e+02}
+    - {P: 4.329e+11 atm, A: 2.50414e+13, b: 2.34295e-01, Ea: -1.14208e+02}
+    - {P: 6.579e+11 atm, A: 2.50372e+13, b: 2.34312e-01, Ea: -1.14220e+02}
+    - {P: 1.000e+12 atm, A: 2.50335e+13, b: 2.34326e-01, Ea: -1.14230e+02}
+  - collider: 'AR'
+    eps: {A: 2.20621e-02, b: 4.74036e-01, Ea: -1.13148e+02}
+  - collider: 'H2O'
+    eps: {A: 1.04529e-01, b: 5.50787e-01, Ea: -2.32675e+02}
+
+- equation: H + O2 (+M) <=> HO2 (+M) # Reaction 16
+  type: LMR_R
+  collider-list:
+  - collider: 'M' # AR is reference collider
+    eps: {A: 1, b: 0, Ea: 0}
+    rate-constants:  # AR
+    - {P: 1.000e-06 atm, A: 7.20747e+12, b: -2.71557e+00, Ea: 5.25587e+02}
+    - {P: 1.520e-06 atm, A: 1.09334e+13, b: -2.71538e+00, Ea: 5.25669e+02}
+    - {P: 2.310e-06 atm, A: 1.65839e+13, b: -2.71519e+00, Ea: 5.25760e+02}
+    - {P: 3.511e-06 atm, A: 2.51517e+13, b: -2.71499e+00, Ea: 5.25860e+02}
+    - {P: 5.337e-06 atm, A: 3.81415e+13, b: -2.71477e+00, Ea: 5.25971e+02}
+    - {P: 8.111e-06 atm, A: 5.78325e+13, b: -2.71454e+00, Ea: 5.26096e+02}
+    - {P: 1.233e-05 atm, A: 8.76773e+13, b: -2.71430e+00, Ea: 5.26234e+02}
+    - {P: 1.874e-05 atm, A: 1.32904e+14, b: -2.71404e+00, Ea: 5.26389e+02}
+    - {P: 2.848e-05 atm, A: 2.01429e+14, b: -2.71376e+00, Ea: 5.26562e+02}
+    - {P: 4.329e-05 atm, A: 3.05233e+14, b: -2.71346e+00, Ea: 5.26756e+02}
+    - {P: 6.579e-05 atm, A: 4.62448e+14, b: -2.71315e+00, Ea: 5.26975e+02}
+    - {P: 1.000e-04 atm, A: 7.00502e+14, b: -2.71282e+00, Ea: 5.27221e+02}
+    - {P: 1.520e-04 atm, A: 1.06088e+15, b: -2.71246e+00, Ea: 5.27500e+02}
+    - {P: 2.310e-04 atm, A: 1.60628e+15, b: -2.71208e+00, Ea: 5.27816e+02}
+    - {P: 3.511e-04 atm, A: 2.43150e+15, b: -2.71167e+00, Ea: 5.28176e+02}
+    - {P: 5.337e-04 atm, A: 3.67973e+15, b: -2.71123e+00, Ea: 5.28587e+02}
+    - {P: 8.111e-04 atm, A: 5.56719e+15, b: -2.71077e+00, Ea: 5.29057e+02}
+    - {P: 1.233e-03 atm, A: 8.42031e+15, b: -2.71027e+00, Ea: 5.29598e+02}
+    - {P: 1.874e-03 atm, A: 1.27317e+16, b: -2.70974e+00, Ea: 5.30222e+02}
+    - {P: 2.848e-03 atm, A: 1.92442e+16, b: -2.70917e+00, Ea: 5.30946e+02}
+    - {P: 4.329e-03 atm, A: 2.90783e+16, b: -2.70856e+00, Ea: 5.31791e+02}
+    - {P: 6.579e-03 atm, A: 4.39224e+16, b: -2.70792e+00, Ea: 5.32782e+02}
+    - {P: 1.000e-02 atm, A: 6.63213e+16, b: -2.70724e+00, Ea: 5.33952e+02}
+    - {P: 1.520e-02 atm, A: 1.00110e+17, b: -2.70653e+00, Ea: 5.35342e+02}
+    - {P: 2.310e-02 atm, A: 1.51069e+17, b: -2.70578e+00, Ea: 5.37008e+02}
+    - {P: 3.511e-02 atm, A: 2.27919e+17, b: -2.70501e+00, Ea: 5.39022e+02}
+    - {P: 5.337e-02 atm, A: 3.43831e+17, b: -2.70424e+00, Ea: 5.41480e+02}
+    - {P: 8.111e-02 atm, A: 5.18748e+17, b: -2.70348e+00, Ea: 5.44511e+02}
+    - {P: 1.233e-01 atm, A: 7.82984e+17, b: -2.70279e+00, Ea: 5.48291e+02}
+    - {P: 1.874e-01 atm, A: 1.18290e+18, b: -2.70220e+00, Ea: 5.53063e+02}
+    - {P: 2.848e-01 atm, A: 1.79001e+18, b: -2.70183e+00, Ea: 5.59160e+02}
+    - {P: 4.329e-01 atm, A: 2.71618e+18, b: -2.70180e+00, Ea: 5.67049e+02}
+    - {P: 6.579e-01 atm, A: 4.13958e+18, b: -2.70231e+00, Ea: 5.77380e+02}
+    - {P: 1.000e+00 atm, A: 6.35132e+18, b: -2.70364e+00, Ea: 5.91059e+02}
+    - {P: 1.520e+00 atm, A: 9.84283e+18, b: -2.70620e+00, Ea: 6.09342e+02}
+    - {P: 2.310e+00 atm, A: 1.54772e+19, b: -2.71055e+00, Ea: 6.33942e+02}
+    - {P: 3.511e+00 atm, A: 2.48395e+19, b: -2.71739e+00, Ea: 6.67134e+02}
+    - {P: 5.337e+00 atm, A: 4.09734e+19, b: -2.72758e+00, Ea: 7.11795e+02}
+    - {P: 8.111e+00 atm, A: 6.99391e+19, b: -2.74190e+00, Ea: 7.71256e+02}
+    - {P: 1.233e+01 atm, A: 1.23954e+20, b: -2.76069e+00, Ea: 8.48742e+02}
+    - {P: 1.874e+01 atm, A: 2.26638e+20, b: -2.78303e+00, Ea: 9.46118e+02}
+    - {P: 2.848e+01 atm, A: 4.16480e+20, b: -2.80548e+00, Ea: 1.06178e+03}
+    - {P: 4.329e+01 atm, A: 7.27135e+20, b: -2.82077e+00, Ea: 1.18819e+03}
+    - {P: 6.579e+01 atm, A: 1.10331e+21, b: -2.81749e+00, Ea: 1.31065e+03}
+    - {P: 1.000e+02 atm, A: 1.30826e+21, b: -2.78218e+00, Ea: 1.40971e+03}
+    - {P: 1.520e+02 atm, A: 1.10928e+21, b: -2.70377e+00, Ea: 1.46747e+03}
+    - {P: 2.310e+02 atm, A: 6.48219e+20, b: -2.57797e+00, Ea: 1.47440e+03}
+    - {P: 3.511e+02 atm, A: 2.68147e+20, b: -2.40878e+00, Ea: 1.43191e+03}
+    - {P: 5.337e+02 atm, A: 8.48274e+19, b: -2.20675e+00, Ea: 1.35015e+03}
+    - {P: 8.111e+02 atm, A: 2.28067e+19, b: -1.98612e+00, Ea: 1.24394e+03}
+    - {P: 1.233e+03 atm, A: 5.85102e+18, b: -1.76246e+00, Ea: 1.12949e+03}
+    - {P: 1.874e+03 atm, A: 1.60301e+18, b: -1.55086e+00, Ea: 1.02232e+03}
+    - {P: 2.848e+03 atm, A: 5.15943e+17, b: -1.36406e+00, Ea: 9.35481e+02}
+    - {P: 4.329e+03 atm, A: 2.07126e+17, b: -1.20993e+00, Ea: 8.77184e+02}
+    - {P: 6.579e+03 atm, A: 1.04099e+17, b: -1.08872e+00, Ea: 8.48089e+02}
+    - {P: 1.000e+04 atm, A: 6.13429e+16, b: -9.91345e-01, Ea: 8.39409e+02}
+    - {P: 1.520e+04 atm, A: 3.73976e+16, b: -9.00754e-01, Ea: 8.33985e+02}
+    - {P: 2.310e+04 atm, A: 2.04887e+16, b: -7.97911e-01, Ea: 8.11955e+02}
+    - {P: 3.511e+04 atm, A: 9.21693e+15, b: -6.70759e-01, Ea: 7.59686e+02}
+    - {P: 5.337e+04 atm, A: 3.43171e+15, b: -5.20563e-01, Ea: 6.76533e+02}
+    - {P: 8.111e+04 atm, A: 1.16278e+15, b: -3.60254e-01, Ea: 5.73904e+02}
+    - {P: 1.233e+05 atm, A: 4.04889e+14, b: -2.06192e-01, Ea: 4.67599e+02}
+    - {P: 1.874e+05 atm, A: 1.58680e+14, b: -7.04229e-02, Ea: 3.70148e+02}
+    - {P: 2.848e+05 atm, A: 7.28893e+13, b: 4.19243e-02, Ea: 2.87882e+02}
+    - {P: 4.329e+05 atm, A: 3.92738e+13, b: 1.31118e-01, Ea: 2.22009e+02}
+    - {P: 6.579e+05 atm, A: 2.43286e+13, b: 2.00214e-01, Ea: 1.70903e+02}
+    - {P: 1.000e+06 atm, A: 1.68731e+13, b: 2.53081e-01, Ea: 1.31920e+02}
+    - {P: 1.520e+06 atm, A: 1.27747e+13, b: 2.93361e-01, Ea: 1.02400e+02}
+    - {P: 2.310e+06 atm, A: 1.03370e+13, b: 3.24090e-01, Ea: 8.00646e+01}
+    - {P: 3.511e+06 atm, A: 8.79256e+12, b: 3.47642e-01, Ea: 6.31099e+01}
+    - {P: 5.337e+06 atm, A: 7.76335e+12, b: 3.65815e-01, Ea: 5.01648e+01}
+    - {P: 8.111e+06 atm, A: 7.04904e+12, b: 3.79951e-01, Ea: 4.02081e+01}
+    - {P: 1.233e+07 atm, A: 6.53660e+12, b: 3.91039e-01, Ea: 3.24872e+01}
+    - {P: 1.874e+07 atm, A: 6.15884e+12, b: 3.99813e-01, Ea: 2.64486e+01}
+    - {P: 2.848e+07 atm, A: 5.87396e+12, b: 4.06814e-01, Ea: 2.16851e+01}
+    - {P: 4.329e+07 atm, A: 5.65498e+12, b: 4.12447e-01, Ea: 1.78958e+01}
+    - {P: 6.579e+07 atm, A: 5.48389e+12, b: 4.17015e-01, Ea: 1.48569e+01}
+    - {P: 1.000e+08 atm, A: 5.34832e+12, b: 4.20746e-01, Ea: 1.24011e+01}
+    - {P: 1.520e+08 atm, A: 5.23958e+12, b: 4.23814e-01, Ea: 1.04022e+01}
+    - {P: 2.310e+08 atm, A: 5.15143e+12, b: 4.26353e-01, Ea: 8.76384e+00}
+    - {P: 3.511e+08 atm, A: 5.07930e+12, b: 4.28467e-01, Ea: 7.41274e+00}
+    - {P: 5.337e+08 atm, A: 5.01978e+12, b: 4.30236e-01, Ea: 6.29190e+00}
+    - {P: 8.111e+08 atm, A: 4.97030e+12, b: 4.31724e-01, Ea: 5.35691e+00}
+    - {P: 1.233e+09 atm, A: 4.92889e+12, b: 4.32982e-01, Ea: 4.57310e+00}
+    - {P: 1.874e+09 atm, A: 4.89402e+12, b: 4.34048e-01, Ea: 3.91304e+00}
+    - {P: 2.848e+09 atm, A: 4.86451e+12, b: 4.34956e-01, Ea: 3.35466e+00}
+    - {P: 4.329e+09 atm, A: 4.83940e+12, b: 4.35733e-01, Ea: 2.88046e+00}
+    - {P: 6.579e+09 atm, A: 4.81794e+12, b: 4.36398e-01, Ea: 2.47615e+00}
+    - {P: 1.000e+10 atm, A: 4.79953e+12, b: 4.36971e-01, Ea: 2.13037e+00}
+    - {P: 1.520e+10 atm, A: 4.78366e+12, b: 4.37464e-01, Ea: 1.83364e+00}
+    - {P: 2.310e+10 atm, A: 4.76993e+12, b: 4.37890e-01, Ea: 1.57827e+00}
+    - {P: 3.511e+10 atm, A: 4.75802e+12, b: 4.38259e-01, Ea: 1.35786e+00}
+    - {P: 5.337e+10 atm, A: 4.74766e+12, b: 4.38580e-01, Ea: 1.16718e+00}
+    - {P: 8.111e+10 atm, A: 4.73861e+12, b: 4.38858e-01, Ea: 1.00183e+00}
+    - {P: 1.233e+11 atm, A: 4.73069e+12, b: 4.39100e-01, Ea: 8.58073e-01}
+    - {P: 1.874e+11 atm, A: 4.72374e+12, b: 4.39312e-01, Ea: 7.32893e-01}
+    - {P: 2.848e+11 atm, A: 4.71762e+12, b: 4.39496e-01, Ea: 6.23708e-01}
+    - {P: 4.329e+11 atm, A: 4.71222e+12, b: 4.39657e-01, Ea: 5.28266e-01}
+    - {P: 6.579e+11 atm, A: 4.70745e+12, b: 4.39798e-01, Ea: 4.44719e-01}
+    - {P: 1.000e+12 atm, A: 4.70322e+12, b: 4.39920e-01, Ea: 3.71529e-01}
+  - collider: 'HE'
+    eps: {A: 3.37601e-01, b: 1.82568e-01, Ea: 3.62408e+01}
+  - collider: 'N2'
+    eps: {A: 1.24932e+02, b: -5.93263e-01, Ea: 5.40921e+02}
+  - collider: 'H2'
+    eps: {A: 3.13717e+04, b: -1.25419e+00, Ea: 1.12924e+03}
+  - collider: 'CO2'
+    eps: {A: 1.62413e+08, b: -2.27622e+00, Ea: 1.97023e+03}
+  - collider: 'NH3'
+    eps: {A: 4.97750e+00, b: 1.64855e-01, Ea: -2.80351e+02}
+  - collider: 'H2O'
+    eps: {A: 3.69146e+01, b: -7.12902e-02, Ea: 3.19087e+01}
+
+- equation: H2O2 (+M) <=> 2 OH (+M) # Reaction 25
+  type: LMR_R
+  collider-list:
+  - collider: 'M' # AR is reference collider
+    eps: {A: 1, b: 0, Ea: 0}
+    rate-constants:  # AR
+    - {P: 1.000e-06 atm, A: 2.74721e+19, b: -3.29323e+00, Ea: 4.87549e+04}
+    - {P: 1.520e-06 atm, A: 4.16755e+19, b: -3.29306e+00, Ea: 4.87558e+04}
+    - {P: 2.310e-06 atm, A: 6.32241e+19, b: -3.29291e+00, Ea: 4.87569e+04}
+    - {P: 3.511e-06 atm, A: 9.59200e+19, b: -3.29276e+00, Ea: 4.87580e+04}
+    - {P: 5.337e-06 atm, A: 1.45537e+20, b: -3.29263e+00, Ea: 4.87594e+04}
+    - {P: 8.111e-06 atm, A: 2.20847e+20, b: -3.29251e+00, Ea: 4.87608e+04}
+    - {P: 1.233e-05 atm, A: 3.35186e+20, b: -3.29242e+00, Ea: 4.87625e+04}
+    - {P: 1.874e-05 atm, A: 5.08844e+20, b: -3.29236e+00, Ea: 4.87644e+04}
+    - {P: 2.848e-05 atm, A: 7.72722e+20, b: -3.29234e+00, Ea: 4.87665e+04}
+    - {P: 4.329e-05 atm, A: 1.17394e+21, b: -3.29238e+00, Ea: 4.87690e+04}
+    - {P: 6.579e-05 atm, A: 1.78450e+21, b: -3.29249e+00, Ea: 4.87718e+04}
+    - {P: 1.000e-04 atm, A: 2.71460e+21, b: -3.29270e+00, Ea: 4.87750e+04}
+    - {P: 1.520e-04 atm, A: 4.13351e+21, b: -3.29303e+00, Ea: 4.87787e+04}
+    - {P: 2.310e-04 atm, A: 6.30215e+21, b: -3.29352e+00, Ea: 4.87831e+04}
+    - {P: 3.511e-04 atm, A: 9.62480e+21, b: -3.29422e+00, Ea: 4.87882e+04}
+    - {P: 5.337e-04 atm, A: 1.47322e+22, b: -3.29521e+00, Ea: 4.87942e+04}
+    - {P: 8.111e-04 atm, A: 2.26169e+22, b: -3.29657e+00, Ea: 4.88014e+04}
+    - {P: 1.233e-03 atm, A: 3.48599e+22, b: -3.29843e+00, Ea: 4.88101e+04}
+    - {P: 1.874e-03 atm, A: 5.40185e+22, b: -3.30096e+00, Ea: 4.88206e+04}
+    - {P: 2.848e-03 atm, A: 8.43137e+22, b: -3.30439e+00, Ea: 4.88335e+04}
+    - {P: 4.329e-03 atm, A: 1.32897e+23, b: -3.30906e+00, Ea: 4.88495e+04}
+    - {P: 6.579e-03 atm, A: 2.12294e+23, b: -3.31539e+00, Ea: 4.88695e+04}
+    - {P: 1.000e-02 atm, A: 3.45356e+23, b: -3.32401e+00, Ea: 4.88949e+04}
+    - {P: 1.520e-02 atm, A: 5.75889e+23, b: -3.33573e+00, Ea: 4.89274e+04}
+    - {P: 2.310e-02 atm, A: 9.92826e+23, b: -3.35161e+00, Ea: 4.89691e+04}
+    - {P: 3.511e-02 atm, A: 1.78876e+24, b: -3.37301e+00, Ea: 4.90230e+04}
+    - {P: 5.337e-02 atm, A: 3.41062e+24, b: -3.40150e+00, Ea: 4.90925e+04}
+    - {P: 8.111e-02 atm, A: 6.97007e+24, b: -3.43864e+00, Ea: 4.91814e+04}
+    - {P: 1.233e-01 atm, A: 1.54079e+25, b: -3.48554e+00, Ea: 4.92928e+04}
+    - {P: 1.874e-01 atm, A: 3.68244e+25, b: -3.54206e+00, Ea: 4.94284e+04}
+    - {P: 2.848e-01 atm, A: 9.35152e+25, b: -3.60591e+00, Ea: 4.95867e+04}
+    - {P: 4.329e-01 atm, A: 2.42827e+26, b: -3.67210e+00, Ea: 4.97620e+04}
+    - {P: 6.579e-01 atm, A: 6.09830e+26, b: -3.73346e+00, Ea: 4.99450e+04}
+    - {P: 1.000e+00 atm, A: 1.39453e+27, b: -3.78225e+00, Ea: 5.01255e+04}
+    - {P: 1.520e+00 atm, A: 2.76001e+27, b: -3.81197e+00, Ea: 5.02946e+04}
+    - {P: 2.310e+00 atm, A: 4.56884e+27, b: -3.81828e+00, Ea: 5.04466e+04}
+    - {P: 3.511e+00 atm, A: 6.20209e+27, b: -3.79872e+00, Ea: 5.05783e+04}
+    - {P: 5.337e+00 atm, A: 6.82594e+27, b: -3.75192e+00, Ea: 5.06881e+04}
+    - {P: 8.111e+00 atm, A: 6.04311e+27, b: -3.67703e+00, Ea: 5.07743e+04}
+    - {P: 1.233e+01 atm, A: 4.27844e+27, b: -3.57346e+00, Ea: 5.08357e+04}
+    - {P: 1.874e+01 atm, A: 2.41607e+27, b: -3.44114e+00, Ea: 5.08706e+04}
+    - {P: 2.848e+01 atm, A: 1.09193e+27, b: -3.28079e+00, Ea: 5.08783e+04}
+    - {P: 4.329e+01 atm, A: 3.99854e+26, b: -3.09435e+00, Ea: 5.08588e+04}
+    - {P: 6.579e+01 atm, A: 1.21493e+26, b: -2.88530e+00, Ea: 5.08137e+04}
+    - {P: 1.000e+02 atm, A: 3.17683e+25, b: -2.65878e+00, Ea: 5.07464e+04}
+    - {P: 1.520e+02 atm, A: 7.50575e+24, b: -2.42154e+00, Ea: 5.06620e+04}
+    - {P: 2.310e+02 atm, A: 1.69826e+24, b: -2.18152e+00, Ea: 5.05673e+04}
+    - {P: 3.511e+02 atm, A: 3.91403e+23, b: -1.94708e+00, Ea: 5.04697e+04}
+    - {P: 5.337e+02 atm, A: 9.71916e+22, b: -1.72575e+00, Ea: 5.03763e+04}
+    - {P: 8.111e+02 atm, A: 2.70225e+22, b: -1.52258e+00, Ea: 5.02922e+04}
+    - {P: 1.233e+03 atm, A: 8.47962e+21, b: -1.33849e+00, Ea: 5.02185e+04}
+    - {P: 1.874e+03 atm, A: 2.91074e+21, b: -1.16906e+00, Ea: 5.01512e+04}
+    - {P: 2.848e+03 atm, A: 1.02143e+21, b: -1.00497e+00, Ea: 5.00814e+04}
+    - {P: 4.329e+03 atm, A: 3.37243e+20, b: -8.34881e-01, Ea: 4.99978e+04}
+    - {P: 6.579e+03 atm, A: 9.85751e+19, b: -6.50545e-01, Ea: 4.98921e+04}
+    - {P: 1.000e+04 atm, A: 2.54278e+19, b: -4.51549e-01, Ea: 4.97632e+04}
+    - {P: 1.520e+04 atm, A: 6.15978e+18, b: -2.46310e-01, Ea: 4.96189e+04}
+    - {P: 2.310e+04 atm, A: 1.54575e+18, b: -4.80304e-02, Ea: 4.94722e+04}
+    - {P: 3.511e+04 atm, A: 4.39533e+17, b: 1.31321e-01, Ea: 4.93354e+04}
+    - {P: 5.337e+04 atm, A: 1.49315e+17, b: 2.84834e-01, Ea: 4.92164e+04}
+    - {P: 8.111e+04 atm, A: 6.14181e+16, b: 4.10977e-01, Ea: 4.91178e+04}
+    - {P: 1.233e+05 atm, A: 3.01770e+16, b: 5.11867e-01, Ea: 4.90388e+04}
+    - {P: 1.874e+05 atm, A: 1.72527e+16, b: 5.91295e-01, Ea: 4.89767e+04}
+    - {P: 2.848e+05 atm, A: 1.11516e+16, b: 6.53362e-01, Ea: 4.89283e+04}
+    - {P: 4.329e+05 atm, A: 7.93808e+15, b: 7.01784e-01, Ea: 4.88909e+04}
+    - {P: 6.579e+05 atm, A: 6.08835e+15, b: 7.39645e-01, Ea: 4.88618e+04}
+    - {P: 1.000e+06 atm, A: 4.94498e+15, b: 7.69390e-01, Ea: 4.88392e+04}
+    - {P: 1.520e+06 atm, A: 4.19667e+15, b: 7.92903e-01, Ea: 4.88214e+04}
+    - {P: 2.310e+06 atm, A: 3.68382e+15, b: 8.11622e-01, Ea: 4.88074e+04}
+    - {P: 3.511e+06 atm, A: 3.31895e+15, b: 8.26632e-01, Ea: 4.87963e+04}
+    - {P: 5.337e+06 atm, A: 3.05129e+15, b: 8.38759e-01, Ea: 4.87874e+04}
+    - {P: 8.111e+06 atm, A: 2.84990e+15, b: 8.48626e-01, Ea: 4.87803e+04}
+    - {P: 1.233e+07 atm, A: 2.69514e+15, b: 8.56711e-01, Ea: 4.87744e+04}
+    - {P: 1.874e+07 atm, A: 2.57406e+15, b: 8.63378e-01, Ea: 4.87697e+04}
+    - {P: 2.848e+07 atm, A: 2.47788e+15, b: 8.68911e-01, Ea: 4.87658e+04}
+    - {P: 4.329e+07 atm, A: 2.40049e+15, b: 8.73528e-01, Ea: 4.87625e+04}
+    - {P: 6.579e+07 atm, A: 2.33750e+15, b: 8.77402e-01, Ea: 4.87598e+04}
+    - {P: 1.000e+08 atm, A: 2.28573e+15, b: 8.80668e-01, Ea: 4.87576e+04}
+    - {P: 1.520e+08 atm, A: 2.24281e+15, b: 8.83435e-01, Ea: 4.87557e+04}
+    - {P: 2.310e+08 atm, A: 2.20696e+15, b: 8.85788e-01, Ea: 4.87541e+04}
+    - {P: 3.511e+08 atm, A: 2.17681e+15, b: 8.87798e-01, Ea: 4.87527e+04}
+    - {P: 5.337e+08 atm, A: 2.15130e+15, b: 8.89520e-01, Ea: 4.87516e+04}
+    - {P: 8.111e+08 atm, A: 2.12959e+15, b: 8.91002e-01, Ea: 4.87506e+04}
+    - {P: 1.233e+09 atm, A: 2.11103e+15, b: 8.92280e-01, Ea: 4.87498e+04}
+    - {P: 1.874e+09 atm, A: 2.09509e+15, b: 8.93385e-01, Ea: 4.87490e+04}
+    - {P: 2.848e+09 atm, A: 2.08134e+15, b: 8.94344e-01, Ea: 4.87484e+04}
+    - {P: 4.329e+09 atm, A: 2.06944e+15, b: 8.95178e-01, Ea: 4.87479e+04}
+    - {P: 6.579e+09 atm, A: 2.05910e+15, b: 8.95905e-01, Ea: 4.87474e+04}
+    - {P: 1.000e+10 atm, A: 2.05009e+15, b: 8.96539e-01, Ea: 4.87470e+04}
+    - {P: 1.520e+10 atm, A: 2.04222e+15, b: 8.97094e-01, Ea: 4.87466e+04}
+    - {P: 2.310e+10 atm, A: 2.03532e+15, b: 8.97580e-01, Ea: 4.87463e+04}
+    - {P: 3.511e+10 atm, A: 2.02925e+15, b: 8.98007e-01, Ea: 4.87460e+04}
+    - {P: 5.337e+10 atm, A: 2.02391e+15, b: 8.98382e-01, Ea: 4.87458e+04}
+    - {P: 8.111e+10 atm, A: 2.01919e+15, b: 8.98712e-01, Ea: 4.87456e+04}
+    - {P: 1.233e+11 atm, A: 2.01502e+15, b: 8.99003e-01, Ea: 4.87454e+04}
+    - {P: 1.874e+11 atm, A: 2.01132e+15, b: 8.99259e-01, Ea: 4.87452e+04}
+    - {P: 2.848e+11 atm, A: 2.00804e+15, b: 8.99485e-01, Ea: 4.87451e+04}
+    - {P: 4.329e+11 atm, A: 2.00512e+15, b: 8.99685e-01, Ea: 4.87449e+04}
+    - {P: 6.579e+11 atm, A: 2.00251e+15, b: 8.99861e-01, Ea: 4.87448e+04}
+    - {P: 1.000e+12 atm, A: 2.00019e+15, b: 9.00017e-01, Ea: 4.87447e+04}
+  - collider: 'N2'
+    eps: {A: 1.14813e+00, b: 4.60090e-02, Ea: -2.92413e+00}
+  - collider: 'CO2'
+    eps: {A: 8.98839e+01, b: -4.27974e-01, Ea: 2.41392e+02}
+  - collider: 'H2O2'
+    eps: {A: 6.45295e-01, b: 4.26266e-01, Ea: 4.28932e+01}
+  - collider: 'H2O'
+    eps: {A: 1.36377e+00, b: 3.06592e-01, Ea: 2.10079e+02}
+
+- equation: NH3 (+M) <=> H + NH2 (+M) # Reaction 72
+  type: LMR_R
+  collider-list:
+  - collider: 'M' # AR is reference collider
+    eps: {A: 1, b: 0, Ea: 0}
+    rate-constants:  # AR
+    - {P: 1.000e-06 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 1.520e-06 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 2.310e-06 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 3.511e-06 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 5.337e-06 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 8.111e-06 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 1.233e-05 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 1.874e-05 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 2.848e-05 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 4.329e-05 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 6.579e-05 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 1.000e-04 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 1.520e-04 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 2.310e-04 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 3.511e-04 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 5.337e-04 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 8.111e-04 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 1.233e-03 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 1.874e-03 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 2.848e-03 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 4.329e-03 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 6.579e-03 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 1.000e-02 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 1.520e-02 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 2.310e-02 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 3.511e-02 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 5.337e-02 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 8.111e-02 atm, A: 7.23000e+32, b: -5.31600e+00, Ea: 1.10851e+05}
+    - {P: 1.233e-01 atm, A: 8.34393e+32, b: -5.30764e+00, Ea: 1.10878e+05}
+    - {P: 1.874e-01 atm, A: 1.11131e+33, b: -5.29091e+00, Ea: 1.10933e+05}
+    - {P: 2.848e-01 atm, A: 1.48013e+33, b: -5.27418e+00, Ea: 1.10988e+05}
+    - {P: 4.329e-01 atm, A: 1.97136e+33, b: -5.25745e+00, Ea: 1.11042e+05}
+    - {P: 6.579e-01 atm, A: 2.62561e+33, b: -5.24073e+00, Ea: 1.11097e+05}
+    - {P: 1.000e+00 atm, A: 3.49700e+33, b: -5.22400e+00, Ea: 1.11152e+05}
+    - {P: 1.520e+00 atm, A: 4.79071e+33, b: -5.21145e+00, Ea: 1.11284e+05}
+    - {P: 2.310e+00 atm, A: 6.56302e+33, b: -5.19891e+00, Ea: 1.11415e+05}
+    - {P: 3.511e+00 atm, A: 8.99099e+33, b: -5.18636e+00, Ea: 1.11547e+05}
+    - {P: 5.337e+00 atm, A: 1.23172e+34, b: -5.17382e+00, Ea: 1.11679e+05}
+    - {P: 8.111e+00 atm, A: 1.68739e+34, b: -5.16127e+00, Ea: 1.11810e+05}
+    - {P: 1.233e+01 atm, A: 2.03119e+34, b: -5.13364e+00, Ea: 1.11957e+05}
+    - {P: 1.874e+01 atm, A: 2.14842e+34, b: -5.09091e+00, Ea: 1.12119e+05}
+    - {P: 2.848e+01 atm, A: 2.27241e+34, b: -5.04818e+00, Ea: 1.12281e+05}
+    - {P: 4.329e+01 atm, A: 2.40356e+34, b: -5.00545e+00, Ea: 1.12443e+05}
+    - {P: 6.579e+01 atm, A: 2.54228e+34, b: -4.96273e+00, Ea: 1.12605e+05}
+    - {P: 1.000e+02 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 1.520e+02 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 2.310e+02 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 3.511e+02 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 5.337e+02 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 8.111e+02 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 1.233e+03 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 1.874e+03 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 2.848e+03 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 4.329e+03 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 6.579e+03 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 1.000e+04 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 1.520e+04 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 2.310e+04 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 3.511e+04 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 5.337e+04 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 8.111e+04 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 1.233e+05 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 1.874e+05 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 2.848e+05 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 4.329e+05 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 6.579e+05 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 1.000e+06 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 1.520e+06 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 2.310e+06 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 3.511e+06 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 5.337e+06 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 8.111e+06 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 1.233e+07 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 1.874e+07 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 2.848e+07 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 4.329e+07 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 6.579e+07 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 1.000e+08 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 1.520e+08 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 2.310e+08 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 3.511e+08 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 5.337e+08 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 8.111e+08 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 1.233e+09 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 1.874e+09 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 2.848e+09 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 4.329e+09 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 6.579e+09 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 1.000e+10 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 1.520e+10 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 2.310e+10 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 3.511e+10 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 5.337e+10 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 8.111e+10 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 1.233e+11 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 1.874e+11 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 2.848e+11 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 4.329e+11 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 6.579e+11 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+    - {P: 1.000e+12 atm, A: 2.68900e+34, b: -4.92000e+00, Ea: 1.12767e+05}
+  - collider: 'N2'
+    eps: {A: 4.49281e+00, b: -9.46265e-02, Ea: -1.10071e+02}
+  - collider: 'O2'
+    eps: {A: 1.15210e-01, b: 3.41234e-01, Ea: -3.89210e+02}
+  - collider: 'CO2'
+    eps: {A: 9.19583e+00, b: 6.10696e-02, Ea: 9.01088e+01}
+  - collider: 'NH3'
+    eps: {A: 1.49004e+01, b: 6.06535e-02, Ea: 2.47652e+02}
+  - collider: 'H2O'
+    eps: {A: 1.14560e+01, b: 1.27501e-01, Ea: 3.13959e+02}
+
+- equation: 2 NH2 (+M) <=> N2H4 (+M) # Reaction 90
+  type: LMR_R
+  collider-list:
+  - collider: 'M' # AR is reference collider
+    eps: {A: 1, b: 0, Ea: 0}
+    rate-constants:  # AR
+    - {P: 1.000e-06 atm, A: 1.40967e+26, b: -6.45922e+00, Ea: 2.00185e+03}
+    - {P: 1.520e-06 atm, A: 2.11733e+26, b: -6.45784e+00, Ea: 2.00392e+03}
+    - {P: 2.310e-06 atm, A: 3.17864e+26, b: -6.45639e+00, Ea: 2.00630e+03}
+    - {P: 3.511e-06 atm, A: 4.76960e+26, b: -6.45488e+00, Ea: 2.00905e+03}
+    - {P: 5.337e-06 atm, A: 7.15365e+26, b: -6.45330e+00, Ea: 2.01223e+03}
+    - {P: 8.111e-06 atm, A: 1.07252e+27, b: -6.45168e+00, Ea: 2.01594e+03}
+    - {P: 1.233e-05 atm, A: 1.60752e+27, b: -6.45001e+00, Ea: 2.02027e+03}
+    - {P: 1.874e-05 atm, A: 2.40903e+27, b: -6.44831e+00, Ea: 2.02535e+03}
+    - {P: 2.848e-05 atm, A: 3.61040e+27, b: -6.44661e+00, Ea: 2.03134e+03}
+    - {P: 4.329e-05 atm, A: 5.41283e+27, b: -6.44494e+00, Ea: 2.03842e+03}
+    - {P: 6.579e-05 atm, A: 8.12140e+27, b: -6.44336e+00, Ea: 2.04687e+03}
+    - {P: 1.000e-04 atm, A: 1.22020e+28, b: -6.44192e+00, Ea: 2.05698e+03}
+    - {P: 1.520e-04 atm, A: 1.83727e+28, b: -6.44072e+00, Ea: 2.06916e+03}
+    - {P: 2.310e-04 atm, A: 2.77551e+28, b: -6.43990e+00, Ea: 2.08393e+03}
+    - {P: 3.511e-04 atm, A: 4.21298e+28, b: -6.43964e+00, Ea: 2.10196e+03}
+    - {P: 5.337e-04 atm, A: 6.43851e+28, b: -6.44017e+00, Ea: 2.12409e+03}
+    - {P: 8.111e-04 atm, A: 9.93264e+28, b: -6.44182e+00, Ea: 2.15141e+03}
+    - {P: 1.233e-03 atm, A: 1.55187e+29, b: -6.44497e+00, Ea: 2.18527e+03}
+    - {P: 1.874e-03 atm, A: 2.46521e+29, b: -6.45008e+00, Ea: 2.22732e+03}
+    - {P: 2.848e-03 atm, A: 3.99819e+29, b: -6.45766e+00, Ea: 2.27946e+03}
+    - {P: 4.329e-03 atm, A: 6.64339e+29, b: -6.46808e+00, Ea: 2.34370e+03}
+    - {P: 6.579e-03 atm, A: 1.13185e+30, b: -6.48140e+00, Ea: 2.42175e+03}
+    - {P: 1.000e-02 atm, A: 1.96703e+30, b: -6.49688e+00, Ea: 2.51433e+03}
+    - {P: 1.520e-02 atm, A: 3.43213e+30, b: -6.51243e+00, Ea: 2.62014e+03}
+    - {P: 2.310e-02 atm, A: 5.82779e+30, b: -6.52402e+00, Ea: 2.73474e+03}
+    - {P: 3.511e-02 atm, A: 9.18197e+30, b: -6.52553e+00, Ea: 2.85001e+03}
+    - {P: 5.337e-02 atm, A: 1.26705e+31, b: -6.50960e+00, Ea: 2.95526e+03}
+    - {P: 8.111e-02 atm, A: 1.45207e+31, b: -6.46952e+00, Ea: 3.03999e+03}
+    - {P: 1.233e-01 atm, A: 1.33801e+31, b: -6.40126e+00, Ea: 3.09729e+03}
+    - {P: 1.874e-01 atm, A: 9.87629e+30, b: -6.30449e+00, Ea: 3.12567e+03}
+    - {P: 2.848e-01 atm, A: 5.95658e+30, b: -6.18188e+00, Ea: 3.12834e+03}
+    - {P: 4.329e-01 atm, A: 3.02644e+30, b: -6.03748e+00, Ea: 3.11077e+03}
+    - {P: 6.579e-01 atm, A: 1.33400e+30, b: -5.87522e+00, Ea: 3.07825e+03}
+    - {P: 1.000e+00 atm, A: 5.21577e+29, b: -5.69808e+00, Ea: 3.03458e+03}
+    - {P: 1.520e+00 atm, A: 1.83611e+29, b: -5.50818e+00, Ea: 2.98182e+03}
+    - {P: 2.310e+00 atm, A: 5.88186e+28, b: -5.30710e+00, Ea: 2.92086e+03}
+    - {P: 3.511e+00 atm, A: 1.73210e+28, b: -5.09637e+00, Ea: 2.85202e+03}
+    - {P: 5.337e+00 atm, A: 4.74857e+27, b: -4.87789e+00, Ea: 2.77573e+03}
+    - {P: 8.111e+00 atm, A: 1.23232e+27, b: -4.65408e+00, Ea: 2.69290e+03}
+    - {P: 1.233e+01 atm, A: 3.09042e+26, b: -4.42787e+00, Ea: 2.60500e+03}
+    - {P: 1.874e+01 atm, A: 7.66252e+25, b: -4.20243e+00, Ea: 2.51393e+03}
+    - {P: 2.848e+01 atm, A: 1.91998e+25, b: -3.98079e+00, Ea: 2.42168e+03}
+    - {P: 4.329e+01 atm, A: 4.94248e+24, b: -3.76517e+00, Ea: 2.32968e+03}
+    - {P: 6.579e+01 atm, A: 1.31494e+24, b: -3.55637e+00, Ea: 2.23815e+03}
+    - {P: 1.000e+02 atm, A: 3.58312e+23, b: -3.35310e+00, Ea: 2.14548e+03}
+    - {P: 1.520e+02 atm, A: 9.74608e+22, b: -3.15183e+00, Ea: 2.04789e+03}
+    - {P: 2.310e+02 atm, A: 2.54571e+22, b: -2.94726e+00, Ea: 1.93993e+03}
+    - {P: 3.511e+02 atm, A: 6.13389e+21, b: -2.73390e+00, Ea: 1.81588e+03}
+    - {P: 5.337e+02 atm, A: 1.33111e+21, b: -2.50851e+00, Ea: 1.67221e+03}
+    - {P: 8.111e+02 atm, A: 2.62601e+20, b: -2.27232e+00, Ea: 1.50978e+03}
+    - {P: 1.233e+03 atm, A: 4.94064e+19, b: -2.03178e+00, Ea: 1.33472e+03}
+    - {P: 1.874e+03 atm, A: 9.54654e+18, b: -1.79687e+00, Ea: 1.15682e+03}
+    - {P: 2.848e+03 atm, A: 2.04451e+18, b: -1.57776e+00, Ea: 9.86467e+02}
+    - {P: 4.329e+03 atm, A: 5.13679e+17, b: -1.38198e+00, Ea: 8.31694e+02}
+    - {P: 6.579e+03 atm, A: 1.55741e+17, b: -1.21313e+00, Ea: 6.96912e+02}
+    - {P: 1.000e+04 atm, A: 5.71203e+16, b: -1.07132e+00, Ea: 5.83173e+02}
+    - {P: 1.520e+04 atm, A: 2.49745e+16, b: -9.54352e-01, Ea: 4.89242e+02}
+    - {P: 2.310e+04 atm, A: 1.27222e+16, b: -8.58941e-01, Ea: 4.12711e+02}
+    - {P: 3.511e+04 atm, A: 7.36471e+15, b: -7.81547e-01, Ea: 3.50813e+02}
+    - {P: 5.337e+04 atm, A: 4.73270e+15, b: -7.18869e-01, Ea: 3.00892e+02}
+    - {P: 8.111e+04 atm, A: 3.30830e+15, b: -6.68050e-01, Ea: 2.60619e+02}
+    - {P: 1.233e+05 atm, A: 2.47358e+15, b: -6.26722e-01, Ea: 2.28049e+02}
+    - {P: 1.874e+05 atm, A: 1.95145e+15, b: -5.92971e-01, Ea: 2.01609e+02}
+    - {P: 2.848e+05 atm, A: 1.60690e+15, b: -5.65274e-01, Ea: 1.80045e+02}
+    - {P: 4.329e+05 atm, A: 1.36930e+15, b: -5.42427e-01, Ea: 1.62368e+02}
+    - {P: 6.579e+05 atm, A: 1.19939e+15, b: -5.23479e-01, Ea: 1.47801e+02}
+    - {P: 1.000e+06 atm, A: 1.07414e+15, b: -5.07682e-01, Ea: 1.35731e+02}
+    - {P: 1.520e+06 atm, A: 9.79443e+14, b: -4.94444e-01, Ea: 1.25679e+02}
+    - {P: 2.310e+06 atm, A: 9.06296e+14, b: -4.83296e-01, Ea: 1.17265e+02}
+    - {P: 3.511e+06 atm, A: 8.48758e+14, b: -4.73863e-01, Ea: 1.10188e+02}
+    - {P: 5.337e+06 atm, A: 8.02790e+14, b: -4.65846e-01, Ea: 1.04207e+02}
+    - {P: 8.111e+06 atm, A: 7.65570e+14, b: -4.59002e-01, Ea: 9.91303e+01}
+    - {P: 1.233e+07 atm, A: 7.35080e+14, b: -4.53138e-01, Ea: 9.48035e+01}
+    - {P: 1.874e+07 atm, A: 7.09850e+14, b: -4.48095e-01, Ea: 9.11011e+01}
+    - {P: 2.848e+07 atm, A: 6.88785e+14, b: -4.43741e-01, Ea: 8.79213e+01}
+    - {P: 4.329e+07 atm, A: 6.71058e+14, b: -4.39971e-01, Ea: 8.51808e+01}
+    - {P: 6.579e+07 atm, A: 6.56036e+14, b: -4.36696e-01, Ea: 8.28110e+01}
+    - {P: 1.000e+08 atm, A: 6.43227e+14, b: -4.33843e-01, Ea: 8.07555e+01}
+    - {P: 1.520e+08 atm, A: 6.32242e+14, b: -4.31350e-01, Ea: 7.89673e+01}
+    - {P: 2.310e+08 atm, A: 6.22776e+14, b: -4.29167e-01, Ea: 7.74073e+01}
+    - {P: 3.511e+08 atm, A: 6.14579e+14, b: -4.27251e-01, Ea: 7.60428e+01}
+    - {P: 5.337e+08 atm, A: 6.07453e+14, b: -4.25565e-01, Ea: 7.48465e+01}
+    - {P: 8.111e+08 atm, A: 6.01234e+14, b: -4.24079e-01, Ea: 7.37952e+01}
+    - {P: 1.233e+09 atm, A: 5.95787e+14, b: -4.22765e-01, Ea: 7.28692e+01}
+    - {P: 1.874e+09 atm, A: 5.91002e+14, b: -4.21603e-01, Ea: 7.20520e+01}
+    - {P: 2.848e+09 atm, A: 5.86785e+14, b: -4.20573e-01, Ea: 7.13293e+01}
+    - {P: 4.329e+09 atm, A: 5.83060e+14, b: -4.19658e-01, Ea: 7.06891e+01}
+    - {P: 6.579e+09 atm, A: 5.79760e+14, b: -4.18845e-01, Ea: 7.01210e+01}
+    - {P: 1.000e+10 atm, A: 5.76830e+14, b: -4.18121e-01, Ea: 6.96160e+01}
+    - {P: 1.520e+10 atm, A: 5.74223e+14, b: -4.17476e-01, Ea: 6.91665e+01}
+    - {P: 2.310e+10 atm, A: 5.71898e+14, b: -4.16900e-01, Ea: 6.87658e+01}
+    - {P: 3.511e+10 atm, A: 5.69822e+14, b: -4.16386e-01, Ea: 6.84082e+01}
+    - {P: 5.337e+10 atm, A: 5.67964e+14, b: -4.15926e-01, Ea: 6.80886e+01}
+    - {P: 8.111e+10 atm, A: 5.66299e+14, b: -4.15514e-01, Ea: 6.78027e+01}
+    - {P: 1.233e+11 atm, A: 5.64805e+14, b: -4.15146e-01, Ea: 6.75466e+01}
+    - {P: 1.874e+11 atm, A: 5.63461e+14, b: -4.14816e-01, Ea: 6.73171e+01}
+    - {P: 2.848e+11 atm, A: 5.62252e+14, b: -4.14521e-01, Ea: 6.71112e+01}
+    - {P: 4.329e+11 atm, A: 5.61162e+14, b: -4.14256e-01, Ea: 6.69263e+01}
+    - {P: 6.579e+11 atm, A: 5.60179e+14, b: -4.14018e-01, Ea: 6.67602e+01}
+    - {P: 1.000e+12 atm, A: 5.59291e+14, b: -4.13806e-01, Ea: 6.66109e+01}
+  - collider: 'N2'
+    eps: {A: 1.46848e+01, b: -3.00962e-01, Ea: 1.65146e+02}
+  - collider: 'O2'
+    eps: {A: 1.53608e+00, b: -3.90857e-02, Ea: 4.43752e+00}
+  - collider: 'NH3'
+    eps: {A: 1.64196e+01, b: -7.29636e-02, Ea: 3.66099e+02}
+  - collider: 'H2O'
+    eps: {A: 2.17658e+01, b: -1.14715e-01, Ea: 4.19216e+02}
+
+- equation: HNO (+M) <=> H + NO (+M) # Reaction 167
+  type: LMR_R
+  collider-list:
+  - collider: 'M' # AR is reference collider
+    eps: {A: 1, b: 0, Ea: 0}
+    rate-constants:  # AR
+    - {P: 1.000e-06 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 1.520e-06 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 2.310e-06 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 3.511e-06 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 5.337e-06 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 8.111e-06 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 1.233e-05 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 1.874e-05 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 2.848e-05 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 4.329e-05 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 6.579e-05 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 1.000e-04 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 1.520e-04 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 2.310e-04 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 3.511e-04 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 5.337e-04 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 8.111e-04 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 1.233e-03 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 1.874e-03 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 2.848e-03 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 4.329e-03 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 6.579e-03 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 1.000e-02 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 1.520e-02 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 2.310e-02 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 3.511e-02 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 5.337e-02 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 8.111e-02 atm, A: 2.01210e+22, b: -3.02100e+00, Ea: 4.77871e+04}
+    - {P: 1.233e-01 atm, A: 2.45881e+22, b: -3.01982e+00, Ea: 4.77951e+04}
+    - {P: 1.874e-01 atm, A: 3.67177e+22, b: -3.01745e+00, Ea: 4.78111e+04}
+    - {P: 2.848e-01 atm, A: 5.48309e+22, b: -3.01509e+00, Ea: 4.78271e+04}
+    - {P: 4.329e-01 atm, A: 8.18797e+22, b: -3.01273e+00, Ea: 4.78431e+04}
+    - {P: 6.579e-01 atm, A: 1.22272e+23, b: -3.01036e+00, Ea: 4.78591e+04}
+    - {P: 1.000e+00 atm, A: 1.82590e+23, b: -3.00800e+00, Ea: 4.78751e+04}
+    - {P: 1.520e+00 atm, A: 2.60023e+23, b: -2.99909e+00, Ea: 4.79151e+04}
+    - {P: 2.310e+00 atm, A: 3.70294e+23, b: -2.99018e+00, Ea: 4.79551e+04}
+    - {P: 3.511e+00 atm, A: 5.27329e+23, b: -2.98127e+00, Ea: 4.79951e+04}
+    - {P: 5.337e+00 atm, A: 7.50959e+23, b: -2.97236e+00, Ea: 4.80351e+04}
+    - {P: 8.111e+00 atm, A: 1.06943e+24, b: -2.96345e+00, Ea: 4.80751e+04}
+    - {P: 1.233e+01 atm, A: 1.46090e+24, b: -2.94955e+00, Ea: 4.81277e+04}
+    - {P: 1.874e+01 atm, A: 1.91435e+24, b: -2.93064e+00, Ea: 4.81930e+04}
+    - {P: 2.848e+01 atm, A: 2.50854e+24, b: -2.91173e+00, Ea: 4.82582e+04}
+    - {P: 4.329e+01 atm, A: 3.28718e+24, b: -2.89282e+00, Ea: 4.83235e+04}
+    - {P: 6.579e+01 atm, A: 4.30749e+24, b: -2.87391e+00, Ea: 4.83888e+04}
+    - {P: 1.000e+02 atm, A: 5.64450e+24, b: -2.85500e+00, Ea: 4.84540e+04}
+    - {P: 1.520e+02 atm, A: 6.22974e+24, b: -2.81627e+00, Ea: 4.85415e+04}
+    - {P: 2.310e+02 atm, A: 6.87565e+24, b: -2.77755e+00, Ea: 4.86289e+04}
+    - {P: 3.511e+02 atm, A: 7.58854e+24, b: -2.73882e+00, Ea: 4.87164e+04}
+    - {P: 5.337e+02 atm, A: 8.37533e+24, b: -2.70009e+00, Ea: 4.88038e+04}
+    - {P: 8.111e+02 atm, A: 9.24371e+24, b: -2.66136e+00, Ea: 4.88912e+04}
+    - {P: 1.233e+03 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 1.874e+03 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 2.848e+03 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 4.329e+03 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 6.579e+03 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 1.000e+04 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 1.520e+04 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 2.310e+04 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 3.511e+04 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 5.337e+04 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 8.111e+04 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 1.233e+05 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 1.874e+05 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 2.848e+05 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 4.329e+05 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 6.579e+05 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 1.000e+06 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 1.520e+06 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 2.310e+06 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 3.511e+06 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 5.337e+06 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 8.111e+06 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 1.233e+07 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 1.874e+07 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 2.848e+07 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 4.329e+07 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 6.579e+07 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 1.000e+08 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 1.520e+08 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 2.310e+08 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 3.511e+08 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 5.337e+08 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 8.111e+08 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 1.233e+09 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 1.874e+09 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 2.848e+09 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 4.329e+09 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 6.579e+09 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 1.000e+10 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 1.520e+10 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 2.310e+10 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 3.511e+10 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 5.337e+10 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 8.111e+10 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 1.233e+11 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 1.874e+11 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 2.848e+11 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 4.329e+11 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 6.579e+11 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+    - {P: 1.000e+12 atm, A: 9.71110e+24, b: -2.64200e+00, Ea: 4.89350e+04}
+  - collider: 'N2'
+    eps: {A: 7.56771e+00, b: -1.96878e-01, Ea: 2.53168e+02}
+  - collider: 'H2O'
+    eps: {A: 3.35451e+00, b: 1.33352e-01, Ea: 6.64633e+01}
+

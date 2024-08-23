@@ -1,0 +1,36 @@
+description: |-
+  Sample reactions used for testing of kinetics from scratch.
+  Some reaction rate definitions use arbitrary parameters.
+
+generator: cti2yaml
+cantera-version: 2.6.0a2
+date: Thu, 29 Apr 2021 13:12:07 -0400
+input-files: [kineticsfromscratch.cti]
+
+units: {activation-energy: cal/mol}
+
+phases:
+- name: ohmech
+  thermo: ideal-gas
+  elements: [O, H, Ar]
+  species:
+  - h2o2.yaml/species: [AR, O, H2, H, OH, O2, H2O, H2O2, HO2] #ar weak, O weak, H2 weak, H weak, OH unknown, O2 neutral, h2o strong, h2o2 unknown, ho2 unknown
+  kinetics: gas
+  reactions: [reactions]
+  state:
+    T: 300.0
+    P: 1.01325e+05
+
+
+reactions:
+- equation: H + O2 (+M) <=> HO2 (+M)  # Reaction 16 (modified by Patrick Singal)
+  # units: {length: cm, time: s, quantity: mol, activation-energy: cal/mol}
+  type: LMR_R
+  collider-list: 
+  - collider: "M" # Data is actually for Ar
+    eps: {A: 1, b: 0, Ea: 0}
+    low-P-rate-constant: {A: 6.366e+20, b: -1.72, Ea: 524.8}
+    high-P-rate-constant: {A: 4.7e+12, b: 0.44, Ea: 0.0}
+    Troe: {A: 0.5, T3: 1.0e-30, T1: 1.0e+30}
+  - collider: "H2O"
+    eps: {A: 3.69146e+01, b: -7.12902e-02, Ea: 3.19087e+01}
