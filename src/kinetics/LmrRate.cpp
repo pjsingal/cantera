@@ -207,6 +207,7 @@ double LmrRate::evalChebyshevRate(const LmrData& shared_data, DataTypes& dataObj
     ChebyshevData& data = boost::get<ChebyshevData>(dataObj);
     ChebyshevRate& rate = boost::get<ChebyshevRate>(rateObj);
     data.log10P=log10(exp(logPeff_));
+    data.logT = shared_data.logT;
     // data.pressure=shared_data.pressure;
     data.recipT=shared_data.recipT;
     // data.temperature=shared_data.temperature;
