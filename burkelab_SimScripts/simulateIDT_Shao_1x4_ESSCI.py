@@ -102,9 +102,12 @@ models = {
           r'H$_2$O':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allH2O.yaml",
           'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR.yaml", 
           }
-colors = ["xkcd:grey", "orange", "xkcd:teal", 'r', 'b', 'xkcd:purple']
+colors = ["xkcd:grey", "xkcd:teal", "orange", 'r', 'b', 'xkcd:purple']
+# colors = ['r', 'b', 'xkcd:purple']
 # colors = ["xkcd:grey", "orange", 'r', 'b']
-lines =['-','-','-','-','-']
+lstyles = ["solid","solid","solid","solid","solid","solid","solid","solid"]
+# lstyles = [(7.5, (1, 10)),(0, (5, 5)),(0, (3, 1, 1, 1, 1, 1)),"solid","solid","solid"]
+# lstyles = ["solid",(7.5, (5, 10)),(0, (5, 10)),"solid","solid","solid"]
 
 
 def ignitionDelay(states, species):
@@ -144,11 +147,13 @@ for k, m in enumerate(models):
         ignitionDelays_RG[j] = tau
     if colors[k] == 'xkcd:purple':
         zorder_value = 100
+    elif colors[k] == 'r' or colors[k] == 'b':
+        zorder_value = 95
     elif colors[k] == "xkcd:grey":
-        zorder_value = 90
+        zorder_value = 94
     else:   
         zorder_value = k  # Default z-order for other lines
-    ax[0].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid', linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
+    ax[0].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle=lstyles[k], linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
     
 
 # ax[0].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw)
@@ -187,13 +192,19 @@ for k, m in enumerate(models):
         tau = ignitionDelay(timeHistory, 'oh')
         t1 = time.time()
         ignitionDelays_RG[j] = tau
+    # if lstyles[k] != "solid":
+    #     zorder_value = 100
+    # elif lstyles[k] == "solid":
+    #     zorder_value=1
     if colors[k] == 'xkcd:purple':
         zorder_value = 100
+    elif colors[k] == 'r' or colors[k] == 'b':
+        zorder_value = 95
     elif colors[k] == "xkcd:grey":
-        zorder_value = 90
+        zorder_value = 94
     else:   
         zorder_value = k  # Default z-order for other lines
-    ax[1].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
+    ax[1].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle=lstyles[k],linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
     
 
 # ax[1].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw) 
@@ -234,13 +245,20 @@ for k, m in enumerate(models):
         tau = ignitionDelay(timeHistory, 'oh')
         t1 = time.time()
         ignitionDelays_RG[j] = tau
+
+    # if lstyles[k] != "solid":
+    #     zorder_value = 100
+    # elif lstyles[k] == "solid":
+    #     zorder_value=1
     if colors[k] == 'xkcd:purple':
         zorder_value = 100
+    elif colors[k] == 'r' or colors[k] == 'b':
+        zorder_value = 95
     elif colors[k] == "xkcd:grey":
-        zorder_value = 90
+        zorder_value = 94
     else:   
         zorder_value = k  # Default z-order for other lines
-    ax[2].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
+    ax[2].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle=lstyles[k],linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
 
 # ax[2].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw)
 # ax[2].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]')
@@ -278,13 +296,19 @@ for k, m in enumerate(models):
         tau = ignitionDelay(timeHistory, 'oh')
         t1 = time.time()
         ignitionDelays_RG[j] = tau
+    # if lstyles[k] != "solid":
+    #     zorder_value = 100
+    # elif lstyles[k] == "solid":
+    #     zorder_value=1
     if colors[k] == 'xkcd:purple':
         zorder_value = 100
+    elif colors[k] == 'r' or colors[k] == 'b':
+        zorder_value = 95
     elif colors[k] == "xkcd:grey":
-        zorder_value = 90
+        zorder_value = 94
     else:   
         zorder_value = k  # Default z-order for other lines
-    ax[3].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
+    ax[3].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle=lstyles[k],linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
 
 ax[3].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw)
 # ax[1,1].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]', fontsize=18)
@@ -303,5 +327,6 @@ plt.subplots_adjust(hspace=0.3)
 # plt.subplots_adjust(top=0.98)
 if save_plots == True:
     plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.pdf', dpi=1000, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.png', dpi=1000, bbox_inches='tight')
     plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.svg', dpi=1000, bbox_inches='tight')
 # plt.show()     

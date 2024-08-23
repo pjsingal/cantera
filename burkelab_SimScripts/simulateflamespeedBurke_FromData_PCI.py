@@ -90,13 +90,13 @@ else:
 # ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:teal",label='$\epsilon_{NH_3}(2000K)$',zorder=70)
 
 dataset=pd.read_csv(path+f'Ar_data.csv')
-ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='r',label='Ar',zorder=20)
+ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle="dotted",color='r',label='Ar',zorder=20)
 
 dataset=pd.read_csv(path+f'H2O_data.csv')
-ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='b',label=r'H$_2$O',zorder=300)
+ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle="dashed",color='b',label=r'H$_2$O',zorder=300)
 
 dataset=pd.read_csv(path+f'LMR-R_data.csv')
-ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='xkcd:purple',label='LMR-R',zorder=100)
+ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle="solid",color='xkcd:purple',label='LMR-R',zorder=100)
 
 # if args.title != 'null':
 #     ax.set_title(args.title)
@@ -117,9 +117,10 @@ ax.set_ylabel(r'Mass burning rate [g $\rm cm^{-2}$ $\rm s^{-1}$]')
 ax.set_xlabel(r'Pressure [atm]')
 ax.tick_params(axis='both', direction="in")
 ax.tick_params(axis='both', which='minor', direction="in")
-ax.set_xlim([0.001, 19.999])
+# ax.set_xlim([0.001, 19.999])
+# ax.set_ylim([-0.005, 0.1299])
+ax.set_xlim([0.001, 11.99])
 ax.set_ylim([-0.005, 0.1299])
-
 
 if fslope != -1:
     name = f"burkesong_flamespeed_"+date+f' (slope={fslope} curve={fcurve})_PCI'

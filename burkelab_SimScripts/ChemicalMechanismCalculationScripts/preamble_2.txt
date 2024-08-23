@@ -1,0 +1,5 @@
+- equation: H2O + O2 <=> H + OH + O2  # Reaction 14
+  duplicate: true
+  rate-constant: {A: 9.15e+27, b: -3.322, Ea: 1.2079e+05}
+- equation: H2O + H2O <=> H + OH + H2O  # Reaction 15
+  rate-constant: {A: 1.0e+26, b: -2.44, Ea: 1.2018e+05}

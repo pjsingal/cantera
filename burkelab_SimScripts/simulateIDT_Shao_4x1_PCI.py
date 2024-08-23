@@ -23,6 +23,7 @@ parser.add_argument('--lgdw', type=float, help="lgdw = ", default=0.6)
 parser.add_argument('--lgdfsz', type=float, help="lgdw = ", default=5)
 parser.add_argument('--gridsz', type=int, help="gridsz = ", default=10)
 parser.add_argument('--dpi', type=int, help="dpi = ", default=500)
+parser.add_argument('--LMRtest', type=int, help="LMRtest = ", default=0)
 
 args = parser.parse_args()
 lw=args.lw
@@ -77,17 +78,28 @@ ax[3].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1e}"))
 # f.text(0.5, -0.1, r'Temperature [K]', ha='center', va='center')
 
 
-name = 'IDT_shao'
 path=os.getcwd()
 
-# colors = ['r','b',"xkcd:grey",'xkcd:purple']
-colors = ['r','b','xkcd:purple']
-models = {
-          'Ar':"test/data/alzuetamechanism_LMRR_allAR.yaml",
-          r'H$_2$O':"test/data/alzuetamechanism_LMRR_allH2O.yaml",
-        #   'Alzueta':"test/data/alzuetamechanism.yaml",
-          'LMR-R':"test/data/alzuetamechanism_LMRR.yaml",              
-          }
+LMRtest = args.LMRtest
+if LMRtest == 1:
+    colors = ['xkcd:purple',"xkcd:grey", 'r', 'b']
+    lstyles = ["solid","solid","solid","solid","solid","solid","solid","solid"]
+    models = {
+            'LMR-R (PCI paper)':"test/data/alzuetamechanism_LMRR.yaml",
+            'LMR-R (PLOG)':"test/data/LMRtests/LMRtest_PLOG_M.yaml",
+            'LMR-R (Troe)':"test/data/LMRtests/LMRtest_Troe_M.yaml",
+            'LMR-R (Cheb)':"test/data/LMRtests/LMRtest_cheb_M.yaml",      
+            }
+    name = 'IDT_shao_LMRtest'
+else:
+    colors = ['r','b','xkcd:purple']
+    lstyles = ["dotted","dashed","solid"]
+    models = {
+            'Ar':"test/data/alzuetamechanism_LMRR_allAR.yaml",
+            r'H$_2$O':"test/data/alzuetamechanism_LMRR_allH2O.yaml",
+            'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR.yaml",       
+            }
+    name = 'IDT_shao_PCI'
 
 def ignitionDelay(states, species):
     # i_ign = states(species).Y.argmax()
@@ -128,7 +140,7 @@ for k, m in enumerate(models):
         zorder_value = 10  # Higher z-order for purple line
     else:
         zorder_value = k  # Default z-order for other lines
-    ax[0].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid', linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
+    ax[0].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle=lstyles[k], linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
     
 ax[0].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
 # ax[0].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw)
@@ -170,7 +182,7 @@ for k, m in enumerate(models):
         zorder_value = 10  # Higher z-order for purple line
     else:
         zorder_value = k  # Default z-order for other lines
-    ax[1].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
+    ax[1].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle=lstyles[k],linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
     
 ax[1].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
 # ax[1].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw) 
@@ -214,7 +226,7 @@ for k, m in enumerate(models):
         zorder_value = 10  # Higher z-order for purple line
     else:
         zorder_value = k  # Default z-order for other lines
-    ax[2].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
+    ax[2].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle=lstyles[k],linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
 ax[2].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
 # ax[2].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw)
 ax[2].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]')
@@ -255,7 +267,7 @@ for k, m in enumerate(models):
         zorder_value = 10  # Higher z-order for purple line
     else:
         zorder_value = k  # Default z-order for other lines
-    ax[3].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle='solid',linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
+    ax[3].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle=lstyles[k],linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
 ax[3].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
 ax[0].legend(fontsize=lgdfsz, frameon=False, loc='lower left',handlelength=lgdw)
 # ax[1,1].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]', fontsize=18)
@@ -273,6 +285,6 @@ ax[3].annotate('(d)', xy=(0.95, 0.9), xycoords='axes fraction',ha='right', va='t
 
 # plt.subplots_adjust(top=0.98)
 if save_plots == True:
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.pdf', dpi=500, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.svg', dpi=500, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'.pdf', dpi=500, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'.svg', dpi=500, bbox_inches='tight')
 # plt.show()     

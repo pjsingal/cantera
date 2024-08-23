@@ -59,6 +59,8 @@ if args.paper == 'PCI':
     fig, ax = plt.subplots(2,1,figsize=(args.figwidth, args.figheight))
 if args.paper == 'ESSCI':
     fig, ax = plt.subplots(1,2,figsize=(args.figwidth, args.figheight))
+if args.paper == 'LMRtest':
+    fig, ax = plt.subplots(1,2,figsize=(args.figwidth, args.figheight))
 # plt.subplots_adjust(hspace=0.3)
 
 
@@ -102,19 +104,39 @@ if args.paper == 'ESSCI':
     ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:grey",label='Alzueta',zorder=30)
 
     dataset=pd.read_csv(path+f'Alzueta-300K_0_data_1.0alpha.csv')
-    ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="orange",label=r"$\epsilon_{0,NH_3}(300K)$",zorder=28)
+    ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:teal",label=r"$\epsilon_{0,NH_3}(300K)$",zorder=28)
 
     dataset=pd.read_csv(path+f'Alzueta-2000K_0_data_1.0alpha.csv')
-    ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:teal",label=r"$\epsilon_{0,NH_3}(2000K)$",zorder=29)
+    ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="orange",label=r"$\epsilon_{0,NH_3}(2000K)$",zorder=29)
 
-dataset=pd.read_csv(path+f'Ar_0_data_1.0alpha.csv')
-ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='r',label='Ar',zorder=27)
+    dataset=pd.read_csv(path+f'Ar_0_data_1.0alpha.csv')
+    ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='r',label='Ar',zorder=27)
 
-dataset=pd.read_csv(path+f'H2O_0_data_1.0alpha.csv')
-ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='b',label=r'H$_2$O',zorder=26)
+    dataset=pd.read_csv(path+f'H2O_0_data_1.0alpha.csv')
+    ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='b',label=r'H$_2$O',zorder=26)
 
-dataset=pd.read_csv(path+f'LMR-R_0_data_1.0alpha.csv')
-ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='xkcd:purple',label='LMR-R',zorder=50)
+    dataset=pd.read_csv(path+f'LMR-R_0_data_1.0alpha.csv')
+    ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='xkcd:purple',label='LMR-R',zorder=50)
+
+elif args.paper == "LMRtest":
+    dataset=pd.read_csv(path+f'LMR-R_0_data_1.0alpha.csv')
+    ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='xkcd:purple',label='LMR-R',zorder=50)
+    dataset=pd.read_csv(path+f'LMR-R-PLOG_0_data_1.0alpha.csv')
+    ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle="solid",color="xkcd:grey",label='LMR-R (PLOG)',zorder=27)
+    dataset=pd.read_csv(path+f'LMR-R-Troe_0_data_1.0alpha.csv')
+    ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle="solid",color='r',label='LMR-R (Troe)',zorder=27)
+    dataset=pd.read_csv(path+f'LMR-R-Cheb_0_data_1.0alpha.csv')
+    ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle="solid",color='b',label='LMR-R (Cheb)',zorder=27)
+
+else:
+    dataset=pd.read_csv(path+f'Ar_0_data_1.0alpha.csv')
+    ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle="dotted",color='r',label='Ar',zorder=27)
+
+    dataset=pd.read_csv(path+f'H2O_0_data_1.0alpha.csv')
+    ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle="dashed",color='b',label=r'H$_2$O',zorder=26)
+
+    dataset=pd.read_csv(path+f'LMR-R_0_data_1.0alpha.csv')
+    ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle="solid",color='xkcd:purple',label='LMR-R',zorder=50)   
 
 ax[0].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw) 
 # ax[0].set_xlabel(r'Equivalence Ratio')
@@ -126,19 +148,38 @@ if args.paper == 'ESSCI':
     ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:grey",zorder=30)
 
     dataset=pd.read_csv(path+f'Alzueta-300K_0_data_0.6alpha.csv')
-    ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="orange",zorder=28)
+    ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:teal",zorder=28)
 
     dataset=pd.read_csv(path+f'Alzueta-2000K_0_data_0.6alpha.csv')
-    ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:teal",zorder=29)
+    ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="orange",zorder=29)
 
-dataset=pd.read_csv(path+f'Ar_0_data_0.6alpha.csv')
-ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='r',zorder=27)#,label='Ar')
+    dataset=pd.read_csv(path+f'Ar_0_data_0.6alpha.csv')
+    ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='r',zorder=27)#,label='Ar')
 
-dataset=pd.read_csv(path+f'H2O_0_data_0.6alpha.csv')
-ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='b',zorder=26)#,label=r'H$_2$O')
+    dataset=pd.read_csv(path+f'H2O_0_data_0.6alpha.csv')
+    ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='b',zorder=26)#,label=r'H$_2$O')
 
-dataset=pd.read_csv(path+f'LMR-R_0_data_0.6alpha.csv')
-ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='xkcd:purple',zorder=50)#, label='LMR-R')
+    dataset=pd.read_csv(path+f'LMR-R_0_data_0.6alpha.csv')
+    ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='xkcd:purple',zorder=50)#, label='LMR-R')
+
+elif args.paper == "LMRtest":
+    dataset=pd.read_csv(path+f'LMR-R_0_data_0.6alpha.csv')
+    ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='xkcd:purple',label='LMR-R',zorder=50)
+    dataset=pd.read_csv(path+f'LMR-R-PLOG_0_data_0.6alpha.csv')
+    ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle="solid",color="xkcd:grey",label='LMR-R (PLOG)',zorder=27)
+    dataset=pd.read_csv(path+f'LMR-R-Troe_0_data_0.6alpha.csv')
+    ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle="solid",color='r',label='LMR-R (Troe)',zorder=27)
+    dataset=pd.read_csv(path+f'LMR-R-Cheb_0_data_0.6alpha.csv')
+    ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle="solid",color='b',label='LMR-R (Cheb)',zorder=27)
+else:
+    dataset=pd.read_csv(path+f'Ar_0_data_0.6alpha.csv')
+    ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle="dotted",color='r',zorder=27)#,label='Ar')
+
+    dataset=pd.read_csv(path+f'H2O_0_data_0.6alpha.csv')
+    ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle="dashed",color='b',zorder=26)#,label=r'H$_2$O')
+
+    dataset=pd.read_csv(path+f'LMR-R_0_data_0.6alpha.csv')
+    ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle="solid",color='xkcd:purple',zorder=50)#, label='LMR-R')
 
 # ax.set_title(f'{round(alpha*100)}% NH3/{round((1-alpha)*100)}% H2')
 
@@ -170,7 +211,7 @@ if args.paper == 'PCI':
     ax[1].set_xlim([0.6001, 1.7999])
     ax[1].set_ylim([0.001, 43])
 
-if args.paper == 'ESSCI':
+if args.paper == 'ESSCI' or args.paper == 'LMRtest':
     ax[0].set_ylabel(r'Burning velocity [cm $\rm s^{-1}$]')
     fig.text(0.5, 0, r'Equivalence Ratio', ha='center', va='center',fontsize=args.fszaxlab)
     ax[0].set_xlim([0.6001, 2.1])
@@ -185,6 +226,7 @@ else:
     
 if save_plots == True:
     plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\Flame Speed Plots\\"+name+'.pdf', dpi=1000, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.png', dpi=1000, bbox_inches='tight')
     plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\Flame Speed Plots\\"+name+'.svg', dpi=1000, bbox_inches='tight')
 
 # plt.show()     

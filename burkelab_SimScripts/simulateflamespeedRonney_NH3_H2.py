@@ -38,25 +38,31 @@ fuel_list = np.linspace(0.14,0.4,gridsz)
 # a_st = [0.75,0.7,0.65,0.6,0.55,0.5]
 alpha_list = [1.0,0.6]
 a_st = [0.75,0.65]
-# alpha_list = [1]
-# a_st = [0.75]
+# alpha_list = [0.6]
+# a_st = [0.65]
+Tin = [296,298]  # unburned gas temperature [K]
+# Tin = [298]  # unburned gas temperature [K]
+
 fratio=3
 fslope=args.slopeVal #should be low enough that the results don't depend on the value. 0.02 for both is a good place to start. Try 0.01 and 0.05 and see if there are any differences
 fcurve=args.curveVal
 ftransport=args.transport # 'multicomponent' or 'mixture-averaged'
 models = {    
-          'Alzueta':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism.yaml",  
-          'Alzueta-300K':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=300K.yaml",  
-          'Alzueta-2000K':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=2000K.yaml",            
-          'Ar':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allAR.yaml",
-          r'H$_2$O':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allH2O.yaml",
-          'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR.yaml", 
+        #   'Alzueta':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism.yaml",  
+        #   'Alzueta-300K':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=300K.yaml",  
+        #   'Alzueta-2000K':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=2000K.yaml",            
+        #   'Ar':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allAR.yaml",
+        #   r'H$_2$O':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allH2O.yaml",
+        #   'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR.yaml", 
+            'LMR-R-PLOG':"test/data/LMRtests/LMRtest_PLOG_M.yaml",
+            'LMR-R-Troe':"test/data/LMRtests/LMRtest_Troe_M.yaml",
+            'LMR-R-Cheb':"test/data/LMRtests/LMRtest_cheb_M.yaml",   
           }
 ###############################################################################################################
 
 # p_list = [50,100,250,760,1500]
 p_list=[760]
-Tin = 300.0  # unburned gas temperature [K]
+
 width = 0.03  # m
 loglevel = 1  # amount of diagnostic output (0 to 8)
 
@@ -81,7 +87,7 @@ for x, alpha in enumerate(alpha_list):
                 phi = np.divide(fuel_frac/O2,1/a_st[x]) # THIS STEP MUST BE REVIEWED
                 phi_list.append(phi)
                 X = {'NH3':NH3,'H2':H2,'O2':O2,'N2':N2}
-                gas.TPX = Tin, (p/760)*ct.one_atm, X
+                gas.TPX = Tin[x], (p/760)*ct.one_atm, X
                 f = ct.FreeFlame(gas, width=width)
                 f.set_refine_criteria(ratio=fratio, slope=fslope, curve=fcurve)
                 f.transport_model = ftransport

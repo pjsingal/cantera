@@ -30,6 +30,9 @@ parser.add_argument('--lgdfsz', type=float, help="lgdw = ", default=5)
 parser.add_argument('--gridsz', type=int, help="gridsz = ", default=10)
 parser.add_argument('--dpi', type=int, help="dpi = ", default=1000)
 
+
+import matplotlib.ticker as ticker
+
 args = parser.parse_args()
 lw=args.lw
 mw=args.mw
@@ -60,22 +63,12 @@ f, ax = plt.subplots(1, 1, figsize=(args.figwidth, args.figheight))
 name = 'ShockTubeSpeciesProfile_H2O' #os.path.splitext(os.path.basename(__file__))[0]
 
 refSpecies='H2O'
-X_H2O2 = 1163e-6 #0.001163
-X_H2O = 1330e-6 #0.001330
-X_O2 = 665e-6 #0.000665
-# X_CO2= 0.2*(1-X_H2O2-X_H2O-X_O2) #0.1993684
-# X_Ar = 1-X_CO2 #0.8006316
-X_CO2= 0.2
-X_Ar = 1-X_H2O2-X_H2O-X_O2-X_CO2
-# X_H2O2 = 0
-# X_H2O = 0.0
-# X_O2 = 0
-# # X_CO2= 0.2*(1-X_H2O2-X_H2O-X_O2) #0.1993684
-# # X_Ar = 1-X_CO2 #0.8006316
-# X_CO2= 0.3
-# X_Ar = 0.7
-# X_Ar = 0.796842
-def plotXvsTime(fname,pltlabel,pltcolour,lstyle='solid'):
+X_H2O2 = 1163e-6
+X_H2O = 1330e-6
+X_O2 = 665e-6
+X_CO2= 0.2*(1-X_H2O2-X_H2O-X_O2)
+X_Ar = 1-X_CO2
+def plotXvsTime(fname,pltlabel,pltcolour,lstyle='solid',zorder_value=10):
     # gas = ct.Solution('test/data/Burke_H2_ArBath.yaml')
     gas = ct.Solution(fname)
     gas.TPX = 1196, 2.127*101325, {'H2O2':X_H2O2, 'H2O':X_H2O, 'O2':X_O2, 'CO2':X_CO2, 'AR':X_Ar}
@@ -94,29 +87,30 @@ def plotXvsTime(fname,pltlabel,pltcolour,lstyle='solid'):
     timeShift=0 # [seconds]
     shiftedTime = tConv*(timeHistory.t - timeShift)
     moleFrac = timeHistory(refSpecies).X 
-    ax.plot(shiftedTime, moleFrac*100, color=pltcolour,label=pltlabel,linestyle=lstyle,linewidth=lw)
+    ax.plot(shiftedTime, moleFrac*100, color=pltcolour,label=pltlabel,linestyle=lstyle,linewidth=lw,zorder=zorder_value)
 
 path="G:\\Mon disque\\Columbia\\Burke Lab\\01 Mixture Rules Project\\Graph Reading\\"
 # path=os.getcwd()
-def plotPoints(filename,mkr='none',mkrw='none',mkrsz='none',line='none',fill='none',colour='k',subplot='off',pltLabel="_hidden"): 
+def plotPoints(filename,mkr='none',mkrw='none',mkrsz='none',line='none',fill='none',colour='k',subplot='off',pltLabel="_hidden",zorder_value=10): 
     dataset = pd.read_csv(filename)
-    ax.plot(dataset.iloc[:,0],dataset.iloc[:,1]*100,mkr,linewidth=0.7,fillstyle=fill,linestyle=line,color=colour,label=pltLabel,markersize=mkrsz,markeredgewidth=mkrw)
+    ax.plot(dataset.iloc[:,0],dataset.iloc[:,1]*100,mkr,linewidth=0.7,fillstyle=fill,linestyle=line,color=colour,label=pltLabel,markersize=mkrsz,markeredgewidth=mkrw,zorder=zorder_value)
 
-
-plotXvsTime("test/data/alzuetamechanism.yaml","Alzueta","xkcd:grey")
-plotXvsTime("test/data/alzuetamechanism_LMRR_allAR.yaml","Ar","r")
-plotXvsTime("test/data/alzuetamechanism_LMRR_allH2O.yaml",r'$\rm H_2O$',"b")
-plotXvsTime("test/data/alzuetamechanism_LMRR.yaml","LMR-R","xkcd:purple")
+# plotXvsTime("test/data/alzuetamechanism.yaml","Alzueta","xkcd:grey",zorder_value=90)
+# plotXvsTime("test\\data\\alzuetamechanism_epsNH3_T=300K.yaml",r"$\epsilon_{0,NH_3}(300K)$","orange",zorder_value=82)
+# plotXvsTime("test\\data\\alzuetamechanism_epsNH3_T=2000K.yaml",r"$\epsilon_{0,NH_3}(2000K)$","xkcd:teal",zorder_value=81)
+plotXvsTime("test/data/alzuetamechanism_LMRR_allAR.yaml","Ar","r",lstyle="dotted",zorder_value=70)
+plotXvsTime("test/data/alzuetamechanism_LMRR_allH2O.yaml",r'$\rm H_2O$',"b",lstyle="dashed",zorder_value=80)
+plotXvsTime("test/data/alzuetamechanism_LMRR.yaml","LMR-R","xkcd:purple",lstyle="solid",zorder_value=100)
 # plotPoints(path+'\\7 SP H2O X vs t (Shock Tube) (Shao)\\expData.csv',pltLabel='Shao et al.',line=':',colour='k')
-plotPoints(path+'\\7 SP H2O X vs t (Shock Tube) (Shao)\\expData.csv',mkr='o',mkrsz=msz,pltLabel='Shao et al.',mkrw=mw)
+plotPoints(path+'\\7 SP H2O X vs t (Shock Tube) (Shao)\\expData.csv',mkr='o',mkrsz=msz,pltLabel='Shao et al.',mkrw=mw,zorder_value=110)
 # plotPoints(path+'\\7 SP H2O X vs t (Shock Tube) (Shao)\\troe_k0co2.csv',pltLabel='Troe et al.',line='solid',colour='g')
     
-ax.legend(fontsize=args.lgdfsz, handlelength=lgdw, frameon=False, loc='lower right')  
-ax.set_ylabel(r'$\rm H_2O$ mole fraction [%]')#, fontsize=10) #CHECK UNITS OF Y-AXIS
-ax.set_xlabel(r'Time [$\mathdefault{\mu s}$]')#, fontsize=10)
+ax.legend(fontsize=lgdfsz,handlelength=lgdw, frameon=False, loc='lower right')  
+ax.set_ylabel(r'$\rm H_2O$ mole fraction [%]')
+ax.set_xlabel(r'Time [$\mathdefault{\mu s}$]')
 ax.tick_params(axis='both', direction="in")#, labelsize=7)
 ax.set_xlim([0.0001,299.999])
-ax.set_ylim([0.10001,0.29999])
+ax.set_ylim([0.120001,0.269999])
 
 import matplotlib.ticker as ticker
 ax.xaxis.set_major_locator(ticker.MultipleLocator(50))
@@ -125,6 +119,7 @@ ax.yaxis.set_major_locator(ticker.MultipleLocator(0.03))
 ax.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.2f}"))
 
 if save_plots == True:
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.pdf', dpi=500, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.svg', dpi=500, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.pdf', dpi=1000, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.png', dpi=1000, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.svg', dpi=1000, bbox_inches='tight')
 # plt.show()     

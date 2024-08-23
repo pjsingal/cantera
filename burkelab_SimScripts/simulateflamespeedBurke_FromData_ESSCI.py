@@ -60,7 +60,7 @@ save_plots = True
 fig, ax = plt.subplots(1,1,figsize=(args.figwidth, args.figheight))
 
 import matplotlib.ticker as ticker
-ax.xaxis.set_major_locator(ticker.MultipleLocator(4))
+ax.xaxis.set_major_locator(ticker.MultipleLocator(2))
 ax.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 ax.yaxis.set_major_locator(ticker.MultipleLocator(0.03))
 ax.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.2f}"))
@@ -80,20 +80,20 @@ if fslope != -1:
 else:
     path="C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\BurkeSongResults_"+date+'\\'
 
-# dataset=pd.read_csv(path+f'Alzueta_data.csv',header=None)
-# ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:grey",label='Alzueta',zorder=80)
+dataset=pd.read_csv(path+f'Alzueta_data.csv',header=None)
+ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:grey",label='Alzueta',zorder=80)
 
-# dataset=pd.read_csv(path+f'Alzueta-300K_data.csv',header=None)
-# ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="orange",label='$\epsilon_{0,NH_3}(300K)$',zorder=60)
+dataset=pd.read_csv(path+f'Alzueta-300K_data.csv',header=None)
+ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:teal",label='$\epsilon_{0,NH_3}(300K)$',zorder=60)
 
-# dataset=pd.read_csv(path+f'Alzueta-2000K_data.csv',header=None)
-# ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:teal",label='$\epsilon_{0,NH_3}(2000K)$',zorder=70)
+dataset=pd.read_csv(path+f'Alzueta-2000K_data.csv',header=None)
+ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="orange",label='$\epsilon_{0,NH_3}(2000K)$',zorder=70)
 
-# dataset=pd.read_csv(path+f'Ar_data.csv',header=None)
-# ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='r',label='Ar',zorder=20)
+dataset=pd.read_csv(path+f'Ar_data.csv',header=None)
+ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='r',label='Ar',zorder=20)
 
-# dataset=pd.read_csv(path+f'H2O_data.csv',header=None)
-# ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='b',label=r'H$_2$O',zorder=300)
+dataset=pd.read_csv(path+f'H2O_data.csv',header=None)
+ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='b',label=r'H$_2$O',zorder=300)
 
 dataset=pd.read_csv(path+f'LMR-R_data.csv',header=None)
 ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='xkcd:purple',label='LMR-R',zorder=100)
@@ -117,7 +117,7 @@ ax.set_ylabel(r'Mass burning rate [g $\rm cm^{-2}$ $\rm s^{-1}$]')
 ax.set_xlabel(r'Pressure [atm]')
 ax.tick_params(axis='both', direction="in")
 ax.tick_params(axis='both', which='minor', direction="in")
-ax.set_xlim([0.001, 19.999])
+ax.set_xlim([0.001, 11.99])
 ax.set_ylim([-0.005, 0.1299])
 
 
@@ -128,7 +128,7 @@ else:
 
 path="C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\Flame Speed Plots\\"
 if save_plots == True:
-    plt.savefig(path+name+'.pdf', dpi=500, bbox_inches='tight')
+    plt.savefig(path+name+'.png', dpi=500, bbox_inches='tight')
     plt.savefig(path+name+'.svg', dpi=500, bbox_inches='tight')
 
 # plt.show()     

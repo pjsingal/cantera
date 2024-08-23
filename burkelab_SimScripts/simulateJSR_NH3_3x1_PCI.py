@@ -28,6 +28,7 @@ parser.add_argument('--lgdw', type=float, help="lgdw = ", default=0.6)
 parser.add_argument('--lgdfsz', type=float, help="lgdw = ", default=5)
 parser.add_argument('--gridsz', type=int, help="gridsz = ", default=10)
 parser.add_argument('--dpi', type=int, help="dpi = ", default=1000)
+parser.add_argument('--LMRtest', type=int, help="LMRtest = ", default=0)
 
 args = parser.parse_args()
 lw=args.lw
@@ -93,26 +94,6 @@ ax[2].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
 
 plt.subplots_adjust(wspace=0.18)
 
-# name = 'JSR_NH3_V1'
-# colors = ['r','b']
-# models = {
-#           'Ar':"test/data/alzuetamechanism_LMRR_allAR.yaml",
-#           r'H$_2$O':"test/data/alzuetamechanism_LMRR_allH2O.yaml",           
-#           }
-# name = 'JSR_NH3_V2'
-# colors = ['r','b',"xkcd:grey"]
-# models = {
-#           'Ar':"test/data/alzuetamechanism_LMRR_allAR.yaml",
-#           r'H$_2$O':"test/data/alzuetamechanism_LMRR_allH2O.yaml",
-#           'Alzueta':"test/data/alzuetamechanism.yaml",            
-#           }
-name = 'JSR_NH3'
-colors = ['r','b','xkcd:purple']
-models = {
-          'Ar':"test/data/alzuetamechanism_LMRR_allAR.yaml",
-          r'H$_2$O':"test/data/alzuetamechanism_LMRR_allH2O.yaml",
-          'LMR-R':"test/data/alzuetamechanism_LMRR.yaml",              
-          }
 
 T_list = np.linspace(800,1050,gridsz)
 P = 1.2
@@ -123,9 +104,26 @@ tau = 0.5
 diluent = 0.94
 # NH3percent_list = [0, 0.02, 0.05, 0.075, 0.10]
 NH3percent_list = [0.10]
-
-
-lines =['-','--','-','-','-']
+LMRtest = args.LMRtest
+if LMRtest == 1:
+    colors = ['xkcd:purple',"xkcd:grey", 'r', 'b']
+    lstyles = ["solid","solid","solid","solid","solid","solid","solid","solid"]
+    models = {
+            'LMR-R (PCI paper)':"test/data/alzuetamechanism_LMRR.yaml",
+            'LMR-R (PLOG)':"test/data/LMRtests/LMRtest_PLOG_M.yaml",
+            'LMR-R (Troe)':"test/data/LMRtests/LMRtest_Troe_M.yaml",
+            'LMR-R (Cheb)':"test/data/LMRtests/LMRtest_cheb_M.yaml",      
+            }
+    name = 'JSR_NH3_LMRtest'
+else:
+    colors = ['r','b','xkcd:purple']
+    lstyles = ["dotted","dashed","solid"]
+    models = {
+            'Ar':"test/data/alzuetamechanism_LMRR_allAR.yaml",
+            r'H$_2$O':"test/data/alzuetamechanism_LMRR_allH2O.yaml",
+            'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR.yaml",        
+            }
+    name = 'JSR_NH3_PCI'
 
 
 ##############################################################################################################################
@@ -324,9 +322,9 @@ for k,m in enumerate(models):
         #     ax[2].plot(list(tempDependence[i].index)[chopped_index[1]:], list(tempDependence[i]['H2']*100)[chopped_index[1]:], color=colors[i], linestyle=lines[i])   
                                             
         # else:
-        ax[0].plot(tempDependence[i].index, np.subtract(tempDependence[i]['temperature'],tempDependence[i].index), color=colors[k], linestyle='solid',linewidth=lw, label=m) 
-        ax[1].plot(tempDependence[i].index, tempDependence[i]['O2']*100, color=colors[k], linestyle='solid',linewidth=lw, label=m)   
-        ax[2].plot(tempDependence[i].index, tempDependence[i]['H2']*100, color=colors[k], linestyle='solid',linewidth=lw, label=m) 
+        ax[0].plot(tempDependence[i].index, np.subtract(tempDependence[i]['temperature'],tempDependence[i].index), color=colors[k], linestyle=lstyles[k],linewidth=lw, label=m) 
+        ax[1].plot(tempDependence[i].index, tempDependence[i]['O2']*100, color=colors[k], linestyle=lstyles[k],linewidth=lw, label=m)   
+        ax[2].plot(tempDependence[i].index, tempDependence[i]['H2']*100, color=colors[k], linestyle=lstyles[k],linewidth=lw, label=m) 
         
 
             
@@ -354,6 +352,6 @@ ax[2].set_xlim([780,1070])
 # ax[2].set_ylim([0.6,3.4])
 
 if save_plots == True:
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.pdf', dpi=500, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.svg', dpi=500, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'.pdf', dpi=500, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'.svg', dpi=500, bbox_inches='tight')
 # plt.show()     

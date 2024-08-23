@@ -110,9 +110,14 @@ models = {
           r'H$_2$O':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allH2O.yaml",
           'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR.yaml", 
           }
-colors = ["xkcd:grey", "orange", "xkcd:teal", 'r', 'b', 'xkcd:purple']
+# colors = ["xkcd:grey", "orange", "xkcd:teal", 'r', 'b', 'xkcd:purple']
+colors = ["xkcd:grey", "xkcd:teal", "orange", 'r', 'b', 'xkcd:purple']
+# colors = ['r', 'b', 'xkcd:purple']
 # colors = ["xkcd:grey", "orange", 'r', 'b']
 lines =['-','-','-','-','-']
+
+# colors = ["k", "k", "k", 'k', 'k', 'k']
+# lines = ['-', '--', '-.', ':', (0, (3, 1, 1, 1)), (0, (5, 10))]
 
 T_list = np.linspace(800,1050,gridsz)
 P = 1.2
@@ -270,5 +275,6 @@ ax[2].legend(fontsize=lgdfsz,frameon=False,loc='upper right', handlelength=lgdw)
 
 if save_plots == True:
     plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.pdf', dpi=1000, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.png', dpi=1000, bbox_inches='tight')
     plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.svg', dpi=1000, bbox_inches='tight')
 # plt.show()     

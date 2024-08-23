@@ -37,6 +37,7 @@ parser.add_argument('--lgdw', type=float, help="lgdw = ", default=0.6)
 parser.add_argument('--lgdfsz', type=float, help="lgdw = ", default=5)
 parser.add_argument('--gridsz', type=int, help="gridsz = ", default=10)
 parser.add_argument('--dpi', type=int, help="dpi = ", default=1000)
+parser.add_argument('--LMRtest', type=int, help="LMRtest = ", default=0)
 
 args = parser.parse_args()
 lw=args.lw
@@ -99,15 +100,26 @@ ax[2].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
 # lgdfsz=7
 
 plt.subplots_adjust(wspace=0.18)
-
-name = 'JSR_H2O'
-# colors = ['r','b',"xkcd:grey",'xkcd:purple']
-colors = ['r','b','xkcd:purple']
-models = {
-          'Ar':"test/data/alzuetamechanism_LMRR_allAR.yaml",
-          r'H$_2$O':"test/data/alzuetamechanism_LMRR_allH2O.yaml",
-          'LMR-R':"test/data/alzuetamechanism_LMRR.yaml",              
-          }
+LMRtest = args.LMRtest
+if LMRtest == 1:
+    colors = ['xkcd:purple',"xkcd:grey", 'r', 'b']
+    lstyles = ["solid","solid","solid","solid","solid","solid","solid","solid"]
+    models = {
+            'LMR-R (PCI paper)':"test/data/alzuetamechanism_LMRR.yaml",
+            'LMR-R (PLOG)':"test/data/LMRtests/LMRtest_PLOG_M.yaml",
+            'LMR-R (Troe)':"test/data/LMRtests/LMRtest_Troe_M.yaml",
+            'LMR-R (Cheb)':"test/data/LMRtests/LMRtest_cheb_M.yaml",      
+            }
+    name = 'JSR_H2O_LMRtest'
+else:
+    colors = ['r','b','xkcd:purple']
+    lstyles = ["dotted","dashed","solid"]
+    models = {
+            'Ar':"test/data/alzuetamechanism_LMRR_allAR.yaml",
+            r'H$_2$O':"test/data/alzuetamechanism_LMRR_allH2O.yaml",
+            'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR.yaml",      
+            }
+    name = 'JSR_H2O_PCI'
 
 T_list = np.concatenate((np.linspace(800,829.9,10),np.linspace(830,844,100),np.linspace(848.8,870.9,100),np.linspace(871,1050,50)))
 # T_list = np.linspace(800,1050,50)
@@ -231,9 +243,9 @@ for k,m in enumerate(models):
             toc = time.time()
             concentrations = stirredReactor.thermo.X
             tempDependence[i].loc[T] = state
-        ax[0].plot(tempDependence[i].index, np.subtract(tempDependence[i]['temperature'],tempDependence[i].index), color=colors[k], linestyle='solid', linewidth=lw, label=m)   
-        ax[1].plot(tempDependence[i].index, tempDependence[i]['O2']*100, color=colors[k], linestyle='solid', linewidth=lw, label=m)   
-        ax[2].plot(tempDependence[i].index, tempDependence[i]['H2']*100, color=colors[k], linestyle='solid', linewidth=lw, label=m) 
+        ax[0].plot(tempDependence[i].index, np.subtract(tempDependence[i]['temperature'],tempDependence[i].index), color=colors[k], linestyle=lstyles[k], linewidth=lw, label=m)   
+        ax[1].plot(tempDependence[i].index, tempDependence[i]['O2']*100, color=colors[k], linestyle=lstyles[k], linewidth=lw, label=m)   
+        ax[2].plot(tempDependence[i].index, tempDependence[i]['H2']*100, color=colors[k], linestyle=lstyles[k], linewidth=lw, label=m) 
 
 
 
@@ -261,6 +273,6 @@ ax[2].set_xlim([780,1070])
 # ax[2].set_ylim([0.0001,3.4])
 
 if save_plots == True:
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.pdf', dpi=500, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.svg', dpi=500, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'.pdf', dpi=500, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'.svg', dpi=500, bbox_inches='tight')
 # plt.show()     
