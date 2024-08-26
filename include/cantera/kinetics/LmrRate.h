@@ -78,7 +78,7 @@ public:
     // double k_LMR_;
     double eps_mix;
 
-    explicit LmrRate(const std::multimap<double, ArrheniusRate>& rates);
+    // explicit LmrRate(const std::multimap<double, ArrheniusRate>& rates);
     LmrRate(const AnyMap& node, const UnitStack& rate_units={});
     unique_ptr<MultiRateBase> newMultiRate() const override {
         return make_unique<MultiRate<LmrRate, LmrData>>();

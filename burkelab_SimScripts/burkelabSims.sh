@@ -8,7 +8,7 @@ msz=3.2
 lgdw=1.0
 lgdfsz=7
 
-# # ESSCI PLOTS
+# ESSCI PLOTS
 # python burkelab_SimScripts/simulateIDT_Shao_1x4_ESSCI.py \
 # --figwidth 6.5 --figheight 2.5 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
 # --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 6 --gridsz 9 &
@@ -22,19 +22,19 @@ lgdfsz=7
 # --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz $lgdfsz --gridsz 50 &
 
 # python burkelab_SimScripts/simulateshocktubeShao_1x1_ESSCI.py \
-# --figwidth 5.5 --figheight 2.5 --fsz $fsz --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
+# --figwidth 3.5 --figheight 2.5 --fsz $fsz --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
 # --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz $lgdfsz --gridsz 14 &
 
-# python burkelab_SimScripts/simulateflamespeedBurke_FromData_ESSCI.py \
-# --figwidth 3.5 --figheight 2.5 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
-# --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --date 'Aug23' --slopeVal 0.05 --curveVal 0.05 &
+python burkelab_SimScripts/simulateflamespeedBurke_FromData_ESSCI.py \
+--figwidth 3.5 --figheight 2.5 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
+--lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --date 'Aug23' --slopeVal 0.05 --curveVal 0.05 &
 
 # python burkelab_SimScripts/simulateflamespeedRonney_0.6NH3_0.4H2_FromData.py \
 # --figwidth 6.5 --figheight 2.72 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
 # --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz $lgdfsz --date 'Aug23' --slopeVal 0.05 --curveVal 0.05 --paper 'ESSCI' &
 
 
-# ## PCI PLOTS
+## PCI PLOTS
 # python burkelab_SimScripts/simulateIDT_Shao_4x1_PCI.py \
 # --figwidth 2.5 --figheight 6.66667 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
 # --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 9 &
@@ -48,16 +48,16 @@ lgdfsz=7
 # --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 50 &
 
 # python burkelab_SimScripts/simulateshocktubeShao_1x1_PCI.py \
-# --figwidth 2.5 --figheight 2.5 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
+# --figwidth 2.5 --figheight 2.35 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
 # --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 3 &
 
-# python burkelab_SimScripts/simulateflamespeedBurke_FromData_PCI.py \
-# --figwidth 2.5 --figheight 2.3 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
-# --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --date 'Aug15' --slopeVal 0.05 --curveVal 0.05 &
+python burkelab_SimScripts/simulateflamespeedBurke_FromData_PCI.py \
+--figwidth 2.5 --figheight 2.35 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
+--lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --date 'Aug23' --slopeVal 0.05 --curveVal 0.05 &
 
 # python burkelab_SimScripts/simulateflamespeedRonney_0.6NH3_0.4H2_FromData.py \
 # --figwidth 2.5 --figheight 4.5 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
-# --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz $lgdfsz --date 'Aug15' --slopeVal 0.05 --curveVal 0.05 --paper 'PCI' &
+# --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz $lgdfsz --date 'Aug23' --slopeVal 0.05 --curveVal 0.05 --paper 'PCI' &
 
 # ## LMRtests
 # python burkelab_SimScripts/simulateIDT_Shao_4x1_PCI.py \
@@ -76,9 +76,9 @@ lgdfsz=7
 # --figwidth 2.5 --figheight 2.5 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
 # --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 3 &
 
-python burkelab_SimScripts/simulateflamespeedRonney_0.6NH3_0.4H2_FromData.py \
---figwidth 6.5 --figheight 2.72 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
---lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz $lgdfsz --date 'Aug23' --slopeVal 0.05 --curveVal 0.05 --paper 'LMRtest' &
+# python burkelab_SimScripts/simulateflamespeedRonney_0.6NH3_0.4H2_FromData.py \
+# --figwidth 6.5 --figheight 2.72 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
+# --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz $lgdfsz --date 'Aug23' --slopeVal 0.05 --curveVal 0.05 --paper 'LMRtest' &
 
 # # ## FLAME SPEED CALCULATIONS
 # python burkelab_SimScripts/simulateflamespeedBurke.py --gridsz 35 --date 'Aug23' --slopeVal 0.05 --curveVal 0.05 --transport 'multicomponent'

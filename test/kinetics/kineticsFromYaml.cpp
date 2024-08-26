@@ -16,6 +16,7 @@
 #include "cantera/thermo/SurfPhase.h"
 #include "cantera/thermo/ThermoFactory.h"
 #include "cantera/base/Array.h"
+#include "cantera/kinetics/LmrRate.h"
 
 using namespace Cantera;
 
@@ -370,6 +371,42 @@ TEST(Reaction, FalloffFromYaml3)
     EXPECT_DOUBLE_EQ(params[0], 0.95);
     EXPECT_DOUBLE_EQ(params[1], -0.0001);
     EXPECT_EQ(R->input["source"].asString(), "ARL-TR-5088");
+}
+
+TEST(Reaction, LmrrFromYaml)
+{
+    auto sol = newSolution("testLmrr.yaml", "", "none");
+    std::string yaml = R"""(
+        equation: H + O2 (+M) <=> HO2 (+M)
+        type: LMR_R
+        collider-list: 
+        - collider: 'M'
+          eps: {A: 1, b: 0, Ea: 0}
+          rate-constants:
+          - {P: 1.316e-02 atm, A: 9.39968e+14, b: -2.14348e+00, Ea: 7.72730e+01}
+          - {P: 1.316e-01 atm, A: 1.07254e+16, b: -2.15999e+00, Ea: 1.30239e+02}
+          - {P: 3.947e-01 atm, A: 3.17830e+16, b: -2.15813e+00, Ea: 1.66994e+02}
+          - {P: 1.000e+00 atm, A: 7.72584e+16, b: -2.15195e+00, Ea: 2.13473e+02}
+          - {P: 3.000e+00 atm, A: 2.11688e+17, b: -2.14062e+00, Ea: 2.79031e+02}
+          - {P: 1.000e+01 atm, A: 6.53093e+17, b: -2.13213e+00, Ea: 3.87493e+02}
+          - {P: 3.000e+01 atm, A: 1.49784e+18, b: -2.10026e+00, Ea: 4.87579e+02}
+          - {P: 1.000e+02 atm, A: 3.82218e+18, b: -2.07057e+00, Ea: 6.65984e+02}
+        - collider: 'HE'
+          eps: {A: 3.37601e-01, b: 1.82568e-01, Ea: 3.62408e+01}
+        - collider: 'N2'
+          eps: {A: 1.24932e+02, b: -5.93263e-01, Ea: 5.40921e+02}
+        - collider: 'H2'
+          eps: {A: 3.13717e+04, b: -1.25419e+00, Ea: 1.12924e+03}
+        - collider: 'CO2'
+          eps: {A: 1.62413e+08, b: -2.27622e+00, Ea: 1.97023e+03}
+        - collider: 'NH3'
+          eps: {A: 4.97750e+00, b: 1.64855e-01, Ea: -2.80351e+02}
+        - collider: 'H2O'
+          eps: {A: 3.69146e+01, b: -7.12902e-02, Ea: 3.19087e+01}
+    )""";
+    AnyMap rxn = AnyMap::fromYamlString(yaml);
+    auto R = newReaction(rxn, *(sol->kinetics()));
+    const auto rate = std::dynamic_pointer_cast<LmrRate>(R->rate());
 }
 
 TEST(Reaction, ChemicallyActivatedFromYaml)

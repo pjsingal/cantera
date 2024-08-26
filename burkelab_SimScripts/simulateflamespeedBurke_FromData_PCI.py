@@ -60,7 +60,7 @@ save_plots = True
 fig, ax = plt.subplots(1,1,figsize=(args.figwidth, args.figheight))
 
 import matplotlib.ticker as ticker
-ax.xaxis.set_major_locator(ticker.MultipleLocator(4))
+ax.xaxis.set_major_locator(ticker.MultipleLocator(2))
 ax.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 ax.yaxis.set_major_locator(ticker.MultipleLocator(0.03))
 ax.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.2f}"))
@@ -117,10 +117,10 @@ ax.set_ylabel(r'Mass burning rate [g $\rm cm^{-2}$ $\rm s^{-1}$]')
 ax.set_xlabel(r'Pressure [atm]')
 ax.tick_params(axis='both', direction="in")
 ax.tick_params(axis='both', which='minor', direction="in")
-# ax.set_xlim([0.001, 19.999])
-# ax.set_ylim([-0.005, 0.1299])
-ax.set_xlim([0.001, 11.99])
+ax.set_xlim([0.001, 15.999])
 ax.set_ylim([-0.005, 0.1299])
+# ax.set_xlim([0.001, 11.99])
+# ax.set_ylim([-0.005, 0.1299])
 
 if fslope != -1:
     name = f"burkesong_flamespeed_"+date+f' (slope={fslope} curve={fcurve})_PCI'

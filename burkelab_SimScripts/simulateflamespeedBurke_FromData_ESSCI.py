@@ -117,8 +117,10 @@ ax.set_ylabel(r'Mass burning rate [g $\rm cm^{-2}$ $\rm s^{-1}$]')
 ax.set_xlabel(r'Pressure [atm]')
 ax.tick_params(axis='both', direction="in")
 ax.tick_params(axis='both', which='minor', direction="in")
-ax.set_xlim([0.001, 11.99])
+ax.set_xlim([0.001, 15.999])
 ax.set_ylim([-0.005, 0.1299])
+# ax.set_xlim([0.001, 11.99])
+# ax.set_ylim([-0.005, 0.1299])
 
 
 if fslope != -1:
@@ -128,7 +130,7 @@ else:
 
 path="C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\Flame Speed Plots\\"
 if save_plots == True:
-    plt.savefig(path+name+'.png', dpi=500, bbox_inches='tight')
+    plt.savefig(path+name+'.pdf', dpi=500, bbox_inches='tight')
     plt.savefig(path+name+'.svg', dpi=500, bbox_inches='tight')
 
 # plt.show()     
