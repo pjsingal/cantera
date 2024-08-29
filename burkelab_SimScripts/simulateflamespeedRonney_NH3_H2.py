@@ -48,15 +48,20 @@ fslope=args.slopeVal #should be low enough that the results don't depend on the 
 fcurve=args.curveVal
 ftransport=args.transport # 'multicomponent' or 'mixture-averaged'
 models = {    
-        #   'Alzueta':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism.yaml",  
+          'Alzueta':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism.yaml",  
         #   'Alzueta-300K':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=300K.yaml",  
         #   'Alzueta-2000K':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_epsNH3_T=2000K.yaml",            
         #   'Ar':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allAR.yaml",
         #   r'H$_2$O':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_allH2O.yaml",
-        #   'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR.yaml", 
-            'LMR-R-PLOG':"test/data/LMRtests/LMRtest_PLOG_M.yaml",
-            'LMR-R-Troe':"test/data/LMRtests/LMRtest_Troe_M.yaml",
-            'LMR-R-Cheb':"test/data/LMRtests/LMRtest_cheb_M.yaml",   
+          'epsNH3-300K':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\LMR_eps_comparison\\alzuetamechanism_epsNH3_T=300K.yaml",
+          'epsNH3-2000K':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\LMR_eps_comparison\\alzuetamechanism_epsNH3_T=2000K.yaml",
+          'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR.yaml", 
+          'epsALL-300K':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\LMR_eps_comparison\\alzuetamechanism_epsALL_T=300K.yaml",  
+          'epsALL-2000K':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\LMR_eps_comparison\\alzuetamechanism_epsALL_T=2000K.yaml",    
+          'LMR-R-extra':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_extraColliders.yaml", 
+            # 'LMR-R-PLOG':"test/data/LMRtests/LMRtest_PLOG_M.yaml",
+            # 'LMR-R-Troe':"test/data/LMRtests/LMRtest_Troe_M.yaml",
+            # 'LMR-R-Cheb':"test/data/LMRtests/LMRtest_cheb_M.yaml",   
           }
 ###############################################################################################################
 
@@ -101,3 +106,29 @@ for x, alpha in enumerate(alpha_list):
             csv_filename =path+f'\\{m}_{i}_data_{alpha}alpha.csv'
             data = zip(phi_list, mbr)
             save_to_csv(csv_filename, data)
+
+# ## CHECK WHICH FUEL FRAC CORRESPONDS TO PHI
+# # p_list = [50,100,250,760,1500]
+# p_list=[760]
+
+# width = 0.03  # m
+# loglevel = 1  # amount of diagnostic output (0 to 8)
+
+# for x, alpha in enumerate(alpha_list):
+#     print("alpha = ",alpha)
+#     for k, m in enumerate(models):
+#         print("model = ", m)
+#         phi_list = []
+#         for j, fuel_frac in enumerate(fuel_list):
+#             gas = ct.Solution(list(models.values())[k])
+#             NH3 = alpha*fuel_frac
+#             H2 = (1-alpha)*fuel_frac
+#             ox_frac = 1 - fuel_frac # oxidizer fraction
+#             O2 = ox_frac*0.21
+#             N2 = ox_frac*0.79
+#             phi = np.divide(fuel_frac/O2,1/a_st[x]) # THIS STEP MUST BE REVIEWED
+#             phi_list.append([fuel_frac,phi])
+#         print("phi_list = ",phi_list)
+
+
+

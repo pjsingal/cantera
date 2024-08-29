@@ -70,43 +70,9 @@ def save_to_csv(filename, data):
         writer = csv.writer(csvfile)
         writer.writerows(data)
 
-# for x, alpha in enumerate(alpha_list):
-#     for k, m in enumerate(models):
-#         for i, p in enumerate(p_list):
-#             mbr = []
-#             phi_list = []
-#             for j, fuel_frac in enumerate(fuel_list):
-#                 gas = ct.Solution(list(models.values())[k])
-#                 NH3 = alpha*fuel_frac
-#                 H2 = (1-alpha)*fuel_frac
-                
-#                 ox_frac = 1 - fuel_frac # oxidizer fraction
-#                 O2 = ox_frac*0.21
-#                 N2 = ox_frac*0.79
-#                 phi = np.divide(fuel_frac/O2,1/a_st[x]) # THIS STEP MUST BE REVIEWED
-#                 phi_list.append(phi)
-#                 X = {'NH3':NH3,'H2':H2,'O2':O2,'N2':N2}
-#                 gas.TPX = Tin[x], (p/760)*ct.one_atm, X
-#                 f = ct.FreeFlame(gas, width=width)
-#                 f.set_refine_criteria(ratio=fratio, slope=fslope, curve=fcurve)
-#                 f.transport_model = ftransport
-#                 f.soret_enabled = True
-#                 f.solve(loglevel=loglevel, auto=True)
-#                 mbr.append(f.velocity[0] * 100) # cm/s
-
-#             # Save phi_list and mbr to CSV
-#             path=f'C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\RonneyResults_'+date+f' (slope={fslope} curve={fcurve})'
-#             os.makedirs(path,exist_ok=True)
-#             csv_filename =path+f'\\{m}_{p}_data_{alpha}alpha.csv'
-#             data = zip(phi_list, mbr)
-#             save_to_csv(csv_filename, data)
-
-
-################## TEST THE EFFECT OF DIFFERENT INLET TEMPERATURES ON THE BURNING VELOCITY #######################################
-Tin = [200,300,400,500,600,700]  # unburned gas temperature [K]
 for x, alpha in enumerate(alpha_list):
     for k, m in enumerate(models):
-        for i, T in enumerate(Tin):
+        for i, p in enumerate(p_list):
             mbr = []
             phi_list = []
             for j, fuel_frac in enumerate(fuel_list):
@@ -120,7 +86,7 @@ for x, alpha in enumerate(alpha_list):
                 phi = np.divide(fuel_frac/O2,1/a_st[x]) # THIS STEP MUST BE REVIEWED
                 phi_list.append(phi)
                 X = {'NH3':NH3,'H2':H2,'O2':O2,'N2':N2}
-                gas.TPX = T, 760*ct.one_atm, X
+                gas.TPX = Tin[x], (p/760)*ct.one_atm, X
                 f = ct.FreeFlame(gas, width=width)
                 f.set_refine_criteria(ratio=fratio, slope=fslope, curve=fcurve)
                 f.transport_model = ftransport
@@ -131,6 +97,40 @@ for x, alpha in enumerate(alpha_list):
             # Save phi_list and mbr to CSV
             path=f'C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\RonneyResults_'+date+f' (slope={fslope} curve={fcurve})'
             os.makedirs(path,exist_ok=True)
-            csv_filename =path+f'\\{m}_760_{T}K_data_{alpha}alpha.csv'
+            csv_filename =path+f'\\{m}_{p}_data_{alpha}alpha.csv'
             data = zip(phi_list, mbr)
             save_to_csv(csv_filename, data)
+
+
+# ################## TEST THE EFFECT OF DIFFERENT INLET TEMPERATURES ON THE BURNING VELOCITY #######################################
+# Tin = [200,300,400,500,600,700]  # unburned gas temperature [K]
+# for x, alpha in enumerate(alpha_list):
+#     for k, m in enumerate(models):
+#         for i, T in enumerate(Tin):
+#             mbr = []
+#             phi_list = []
+#             for j, fuel_frac in enumerate(fuel_list):
+#                 gas = ct.Solution(list(models.values())[k])
+#                 NH3 = alpha*fuel_frac
+#                 H2 = (1-alpha)*fuel_frac
+                
+#                 ox_frac = 1 - fuel_frac # oxidizer fraction
+#                 O2 = ox_frac*0.21
+#                 N2 = ox_frac*0.79
+#                 phi = np.divide(fuel_frac/O2,1/a_st[x]) # THIS STEP MUST BE REVIEWED
+#                 phi_list.append(phi)
+#                 X = {'NH3':NH3,'H2':H2,'O2':O2,'N2':N2}
+#                 gas.TPX = T, 760*ct.one_atm, X
+#                 f = ct.FreeFlame(gas, width=width)
+#                 f.set_refine_criteria(ratio=fratio, slope=fslope, curve=fcurve)
+#                 f.transport_model = ftransport
+#                 f.soret_enabled = True
+#                 f.solve(loglevel=loglevel, auto=True)
+#                 mbr.append(f.velocity[0] * 100) # cm/s
+
+#             # Save phi_list and mbr to CSV
+#             path=f'C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\RonneyResults_'+date+f' (slope={fslope} curve={fcurve})'
+#             os.makedirs(path,exist_ok=True)
+#             csv_filename =path+f'\\{m}_760_{T}K_data_{alpha}alpha.csv'
+#             data = zip(phi_list, mbr)
+#             save_to_csv(csv_filename, data)
