@@ -8,7 +8,7 @@ msz=3.2
 lgdw=1.0
 lgdfsz=7
 
-# ESSCI PLOTS
+## ESSCI PLOTS
 # python burkelab_SimScripts/simulateIDT_Shao_1x4_ESSCI.py \
 # --figwidth 6.5 --figheight 2.5 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
 # --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 6 --gridsz 9 &
@@ -25,9 +25,9 @@ lgdfsz=7
 # --figwidth 3.5 --figheight 2.5 --fsz $fsz --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
 # --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz $lgdfsz --gridsz 14 &
 
-python burkelab_SimScripts/simulateflamespeedBurke_FromData_ESSCI.py \
---figwidth 3.5 --figheight 2.5 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
---lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --date 'Aug23' --slopeVal 0.05 --curveVal 0.05 &
+# python burkelab_SimScripts/simulateflamespeedBurke_FromData_ESSCI.py \
+# --figwidth 3.5 --figheight 2.5 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
+# --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --date 'Aug23' --slopeVal 0.05 --curveVal 0.05 &
 
 # python burkelab_SimScripts/simulateflamespeedRonney_0.6NH3_0.4H2_FromData.py \
 # --figwidth 6.5 --figheight 2.72 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
@@ -51,9 +51,9 @@ python burkelab_SimScripts/simulateflamespeedBurke_FromData_ESSCI.py \
 # --figwidth 2.5 --figheight 2.35 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
 # --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 3 &
 
-python burkelab_SimScripts/simulateflamespeedBurke_FromData_PCI.py \
---figwidth 2.5 --figheight 2.35 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
---lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --date 'Aug23' --slopeVal 0.05 --curveVal 0.05 &
+# python burkelab_SimScripts/simulateflamespeedBurke_FromData_PCI.py \
+# --figwidth 2.5 --figheight 2.35 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
+# --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --date 'Aug23' --slopeVal 0.05 --curveVal 0.05 &
 
 # python burkelab_SimScripts/simulateflamespeedRonney_0.6NH3_0.4H2_FromData.py \
 # --figwidth 2.5 --figheight 4.5 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
@@ -105,7 +105,13 @@ python burkelab_SimScripts/simulateflamespeedBurke_FromData_PCI.py \
 # # # # python burkelab_SimScripts/simulateIDT_Keromnes.py \
 # # # # --figwidth 3.5 --figheight 6.66667 --fsz $fsz --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
 # # # # --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 9 &
-
+# python burkelab_SimScripts/simulateflamespeedRonney_NH3_H2_epsTest.py --gridsz 20 --date 'Aug28' --slopeVal 0.05 --curveVal 0.05 --transport 'multicomponent'
+# python burkelab_SimScripts/simulateJSR_H2O_NH3_1x3_tdep.py \
+# --figwidth 8.5 --figheight 5.5 --fsz $fsz --fszxtick 5 --fszytick 5 --fszaxlab 7 \
+# --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 6 --gridsz 50 &
+python burkelab_SimScripts/simulateflamespeedRonney_NH3_H2_epsTest_FromData.py \
+--figwidth 8.5 --figheight 4.5 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
+--lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 6 --date 'Aug28' --slopeVal 0.05 --curveVal 0.05&
 
 ## USEFUL COMMANDS
 # # Convert a cti to a yaml
