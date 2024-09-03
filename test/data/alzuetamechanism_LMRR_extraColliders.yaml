@@ -950,7 +950,7 @@ reactions:
   type: three-body
   rate-constant: {A: 4.6e+19, b: -1.4, Ea: 1.0438e+05}
   efficiencies: {H2: 2.5, H2O: 12.0, AR: 0.0, O2: 0.0}
-- equation: H2 + O2 <=> H + H + O2  # Reaction 8
+- equation: H2 + O2 <=> H + H + O2  # Reaction 8   ###########ADDED
   duplicate: true
   rate-constant: {A: 4.6e+19, b: -1.4, Ea: 1.0438e+05}
 - equation: H2 + AR <=> H + H + AR  # Reaction 9
@@ -959,14 +959,14 @@ reactions:
   type: three-body
   rate-constant: {A: 4.7e+18, b: -1.0, Ea: 0.0}
   efficiencies: {H2: 2.5, H2O: 12.0, AR: 0.75, CO: 1.9, CO2: 3.8, O2: 0.0}
-- equation: H + O + O2 <=> OH + O2  # Reaction 11
+- equation: H + O + O2 <=> OH + O2  # Reaction 11  ############ADDED
   duplicate: true
   rate-constant: {A: 4.7e+18, b: -1.0, Ea: 0.0}
 - equation: O + O + M <=> O2 + M  # Reaction 12
   type: three-body
   rate-constant: {A: 1.9e+13, b: 0.0, Ea: -1788.0}
   efficiencies: {H2: 2.5, H2O: 12.0, AR: 1.0, CO: 1.9, CO2: 3.8}
-- equation: H + OH (+M) <=> H2O (+M)  # Reaction 13
+- equation: H + OH (+M) <=> H2O (+M)  # Reaction 13  ################FORMERLY REACTION 11
   type: LMR_R
   units: {length: m, quantity: kmol, activation-energy: cal/mol}
   collider-list: 
@@ -995,10 +995,10 @@ reactions:
   - collider: "CO2" # Subbed in from Alzueta
     eps: {A: 3.8, b: 0, Ea: 0}
   - collider: "O2" # Subbed in from Alzueta
-    eps: {A: 0.0, b: 0, Ea: 0}
-- equation: H2O + O2 <=> H + OH + O2  # Reaction 14
-  duplicate: true
-  rate-constant: {A: 9.15e+27, b: -3.322, Ea: 1.2079e+05}
+    eps: {A: 1.5, b: 0, Ea: 0}
+# - equation: H2O + O2 <=> H + OH + O2  # Reaction 14
+#   duplicate: true
+#   rate-constant: {A: 9.15e+27, b: -3.322, Ea: 1.2079e+05}
 - equation: H2O + H2O <=> H + OH + H2O  # Reaction 15
   rate-constant: {A: 1.0e+26, b: -2.44, Ea: 1.2018e+05}
 - equation: H + O2 (+M) <=> HO2 (+M)  # Reaction 16
@@ -1101,9 +1101,9 @@ reactions:
 - equation: H + O2 + O <=> OH + O2  # Reaction 33
   duplicate: true
   rate-constant: {A: 7.4e+22, b: -1.835, Ea: 800.0}
-- equation: H + O2 + OH <=> H2O + O2  # Reaction 34
-  duplicate: true
-  rate-constant: {A: 2.6e+22, b: -1.835, Ea: 800.0}
+# - equation: H + O2 + OH <=> H2O + O2  # Reaction 34
+#   # duplicate: true
+#   rate-constant: {A: 2.6e+22, b: -1.835, Ea: 800.0}
 - equation: CO + O (+M) <=> CO2 (+M)  # Reaction 35
   type: falloff
   low-P-rate-constant: {A: 1.4e+24, b: -2.79, Ea: 4191.0}
