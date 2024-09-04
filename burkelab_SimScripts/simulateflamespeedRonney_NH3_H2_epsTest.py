@@ -60,7 +60,8 @@ models = {
 ###############################################################################################################
 
 # Test the pressure-dependence
-p_list=[250,760,1500]
+# p_list=[250,760,1500]
+p_list=[760]
 
 width = 0.03  # m
 loglevel = 1  # amount of diagnostic output (0 to 8)

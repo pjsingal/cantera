@@ -128,13 +128,12 @@ reactorTemperature = 1000  # Kelvin
 reactorPressure = P*ct.one_atm  # in atm. This equals 1.06 bars
 residenceTime = tau  # s
 reactorVolume = 0.000113 #30.5*(1e-2)**3  # m3
-reactorRadius = np.cbrt(reactorVolume*3/4*np.pi) # m3
+heatTransferCoefficient = 79.5 # W/m2/K
+reactorRadius = np.cbrt(reactorVolume*3/4/np.pi) # [m3]
 reactorSurfaceArea = 4*np.pi*np.square(reactorRadius) # m3
-pressureValveCoefficient = 0.01
+pressureValveCoefficient = 2e-5
 maxPressureRiseAllowed = 0.01
 maxSimulationTime = 50  # seconds
-heatTransferCoefficient = 7949.6
-heatTransferCoefficient = 7.9496*2.2
 tempDependence = []
 
 ##############################################################################################################################
@@ -221,48 +220,6 @@ for k,m in enumerate(models):
             toc = time.time()
             concentrations = stirredReactor.thermo.X
             tempDependence[i].loc[T] = state
-
-        
-        # if i == 0:
-            
-        #     chopped_range = [860,925]
-            
-        #     chopped_index = [abs(np.subtract(tempDependence[i].index,chopped_range[0])).argmin(), abs(np.subtract(tempDependence[i].index,chopped_range[1])).argmin()]
-        #     ax[0].plot(list(tempDependence[i].index)[:chopped_index[0]], list(np.subtract(tempDependence[i]['temperature'],tempDependence[i].index))[:chopped_index[0]], color=colors[i], linestyle=lines[i], label=str(NH3percent*100)+'% H$_2$O')   
-        #     ax[1].plot(list(tempDependence[i].index)[:chopped_index[0]], list(tempDependence[i]['O2']*100)[:chopped_index[0]], color=colors[i], linestyle=lines[i], label=str(NH3percent*100)+'% H$_2$O')   
-        #     ax[2].plot(list(tempDependence[i].index)[:chopped_index[0]], list(tempDependence[i]['H2']*100)[:chopped_index[0]], color=colors[i], linestyle=lines[i], label=str(NH3percent*100)+'% H$_2$O')   
-            
-        #     ax[0].plot(list(tempDependence[i].index)[chopped_index[1]:], list(np.subtract(tempDependence[i]['temperature'],tempDependence[i].index))[chopped_index[1]:], color=colors[i], linestyle=lines[i])   
-        #     ax[1].plot(list(tempDependence[i].index)[chopped_index[1]:], list(tempDependence[i]['O2']*100)[chopped_index[1]:], color=colors[i], linestyle=lines[i])   
-        #     ax[2].plot(list(tempDependence[i].index)[chopped_index[1]:], list(tempDependence[i]['H2']*100)[chopped_index[1]:], color=colors[i], linestyle=lines[i])   
-        # elif i == 1:
-            
-        #     chopped_range = [900,950]
-            
-        #     chopped_index = [abs(np.subtract(tempDependence[i].index,chopped_range[0])).argmin(), abs(np.subtract(tempDependence[i].index,chopped_range[1])).argmin()]
-    
-        #     ax[0].plot(list(tempDependence[i].index)[:chopped_index[0]], list(np.subtract(tempDependence[i]['temperature'],tempDependence[i].index))[:chopped_index[0]], color=colors[i], linestyle=lines[i], label=str(NH3percent*100)+'% H$_2$O')   
-        #     ax[1].plot(list(tempDependence[i].index)[:chopped_index[0]], list(tempDependence[i]['O2']*100)[:chopped_index[0]], color=colors[i], linestyle=lines[i], label=str(NH3percent*100)+'% H$_2$O')   
-        #     ax[2].plot(list(tempDependence[i].index)[:chopped_index[0]], list(tempDependence[i]['H2']*100)[:chopped_index[0]], color=colors[i], linestyle=lines[i], label=str(NH3percent*100)+'% H$_2$O')   
-            
-        #     ax[0].plot(list(tempDependence[i].index)[chopped_index[1]:], list(np.subtract(tempDependence[i]['temperature'],tempDependence[i].index))[chopped_index[1]:], color=colors[i], linestyle=lines[i])   
-        #     ax[1].plot(list(tempDependence[i].index)[chopped_index[1]:], list(tempDependence[i]['O2']*100)[chopped_index[1]:], color=colors[i], linestyle=lines[i])   
-        #     ax[2].plot(list(tempDependence[i].index)[chopped_index[1]:], list(tempDependence[i]['H2']*100)[chopped_index[1]:], color=colors[i], linestyle=lines[i])   
-                
-        # elif i == 2:
-            
-        #     chopped_range = [825,975]        
-        #     chopped_index = [abs(np.subtract(tempDependence[i].index,chopped_range[0])).argmin(), abs(np.subtract(tempDependence[i].index,chopped_range[1])).argmin()]
-
-        #     ax[0].plot(list(tempDependence[i].index)[:chopped_index[0]], list(np.subtract(tempDependence[i]['temperature'],tempDependence[i].index))[:chopped_index[0]], color=colors[i], linestyle=lines[i], label=str(NH3percent*100)+'% H$_2$O')   
-        #     ax[1].plot(list(tempDependence[i].index)[:chopped_index[0]], list(tempDependence[i]['O2']*100)[:chopped_index[0]], color=colors[i], linestyle=lines[i], label=str(NH3percent*100)+'% H$_2$O')   
-        #     ax[2].plot(list(tempDependence[i].index)[:chopped_index[0]], list(tempDependence[i]['H2']*100)[:chopped_index[0]], color=colors[i], linestyle=lines[i], label=str(NH3percent*100)+'% H$_2$O')   
-            
-        #     ax[0].plot(list(tempDependence[i].index)[chopped_index[1]:], list(np.subtract(tempDependence[i]['temperature'],tempDependence[i].index))[chopped_index[1]:], color=colors[i], linestyle=lines[i])   
-        #     ax[1].plot(list(tempDependence[i].index)[chopped_index[1]:], list(tempDependence[i]['O2']*100)[chopped_index[1]:], color=colors[i], linestyle=lines[i])   
-        #     ax[2].plot(list(tempDependence[i].index)[chopped_index[1]:], list(tempDependence[i]['H2']*100)[chopped_index[1]:], color=colors[i], linestyle=lines[i])   
-                                            
-        # else:
         if colors[k] == 'xkcd:purple':
             zorder_value = 100
         elif colors[k] == "xkcd:grey":

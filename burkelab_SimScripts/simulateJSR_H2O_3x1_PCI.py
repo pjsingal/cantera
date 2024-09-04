@@ -140,13 +140,12 @@ reactorTemperature = 1000  # Kelvin
 reactorPressure = P*ct.one_atm  # in atm. This equals 1.06 bars
 residenceTime = tau  # s
 reactorVolume = 0.000113 #30.5*(1e-2)**3  # m3
-reactorRadius = np.cbrt(reactorVolume*3/4*np.pi) # m3
+heatTransferCoefficient = 79.5 # W/m2/K
+reactorRadius = np.cbrt(reactorVolume*3/4/np.pi) # [m3]
 reactorSurfaceArea = 4*np.pi*np.square(reactorRadius) # m3
-pressureValveCoefficient = 0.01
+pressureValveCoefficient = 2e-5
 maxPressureRiseAllowed = 0.01
 maxSimulationTime = 50  # seconds
-heatTransferCoefficient = 7949.6
-heatTransferCoefficient = 7.9496*2.2
 tempDependence = []
 
 ##############################################################################################################################

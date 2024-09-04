@@ -989,13 +989,13 @@ reactions:
     eps: {A: 1.04529e-01, b: 5.50787e-01, Ea: -2.32675e+02}
     # eps: {A: 100, b: 0, Ea: 0}
   - collider: "H2" # Subbed in from Alzueta
-    eps: {A: 3, b: 0, Ea: 0}
+    eps: {A: 3, b: 1.0e-30, Ea: 1.0e-30}
   - collider: "CO" # Subbed in from Alzueta
-    eps: {A: 1.9, b: 0, Ea: 0}
+    eps: {A: 1.9, b: 1.0e-30, Ea: 1.0e-30}
   - collider: "CO2" # Subbed in from Alzueta
-    eps: {A: 3.8, b: 0, Ea: 0}
+    eps: {A: 3.8, b: 1.0e-30, Ea: 1.0e-30}
   - collider: "O2" # Subbed in from Alzueta
-    eps: {A: 1.5, b: 0, Ea: 0}
+    eps: {A: 1.5, b: 1.0e-30, Ea: 1.0e-30}
 # - equation: H2O + O2 <=> H + OH + O2  # Reaction 14
 #   duplicate: true
 #   rate-constant: {A: 9.15e+27, b: -3.322, Ea: 1.2079e+05}
@@ -1029,9 +1029,9 @@ reactions:
   - collider: "H2O"
     eps: {A: 3.69146e+01, b: -7.12902e-02, Ea: 3.19087e+01}
   - collider: "CO" # Subbed in from Alzueta
-    eps: {A: 1.9, b: 0, Ea: 0}
+    eps: {A: 1.9, b: 1.0e-30, Ea: 1.0e-30}
   - collider: "O2" # Subbed in from Alzueta
-    eps: {A: 0.78, b: 0, Ea: 0}
+    eps: {A: 0.78, b: 1.0e-30, Ea: 1.0e-30}
 
 - equation: HO2 + H <=> H2 + O2  # Reaction 17
   rate-constant: {A: 2.8e+06, b: 2.09, Ea: -1451.0}
@@ -1076,11 +1076,11 @@ reactions:
   - collider: "H2O"
     eps: {A: 1.36377e+00, b: 3.06592e-01, Ea: 2.10079e+02}
   - collider: "O2" # Subbed in from Alzueta
-    eps: {A: 1.2, b: 0, Ea: 0}
+    eps: {A: 1.2, b: 1.0e-30, Ea: 1.0e-30}
   - collider: "H2" # Subbed in from Alzueta
-    eps: {A: 3.7, b: 0, Ea: 0}
+    eps: {A: 3.7, b: 1.0e-30, Ea: 1.0e-30}
   - collider: "CO" # Subbed in from Alzueta
-    eps: {A: 2.8, b: 0, Ea: 0}
+    eps: {A: 2.8, b: 1.0e-30, Ea: 1.0e-30}
 - equation: H2O2 + H <=> H2O + OH  # Reaction 26
   rate-constant: {A: 2.4e+13, b: 0.0, Ea: 3970.0}
 - equation: H2O2 + H <=> HO2 + H2  # Reaction 27
