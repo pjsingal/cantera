@@ -6,120 +6,89 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import pandas as pd
 mpl.rc('font',family='Times New Roman')
-
+plt.figure()
 save_fig = True
 nominal_model = 'G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Ammonia\\Mei-2019\\mei-2019.yaml'
-# initial_temp = 300
-
-P = 1e5 # Pa
-obs = 'NO'
-width = 2
-
-def cp(T,P,X):
-    gas_stream = ct.Solution(nominal_model)
-    gas_stream.TPX = T, P, {X:1}
-    return gas_stream.cp_mole # [J/kmol/K]
-
-
 T_fuel = 300
 T_air = 650
-cp_fuel = cp(T_fuel,P,'NH3') # [J/kmol/K]
-cp_o2 = cp(T_air,P,'O2') # [J/kmol/K]
-cp_n2 = cp(T_air,P,'N2') # [J/kmol/K]
-
 phi = 1.22
-x_fuel = (phi*(1/0.75)*0.21)/(1+phi*(1/0.75)*0.21)
-x_o2 = 0.21*(1-x_fuel)
-x_n2 = 0.79*(1-x_fuel)
-x_air=1-x_fuel
-T_mix = (x_fuel*cp_fuel*T_fuel+(x_o2*cp_o2+x_n2*cp_n2)*T_air)/(x_fuel*cp_fuel+ x_o2*cp_o2 + x_n2*cp_n2)
-# print(T_mix)
+# P_list = [1,10,20] # bar
+# trimStart = [76,99,112] # number of indices to cut off from the start of the flame simulation
+# trimEnd = [1,8,22] # number of indices to cut off from the end of the flame simulation
+P_list = [1] # bar
+trimStart = [76] # number of indices to cut off from the start of the flame simulation
+trimEnd = [1] # number of indices to cut off from the end of the flame simulation
 
-# def h(T,P,X):
-#     gas_stream = ct.Solution(nominal_model)
-#     gas_stream.TPX = T, P, {X:1}
-#     return gas_stream.enthalpy_mole 
-
-
-# T_fuel = 330
-# T_air = 650
-# h_fuel = h(T_fuel,P,'NH3')
-# h_o2 = h(T_air,P,'O2')
-# h_n2 = h(T_air,P,'N2')
-
-# phi = 1.22
-# x_fuel = (phi*(1/0.75)*0.21)/(1+phi*(1/0.75)*0.21)
-# # print(x_fuel)
-# x_o2 = 0.21*(1-x_fuel)
-# x_n2 = 0.79*(1-x_fuel)
-# x_air=1-x_fuel
-# print(h_fuel)
-# print(h_o2)
-# print(h_n2) 
-# h_mix = x_fuel*h_fuel + x_o2*h_o2 + x_n2*h_n2
-# print(h_mix)
-# gas = ct.Solution(nominal_model)
-# # gas.HPX = 300,P,{'NH3':x_fuel,'O2':x_o2,'N2':x_n2}
-# gas.HP = h_mix,P
-# print(gas.T)
-
-
-
-# T_mix = (x_fuel*cp_fuel*T_fuel+(x_o2*cp_o2+x_n2*cp_n2)*T_air)/(x_fuel*cp_fuel+ x_o2*cp_o2 + x_n2*cp_n2)
-# # print(T_mix)
-
-# # T_explosion = 1000 # combustor exit temperature
-
-mix1 = ct.Solution(nominal_model)
-mix1.TPX = T_mix, P,{'NH3':x_fuel,'O2':x_o2,'N2':x_n2}
-
-# mix1.equilibrate("HP")
-
-
-flame = ct.FreeFlame(mix1,width=width)
-flame.set_refine_criteria(ratio=3, slope=0.1, curve=0.1)
-flame.solve(loglevel=0, auto=True)
-state = {
-    'T': flame.T,
-    'P': flame.P,
-    'vel': flame.velocity,
-    'X': flame.X,
-    'd': flame.grid #list of distances [m]
-}
-S_b = list(state['vel'])[-1] # [m/s]
-Rjoule = 8.31446261815324 # [J/K/mol]
-full_time = [(distance)/S_b for distance in state['d']] # [s]
-conc = np.multiply(state['X'][mix1.species_names.index("NH2")], np.divide(P,np.multiply(Rjoule,state['T'])))
-distance_index=np.argmax(conc)
-tau_f = np.array(state['d'][distance_index])/S_b
-tau_list = [(ft - tau_f)*1000 for ft in full_time] # [ms]
-X_NO = state['X'][mix1.species_names.index("NO")]
-X_O2 = state['X'][mix1.species_names.index("O2")]
-X_O2dry = 0.15 # 15% O2 dry
-X_NO_15O2dry = np.multiply(np.multiply(X_NO,np.divide(0.21-X_O2dry,np.subtract(0.21,X_O2))),1e6) # [ppm, 15% O2 dry]
-# distance_f = np.array(state['d'][distance_index])
-# distance_list_new = [dl - distance_f for dl in state['d']]
-
-########################################################################################################################################
-plt.figure()
-plt.loglog(tau_list, X_NO_15O2dry, linestyle='solid', linewidth=3)
-# sims = pd.DataFrame(np.multiply(tau_list,1000), np.multiply(state['X'][mix1.species_names.index(obs)],1e6))
-# print(sims)
+width = 2
+colours=["k","xkcd:grey","xkcd:teal"]
+for i,P in enumerate(P_list):
+    print(f"Simulating {P} bar...")
+    def cp(T,P,X):
+        gas_stream = ct.Solution(nominal_model)
+        gas_stream.TPX = T, P*1e5, {X:1}
+        return gas_stream.cp_mole # [J/kmol/K]
+    cp_fuel = cp(T_fuel,P,'NH3') # [J/kmol/K]
+    cp_o2 = cp(T_air,P,'O2') # [J/kmol/K]
+    cp_n2 = cp(T_air,P,'N2') # [J/kmol/K]
+    x_fuel = (phi*(1/0.75)*0.21)/(1+phi*(1/0.75)*0.21)
+    x_o2 = 0.21*(1-x_fuel)
+    x_n2 = 0.79*(1-x_fuel)
+    x_air=1-x_fuel
+    T_mix = (x_fuel*cp_fuel*T_fuel+(x_o2*cp_o2+x_n2*cp_n2)*T_air)/(x_fuel*cp_fuel+ x_o2*cp_o2 + x_n2*cp_n2)
+    mix1 = ct.Solution(nominal_model)
+    mix1.TPX = T_mix, P*1e5,{'NH3':x_fuel,'O2':x_o2,'N2':x_n2}
+    mix1_eq = ct.Solution(nominal_model)
+    mix1_eq.TPX = T_mix, P,{'NH3':x_fuel,'O2':x_o2,'N2':x_n2}
+    mix1_eq.equilibrate("HP")
+    mixtures = [mix1]
+    for j,mix in enumerate(mixtures):
+        flame = ct.FreeFlame(mix,width=width)
+        flame.set_refine_criteria(ratio=3, slope=0.1, curve=0.1)
+        flame.solve(loglevel=0, auto=True)
+        state = {
+            'T': flame.T,
+            'P': flame.P,
+            'vel': flame.velocity,
+            'X': flame.X,
+            'd': flame.grid #list of distances [m]
+        }
+        S_b = list(state['vel'])[-1] # [m/s]
+        Rjoule = 8.31446261815324 # [J/K/mol]
+        full_time = [(distance)/S_b for distance in state['d']] # [s]
+        conc = np.multiply(state['X'][mix.species_names.index("NH2")], np.divide(P*1e5,np.multiply(Rjoule,state['T'])))
+        # conc = state['X'][mix.species_names.index("NH2")]
+        distance_index=np.argmax(conc)
+        tau_f = np.array(state['d'][distance_index])/S_b
+        tau_list = [(ft - tau_f)*1000 for ft in full_time] # [ms]
+        X_NO = state['X'][mix.species_names.index("NO")]
+        X_O2 = state['X'][mix.species_names.index("O2")]
+        X_O2dry = 0.15 # 15% O2 dry
+        X_NO_15O2dry = np.multiply(np.multiply(X_NO,np.divide(0.21-X_O2dry,np.subtract(0.21,X_O2))),1e6) # [ppm, 15% O2 dry]
+        # distance_f = np.array(state['d'][distance_index])
+        # distance_list_new = [dl - distance_f for dl in state['d']]
+        plt.loglog(np.multiply(tau_list[trimStart[i]:trimEnd[i]*(-1)],P), X_NO_15O2dry[trimStart[i]:trimEnd[i]*(-1)], linestyle='solid', linewidth=1.5,color=colours[i],label=f"{P}bar")
+        print("Added to plot!")
+print("Adding graph-read data...")
 path="G:\\Mon disque\\Columbia\\Burke Lab\\09 NOx Mini-Project\\Graph Reading\\"
-bar1_data = pd.read_csv(path+'1bar.csv',header=None)
-
-plt.loglog(bar1_data.iloc[:, 0],bar1_data.iloc[:, 1],marker='o',fillstyle='none',linestyle='none',color='k',markersize=3,markeredgewidth=1, label="Gubbi et al.", zorder=110)
-# plt.loglog(np.multiply(full_time,1000), np.multiply(state['X'][mix1.species_names.index(obs)],1e6), linestyle='solid', linewidth=3)
-# plt.loglog(np.multiply(full_time,1000), state['T'], linestyle='solid', linewidth=3)
-# print(bar1_data.iloc[:, :2])
-plt.xlabel('Time [ms]')
-plt.ylim([0.1,5000])
+expData = [{'f': '1bar','mkr':'o','colour':'k','line':'none'},
+        #    {'f': '1bar_eq','mkr':'none','colour':'k','line':':'},
+           {'f': '10bar','mkr':'x','colour':"xkcd:grey",'line':'none'},
+        #    {'f': '10bar_eq','mkr':'none','colour':"xkcd:grey",'line':':'},
+           {'f': '20bar','mkr':'s','colour':"xkcd:teal",'line':'none'},
+        #    {'f': '20bar_eq','mkr':'none','colour':"xkcd:teal",'line':':'}
+        ]
+for exp in expData:
+    dat = pd.read_csv(path+exp['f']+'.csv',header=None)
+    plt.loglog(dat.iloc[:, 0],dat.iloc[:, 1],marker=exp['mkr'],fillstyle='none',linestyle=exp['line'],color=exp['colour'],markersize=3,markeredgewidth=1, label=f"{exp['f']}", zorder=110)
+plt.xlabel(r'P*$\tau$ [bar*ms]')
+plt.ylim([5,1350])
 # plt.xlim([0.01,1350])
-plt.ylabel(obs + ' Mole Fraction [ppm]')
+plt.ylabel('NO [ppm, 15% O$_2$ dry]')
+plt.legend()
 plt.tick_params(axis = 'x', direction='in')
 plt.tick_params(axis='x',labelsize=15)
 plt.tick_params(axis = 'y', direction='in')
 plt.tick_params(axis='y',labelsize=15)          
-plt.savefig('flame_' + obs + '.pdf',dpi=1000, bbox_inches='tight')
-plt.savefig('flame_' + obs + '.png',dpi=1000, bbox_inches='tight')
-print("Successful simulation!")
+plt.savefig('flame_NO.pdf',dpi=1000, bbox_inches='tight')
+plt.savefig('flame_NO.png',dpi=1000, bbox_inches='tight')
+print("Simulation complete!")
