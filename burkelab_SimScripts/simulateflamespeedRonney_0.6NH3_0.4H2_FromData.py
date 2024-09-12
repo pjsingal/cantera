@@ -103,10 +103,10 @@ if args.paper == 'ESSCI':
     dataset=pd.read_csv(path+f'Alzueta_0_data_1.0alpha.csv')
     ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:grey",label='Alzueta',zorder=30)
 
-    dataset=pd.read_csv(path+f'Alzueta-300K_0_data_1.0alpha.csv')
+    dataset=pd.read_csv(path+f'epsNH3-300K_0_data_1.0alpha.csv')
     ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:teal",label=r"$\epsilon_{0,NH_3}(300K)$",zorder=28)
 
-    dataset=pd.read_csv(path+f'Alzueta-2000K_0_data_1.0alpha.csv')
+    dataset=pd.read_csv(path+f'epsNH3-2000K_0_data_1.0alpha.csv')
     ax[0].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="orange",label=r"$\epsilon_{0,NH_3}(2000K)$",zorder=29)
 
     dataset=pd.read_csv(path+f'Ar_0_data_1.0alpha.csv')
@@ -147,10 +147,10 @@ if args.paper == 'ESSCI':
     dataset=pd.read_csv(path+f'Alzueta_0_data_0.6alpha.csv')
     ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:grey",zorder=30)
 
-    dataset=pd.read_csv(path+f'Alzueta-300K_0_data_0.6alpha.csv')
+    dataset=pd.read_csv(path+f'epsNH3-300K_0_data_0.6alpha.csv')
     ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:teal",zorder=28)
 
-    dataset=pd.read_csv(path+f'Alzueta-2000K_0_data_0.6alpha.csv')
+    dataset=pd.read_csv(path+f'epsNH3-2000K_0_data_0.6alpha.csv')
     ax[1].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="orange",zorder=29)
 
     dataset=pd.read_csv(path+f'Ar_0_data_0.6alpha.csv')
@@ -225,8 +225,8 @@ else:
     name = f'ronney_flamespeed_'+date+f'_0.6NH3_0.4H2 _{args.paper}'
     
 if save_plots == True:
-    plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\Flame Speed Plots\\"+name+'.pdf', dpi=1000, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.png', dpi=1000, bbox_inches='tight')
-    plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\Flame Speed Plots\\"+name+'.svg', dpi=1000, bbox_inches='tight')
+    plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\"+name+'.pdf', dpi=1000, bbox_inches='tight')
+    # plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.png', dpi=1000, bbox_inches='tight')
+    plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\"+name+'.svg', dpi=1000, bbox_inches='tight')
 
 # plt.show()     

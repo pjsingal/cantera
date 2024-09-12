@@ -84,10 +84,10 @@ dataset=pd.read_csv(path+f'Alzueta_data.csv',header=None)
 ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:grey",label='Alzueta',zorder=80)
 
 dataset=pd.read_csv(path+f'Alzueta-300K_data.csv',header=None)
-ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:teal",label='$\epsilon_{0,NH_3}(300K)$',zorder=60)
+ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="xkcd:teal",label=r'$\epsilon_{0,NH_3}(300K)$',zorder=60)
 
 dataset=pd.read_csv(path+f'Alzueta-2000K_data.csv',header=None)
-ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="orange",label='$\epsilon_{0,NH_3}(2000K)$',zorder=70)
+ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color="orange",label=r'$\epsilon_{0,NH_3}(2000K)$',zorder=70)
 
 dataset=pd.read_csv(path+f'Ar_data.csv',header=None)
 ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,color='r',label='Ar',zorder=20)
@@ -128,7 +128,7 @@ if fslope != -1:
 else:
     name = f"burkesong_flamespeed_"+date+"_ESSCI"
 
-path="C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\Flame Speed Plots\\"
+path="C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\"
 if save_plots == True:
     plt.savefig(path+name+'.pdf', dpi=500, bbox_inches='tight')
     plt.savefig(path+name+'.svg', dpi=500, bbox_inches='tight')

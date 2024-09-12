@@ -105,7 +105,7 @@ def main():
     ax[0].plot(inputs['data']['T_range'],inputs['data']['deltaT'],'o',markersize=3.5,fillstyle='none',color='k',label="Sabia et al.")
     ax[1].plot(inputs['data']['T_range'],inputs['data']['X_O2'],'o',markersize=3.5,fillstyle='none',color='k')
     ax[2].plot(inputs['data']['T_range'],inputs['data']['X_H2'],'o',markersize=3.5,fillstyle='none',color='k')
-    ax[0].legend(fontsize=8,frameon=False,loc='upper left')
+    ax[0].legend(fontsize=8,frameon=False,loc='upper left', handlelength=0.7)
     ax[0].set_ylabel(r'$\Delta$ T [K]')
     ax[1].set_xlabel(r'Temperature [K]')
     ax[1].set_ylabel(r'O$_2$ mole fraction [%]')

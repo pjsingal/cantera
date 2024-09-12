@@ -329,17 +329,17 @@ for k,m in enumerate(models):
             
      
 # ax[0].set_xlabel('Temperature [K]')
-ax[0].set_ylabel('$\Delta$ T [K]')
+ax[0].set_ylabel(r'$\Delta$ T [K]')
 ax[0].tick_params(axis='both',direction='in')
 ax[0].legend(fontsize=lgdfsz,frameon=False,loc='upper left', handlelength=lgdw)
             
 # ax[1].set_xlabel('Temperature [K]')
-ax[1].set_ylabel('O$_2$ mole fraction [%]')
+ax[1].set_ylabel(r'O$_2$ mole fraction [%]')
 ax[1].tick_params(axis='both',direction='in')
 # ax[1].legend(frameon=False,fontsize=15)#,loc='upper right')
 
 ax[2].set_xlabel('Temperature [K]')
-ax[2].set_ylabel('H$_2$ mole fraction [%]')
+ax[2].set_ylabel(r'H$_2$ mole fraction [%]')
 ax[2].tick_params(axis='both',direction='in')
 # ax[2].legend(frameon=False,loc='lower right', handlelength=lgdw)
 

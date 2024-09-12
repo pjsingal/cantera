@@ -127,7 +127,7 @@ if fslope != -1:
 else:
     name = f"burkesong_flamespeed_"+date+"_PCI"
 
-path="C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\Flame Speed Plots\\"
+path="C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\"
 if save_plots == True:
     plt.savefig(path+name+'.pdf', dpi=500, bbox_inches='tight')
     plt.savefig(path+name+'.svg', dpi=500, bbox_inches='tight')
