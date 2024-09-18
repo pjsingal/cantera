@@ -55,7 +55,8 @@ mpl.rcParams['ytick.minor.size'] = 1.5  # Length of minor ticks on y-axis
 
 name = 'gubbi_flamespeed'
 
-fig, ax = plt.subplots(1,2,figsize=(args.figwidth, args.figheight))
+# fig, ax = plt.subplots(1,2,figsize=(args.figwidth, args.figheight))
+fig, ax = plt.subplots(1,1,figsize=(args.figwidth, args.figheight))
 save_plots = True
 lw=args.lw
 mw=args.mw
@@ -77,78 +78,90 @@ import matplotlib.ticker as ticker
 #     ax[1,col].yaxis.set_major_locator(ticker.MultipleLocator(10))
 #     ax[1,col].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 
+ax.xaxis.set_major_locator(ticker.MultipleLocator(4))
+ax.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
+ax.yaxis.set_major_locator(ticker.MultipleLocator(5))
+ax.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 
-
+models = {    
+          'Alzueta':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism.yaml",
+          'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_extraColliders.yaml",
+          'Mei':'G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Mei-2019\\mei-2019.yaml',
+          'Glarborg':"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Glarborg-2018\\glarborg-2018.yaml",
+          'Zhang':"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Zhang-2017\\zhang-2017.yaml",
+          'Otomo':"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Otomo-2018\\otomo-2018.yaml",
+          'Stagni':"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Stagni-2020\\stagni-2020.yaml",
+          'Shrestha':"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Shrestha-2021\\shrestha-2021.yaml",
+          'Han':"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Han-2021\\han-2021.yaml",
+        #   'Cornell':"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Cornell-2024\\cornell-2024.yaml",
+          }
+zorders = [90,100,80,70,60,50,40,30,20,10]
+colours = ["xkcd:grey","xkcd:purple", "xkcd:teal", "orange", "r", "b", "xkcd:lime green", "xkcd:magenta", "xkcd:navy blue"]
+# colours=[(np.random.rand(), np.random.rand(), np.random.rand()) for _ in range(len(list(models.keys())))]
 
 lines = ["solid","dashed",":"]
 
 # ax[0].set_xlabel(r'Equivalence Ratio')
 
-################################ FS-VS-PHI #######################################
-# Flame speed across a range of phi, with lines for 1, 10, and 20 bar
-numcols=3
-col=0
-colspacing=0.5
-bbval=(0.38,0.01)
-lgd_loc='lower center'
-P_ls = [1,10,20]
-# P_ls = [1,10]
-alpha = 1.0
-path=f'C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\GubbiResults_vsPhi_'+date+f' (slope={fslope} curve={fcurve})\\'
-for i, P in enumerate(P_ls):
-    ax[col].plot(0, 0, '.', color='white',markersize=0.1,label=f'{P} bar')  # dummy handle to provide label to lgd column
-    label=f'Alzueta'
-    dataset=pd.read_csv(path+f'Alzueta_{P}bar_data_{alpha}alpha.csv')
-    ax[col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle=lines[i],color="xkcd:grey",zorder=30,label=label)
-    label=f'LMR-R'
-    dataset=pd.read_csv(path+f'LMR-R_{P}bar_data_{alpha}alpha.csv')
-    ax[col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle=lines[i],color='xkcd:purple',zorder=90,label=label)
-    label=f"Mei"
-    dataset=pd.read_csv(path+f'Mei_{P}bar_data_{alpha}alpha.csv')
-    ax[col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle=lines[i],color="xkcd:teal",zorder=60,label=label)
+# ################################ FS-VS-PHI #######################################
+# # Flame speed across a range of phi, with lines for 1, 10, and 20 bar
+# numcols=3
+# col=0
+# colspacing=0.5
+# bbval=(0.38,0.01)
+# lgd_loc='lower center'
+# P_ls = [1,10,20]
+# # P_ls = [1,10]
+# alpha = 1.0
+# path=f'C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\GubbiResults_vsPhi_'+date+f' (slope={fslope} curve={fcurve})\\'
+# for i, P in enumerate(P_ls):
+#     ax[col].plot(0, 0, '.', color='white',markersize=0.1,label=f'{P} bar')  # dummy handle to provide label to lgd column
+#     for j, m in enumerate(models):
+#         label=f'{m}'
+#         dataset=pd.read_csv(path+f'{m}_{P}bar_data_{alpha}alpha.csv')
+#         ax[col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle=lines[i],color=colours[j],label=label)
 
-ax[col].set_title(r"$\phi$-dependence for NH$_3$/air",fontsize=8)
-ax[col].set_xlim([0.6001, 1.7999])
-ax[col].set_xlabel(r'Equivalence ratio',fontsize=7)
-ax[col].set_ylabel(r'Burning velocity [cm $\rm s^{-1}$]',fontsize=7)
-# ax[col].set_ylim([0.001, 13.9])
-# ax[col].annotate('100% NH$_3$\n(760 torr)', xy=(0.97, 0.97), xycoords='axes fraction',ha='right', va='top',fontsize=7)
-ax[0].legend(fontsize=lgdfsz, frameon=False, loc=lgd_loc,handlelength=lgdw,ncols=numcols,columnspacing=colspacing,bbox_to_anchor=bbval)
+# ax[col].set_title(r"$\phi$-dependence for NH$_3$/air",fontsize=8)
+# ax[col].set_xlim([0.6001, 1.7999])
+# ax[col].set_xlabel(r'Equivalence ratio',fontsize=7)
+# ax[col].set_ylabel(r'Burning velocity [cm $\rm s^{-1}$]',fontsize=7)
+# # ax[col].set_ylim([0.001, 13.9])
+# # ax[col].annotate('100% NH$_3$\n(760 torr)', xy=(0.97, 0.97), xycoords='axes fraction',ha='right', va='top',fontsize=7)
+# ax[0].legend(fontsize=lgdfsz, frameon=False, loc=lgd_loc,handlelength=lgdw,ncols=numcols,columnspacing=colspacing,bbox_to_anchor=bbval)
 
 
 
 ################################ FS-VS-P #######################################
 # Flame speed across a range of P, with lines for 1.22 phi
-numcols=1
+numcols=3
 col = 1
 colspacing=0.5
 lgd_loc='upper right'
-P_ls = [1,10,20]
 alpha = 1.0
 path=f'C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\GubbiResults_vsP_'+date+f' (slope={fslope} curve={fcurve})\\'
-# ax[col].plot(0, 0, '.', color='white',markersize=0.1,label=f'{P} bar')  # dummy handle to provide label to lgd column
-label=f'Alzueta'
-dataset=pd.read_csv(path+f'Alzueta_1.22phi_data.csv')
-ax[col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle="solid",color="xkcd:grey",zorder=30,label=label)
-label=f'LMR-R'
-dataset=pd.read_csv(path+f'LMR-R_1.22phi_data.csv')
-ax[col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle="solid",color='xkcd:purple',zorder=30,label=label)
-label=f"Mei"
-dataset=pd.read_csv(path+f'Mei_1.22phi_data.csv')
-ax[col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle="solid",color="xkcd:teal",zorder=30,label=label)
 
-ax[col].set_title(r"P-dependence for NH$_3$/air ($\phi$=1.22)",fontsize=8)
-ax[col].set_xlim([0.0001, 50])
-ax[col].legend(fontsize=lgdfsz, frameon=False, loc=lgd_loc,handlelength=lgdw,ncols=numcols,columnspacing=colspacing)
+for j, m in enumerate(models):
+    label=f'{m}'
+    dataset=pd.read_csv(path+f'{m}_1.22phi_data.csv')
+    if m == "Alzueta" or m == "LMR-R":
+        ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw*1.3,linestyle="--",color=colours[j],label=label,zorder=zorders[j])
+    else:
+        ax.plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle="solid",color=colours[j],label=label,zorder=zorders[j])
+
+# ax.set_title(r"P-dependence for NH$_3$/air ($\phi$=1.22)",fontsize=8)
+ax.annotate(r'NH$_3$/air'+'\n'+r'$\phi$=1.22'+'\n'+r'T$_{NH_3}$=300 K'+'\n'+r'T$_{air}$=650 K', xy=(0.05, 0.05), xycoords='axes fraction',ha='left', va='bottom',fontsize=6)
+ax.set_xlim([0.0001, 19.999])
+ax.set_ylim([6, 34])
+ax.legend(fontsize=lgdfsz, frameon=False, loc=lgd_loc,handlelength=lgdw,ncols=numcols,columnspacing=colspacing)
 
 # fig.text(.08, 0.5, r'Burning velocity [cm $\rm s^{-1}$]', ha='center', va='center',rotation=90)
-ax[col].set_xlabel(r'Pressure [bar]',fontsize=7)
-
-ax[0].tick_params(axis='both',direction='in')
-ax[1].tick_params(axis='both',direction='in')
+ax.set_xlabel(r'Pressure [bar]',fontsize=7)
+ax.set_ylabel(r'Burning velocity [cm $\rm s^{-1}$]',fontsize=7)
+# ax[0].tick_params(axis='both',direction='in')
+ax.tick_params(axis='both',direction='in')
 
 if save_plots == True:
     plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\"+name+'.pdf', dpi=1000, bbox_inches='tight')
-    plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\"+name+'.png', dpi=1000, bbox_inches='tight')
+    plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\"+name+'.svg', dpi=500, bbox_inches='tight')
 
 # plt.show()     

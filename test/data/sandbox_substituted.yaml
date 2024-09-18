@@ -947,7 +947,7 @@ reactions:
 # # PLOG/Cheb: bi
 - equation: H + O2 (+M) <=> HO2 (+M)  # Reaction 16
   # units: {length: m, quantity: kmol, activation-energy: cal/mol}
-  type: LMR_R
+  type: linear-burke
   collider-list: 
   - collider: "M" # Ar is reference collider
     eps: {A: 1, b: 0, Ea: 0}
@@ -979,7 +979,7 @@ reactions:
 # # Troe: uni
 # # PLOG/Cheb: bi
 - equation: NH3 (+M) <=> H + NH2 (+M)
-  type: LMR_R
+  type: linear-burke
   collider-list:
   - collider: 'M' # AR is reference collider
     eps: {A: 1, b: 0, Ea: 0}
@@ -1022,7 +1022,7 @@ reactions:
 # # PLOG/Cheb: bi
 
 - equation: HNO (+M) <=> H + NO (+M)
-  type: LMR_R
+  type: linear-burke
   collider-list:
   - collider: 'M' # AR is reference collider
     eps: {A: 1, b: 0, Ea: 0}

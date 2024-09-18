@@ -21,11 +21,21 @@ args = parser.parse_args()
 #     models = [{'name': 'Mei', 'path': 'G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Ammonia\\Mei-2019\\mei-2019.yaml', 'colour':'xkcd:teal'}]
 #     P_list = [1,10,20] # bar
 # else: #args.mode == 'std'
-models = [{'name': 'Mei', 'path': 'G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Ammonia\\Mei-2019\\mei-2019.yaml', 'colour':'xkcd:teal'},
-        {'name': 'Alzueta', 'path': 'C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism.yaml', 'colour':'xkcd:grey'},
-        {'name': 'LMR-R', 'path': 'C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_extraColliders.yaml', 'colour':'xkcd:purple'},
+# models = [{'name': 'Alzueta', 'path': 'C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism.yaml'},
+        #   {'name': 'Mei', 'path': 'G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Mei-2019\\mei-2019.yaml'},
+        #   {'name': 'LMR-R', 'path': 'C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_extraColliders.yaml'},
+models = [
+    # {'name': 'Glarborg', 'path': "G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Glarborg-2018\\glarborg-2018.yaml"},
+        #   {'name': 'Zhang', 'path': "G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Zhang-2017\\zhang-2017.yaml"},
+        #   {'name': 'Otomo', 'path': "G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Otomo-2018\\otomo-2018.yaml"},
+          {'name': 'Stagni', 'path': "G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Stagni-2020\\stagni-2020.yaml"},
+        #   {'name': 'Shrestha', 'path': "G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Shrestha-2021\\shrestha-2021.yaml"},
+        #   {'name': 'Han', 'path': "G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Han-2021\\han-2021.yaml"},
+        #   {'name': 'Cornell', 'path': "G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Cornell-2024\\cornell-2024.yaml"},
         ]
-P_list = [1,10,20] # bar
+# colours = ["xkcd:grey", "xkcd:teal", "xkcd:purple","orange", "r", "b", "xkcd:lime green", "xkcd:magenta", "xkcd:gold", "xkcd:navy blue"]
+# P_list = [1,10,20] # bar
+P_list = [20] # bar
 
 expData=['1bar','10bar','20bar']
 expData_eq=['1bar_eq','10bar_eq','20bar_eq']
@@ -38,8 +48,10 @@ lw=1
 mkrw=0.5
 mkrsz=3
 
-widths=[1.6,0.15,0.05]
-widths_eq=[3,1.6,1]
+# widths=[1.6,0.15,0.05]
+# widths_eq=[3,1.6,1]
+widths=[0.05]
+widths_eq=[1]
 
 def save_state_to_csv(filename, etat):
     headers = list(etat.keys())

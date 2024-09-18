@@ -173,7 +173,7 @@ for x, alpha in enumerate(alpha_list):
         # multiplier += 1      
         
         ax[x].set_xlabel(r"Sensitivity: $\frac{\partial\:\ln{S_{u}}}{\partial\:\ln{k}}$",fontsize=6)
-        ax[x].set_title(f'{alpha}% NH3/{1-alpha}% H2, {Tin[x]}K, 1 atm, $\phi$=1',fontsize=8)
+        ax[x].set_title(f'{alpha}% NH3/{1-alpha}% H2, {Tin[x]}K, 1 atm, '+r'$\phi$=1',fontsize=8)
         ax[x].set_yticks(new_y, rxns, fontsize=6)
         ax[x].invert_yaxis()
         
@@ -210,4 +210,4 @@ ax[1].set_position([pos.x0*1.35, pos.y0, pos.width, pos.height])
 path="C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\Ronney_Sensitivity\\"
 name="sensitivity"+f"{date}"
 plt.savefig(path+name+'.pdf', dpi=1000, bbox_inches='tight')
-plt.savefig(path+name+'.png', dpi=1000, bbox_inches='tight')
+plt.savefig(path+name+'.svg', dpi=1000, bbox_inches='tight')

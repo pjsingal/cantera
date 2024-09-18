@@ -307,5 +307,5 @@ for text in legend.get_texts():
 # plt.text(0.5, -0.05, 'Time [ms]', ha='center', va='center',fontsize=args.fszaxlab)
 if save_plots == True:
     plt.savefig('burkelab_SimScripts/figures/'+name+'.pdf', dpi=1000, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/'+name+'.png', dpi=1000, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'.svg', dpi=1000, bbox_inches='tight')
 # plt.show()     

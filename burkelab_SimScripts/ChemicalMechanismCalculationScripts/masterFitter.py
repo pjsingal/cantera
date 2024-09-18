@@ -486,6 +486,7 @@ mF = masterFitter(T_list,P_list,reactions,path+"sandbox_substituted.yaml",n_P=7,
 # mF.PLOG("LMRtest_PLOG_M")
 # mF.cheb2D("LMRtest_cheb_M")
 makeplot(["LMRtest_PLOG_M","LMRtest_Troe_M","LMRtest_cheb_M"],f'Plog_Troe_Cheb_fixedT.png')
+makeplot(["LMRtest_PLOG_M","LMRtest_Troe_M","LMRtest_cheb_M"],f'Plog_Troe_Cheb_fixedT.svg')
 
 # Rcal=1.987
 # k0_g = [5.8585e+10,-0.38,-197886.21/Rcal/500]

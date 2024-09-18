@@ -38,14 +38,13 @@ date=args.date
 # fuel_list = np.linspace(0.14,0.4,gridsz)
 # alpha_list = [1.0,0.8,0.6,0.4,0.2,0.0]
 # a_st = [0.75,0.7,0.65,0.6,0.55,0.5]
-p_list = np.linspace(20,50,gridsz)
+p_list = np.linspace(1,20,gridsz)
 
 def widthFit(p):
    return round(float(2.0717*np.exp(-0.2586*p)),4)
 widths = []
 for p in p_list:
-  #  widths.append(widthFit(p))
-  widths.append(0.01)
+   widths.append(widthFit(p))
 
 alpha_list = [1.0]
 a_st = [0.75]
@@ -58,10 +57,22 @@ fratio=3
 fslope=args.slopeVal #should be low enough that the results don't depend on the value. 0.02 for both is a good place to start. Try 0.01 and 0.05 and see if there are any differences
 fcurve=args.curveVal
 ftransport=args.transport # 'multicomponent' or 'mixture-averaged'
+# models = {    
+#           'Alzueta':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism.yaml",
+#           'Mei':'G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Ammonia\\Mei-2019\\mei-2019.yaml',
+#           'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_extraColliders.yaml",
+#           }
 models = {    
           'Alzueta':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism.yaml",
-          'Mei':'G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Ammonia\\Mei-2019\\mei-2019.yaml',
+          'Mei':'G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Mei-2019\\mei-2019.yaml',
           'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR_extraColliders.yaml",
+          'Glarborg':"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Glarborg-2018\\glarborg-2018.yaml",
+          'Zhang':"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Zhang-2017\\zhang-2017.yaml",
+          'Otomo':"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Otomo-2018\\otomo-2018.yaml",
+          'Stagni':"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Stagni-2020\\stagni-2020.yaml",
+          'Shrestha':"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Shrestha-2021\\shrestha-2021.yaml",
+          'Han':"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Han-2021\\han-2021.yaml",
+          'Cornell':"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Cornell-2024\\cornell-2024.yaml",
           }
 ###############################################################################################################
 
@@ -106,7 +117,7 @@ for x, alpha in enumerate(alpha_list):
         mbr.append(f.velocity[0] * 100) # cm/s
 
       # Save phi_list and mbr to CSV
-      path=f'C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\GubbiResults_vsP_EXTRA_'+date+f' (slope={fslope} curve={fcurve})'
+      path=f'C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\GubbiResults_vsP_'+date+f' (slope={fslope} curve={fcurve})'
       os.makedirs(path,exist_ok=True)
       csv_filename =path+f'\\{m}_{phi}phi_data.csv'
       data = zip(p_list, mbr)
