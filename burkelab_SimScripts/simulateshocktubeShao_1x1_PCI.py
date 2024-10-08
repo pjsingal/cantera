@@ -120,6 +120,6 @@ ax.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.2f}"))
 
 if save_plots == True:
     plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.pdf', dpi=1000, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.png', dpi=1000, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.svg', dpi=1000, bbox_inches='tight')
+    # plt.savefig('burkelab_SimScripts/figures/'+name+'_PCI.png', dpi=1000, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+'ShockTubeSpeciesProfile_H2O.eps', dpi=1000, bbox_inches='tight', format='eps')
 # plt.show()     

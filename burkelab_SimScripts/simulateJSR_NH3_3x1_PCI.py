@@ -352,5 +352,5 @@ ax[2].set_xlim([780,1070])
 
 if save_plots == True:
     plt.savefig('burkelab_SimScripts/figures/'+name+'.pdf', dpi=500, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/'+name+'.svg', dpi=500, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+'JSR_NH3.eps', dpi=500, bbox_inches='tight', format='eps')
 # plt.show()     

@@ -113,8 +113,8 @@ mbr_list = dataset.iloc[:,1]
 ax.plot(pressures,mbr_list,marker='o',fillstyle='none',markersize=msz,markeredgewidth=mw,linestyle='none',color='k',label='Burke/Song',zorder=100)
 ax.legend(fontsize=lgdfsz, frameon=False, loc='right', handlelength=lgdw) 
 
-ax.set_ylabel(r'Mass burning rate [g $\rm cm^{-2}$ $\rm s^{-1}$]')
-ax.set_xlabel(r'Pressure [atm]')
+ax.set_ylabel(r'Mass burning rate [g $\rm cm^{-2}$ $\rm s^{-1}$]',fontsize=args.fszaxlab)
+ax.set_xlabel(r'Pressure [atm]',fontsize=args.fszaxlab)
 ax.tick_params(axis='both', direction="in")
 ax.tick_params(axis='both', which='minor', direction="in")
 ax.set_xlim([0.001, 15.999])
@@ -130,6 +130,6 @@ else:
 path="C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\"
 if save_plots == True:
     plt.savefig(path+name+'.pdf', dpi=500, bbox_inches='tight')
-    plt.savefig(path+name+'.svg', dpi=500, bbox_inches='tight')
+    plt.savefig(path+'burkesong_flamespeed.eps', dpi=500, bbox_inches='tight', format='eps')
 
 # plt.show()     

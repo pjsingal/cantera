@@ -286,5 +286,5 @@ ax[3].annotate('(d)', xy=(0.95, 0.9), xycoords='axes fraction',ha='right', va='t
 # plt.subplots_adjust(top=0.98)
 if save_plots == True:
     plt.savefig('burkelab_SimScripts/figures/'+name+'.pdf', dpi=500, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/'+name+'.svg', dpi=500, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/figures/'+name+'.eps', dpi=500, bbox_inches='tight', format='eps')
 # plt.show()     

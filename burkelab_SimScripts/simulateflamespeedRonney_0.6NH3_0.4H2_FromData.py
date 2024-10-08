@@ -204,7 +204,7 @@ ax[0].annotate('(a)', xy=(0.11, 0.95), xycoords='axes fraction',ha='right', va='
 ax[1].annotate('(b)', xy=(0.11, 0.95), xycoords='axes fraction',ha='right', va='top')
 
 if args.paper == 'PCI':
-    fig.text(.03, 0.5, r'Burning velocity [cm $\rm s^{-1}$]', ha='center', va='center',rotation=90,fontsize=args.fszaxlab)
+    fig.text(0, 0.5, r'Burning velocity [cm $\rm s^{-1}$]', ha='center', va='center',rotation=90,fontsize=args.fszaxlab)
     ax[1].set_xlabel(r'Equivalence Ratio')
     ax[0].set_xlim([0.6001, 1.7999])
     ax[0].set_ylim([0.001, 11.9999])
@@ -227,6 +227,6 @@ else:
 if save_plots == True:
     plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\"+name+'.pdf', dpi=1000, bbox_inches='tight')
     # plt.savefig('burkelab_SimScripts/figures/'+name+'_ESSCI.png', dpi=1000, bbox_inches='tight')
-    plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\"+name+'.svg', dpi=1000, bbox_inches='tight')
+    plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\"+'ronney_flamespeed.eps', dpi=1000, bbox_inches='tight', format='eps')
 
 # plt.show()     
