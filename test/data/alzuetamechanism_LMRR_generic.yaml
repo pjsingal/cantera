@@ -962,6 +962,7 @@ reactions:
   low-P-rate-constant: {A: 4.4e+38, b: -6.1, Ea: 93932.0}
   high-P-rate-constant: {A: 37000000000000.0, b: 0.0, Ea: 71969.0}
 - equation: CH2O + H <=> HCO + H2
+  duplicate: true
   type: linear-Burke
   reference-collider: AR
   colliders:
@@ -999,6 +1000,7 @@ reactions:
     eps: {A: 0.11521, b: 0.34123, Ea: -389.20992}
     note: Jasper-2022 (generic)
 - equation: CH2O + H <=> HCO + H2
+  duplicate: true
   type: linear-Burke
   reference-collider: AR
   colliders:
@@ -2003,6 +2005,7 @@ reactions:
 - equation: N2H3 + NH <=> tHNNH + NH2
   rate-constant: {A: 20000000000000.0, b: 0.0, Ea: 0.0}
 - equation: tHNNH (+M) <=> cHNNH (+M)
+  duplicate: true
   type: linear-Burke
   reference-collider: AR
   colliders:
@@ -2039,6 +2042,7 @@ reactions:
     eps: {A: 0.11521, b: 0.34123, Ea: -389.20992}
     note: Jasper-2022 (generic)
 - equation: tHNNH (+M) <=> cHNNH (+M)
+  duplicate: true
   type: linear-Burke
   reference-collider: AR
   colliders:

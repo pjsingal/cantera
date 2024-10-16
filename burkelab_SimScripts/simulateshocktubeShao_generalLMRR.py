@@ -82,7 +82,6 @@ def plotXvsTime(fname,pltlabel,pltcolour,lstyle='solid',zorder_value=10):
         t = reactorNetwork.step()
         if counter % 10 == 0:
             timeHistory.append(r.thermo.state, t=t)
-        print("iter true")
         counter += 1
     tConv = 1e6 #time conversion factor (1e6 converts to microseconds)
     timeShift=0 # [seconds]
