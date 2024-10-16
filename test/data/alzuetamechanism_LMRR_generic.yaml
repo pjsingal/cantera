@@ -685,12 +685,10 @@ reactions:
     high-P-rate-constant: {A: 25100000000000.0, b: 0.234, Ea: -114.2}
     Troe: {A: 0.73, T3: 1.0e-30, T1: 1.0e+30, T2: 1.0e+30}
   - name: AR
-    eps: [0.398, 0.617, 0.833]
-    temperatures: [300, 1000, 2000]
+    eps: {A: 0.02208, b: 0.4739, Ea: -112.52939}
     note: Jasper-2022
   - name: H2O
-    eps: [3.57, 5.28, 7.29]
-    temperatures: [300, 1000, 2000]
+    eps: {A: 0.10637, b: 0.54858, Ea: -229.16643}
     note: Jasper-2022
 - equation: H2O + O2 <=> H + OH + O2
   duplicate: true
@@ -707,28 +705,22 @@ reactions:
     high-P-rate-constant: {A: 4700000000000.0, b: 0.44, Ea: 0.0}
     Troe: {A: 0.5, T3: 1.0e-30, T1: 1.0e+30}
   - name: N2
-    eps: [1.71, 1.58, 1.2]
-    temperatures: [300, 1000, 2000]
+    eps: {A: 124.93184, b: -0.59326, Ea: 540.92123}
     note: Jasper-2022
   - name: H2
-    eps: [3.69, 3.07, 1.71]
-    temperatures: [300, 1000, 2000]
+    eps: {A: 31371.70908, b: -1.25419, Ea: 1129.24106}
     note: Jasper-2022
   - name: CO2
-    eps: [13.7, 8.94, 3.03]
-    temperatures: [300, 1000, 2000]
+    eps: {A: 162412680.25829, b: -2.27622, Ea: 1970.23295}
     note: Jasper-2022
   - name: NH3
-    eps: [20.4, 17.9, 18.7]
-    temperatures: [300, 1000, 2000]
+    eps: {A: 4.9775, b: 0.16486, Ea: -280.3505}
     note: Jasper-2022
   - name: H2O
-    eps: [23.3, 22.2, 21.3]
-    temperatures: [300, 1000, 2000]
+    eps: {A: 36.91456, b: -0.07129, Ea: 31.90868}
     note: Jasper-2022
   - name: HE
-    eps: [0.9, 1.17, 1.34]
-    temperatures: [300, 1000, 2000]
+    eps: {A: 0.3376, b: 0.18257, Ea: 36.24078}
     note: Jasper-2022
 - equation: HO2 + H <=> H2 + O2
   rate-constant: {A: 2800000.0, b: 2.09, Ea: -1451.0}
@@ -758,16 +750,13 @@ reactions:
     high-P-rate-constant: {A: 2000000000000.0, b: 0.9, Ea: 48749.0}
     Troe: {A: 0.43, T3: 1.0e-30, T1: 1.0e+30}
   - name: N2
-    eps: [1.5, 1.58, 1.63]
-    temperatures: [300, 1000, 2000]
+    eps: {A: 1.14813, b: 0.04601, Ea: -2.92413}
     note: Jasper-2022
   - name: CO2
-    eps: [5.22, 4.14, 3.27]
-    temperatures: [300, 1000, 2000]
+    eps: {A: 89.88392, b: -0.42797, Ea: 241.39243}
     note: Jasper-2022
   - name: H2O2
-    eps: [6.83, 12.0, 16.3]
-    temperatures: [300, 1000, 2000]
+    eps: {A: 0.6453, b: 0.42627, Ea: 42.89316}
     note: Jasper-2022
 - equation: H2O2 + H <=> H2O + OH
   rate-constant: {A: 24000000000000.0, b: 0.0, Ea: 3970.0}
@@ -1167,24 +1156,19 @@ reactions:
     high-P-rate-constant: {A: 150000000000000.0, b: 0.167, Ea: 0.0}
     Troe: {A: 0.5, T3: 1.0e-30, T1: 1.0e+30, T2: 1.0e+30}
   - name: N2
-    eps: [3.15, 2.47, 2.25]
-    temperatures: [300, 1000, 2000]
+    eps: {A: 4.49281, b: -0.09463, Ea: -110.07119}
     note: Jasper-2022
   - name: O2
-    eps: [1.55, 1.48, 1.7]
-    temperatures: [300, 1000, 2000]
+    eps: {A: 0.11521, b: 0.34123, Ea: -389.20992}
     note: Jasper-2022
   - name: CO2
-    eps: [11.2, 13.4, 14.3]
-    temperatures: [300, 1000, 2000]
+    eps: {A: 9.19583, b: 0.06107, Ea: 90.10883}
     note: Jasper-2022
   - name: NH3
-    eps: [13.9, 20.0, 22.2]
-    temperatures: [300, 1000, 2000]
+    eps: {A: 14.90041, b: 0.06065, Ea: 247.6525}
     note: Jasper-2022
   - name: H2O
-    eps: [14.0, 23.6, 27.9]
-    temperatures: [300, 1000, 2000]
+    eps: {A: 11.45597, b: 0.1275, Ea: 313.95921}
     note: Jasper-2022
 - equation: NH3 + H <=> NH2 + H2
   rate-constant: {A: 540000.0, b: 2.4, Ea: 9916.0}
@@ -1235,20 +1219,16 @@ reactions:
     high-P-rate-constant: {A: 560000000000000.0, b: -0.414, Ea: 66.0}
     Troe: {A: 0.31, T3: 1.0e-30, T1: 1.0e+30, T2: 1.0e+30}
   - name: N2
-    eps: [2.0, 1.69, 1.43]
-    temperatures: [300, 1000, 2000]
+    eps: {A: 14.68478, b: -0.30096, Ea: 165.14611}
     note: Jasper-2022
   - name: O2
-    eps: [1.22, 1.17, 1.14]
-    temperatures: [300, 1000, 2000]
+    eps: {A: 1.53608, b: -0.03909, Ea: 4.43752}
     note: Jasper-2022
   - name: NH3
-    eps: [5.86, 8.25, 8.6]
-    temperatures: [300, 1000, 2000]
+    eps: {A: 16.41959, b: -0.07296, Ea: 366.09891}
     note: Jasper-2022
   - name: H2O
-    eps: [5.6, 7.98, 8.19]
-    temperatures: [300, 1000, 2000]
+    eps: {A: 21.76579, b: -0.11471, Ea: 419.21607}
     note: Jasper-2022
 - equation: NH2 + NH2 <=> tHNNH + H2
   rate-constant: {A: 170000000.0, b: 1.02, Ea: 11783.0}
@@ -1492,12 +1472,10 @@ reactions:
     high-P-rate-constant: {A: 1500000000000000.0, b: -0.41, Ea: 0.0}
     Troe: {A: 0.82, T3: 1.0e-30, T1: 1.0e+30, T2: 1.0e+30}
   - name: N2
-    eps: [1.61, 1.71, 1.59]
-    temperatures: [300, 1000, 2000]
+    eps: {A: 7.56771, b: -0.19688, Ea: 253.16785}
     note: Jasper-2022
   - name: H2O
-    eps: [6.42, 8.15, 9.09]
-    temperatures: [300, 1000, 2000]
+    eps: {A: 3.35451, b: 0.13335, Ea: 66.4633}
     note: Jasper-2022
 - equation: HNO + H <=> NO + H2
   rate-constant: {A: 66000000000.0, b: 0.94, Ea: 495.0}
