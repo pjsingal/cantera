@@ -1398,8 +1398,8 @@ class TestReaction(utilities.CanteraTest):
 
     def test_linearburke_plog(self):
         reaction = "H + OH <=> H2O"
-        gas_baseline = ct.Solution('linearBurke-test.yaml',phase='baseline_mechanism')
-        gas_linearBurke = ct.Solution('linearBurke-test.yaml',phase='linear-Burke_mechanism')
+        gas_baseline = ct.Solution('linearBurke-test.yaml',name='baseline_mechanism')
+        gas_linearBurke = ct.Solution('linearBurke-test.yaml',name='linear-Burke_mechanism')
         T = 1000 # [K]
         P_ls = [0.1,1,10,100] # [atm]
         for i in range(len(P_ls)-1):
@@ -1415,8 +1415,8 @@ class TestReaction(utilities.CanteraTest):
 
     def test_linearburke_troe(self):
         reaction = "H + O2 (+M) <=> HO2 (+M)"
-        gas_baseline = ct.Solution('linearBurke-test.yaml',phase='baseline_mechanism')
-        gas_linearBurke = ct.Solution('linearBurke-test.yaml',phase='linear-Burke_mechanism')
+        gas_baseline = ct.Solution('linearBurke-test.yaml',name='baseline_mechanism')
+        gas_linearBurke = ct.Solution('linearBurke-test.yaml',name='linear-Burke_mechanism')
         T = 1000 # [K]
         P_ls = [0.1,1,10,100] # [atm]
         for i in range(len(P_ls)-1):
@@ -1432,8 +1432,8 @@ class TestReaction(utilities.CanteraTest):
 
     def test_linearburke_chebyshev(self):
         reaction = "H2O2 <=> 2 OH"
-        gas_baseline = ct.Solution('linearBurke-test.yaml',phase='baseline_mechanism')
-        gas_linearBurke = ct.Solution('linearBurke-test.yaml',phase='linear-Burke_mechanism')
+        gas_baseline = ct.Solution('linearBurke-test.yaml',name='baseline_mechanism')
+        gas_linearBurke = ct.Solution('linearBurke-test.yaml',name='linear-Burke_mechanism')
         T = 1000 # [K]
         P_ls = [0.1,1,10,100] # [atm]
         for i in range(len(P_ls)-1):
