@@ -123,9 +123,9 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
     // Start at 1 because index 0 is for "M"
     for (size_t i = 1; i < colliders.size(); i++){
         if (!colliders[i].hasKey("name")) {
-                throw InputFileError("LinearBurkeRate::setParameters", m_input,
-                    "The collider located at index '{}' in 'colliders' of reaction '{}'"
-                    " has no 'name' defined.", std::to_string(i), eqn);
+            throw InputFileError("LinearBurkeRate::setParameters", m_input,
+                "The collider located at index '{}' in 'colliders' of reaction '{}'"
+                " has no 'name' defined.", i, eqn);
         }
         auto nm = colliders[i]["name"].asString();
         if (!colliders[i].hasKey("efficiency") && !colliders[0].hasKey("eig0")) {
