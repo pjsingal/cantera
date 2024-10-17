@@ -72,17 +72,14 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
     if (!colliders[0].hasKey("name")) {
         throw InputFileError("LinearBurkeRate::setParameters", m_input,
             "'colliders' key missing from reaction '{}'.",eqn);
-    }
-    else if (!colliders[0].hasKey("efficiency") && !colliders[0].hasKey("eig0")) {
+    } else if (!colliders[0].hasKey("efficiency") && !colliders[0].hasKey("eig0")) {
         throw InputFileError("LinearBurkeRate::setParameters", m_input,
                 "Collider 'M' in reaction '{}' is missing an 'efficiency' or 'eig0' key.",
                 eqn);
-    }
-    else if (colliders[0]["name"].as<string>() != "M") {
+    } else if (colliders[0]["name"].as<string>() != "M") {
         throw InputFileError("LinearBurkeRate::setParameters", m_input,
             "The first collider defined in reaction '{}' must be 'M'.",eqn);
-    }
-    else if (colliders[0].hasKey("efficiency")) {
+    } else if (colliders[0].hasKey("efficiency")) {
         if (colliders[0]["efficiency"]["A"] != 1 || colliders[0]["efficiency"]["b"] != 0 ||
             colliders[0]["efficiency"]["Ea"] != 0) {
             throw InputFileError("LinearBurkeRate::setParameters", m_input,
@@ -93,13 +90,11 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
     if (colliders[0].hasKey("rate-constants")) {
         m_rateObj_M = PlogRate(colliders[0], rate_units);
         m_dataObj_M = PlogData();
-    }
-    else if (colliders[0].hasKey("Troe")) {
+    } else if (colliders[0].hasKey("Troe")) {
         colliders[0]["type"] = "falloff";
         m_rateObj_M = TroeRate(colliders[0], rate_units);
         m_dataObj_M = FalloffData();
-    }
-    else if (colliders[0].hasKey("pressure-range")) {
+    } else if (colliders[0].hasKey("pressure-range")) {
         m_rateObj_M = ChebyshevRate(colliders[0], rate_units);
         m_dataObj_M = ChebyshevData();
     }
@@ -112,8 +107,7 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
     string eig_eps_key;
     if (colliders[0].hasKey("eig0") && !colliders[0].hasKey("efficiency")) {
         eig_eps_key = "eig0";
-    }
-    else if (colliders[0].hasKey("efficiency") && !colliders[0].hasKey("eig0")) {
+    } else if (colliders[0].hasKey("efficiency") && !colliders[0].hasKey("eig0")) {
         eig_eps_key = "efficiency";
     }
     else{
@@ -300,11 +294,9 @@ double LinearBurkeRate::evalFromStruct(const LinearBurkeData& shared_data)
         // k_LMR_+=evalPlogRate(shared_data,m_dataObj_M,m_rateObj_M)*eps_M*sigmaX_M/eps_mix
         // but eps_M = 1 always
         k_LMR_ += evalPlogRate(shared_data, m_dataObj_M, m_rateObj_M) * sigmaX_M / eps_mix;
-    }
-    else if (m_rateObj_M.which() == 1) { // 1 means TroeRate
+    } else if (m_rateObj_M.which() == 1) { // 1 means TroeRate
         k_LMR_ += evalTroeRate(shared_data, m_dataObj_M, m_rateObj_M) * sigmaX_M / eps_mix;
-    }
-    else if (m_rateObj_M.which() == 2) { // 2 means ChebyshevRate
+    } else if (m_rateObj_M.which() == 2) { // 2 means ChebyshevRate
         k_LMR_ += evalChebyshevRate(shared_data, m_dataObj_M, m_rateObj_M) * sigmaX_M /
             eps_mix;
     }
