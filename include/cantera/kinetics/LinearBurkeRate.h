@@ -111,19 +111,22 @@ protected:
     double evalPlogRate(
         const LinearBurkeData& shared_data,
         DataTypes& dataObj,
-        RateTypes& rateObj);
+        RateTypes& rateObj,
+        double logPeff);
     //! Evaluate overall reaction rate using Troe to evaluate
     //! pressure-dependent aspect of the reaction
     double evalTroeRate(
         const LinearBurkeData& shared_data,
         DataTypes& dataObj,
-        RateTypes& rateObj);
+        RateTypes& rateObj,
+        double logPeff);
     //! Evaluate overall reaction rate using Chebyshev to evaluate
     //! pressure-dependent aspect of the reaction
     double evalChebyshevRate(
         const LinearBurkeData& shared_data,
         DataTypes& dataObj,
-        RateTypes& rateObj);
+        RateTypes& rateObj,
+        double logPeff);
 
     //! String name of each collider, appearing in the same order as that of the
     //! original reaction input.
@@ -159,7 +162,6 @@ protected:
     vector<DataTypes> m_dataObjs; //!< list for non-M colliders
     
     size_t m_nSpecies; //!< total number of species in the kinetics object
-    double m_logPeff_; //!< effective pressure as a function of eps
 };
 
 }
