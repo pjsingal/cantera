@@ -79,13 +79,6 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
     } else if (colliders[0]["name"].as<string>() != "M") {
         throw InputFileError("LinearBurkeRate::setParameters", m_input,
             "The first collider defined in reaction '{}' must be 'M'.",eqn);
-    } else if (colliders[0].hasKey("efficiency")) {
-        if (colliders[0]["efficiency"]["A"] != 1 || colliders[0]["efficiency"]["b"] != 0 ||
-            colliders[0]["efficiency"]["Ea"] != 0) {
-            throw InputFileError("LinearBurkeRate::setParameters", m_input,
-                "The third-body efficiency must be entered for M as"
-                " 'efficiency: {A: 1, b: 0, Ea: 0}' in reaction '{}'.", eqn);
-        }
     }
     if (colliders[0].hasKey("rate-constants")) {
         m_rateObj_M = PlogRate(colliders[0], rate_units);
