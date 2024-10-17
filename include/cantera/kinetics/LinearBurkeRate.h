@@ -64,10 +64,12 @@ protected:
     double m_pressure_buf = -1.0;
 };
 
-
 //! Pressure-dependent and composition-dependent reaction rate calculated according to
-//! the reduced-pressure linear mixture rule (LMR-R) developed at Columbia University.
-//! @cite singal2024
+//! the reduced-pressure linear mixture rule (LMR-R).
+//! 
+//! This parameterization is described by Singal et al. @cite singal2024 and in the
+//! [science reference](../reference/kinetics/rate-constants.html#linear-burke-rate-expressions)
+//! documentation.
 class LinearBurkeRate final : public ReactionRate
 {
 public:
@@ -92,10 +94,10 @@ public:
 
     void getParameters(AnyMap& rateNode) const override;
 
-    //! Create type aliases that refer to Plog, Troe, and Chebyshev
+    //! Create type alias that refers to PlogRate, TroeRate, and ChebyshevRate
     using RateTypes = boost::variant<PlogRate, TroeRate, ChebyshevRate>;
+    //! Create type alias that refers to PlogData, FalloffData, and ChebyshevData
     using DataTypes = boost::variant<PlogData, FalloffData, ChebyshevData>;
-
     
     double evalFromStruct(const LinearBurkeData& shared_data);
 
@@ -104,19 +106,20 @@ public:
     void validate(const string& equation, const Kinetics& kin) override;
 
 protected:
-    //! Evaluate overall reaction rate, using Troe/PLOG/Chebyshev to evaluate
+    //! Evaluate overall reaction rate using PLOG to evaluate
     //! pressure-dependent aspect of the reaction
-    /*!
-     *  @param shared_data  data shared by all reactions of a given type
-     */
     double evalPlogRate(
         const LinearBurkeData& shared_data,
         DataTypes& dataObj,
         RateTypes& rateObj);
+    //! Evaluate overall reaction rate using Troe to evaluate
+    //! pressure-dependent aspect of the reaction
     double evalTroeRate(
         const LinearBurkeData& shared_data,
         DataTypes& dataObj,
         RateTypes& rateObj);
+    //! Evaluate overall reaction rate using Chebyshev to evaluate
+    //! pressure-dependent aspect of the reaction
     double evalChebyshevRate(
         const LinearBurkeData& shared_data,
         DataTypes& dataObj,
@@ -133,21 +136,28 @@ protected:
     //! Allows data from setParameters() to be later accessed by getParameters()
     map<string, AnyMap> m_colliderInfo;
 
-    //! Third-body collision efficiency objects (eps = eig0_i/eig0_M)
-    vector<ArrheniusRate> m_epsObjs1; //!< used for k(T,P,X) and eig0_mix calculation
-    vector<ArrheniusRate> m_epsObjs2; //!< used for logPeff calculation
-    ArrheniusRate m_epsObj_M; //!< used just for M (eig0_M/eig0_M = 1 always)
-
-    //! Stores rate objects corresponding to each collider, which can be either
+    //! Third-body collision efficiency object for k(T,P,X) and eig0_mix calculation
+    vector<ArrheniusRate> m_epsObjs1;
+    //! Third-body collision efficiency object for m_logPeff_ calculation
+    vector<ArrheniusRate> m_epsObjs2;
+    //! Third-body collision efficiency object for the reference collider M
+    //! (eig0_M/eig0_M = 1 always)
+    ArrheniusRate m_epsObj_M;
+    
+    //! Stores rate objects corresponding the reference collider M, which can be
+    //! either PlogRate, TroeRate, or ChebyshevRate
+    RateTypes m_rateObj_M;
+    //! Stores rate objects corresponding to each non-M collider, which can be either
     //! PlogRate, TroeRate, or ChebyshevRate
-    vector<RateTypes> m_rateObjs; //!< list for non-M colliders
-    RateTypes m_rateObj_M; //!< collider M
+    vector<RateTypes> m_rateObjs;
 
-    //! Stores data objects corresponding to each collider, which can be either
+    //! Stores data objects corresponding to the reference collider M, which can be
+    //! either PlogData, TroeData, or ChebyshevData
+    DataTypes m_dataObj_M; //!< collider M
+    //! Stores data objects corresponding to each non-M collider, which can be either
     //! PlogData, TroeData, or ChebyshevData
     vector<DataTypes> m_dataObjs; //!< list for non-M colliders
-    DataTypes m_dataObj_M; //!< collider M
-
+    
     size_t m_nSpecies; //!< total number of species in the kinetics object
     double m_logPeff_; //!< effective pressure as a function of eps
 };
