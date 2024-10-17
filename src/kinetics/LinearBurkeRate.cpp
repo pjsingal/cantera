@@ -95,8 +95,7 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
         m_dataObj_M = PlogData();
     }
     else if (colliders[0].hasKey("Troe")) {
-        // Value of "type" is unimportant; just needed to make falloff.cpp run
-        colliders[0]["type"];
+        colliders[0]["type"] = "falloff";
         m_rateObj_M = TroeRate(colliders[0], rate_units);
         m_dataObj_M = FalloffData();
     }
