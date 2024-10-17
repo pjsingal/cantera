@@ -146,8 +146,8 @@ public:
     DataTypes dataObj_M; //!< collider M
 
     size_t nSpecies; //!< total number of species in the kinetics object
-    double logPeff_; //! effective pressure as a function of eps
-    double eps_mix; //! mole-fraction-weighted overall eps value of the mixtures
+    double logPeff_; //!< effective pressure as a function of eps
+    double eps_mix; //!< mole-fraction-weighted overall eps value of the mixtures
 };
 
 }
