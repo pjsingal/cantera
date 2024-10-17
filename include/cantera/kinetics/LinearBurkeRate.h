@@ -119,6 +119,7 @@ public:
 
     void validate(const string& equation, const Kinetics& kin) override;
 
+protected:
     //! String name of each collider, appearing in the same order as that of the
     //! original reaction input.
     vector<string> colliderNames;
