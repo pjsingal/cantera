@@ -252,18 +252,18 @@ double LinearBurkeRate::evalFromStruct(const LinearBurkeData& shared_data)
         // rounding conventions
         sigmaX_M += shared_data.moleFractions[i];
     }
-    m_eps_mix = 0.0;
+    double eps_mix = 0.0; // mole-fraction-weighted overall eps value of the mixtures
     for (size_t j = 0; j < m_colliderIndices.size(); j++) {
         size_t i = m_colliderIndices[j];
-        m_eps_mix += shared_data.moleFractions[i] *
+        eps_mix += shared_data.moleFractions[i] *
             m_epsObjs1[j].evalRate(shared_data.logT, shared_data.recipT);
         sigmaX_M -= shared_data.moleFractions[i];
     }
-    // Add all M colliders to m_eps_mix in a single step
-    m_eps_mix += sigmaX_M; // m_eps_mix += sigmaX_M * eps_M, but eps_M = 1 always
-    if (m_eps_mix == 0) {
+    // Add all M colliders to eps_mix in a single step
+    eps_mix += sigmaX_M; // eps_mix += sigmaX_M * eps_M, but eps_M = 1 always
+    if (eps_mix == 0) {
         throw InputFileError("LinearBurkeRate::evalFromStruct", m_input,
-            "m_eps_mix == 0 for some reason");
+            "eps_mix == 0 for some reason");
     }
     double k_LMR_ = 0.0;
     for (size_t j = 0; j < m_colliderIndices.size(); j++) {
@@ -271,21 +271,21 @@ double LinearBurkeRate::evalFromStruct(const LinearBurkeData& shared_data)
         double eps1 = m_epsObjs1[j].evalRate(shared_data.logT, shared_data.recipT);
         double eps2 = m_epsObjs2[j].evalRate(shared_data.logT, shared_data.recipT);
         // eps2 equals either eps_M or eps_i, depending on the scenario
-        m_logPeff_ = shared_data.logP + log(m_eps_mix) - log(eps2);
+        m_logPeff_ = shared_data.logP + log(eps_mix) - log(eps2);
         // 0 means PlogRate
         if (m_rateObjs[j].which() == 0) {
             k_LMR_ += evalPlogRate(shared_data, m_dataObjs[j], m_rateObjs[j]) * eps1 *
-                shared_data.moleFractions[i] / m_eps_mix;
+                shared_data.moleFractions[i] / eps_mix;
         }
         // 1 means TroeRate
         else if (m_rateObjs[j].which() == 1) {
             k_LMR_ += evalTroeRate(shared_data, m_dataObjs[j], m_rateObjs[j]) * eps1 *
-                shared_data.moleFractions[i] / m_eps_mix;
+                shared_data.moleFractions[i] / eps_mix;
         }
         // 2 means ChebyshevRate
         else if (m_rateObjs[j].which() == 2) {
             k_LMR_ += evalChebyshevRate(shared_data, m_dataObjs[j], m_rateObjs[j]) * eps1 *
-                shared_data.moleFractions[i] / m_eps_mix;
+                shared_data.moleFractions[i] / eps_mix;
         }
         else {
             throw InputFileError("LinearBurkeRate::evalFromStruct", m_input,
@@ -293,21 +293,21 @@ double LinearBurkeRate::evalFromStruct(const LinearBurkeData& shared_data)
         }
     }
     // We actually have
-    // m_logPeff_ = shared_data.logP + log(m_eps_mix) - log(eps_M)
+    // m_logPeff_ = shared_data.logP + log(eps_mix) - log(eps_M)
     // but log(eps_M)=0 always
-    m_logPeff_ = shared_data.logP + log(m_eps_mix);
+    m_logPeff_ = shared_data.logP + log(eps_mix);
     if (m_rateObj_M.which() == 0) { // 0 means PlogRate
         // We actually have
-        // k_LMR_+=evalPlogRate(shared_data,m_dataObj_M,m_rateObj_M)*eps_M*sigmaX_M/m_eps_mix
+        // k_LMR_+=evalPlogRate(shared_data,m_dataObj_M,m_rateObj_M)*eps_M*sigmaX_M/eps_mix
         // but eps_M = 1 always
-        k_LMR_ += evalPlogRate(shared_data, m_dataObj_M, m_rateObj_M) * sigmaX_M / m_eps_mix;
+        k_LMR_ += evalPlogRate(shared_data, m_dataObj_M, m_rateObj_M) * sigmaX_M / eps_mix;
     }
     else if (m_rateObj_M.which() == 1) { // 1 means TroeRate
-        k_LMR_ += evalTroeRate(shared_data, m_dataObj_M, m_rateObj_M) * sigmaX_M / m_eps_mix;
+        k_LMR_ += evalTroeRate(shared_data, m_dataObj_M, m_rateObj_M) * sigmaX_M / eps_mix;
     }
     else if (m_rateObj_M.which() == 2) { // 2 means ChebyshevRate
         k_LMR_ += evalChebyshevRate(shared_data, m_dataObj_M, m_rateObj_M) * sigmaX_M /
-            m_eps_mix;
+            eps_mix;
     }
     return k_LMR_;
 }

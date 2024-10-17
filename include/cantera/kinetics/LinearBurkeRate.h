@@ -148,7 +148,6 @@ protected:
 
     size_t m_nSpecies; //!< total number of species in the kinetics object
     double m_logPeff_; //!< effective pressure as a function of eps
-    double m_eps_mix; //!< mole-fraction-weighted overall eps value of the mixtures
 };
 
 }
