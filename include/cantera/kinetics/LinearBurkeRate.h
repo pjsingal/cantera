@@ -122,33 +122,33 @@ public:
 protected:
     //! String name of each collider, appearing in the same order as that of the
     //! original reaction input.
-    vector<string> colliderNames;
+    vector<string> m_colliderNames;
 
     //! Index of each collider in the kinetics object species list where the vector
     //! elements appear in the same order as that of the original reaction input.
-    vector<size_t> colliderIndices;
+    vector<size_t> m_colliderIndices;
 
     //! Allows data from setParameters() to be later accessed by getParameters()
-    map<string, AnyMap> colliderInfo;
+    map<string, AnyMap> m_colliderInfo;
 
     //! Third-body collision efficiency objects (eps = eig0_i/eig0_M)
-    vector<ArrheniusRate> epsObjs1; //!< used for k(T,P,X) and eig0_mix calculation
-    vector<ArrheniusRate> epsObjs2; //!< used for logPeff calculation
-    ArrheniusRate epsObj_M; //!< used just for M (eig0_M/eig0_M = 1 always)
+    vector<ArrheniusRate> m_epsObjs1; //!< used for k(T,P,X) and eig0_mix calculation
+    vector<ArrheniusRate> m_epsObjs2; //!< used for logPeff calculation
+    ArrheniusRate m_epsObj_M; //!< used just for M (eig0_M/eig0_M = 1 always)
 
     //! Stores rate objects corresponding to each collider, which can be either
     //! PlogRate, TroeRate, or ChebyshevRate
-    vector<RateTypes> rateObjs; //!< list for non-M colliders
-    RateTypes rateObj_M; //!< collider M
+    vector<RateTypes> m_rateObjs; //!< list for non-M colliders
+    RateTypes m_rateObj_M; //!< collider M
 
     //! Stores data objects corresponding to each collider, which can be either
     //! PlogData, TroeData, or ChebyshevData
-    vector<DataTypes> dataObjs; //!< list for non-M colliders
-    DataTypes dataObj_M; //!< collider M
+    vector<DataTypes> m_dataObjs; //!< list for non-M colliders
+    DataTypes m_dataObj_M; //!< collider M
 
-    size_t nSpecies; //!< total number of species in the kinetics object
-    double logPeff_; //!< effective pressure as a function of eps
-    double eps_mix; //!< mole-fraction-weighted overall eps value of the mixtures
+    size_t m_nSpecies; //!< total number of species in the kinetics object
+    double m_logPeff_; //!< effective pressure as a function of eps
+    double m_eps_mix; //!< mole-fraction-weighted overall eps value of the mixtures
 };
 
 }
