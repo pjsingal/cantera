@@ -27,7 +27,9 @@ References:
     Mixture Rules Has a Substantial Impact on Combustion Predictions for H2 and NH3,
     Proc. Combust. Inst. 40 (2024).
 
-Requires: cantera >= 3.1 .. tags:: shock tube, kinetics
+Requires: cantera >= 3.1
+
+.. tags:: shock tube, kinetics
 """
 
 import cantera as ct
