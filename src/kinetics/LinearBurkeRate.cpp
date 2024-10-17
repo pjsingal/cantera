@@ -139,8 +139,9 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
                 " as either 'eig0' or 'efficiency'. No mixing and matching is allowed.", eqn);
         }
         // Save data to m_colliderInfo, which will make it accessible by getParameters
-        m_colliderInfo.insert({colliders[i]["name"].as<string>(), colliders[i]});
+        m_colliderInfo[colliders[i]["name"].asString()] = colliders[i];
         m_colliderNames.push_back(colliders[i]["name"].as<string>());
+
         ArrheniusRate epsObj_i;
         // eig0 and eps are ONLY interchangeable due to the requirement that eps_M have
         // parameters {A: 1, b: 0, Ea: 0}
