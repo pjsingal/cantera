@@ -83,7 +83,7 @@ public:
     }
 
     //! Identifier of reaction rate type
-    const string type() const override { return "linear-burke"; }
+    const string type() const override { return "linear-Burke"; }
 
     //! Perform object setup based on AnyMap node information
     /*!
