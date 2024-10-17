@@ -96,6 +96,14 @@ public:
     using RateTypes = boost::variant<PlogRate, TroeRate, ChebyshevRate>;
     using DataTypes = boost::variant<PlogData, FalloffData, ChebyshevData>;
 
+    
+    double evalFromStruct(const LinearBurkeData& shared_data);
+
+    void setContext(const Reaction& rxn, const Kinetics& kin) override;
+
+    void validate(const string& equation, const Kinetics& kin) override;
+
+protected:
     //! Evaluate overall reaction rate, using Troe/PLOG/Chebyshev to evaluate
     //! pressure-dependent aspect of the reaction
     /*!
@@ -113,13 +121,7 @@ public:
         const LinearBurkeData& shared_data,
         DataTypes& dataObj,
         RateTypes& rateObj);
-    double evalFromStruct(const LinearBurkeData& shared_data);
 
-    void setContext(const Reaction& rxn, const Kinetics& kin) override;
-
-    void validate(const string& equation, const Kinetics& kin) override;
-
-protected:
     //! String name of each collider, appearing in the same order as that of the
     //! original reaction input.
     vector<string> m_colliderNames;
