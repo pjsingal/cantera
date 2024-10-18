@@ -421,6 +421,9 @@ or Chebyshev parameterization if so desired. Mixing and matching of types within
 same reaction is allowed (e.g., a PLOG table for ``M``, Troe parameters for ``H2``, and
 Chebyshev data for ``NH3``).
 
+A mathematical description of this YAML implementation can be found in Eq. 8 of
+:cite:t:`singal2024`.
+
 Additional fields are:
 
 ``colliders``
@@ -456,9 +459,6 @@ Additional fields are:
 
     A :ref:`Chebyshev <sec-yaml-Chebyshev>` implementation also requires: ``temperature-range``,
     ``pressure-range``, ``data``.
-
-A mathematical description of this YAML implementation can be found in Eq. 8 of
-:cite:t:`singal2024`.
 
 Examples:
 
