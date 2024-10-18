@@ -113,6 +113,7 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
     params["b"] = 0.0;
     params["Ea"] = 0.0;
     m_epsObj_M = ArrheniusRate(AnyValue(params), colliders[0].units(), eps_units);
+    m_colliderInfo["M"] = colliders[0];
     // Start at 1 because index 0 is for "M"
     for (size_t i = 1; i < colliders.size(); i++){
         if (!colliders[i].hasKey("name")) {
@@ -308,12 +309,16 @@ void LinearBurkeRate::getParameters(AnyMap& rateNode) const
         AnyMap colliderNode;
         if(colliders_i.hasKey("rate-constants")) {
             colliderNode["name"] = name;
-            colliderNode["eps"] = colliders_i["eps"];
+            if (colliderNode.hasKey("eps")){ // only collider "M" will lack this
+                colliderNode["eps"] = colliders_i["eps"];
+            }
             colliderNode["rate-constants"] = colliders_i["rate-constants"];
         }
         else if(colliders_i.hasKey("Troe")) {
             colliderNode["name"] = name;
-            colliderNode["eps"] = colliders_i["eps"];
+            if (colliderNode.hasKey("eps")){
+                colliderNode["eps"] = colliders_i["eps"];
+            }
             colliderNode["low-P-rate-constant"] = colliders_i["low-P-rate-constant"];
             colliderNode["high-P-rate-constant"] = colliders_i["high-P-rate-constant"];
             colliderNode["Troe"] = colliders_i["Troe"];
@@ -321,7 +326,9 @@ void LinearBurkeRate::getParameters(AnyMap& rateNode) const
         else if(colliders_i.hasKey("data") && colliders_i.hasKey("pressure-range") &&
                 colliders_i.hasKey("temperature-range")) {
             colliderNode["name"] = name;
-            colliderNode["eps"] = colliders_i["eps"];
+            if (colliderNode.hasKey("eps")){
+                colliderNode["eps"] = colliders_i["eps"];
+            }
             colliderNode["temperature-range"] = colliders_i["temperature-range"];
             colliderNode["pressure-range"] = colliders_i["pressure-range"];
             colliderNode["data"] = colliders_i["data"];
