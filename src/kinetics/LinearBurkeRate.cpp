@@ -136,11 +136,6 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
                 "All collision efficiencies in reaction '{}' must be defined uniformly"
                 " as either 'eig0' or 'efficiency'. No mixing and matching is allowed.", eqn);
         }
-        if (!colliders[i].hasKey("type")) {
-            throw InputFileError("LinearBurkeRate::setParameters", m_input,
-                "'type' key missing from collider {} in reaction '{}'. Must be either 'falloff'"
-                " (Troe format), 'pressure-dependent-Arrhenius', or 'Chebyshev'.",nm,eqn);
-        }
         // Save data to m_colliderInfo, which will make it accessible by getParameters
         m_colliderInfo[colliders[i]["name"].asString()] = colliders[i];
         m_colliderNames.push_back(colliders[i]["name"].as<string>());
@@ -161,25 +156,27 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
         }
 
         epsObj_i = ArrheniusRate(AnyValue(params), colliders[i].units(), eps_units);
-        if (colliders[i]["type"] == "pressure-dependent-Arrhenius") {
-            m_rateObjs.push_back(PlogRate(colliders[i], rate_units));
-            m_dataObjs.push_back(PlogData());
-            m_epsObjs1.push_back(epsObj_i);
-            m_epsObjs2.push_back(epsObj_i);
-        }
-        else if (colliders[i]["type"] == "falloff" && colliders[i].hasKey("Troe")) {
-            TroeRate troeRateObj = TroeRate(colliders[i], rate_units);
-            troeRateObj.setRateIndex(0);
-            m_rateObjs.push_back(troeRateObj);
-            m_dataObjs.push_back(FalloffData());
-            m_epsObjs1.push_back(epsObj_i);
-            m_epsObjs2.push_back(epsObj_i);
-        }
-        else if (colliders[i]["type"] == "Chebyshev") {
-            m_rateObjs.push_back(ChebyshevRate(colliders[i], rate_units));
-            m_dataObjs.push_back(ChebyshevData());
-            m_epsObjs1.push_back(epsObj_i);
-            m_epsObjs2.push_back(epsObj_i);
+        if(colliders_i.hasKey("type")) {
+            if (colliders[i]["type"] == "pressure-dependent-Arrhenius") {
+                m_rateObjs.push_back(PlogRate(colliders[i], rate_units));
+                m_dataObjs.push_back(PlogData());
+                m_epsObjs1.push_back(epsObj_i);
+                m_epsObjs2.push_back(epsObj_i);
+            }
+            else if (colliders[i]["type"] == "falloff" && colliders[i].hasKey("Troe")) {
+                TroeRate troeRateObj = TroeRate(colliders[i], rate_units);
+                troeRateObj.setRateIndex(0);
+                m_rateObjs.push_back(troeRateObj);
+                m_dataObjs.push_back(FalloffData());
+                m_epsObjs1.push_back(epsObj_i);
+                m_epsObjs2.push_back(epsObj_i);
+            }
+            else if (colliders[i]["type"] == "Chebyshev") {
+                m_rateObjs.push_back(ChebyshevRate(colliders[i], rate_units));
+                m_dataObjs.push_back(ChebyshevData());
+                m_epsObjs1.push_back(epsObj_i);
+                m_epsObjs2.push_back(epsObj_i);
+            }
         }
         // Collider has an 'efficiency' specified, but no other info is provided. Assign it the
         // same rate and data objects as "M"
