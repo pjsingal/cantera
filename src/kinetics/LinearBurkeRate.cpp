@@ -88,8 +88,9 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
         m_rateObj_M = PlogRate(colliders[0], rate_units);
         m_dataObj_M = PlogData();
     } else if (colliders[0]["type"] == "falloff" && colliders[0].hasKey("Troe")) {
-        m_rateObj_M = TroeRate(colliders[0], rate_units);
-        m_rateObj_M.setRateIndex(0);
+        TroeRate troeRateObj = TroeRate(colliders[0], rate_units);
+        troeRateObj.setRateIndex(0);
+        m_rateObj_M = troeRateObj;
         m_dataObj_M = FalloffData();
     } else if (colliders[0]["type"] == "Chebyshev") {
         m_rateObj_M = ChebyshevRate(colliders[0], rate_units);
@@ -157,7 +158,7 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
         }
 
         epsObj_i = ArrheniusRate(AnyValue(params), colliders[i].units(), eps_units);
-        if(colliders_i.hasKey("type")) {
+        if(colliders[i].hasKey("type")) {
             if (colliders[i]["type"] == "pressure-dependent-Arrhenius") {
                 m_rateObjs.push_back(PlogRate(colliders[i], rate_units));
                 m_dataObjs.push_back(PlogData());
