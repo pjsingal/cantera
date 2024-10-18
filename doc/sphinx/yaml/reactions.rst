@@ -451,7 +451,7 @@ Additional fields are:
     A :ref:`Troe <sec-yaml-falloff>` implementation alse requires: ``high-P-rate-constant``,
     ``low-P-rate-constant``, ``Troe`` (do not use the Troe ``efficiencies`` key).
 
-    A :ref:`pressure-dependent-arrhenius<sec-yaml-pressure-dependent-Arrhenius>` implementation
+    A :ref:`pressure-dependent-Arrhenius<sec-yaml-pressure-dependent-Arrhenius>` implementation
     also requires: ``rate-constants``.
 
     A :ref:`Chebyshev <sec-yaml-Chebyshev>` implementation also requires: ``temperature-range``,
