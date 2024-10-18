@@ -89,6 +89,7 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
         m_dataObj_M = PlogData();
     } else if (collider[0]["type"] == "falloff" && colliders[0].hasKey("Troe")) {
         m_rateObj_M = TroeRate(colliders[0], rate_units);
+        m_rateObj_M.setRateIndex(0)
         m_dataObj_M = FalloffData();
     } else if (collider[0]["type"] == "Chebyshev") {
         m_rateObj_M = ChebyshevRate(colliders[0], rate_units);
@@ -162,7 +163,9 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
             m_epsObjs2.push_back(epsObj_i);
         }
         else if (collider[i]["type"] == "falloff" && colliders[i].hasKey("Troe")) {
-            m_rateObjs.push_back(TroeRate(colliders[i], rate_units));
+            TroeRate troeRateObj = TroeRate(colliders[i], rate_units);
+            troeRateObj.setRateIndex(0);
+            m_rateObjs.push_back(troeRateObj);
             m_dataObjs.push_back(FalloffData());
             m_epsObjs1.push_back(epsObj_i);
             m_epsObjs2.push_back(epsObj_i);
@@ -216,7 +219,6 @@ double LinearBurkeRate::evalTroeRate(const LinearBurkeData& shared_data,
     data.logT = shared_data.logT;
     data.recipT = shared_data.recipT;
     data.temperature = shared_data.temperature;
-    rate.setRateIndex(0);
     return rate.evalFromStruct(data);
 }
 
