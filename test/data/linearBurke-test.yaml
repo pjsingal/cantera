@@ -197,7 +197,6 @@ linear-Burke_reactions:
   type: linear-Burke
   colliders:
   - name: M
-    eps: {A: 1, b: 0, Ea: 0}
     type: pressure-dependent-Arrhenius
     rate-constants:
     - {P: 1.000e-04 atm, A: 5.30514e+12, b: -2.80725e+00, Ea: 4.99267e+02}
@@ -216,7 +215,6 @@ linear-Burke_reactions:
   type: linear-burke
   colliders:
   - name: M
-    eps: {A: 1, b: 0, Ea: 0}
     type: falloff
     low-P-rate-constant: {A: 6.366e+20, b: -1.72, Ea: 524.8}
     high-P-rate-constant: {A: 4.7e+12, b: 0.44, Ea: 0.0}
@@ -228,7 +226,6 @@ linear-Burke_reactions:
   type: linear-burke
   colliders:
   - name: M
-    eps: {A: 1, b: 0, Ea: 0}
     type: Chebyshev
     temperature-range: [200.0, 2000.0]
     pressure-range: [1.000e-01 atm, 1.000e+02 atm]
