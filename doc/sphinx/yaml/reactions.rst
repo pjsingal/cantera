@@ -468,6 +468,7 @@ Examples:
     type: linear-Burke
     colliders:
     - name: M
+      type: falloff
       low-P-rate-constant: {A: 4.530000e+21, b: -1.820309e+00, Ea: 4.987000e+02}
       high-P-rate-constant: {A: 2.510000e+13, b: 2.329303e-01, Ea: -1.142000e+02}
       Troe: {A: 9.995044e-01, T3: 1.0e-30, T1: 1.0e+30}
@@ -482,6 +483,7 @@ Examples:
     type: linear-Burke
     colliders:
     - name: M
+      type: pressure-dependent-Arrhenius
       rate-constants:
       - {P: 1.316e-02 atm, A: 9.39968e+14, b: -2.14348e+00, Ea: 7.72730e+01}
       - {P: 1.316e-01 atm, A: 1.07254e+16, b: -2.15999e+00, Ea: 1.30239e+02}
@@ -510,6 +512,7 @@ Examples:
     type: linear-Burke
     colliders:
     - name: M
+      type: Chebyshev
       temperature-range: [200.0, 2000.0]
       pressure-range: [1.000e-01 atm, 1.000e+02 atm]
       data:
