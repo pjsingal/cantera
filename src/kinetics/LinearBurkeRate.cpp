@@ -318,15 +318,15 @@ void LinearBurkeRate::getParameters(AnyMap& rateNode) const
         if(collider.hasKey("type")) {
             if(collider["type"] == "pressure-dependent-Arrhenius") {
                 colliderNode["name"] = name;
-                if (colliderNode.hasKey("eps")){ // only collider "M" will lack this
-                    colliderNode["eps"] = collider["eps"];
+                if (colliderNode.hasKey("efficiency")){ // only collider "M" will lack this
+                    colliderNode["efficiency"] = collider["efficiency"];
                 }
                 colliderNode["rate-constants"] = collider["rate-constants"];
             }
             else if(collider["type"] == "falloff" && collider.hasKey("Troe")) {
                 colliderNode["name"] = name;
-                if (colliderNode.hasKey("eps")){
-                    colliderNode["eps"] = collider["eps"];
+                if (colliderNode.hasKey("efficiency")){
+                    colliderNode["efficiency"] = collider["efficiency"];
                 }
                 colliderNode["low-P-rate-constant"] = collider["low-P-rate-constant"];
                 colliderNode["high-P-rate-constant"] = collider["high-P-rate-constant"];
@@ -334,8 +334,8 @@ void LinearBurkeRate::getParameters(AnyMap& rateNode) const
             }
             else if(collider["type"] == "Chebyshev") {
                 colliderNode["name"] = name;
-                if (colliderNode.hasKey("eps")){
-                    colliderNode["eps"] = collider["eps"];
+                if (colliderNode.hasKey("efficiency")){
+                    colliderNode["efficiency"] = collider["efficiency"];
                 }
                 colliderNode["temperature-range"] = collider["temperature-range"];
                 colliderNode["pressure-range"] = collider["pressure-range"];
@@ -344,7 +344,7 @@ void LinearBurkeRate::getParameters(AnyMap& rateNode) const
         }
         else {
             colliderNode["name"] = name;
-            colliderNode["eps"] = collider["eps"];
+            colliderNode["efficiency"] = collider["efficiency"];
         }
         topLevelList.push_back(std::move(colliderNode));
     }
