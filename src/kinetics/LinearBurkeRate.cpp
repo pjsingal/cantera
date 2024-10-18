@@ -310,30 +310,32 @@ void LinearBurkeRate::getParameters(AnyMap& rateNode) const
         string name = entry.first;
         auto colliders_i = entry.second;
         AnyMap colliderNode;
-        if(colliders_i["type"] == "pressure-dependent-Arrhenius") {
-            colliderNode["name"] = name;
-            if (colliderNode.hasKey("eps")){ // only collider "M" will lack this
-                colliderNode["eps"] = colliders_i["eps"];
+        if(colliders_i.hasKey("type")) {
+            if(colliders_i["type"] == "pressure-dependent-Arrhenius") {
+                colliderNode["name"] = name;
+                if (colliderNode.hasKey("eps")){ // only collider "M" will lack this
+                    colliderNode["eps"] = colliders_i["eps"];
+                }
+                colliderNode["rate-constants"] = colliders_i["rate-constants"];
             }
-            colliderNode["rate-constants"] = colliders_i["rate-constants"];
-        }
-        else if(collider_i["type"] == "falloff" && colliders_i.hasKey("Troe")) {
-            colliderNode["name"] = name;
-            if (colliderNode.hasKey("eps")){
-                colliderNode["eps"] = colliders_i["eps"];
+            else if(collider_i["type"] == "falloff" && colliders_i.hasKey("Troe")) {
+                colliderNode["name"] = name;
+                if (colliderNode.hasKey("eps")){
+                    colliderNode["eps"] = colliders_i["eps"];
+                }
+                colliderNode["low-P-rate-constant"] = colliders_i["low-P-rate-constant"];
+                colliderNode["high-P-rate-constant"] = colliders_i["high-P-rate-constant"];
+                colliderNode["Troe"] = colliders_i["Troe"];
             }
-            colliderNode["low-P-rate-constant"] = colliders_i["low-P-rate-constant"];
-            colliderNode["high-P-rate-constant"] = colliders_i["high-P-rate-constant"];
-            colliderNode["Troe"] = colliders_i["Troe"];
-        }
-        else if(colliders_i["type"] == "Chebyshev") {
-            colliderNode["name"] = name;
-            if (colliderNode.hasKey("eps")){
-                colliderNode["eps"] = colliders_i["eps"];
+            else if(colliders_i["type"] == "Chebyshev") {
+                colliderNode["name"] = name;
+                if (colliderNode.hasKey("eps")){
+                    colliderNode["eps"] = colliders_i["eps"];
+                }
+                colliderNode["temperature-range"] = colliders_i["temperature-range"];
+                colliderNode["pressure-range"] = colliders_i["pressure-range"];
+                colliderNode["data"] = colliders_i["data"];
             }
-            colliderNode["temperature-range"] = colliders_i["temperature-range"];
-            colliderNode["pressure-range"] = colliders_i["pressure-range"];
-            colliderNode["data"] = colliders_i["data"];
         }
         else {
             colliderNode["name"] = name;
