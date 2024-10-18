@@ -79,7 +79,7 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
     } else if (colliders[0]["name"].as<string>() != "M") {
         throw InputFileError("LinearBurkeRate::setParameters", m_input,
             "The first collider defined in reaction '{}' must be 'M'.",eqn);
-    } else if (!colliders[0]["type"]) {
+    } else if (!colliders[0].hasKey("type")) {
         throw InputFileError("LinearBurkeRate::setParameters", m_input,
             "'type' key missing from reaction '{}'. Must be either 'falloff'"
             " (Troe format), 'pressure-dependent-Arrhenius', or 'Chebyshev'.",eqn);
@@ -87,11 +87,11 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
     if (colliders[0]["type"] == "pressure-dependent-Arrhenius") {
         m_rateObj_M = PlogRate(colliders[0], rate_units);
         m_dataObj_M = PlogData();
-    } else if (collider[0]["type"] == "falloff" && colliders[0].hasKey("Troe")) {
+    } else if (colliders[0]["type"] == "falloff" && colliders[0].hasKey("Troe")) {
         m_rateObj_M = TroeRate(colliders[0], rate_units);
-        m_rateObj_M.setRateIndex(0)
+        m_rateObj_M.setRateIndex(0);
         m_dataObj_M = FalloffData();
-    } else if (collider[0]["type"] == "Chebyshev") {
+    } else if (colliders[0]["type"] == "Chebyshev") {
         m_rateObj_M = ChebyshevRate(colliders[0], rate_units);
         m_dataObj_M = ChebyshevData();
     }
@@ -136,6 +136,11 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
                 "All collision efficiencies in reaction '{}' must be defined uniformly"
                 " as either 'eig0' or 'efficiency'. No mixing and matching is allowed.", eqn);
         }
+        if (!colliders[i].hasKey("type")) {
+            throw InputFileError("LinearBurkeRate::setParameters", m_input,
+                "'type' key missing from collider {} in reaction '{}'. Must be either 'falloff'"
+                " (Troe format), 'pressure-dependent-Arrhenius', or 'Chebyshev'.",nm,eqn);
+        }
         // Save data to m_colliderInfo, which will make it accessible by getParameters
         m_colliderInfo[colliders[i]["name"].asString()] = colliders[i];
         m_colliderNames.push_back(colliders[i]["name"].as<string>());
@@ -162,7 +167,7 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
             m_epsObjs1.push_back(epsObj_i);
             m_epsObjs2.push_back(epsObj_i);
         }
-        else if (collider[i]["type"] == "falloff" && colliders[i].hasKey("Troe")) {
+        else if (colliders[i]["type"] == "falloff" && colliders[i].hasKey("Troe")) {
             TroeRate troeRateObj = TroeRate(colliders[i], rate_units);
             troeRateObj.setRateIndex(0);
             m_rateObjs.push_back(troeRateObj);
@@ -198,12 +203,12 @@ void LinearBurkeRate::setContext(const Reaction& rxn, const Kinetics& kin)
 }
 
 double LinearBurkeRate::evalPlogRate(const LinearBurkeData& shared_data,
-    DataTypes& dataObj, RateTypes& rateObj)
+    DataTypes& dataObj, RateTypes& rateObj, double logPeff)
 {
     PlogData& data = boost::get<PlogData>(dataObj);
     PlogRate& rate = boost::get<PlogRate>(rateObj);
     // Replace logP with log of the effective pressure with respect to eps
-    data.logP = m_logPeff_;
+    data.logP = logPeff;
     data.logT = shared_data.logT;
     data.recipT = shared_data.recipT;
     rate.updateFromStruct(data);
@@ -211,11 +216,11 @@ double LinearBurkeRate::evalPlogRate(const LinearBurkeData& shared_data,
 }
 
 double LinearBurkeRate::evalTroeRate(const LinearBurkeData& shared_data,
-    DataTypes& dataObj, RateTypes& rateObj)
+    DataTypes& dataObj, RateTypes& rateObj, double logPeff)
 {
     FalloffData& data = boost::get<FalloffData>(dataObj);
     TroeRate& rate = boost::get<TroeRate>(rateObj);
-    data.conc_3b = {exp(m_logPeff_) / GasConstant / shared_data.temperature};
+    data.conc_3b = {exp(logPeff) / GasConstant / shared_data.temperature};
     data.logT = shared_data.logT;
     data.recipT = shared_data.recipT;
     data.temperature = shared_data.temperature;
@@ -223,11 +228,11 @@ double LinearBurkeRate::evalTroeRate(const LinearBurkeData& shared_data,
 }
 
 double LinearBurkeRate::evalChebyshevRate(const LinearBurkeData& shared_data,
-    DataTypes& dataObj, RateTypes& rateObj)
+    DataTypes& dataObj, RateTypes& rateObj, double logPeff)
 {
     ChebyshevData& data = boost::get<ChebyshevData>(dataObj);
     ChebyshevRate& rate = boost::get<ChebyshevRate>(rateObj);
-    data.log10P = log10(exp(m_logPeff_));
+    data.log10P = log10(exp(logPeff));
     data.logT = shared_data.logT;
     data.recipT = shared_data.recipT;
     rate.updateFromStruct(data);
@@ -286,7 +291,7 @@ double LinearBurkeRate::evalFromStruct(const LinearBurkeData& shared_data)
         }
     }
     // We actually have
-    // m_logPeff_ = shared_data.logP + log(eps_mix) - log(eps_M)
+    // logPeff_ = shared_data.logP + log(eps_mix) - log(eps_M)
     // but log(eps_M)=0 always
     logPeff_ = shared_data.logP + log(eps_mix);
     if (m_rateObj_M.which() == 0) { // 0 means PlogRate
@@ -318,7 +323,7 @@ void LinearBurkeRate::getParameters(AnyMap& rateNode) const
                 }
                 colliderNode["rate-constants"] = colliders_i["rate-constants"];
             }
-            else if(collider_i["type"] == "falloff" && colliders_i.hasKey("Troe")) {
+            else if(colliders_i["type"] == "falloff" && colliders_i.hasKey("Troe")) {
                 colliderNode["name"] = name;
                 if (colliderNode.hasKey("eps")){
                     colliderNode["eps"] = colliders_i["eps"];
