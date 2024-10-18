@@ -81,7 +81,7 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
             "The first collider defined in reaction '{}' must be 'M'.",eqn);
     } else if (!colliders[0].hasKey("type")) {
         throw InputFileError("LinearBurkeRate::setParameters", m_input,
-            "'type' key missing from reaction '{}'. Must be either 'falloff'"
+            "'type' key missing for 'M' from reaction '{}'. Must be either 'falloff'"
             " (Troe format), 'pressure-dependent-Arrhenius', or 'Chebyshev'.",eqn);
     }
     if (colliders[0]["type"] == "pressure-dependent-Arrhenius") {
