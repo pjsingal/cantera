@@ -315,38 +315,38 @@ void LinearBurkeRate::getParameters(AnyMap& rateNode) const
     vector<AnyMap> topLevelList;
     for (const auto& entry : m_colliderInfo) {
         string name = entry.first;
-        auto colliders_i = entry.second;
+        auto collider = entry.second;
         AnyMap colliderNode;
-        if(colliders_i.hasKey("type")) {
-            if(colliders_i["type"] == "pressure-dependent-Arrhenius") {
+        if(collider.hasKey("type")) {
+            if(collider["type"] == "pressure-dependent-Arrhenius") {
                 colliderNode["name"] = name;
                 if (colliderNode.hasKey("eps")){ // only collider "M" will lack this
-                    colliderNode["eps"] = colliders_i["eps"];
+                    colliderNode["eps"] = collider["eps"];
                 }
-                colliderNode["rate-constants"] = colliders_i["rate-constants"];
+                colliderNode["rate-constants"] = collider["rate-constants"];
             }
-            else if(colliders_i["type"] == "falloff" && colliders_i.hasKey("Troe")) {
+            else if(collider["type"] == "falloff" && collider.hasKey("Troe")) {
                 colliderNode["name"] = name;
                 if (colliderNode.hasKey("eps")){
-                    colliderNode["eps"] = colliders_i["eps"];
+                    colliderNode["eps"] = collider["eps"];
                 }
-                colliderNode["low-P-rate-constant"] = colliders_i["low-P-rate-constant"];
-                colliderNode["high-P-rate-constant"] = colliders_i["high-P-rate-constant"];
-                colliderNode["Troe"] = colliders_i["Troe"];
+                colliderNode["low-P-rate-constant"] = collider["low-P-rate-constant"];
+                colliderNode["high-P-rate-constant"] = collider["high-P-rate-constant"];
+                colliderNode["Troe"] = collider["Troe"];
             }
-            else if(colliders_i["type"] == "Chebyshev") {
+            else if(collider["type"] == "Chebyshev") {
                 colliderNode["name"] = name;
                 if (colliderNode.hasKey("eps")){
-                    colliderNode["eps"] = colliders_i["eps"];
+                    colliderNode["eps"] = collider["eps"];
                 }
-                colliderNode["temperature-range"] = colliders_i["temperature-range"];
-                colliderNode["pressure-range"] = colliders_i["pressure-range"];
-                colliderNode["data"] = colliders_i["data"];
+                colliderNode["temperature-range"] = collider["temperature-range"];
+                colliderNode["pressure-range"] = collider["pressure-range"];
+                colliderNode["data"] = collider["data"];
             }
         }
         else {
             colliderNode["name"] = name;
-            colliderNode["eps"] = colliders_i["eps"];
+            colliderNode["eps"] = collider["eps"];
         }
         topLevelList.push_back(std::move(colliderNode));
     }
