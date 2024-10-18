@@ -451,7 +451,7 @@ Additional fields are:
         a temperature-independent value, then ``A`` can be set to this value and ``b``
         and ``Ea`` can be set to 0.
 
-    A :ref:`Troe <sec-yaml-falloff>` implementation alse requires: ``high-P-rate-constant``,
+    A :ref:`Troe <sec-yaml-falloff>` implementation also requires: ``high-P-rate-constant``,
     ``low-P-rate-constant``, ``Troe`` (do not use the Troe ``efficiencies`` key).
 
     A :ref:`pressure-dependent-Arrhenius<sec-yaml-pressure-dependent-Arrhenius>` implementation
