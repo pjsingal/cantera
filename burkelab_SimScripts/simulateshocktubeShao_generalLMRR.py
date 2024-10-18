@@ -95,8 +95,8 @@ def plotPoints(filename,mkr='none',mkrw='none',mkrsz='none',line='none',fill='no
     dataset = pd.read_csv(filename)
     ax.plot(dataset.iloc[:,0],dataset.iloc[:,1]*100,mkr,linewidth=0.7,fillstyle=fill,linestyle=line,color=colour,label=pltLabel,markersize=mkrsz,markeredgewidth=mkrw,zorder=zorder_value)
 
-plotXvsTime("test/data/alzuetamechanism_LMRR_generic.yaml",'LMR-R (all pDep)',"xkcd:grey",lstyle="solid",zorder_value=100)
-plotXvsTime("test/data/alzuetamechanism_LMRR.yaml",'LMR-R (PCI)',"xkcd:purple",zorder_value=90)
+plotXvsTime("test/data/alzuetamechanism_LMRR_generic.yaml",'LMR-R (all pDep)',"xkcd:grey",lstyle="dashed",zorder_value=100)
+plotXvsTime("test/data/alzuetamechanism_LMRR.yaml",'LMR-R (PCI)',"xkcd:purple",lstyle="solid",zorder_value=90)
 
 # plotPoints(path+'\\7 SP H2O X vs t (Shock Tube) (Shao)\\expData.csv',pltLabel='Shao et al.',line=':',colour='k')
 plotPoints(path+'\\7 SP H2O X vs t (Shock Tube) (Shao)\\expData.csv',mkr='o',mkrsz=msz,pltLabel='Shao et al.',mkrw=mw,zorder_value=110)

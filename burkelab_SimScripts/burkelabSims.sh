@@ -84,6 +84,15 @@ lgdfsz=7
 python burkelab_SimScripts/simulateshocktubeShao_generalLMRR.py \
 --figwidth 2.5 --figheight 2.5 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
 --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 3 &
+python burkelab_SimScripts/simulateIDT_Shao_generalLMRR.py \
+--figwidth 2.5 --figheight 6.66667 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
+--lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 9 --LMRtest 1 &
+python burkelab_SimScripts/simulateJSR_H2O_generalLMRR.py \
+--figwidth 2.5 --figheight 5 --fsz $fszxtick --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
+--lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 50 --LMRtest 1 &
+python burkelab_SimScripts/simulateJSR_NH3_generalLMRR.py \
+--figwidth 2.5 --figheight 5 --fsz $fsz --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
+--lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 50 --LMRtest 1 &
 
 # # ## FLAME SPEED CALCULATIONS
 # python burkelab_SimScripts/simulateflamespeedBurke.py --gridsz 35 --date 'Aug23' --slopeVal 0.05 --curveVal 0.05 --transport 'multicomponent'
