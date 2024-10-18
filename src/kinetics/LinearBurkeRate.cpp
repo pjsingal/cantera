@@ -248,8 +248,7 @@ double LinearBurkeRate::evalFromStruct(const LinearBurkeData& shared_data)
     double eps_mix = 0.0; // mole-fraction-weighted overall eps value of the mixtures
     for (size_t j = 0; j < m_colliderIndices.size(); j++) {
         size_t i = m_colliderIndices[j];
-        eps_mix += shared_data.moleFractions[i] *
-            m_epsObjs1[j].evalRate(shared_data.logT, shared_data.recipT);
+        eps_mix += shared_data.moleFractions[i] * m_epsObjs1[j].evalRate(shared_data.logT, shared_data.recipT);
         sigmaX_M -= shared_data.moleFractions[i];
     }
     // Add all M colliders to eps_mix in a single step
@@ -321,7 +320,7 @@ void LinearBurkeRate::getParameters(AnyMap& rateNode) const
                 if (colliderNode.hasKey("efficiency")){ // only collider "M" will lack this
                     colliderNode["efficiency"] = collider["efficiency"];
                 }
-                colliderNode["type"] == "pressure-dependent-Arrhenius";
+                colliderNode["type"] == collider["type"];
                 colliderNode["rate-constants"] = collider["rate-constants"];
             }
             else if(collider["type"] == "falloff" && collider.hasKey("Troe")) {
@@ -329,7 +328,7 @@ void LinearBurkeRate::getParameters(AnyMap& rateNode) const
                 if (colliderNode.hasKey("efficiency")){
                     colliderNode["efficiency"] = collider["efficiency"];
                 }
-                colliderNode["type"] == "falloff";
+                colliderNode["type"] == collider["type"];
                 colliderNode["low-P-rate-constant"] = collider["low-P-rate-constant"];
                 colliderNode["high-P-rate-constant"] = collider["high-P-rate-constant"];
                 colliderNode["Troe"] = collider["Troe"];
@@ -339,7 +338,7 @@ void LinearBurkeRate::getParameters(AnyMap& rateNode) const
                 if (colliderNode.hasKey("efficiency")){
                     colliderNode["efficiency"] = collider["efficiency"];
                 }
-                colliderNode["type"] == "Chebyshev";
+                colliderNode["type"] == collider["type"];
                 colliderNode["temperature-range"] = collider["temperature-range"];
                 colliderNode["pressure-range"] = collider["pressure-range"];
                 colliderNode["data"] = collider["data"];
