@@ -72,10 +72,6 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
     if (!colliders[0].hasKey("name")) {
         throw InputFileError("LinearBurkeRate::setParameters", m_input,
             "'colliders' key missing from reaction '{}'.",eqn);
-    } else if (!colliders[0].hasKey("efficiency") && !colliders[0].hasKey("eig0")) {
-        throw InputFileError("LinearBurkeRate::setParameters", m_input,
-                "Collider 'M' in reaction '{}' lacks an 'efficiency' or 'eig0' key.",
-                eqn);
     } else if (colliders[0]["name"].as<string>() != "M") {
         throw InputFileError("LinearBurkeRate::setParameters", m_input,
             "The first collider defined in reaction '{}' must be 'M'.",eqn);
