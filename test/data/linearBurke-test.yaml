@@ -209,7 +209,7 @@ linear-Burke_reactions:
     - {P: 1.000e+03 atm, A: 4.28006e+15, b: -1.57172e+00, Ea: 9.80056e+02}
     - {P: 1.000e+04 atm, A: 6.79586e+12, b: -5.77830e-01, Ea: 4.56911e+02}
   - name: H2O
-    eps: {A: 10, b: 0, Ea: 0}
+    efficiency: {A: 10, b: 0, Ea: 0}
 
 - equation: H + O2 (+M) <=> HO2 (+M)
   type: linear-burke
@@ -220,7 +220,7 @@ linear-Burke_reactions:
     high-P-rate-constant: {A: 4.7e+12, b: 0.44, Ea: 0.0}
     Troe: {A: 0.5, T3: 1.0e-30, T1: 1.0e+30}
   - name: H2O
-    eps: {A: 10, b: 0, Ea: 0}
+    efficiency: {A: 10, b: 0, Ea: 0}
 
 - equation: H2O2 <=> 2 OH
   type: linear-burke
@@ -245,4 +245,4 @@ linear-Burke_reactions:
     - [-1.5400e-02, -5.2427e-03, -6.9148e-03, -5.9440e-03, -1.2183e-03, 2.1694e-03,
       1.5925e-03]
   - name: H2O
-    eps: {A: 10, b: 0, Ea: 0}
+    efficiency: {A: 10, b: 0, Ea: 0}
