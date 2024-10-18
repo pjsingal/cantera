@@ -415,7 +415,7 @@ The pressure-dependent aspect of each collider rate constant can be parameterize
 choice of :ref:`Troe <sec-yaml-falloff>`, :ref:`pressure-dependent-arrhenius
 <sec-yaml-pressure-dependent-Arrhenius>`, or :ref:`Chebyshev <sec-yaml-Chebyshev>`
 representations. The same parameters used for a standalone Troe, PLOG, or Chebyshev
-reaction are then inserted directly below ``efficiency`` or ``eig0`` for a given collider. 
+reaction are then inserted directly below ``efficiency`` or ``eig0`` for a given collider.
 At minimum, this treatment must be applied to ``M``. However, additional colliders may also
 be given their own Troe, PLOG, or Chebyshev parameterization if so desired. Mixing and matching
 of types within the same reaction is allowed (e.g., a PLOG table for ``M``, Troe parameters for
@@ -454,7 +454,7 @@ Additional fields are:
     A :ref:`pressure-dependent-arrhenius<sec-yaml-pressure-dependent-Arrhenius>` implementation
     also requires: ``rate-constants``
 
-    A :ref:`Chebyshev <sec-yaml-Chebyshev>` implementation also requires: ``temperature-range``, 
+    A :ref:`Chebyshev <sec-yaml-Chebyshev>` implementation also requires: ``temperature-range``,
     ``pressure-range``, ``data``
 
 A mathematical description of this YAML implementation can be found in Eq. 8 of
