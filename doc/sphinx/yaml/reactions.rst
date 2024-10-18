@@ -412,7 +412,7 @@ choice must remain consistent throughout a single reaction (either all colliders
 defined with ``efficiency``, or all are defined with ``eig0``).
 
 The pressure-dependent aspect of each collider rate constant can be parameterized in the
-user's choice of :ref:`Troe <sec-yaml-falloff>`, :ref:`pressure-dependent-arrhenius <sec-yaml-pressure-dependent-Arrhenius>`,
+user's choice of :ref:`Troe <sec-yaml-falloff>`, :ref:`pressure-dependent-Arrhenius <sec-yaml-pressure-dependent-Arrhenius>`,
 or :ref:`Chebyshev <sec-yaml-Chebyshev>` representations. The same parameters used for a
 standalone Troe, PLOG, or Chebyshev reaction are then inserted directly below
 ``efficiency`` or ``eig0`` for a given collider. At minimum, this treatment must be
