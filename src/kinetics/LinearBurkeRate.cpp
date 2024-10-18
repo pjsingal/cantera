@@ -99,16 +99,6 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
             " format.", eqn);
     }
     string eig_eps_key;
-    if (colliders[0].hasKey("eig0") && !colliders[0].hasKey("efficiency")) {
-        eig_eps_key = "eig0";
-    } else if (colliders[0].hasKey("efficiency") && !colliders[0].hasKey("eig0")) {
-        eig_eps_key = "efficiency";
-    }
-    else{
-        throw InputFileError("LinearBurkeRate::setParameters", m_input,
-            "Collider 'M' in reaction '{}' cannot contain both 'efficiency' and 'eig0'."
-            " Any additional colliders must also make same choice as that of M.", eqn);
-    }
     AnyMap params;
     params["A"] = 1.0;
     params["b"] = 0.0;
@@ -128,7 +118,19 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
                 "Collider '{}' in reaction '{}' lacks an 'efficiency' or 'eig0' key.",
                 nm, eqn);
         }
-        if (!colliders[i].hasKey(eig_eps_key)) {
+        if (eig_eps_key.empty()) {
+            if (colliders[i].hasKey("eig0") && !colliders[i].hasKey("efficiency")) {
+                eig_eps_key = "eig0";
+            } else if (colliders[i].hasKey("efficiency") && !colliders[i].hasKey("eig0")) {
+                eig_eps_key = "efficiency";
+            }
+            else{
+                throw InputFileError("LinearBurkeRate::setParameters", m_input,
+                    "Collider '{}' in reaction '{}' cannot contain both 'efficiency'"
+                    " and 'eig0'. Any additional colliders must also make same choice"
+                    " as that of M.", nm, eqn);
+            }
+        } else if (!colliders[i].hasKey(eig_eps_key)) {
             throw InputFileError("LinearBurkeRate::setParameters", m_input,
                 "All collision efficiencies in reaction '{}' must be defined uniformly"
                 " as either 'eig0' or 'efficiency'. No mixing and matching is allowed.",
