@@ -321,6 +321,7 @@ void LinearBurkeRate::getParameters(AnyMap& rateNode) const
                 if (colliderNode.hasKey("efficiency")){ // only collider "M" will lack this
                     colliderNode["efficiency"] = collider["efficiency"];
                 }
+                colliderNode["type"] == "pressure-dependent-Arrhenius";
                 colliderNode["rate-constants"] = collider["rate-constants"];
             }
             else if(collider["type"] == "falloff" && collider.hasKey("Troe")) {
@@ -328,6 +329,7 @@ void LinearBurkeRate::getParameters(AnyMap& rateNode) const
                 if (colliderNode.hasKey("efficiency")){
                     colliderNode["efficiency"] = collider["efficiency"];
                 }
+                colliderNode["type"] == "falloff";
                 colliderNode["low-P-rate-constant"] = collider["low-P-rate-constant"];
                 colliderNode["high-P-rate-constant"] = collider["high-P-rate-constant"];
                 colliderNode["Troe"] = collider["Troe"];
@@ -337,6 +339,7 @@ void LinearBurkeRate::getParameters(AnyMap& rateNode) const
                 if (colliderNode.hasKey("efficiency")){
                     colliderNode["efficiency"] = collider["efficiency"];
                 }
+                colliderNode["type"] == "Chebyshev";
                 colliderNode["temperature-range"] = collider["temperature-range"];
                 colliderNode["pressure-range"] = collider["pressure-range"];
                 colliderNode["data"] = collider["data"];
