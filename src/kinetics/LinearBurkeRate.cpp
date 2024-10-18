@@ -79,15 +79,18 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
     } else if (colliders[0]["name"].as<string>() != "M") {
         throw InputFileError("LinearBurkeRate::setParameters", m_input,
             "The first collider defined in reaction '{}' must be 'M'.",eqn);
+    } else if (!colliders[0]["type"]) {
+        throw InputFileError("LinearBurkeRate::setParameters", m_input,
+            "'type' key missing from reaction '{}'. Must be either 'falloff'"
+            " (Troe format), 'pressure-dependent-Arrhenius', or 'Chebyshev'.",eqn);
     }
-    if (colliders[0].hasKey("rate-constants")) {
+    if (colliders[0]["type"] == "pressure-dependent-Arrhenius") {
         m_rateObj_M = PlogRate(colliders[0], rate_units);
         m_dataObj_M = PlogData();
-    } else if (colliders[0].hasKey("Troe")) {
-        colliders[0]["type"] = "falloff";
+    } else if (collider[0]["type"] == "falloff" && colliders[0].hasKey("Troe")) {
         m_rateObj_M = TroeRate(colliders[0], rate_units);
         m_dataObj_M = FalloffData();
-    } else if (colliders[0].hasKey("pressure-range")) {
+    } else if (collider[0]["type"] == "Chebyshev") {
         m_rateObj_M = ChebyshevRate(colliders[0], rate_units);
         m_dataObj_M = ChebyshevData();
     }
@@ -152,21 +155,19 @@ void LinearBurkeRate::setParameters(const AnyMap& node, const UnitStack& rate_un
         }
 
         epsObj_i = ArrheniusRate(AnyValue(params), colliders[i].units(), eps_units);
-        if (colliders[i].hasKey("rate-constants")) {
+        if (colliders[i]["type"] == "pressure-dependent-Arrhenius") {
             m_rateObjs.push_back(PlogRate(colliders[i], rate_units));
             m_dataObjs.push_back(PlogData());
             m_epsObjs1.push_back(epsObj_i);
             m_epsObjs2.push_back(epsObj_i);
         }
-        else if (colliders[i].hasKey("Troe")) {
-            // Value of "type" is unimportant; just needed to make falloff.cpp run
-            colliders[i]["type"];
+        else if (collider[i]["type"] == "falloff" && colliders[i].hasKey("Troe")) {
             m_rateObjs.push_back(TroeRate(colliders[i], rate_units));
             m_dataObjs.push_back(FalloffData());
             m_epsObjs1.push_back(epsObj_i);
             m_epsObjs2.push_back(epsObj_i);
         }
-        else if (colliders[i].hasKey("pressure-range")) {
+        else if (colliders[i]["type"] == "Chebyshev") {
             m_rateObjs.push_back(ChebyshevRate(colliders[i], rate_units));
             m_dataObjs.push_back(ChebyshevData());
             m_epsObjs1.push_back(epsObj_i);
@@ -307,14 +308,14 @@ void LinearBurkeRate::getParameters(AnyMap& rateNode) const
         string name = entry.first;
         auto colliders_i = entry.second;
         AnyMap colliderNode;
-        if(colliders_i.hasKey("rate-constants")) {
+        if(colliders_i["type"] == "pressure-dependent-Arrhenius") {
             colliderNode["name"] = name;
             if (colliderNode.hasKey("eps")){ // only collider "M" will lack this
                 colliderNode["eps"] = colliders_i["eps"];
             }
             colliderNode["rate-constants"] = colliders_i["rate-constants"];
         }
-        else if(colliders_i.hasKey("Troe")) {
+        else if(collider_i["type"] == "falloff" && colliders_i.hasKey("Troe")) {
             colliderNode["name"] = name;
             if (colliderNode.hasKey("eps")){
                 colliderNode["eps"] = colliders_i["eps"];
@@ -323,8 +324,7 @@ void LinearBurkeRate::getParameters(AnyMap& rateNode) const
             colliderNode["high-P-rate-constant"] = colliders_i["high-P-rate-constant"];
             colliderNode["Troe"] = colliders_i["Troe"];
         }
-        else if(colliders_i.hasKey("data") && colliders_i.hasKey("pressure-range") &&
-                colliders_i.hasKey("temperature-range")) {
+        else if(colliders_i["type"] == "Chebyshev") {
             colliderNode["name"] = name;
             if (colliderNode.hasKey("eps")){
                 colliderNode["eps"] = colliders_i["eps"];
