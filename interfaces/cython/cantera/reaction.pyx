@@ -665,7 +665,7 @@ cdef class LinearBurkeRate(ReactionRate):
     A reaction rate dependent on both pressure and mixture composition that accounts for
     collisions between reactants and bath gas species.
     """
-    _reaction_rate_type = "linear-burke"
+    _reaction_rate_type = "linear-Burke"
 
     def __cinit__(self, rates=None, input_data=None, init=True):
         self.set_cxx_object()
