@@ -1,7 +1,7 @@
 
 import sys, os
-sys.path.append("C:/Users/pjsin/Documents/cantera/build/python")
-import cantera as ct
+# sys.path.append("C:/Users/pjsin/Documents/cantera/build/python")
+# import cantera as ct
 import matplotlib.pyplot as plt
 import pandas as pd
 import time
@@ -110,7 +110,7 @@ path="G:\\Mon disque\\Columbia\\Burke Lab\\01 Mixture Rules Project\\Graph Readi
 dataset = pd.read_csv(path+'\\5 FS H2O (Burke)\\exp_pts.csv',header=None)
 pressures = dataset.iloc[:,0]
 mbr_list = dataset.iloc[:,1]
-ax.plot(pressures,mbr_list,marker='o',fillstyle='none',markersize=msz,markeredgewidth=mw,linestyle='none',color='k',label='Burke/Song',zorder=100)
+ax.plot(pressures,mbr_list,marker='o',fillstyle='none',markersize=msz,markeredgewidth=mw,linestyle='none',color='k',label='Burke et al.',zorder=100)
 ax.legend(fontsize=lgdfsz, frameon=False, loc='right', handlelength=lgdw) 
 
 ax.set_ylabel(r'Mass burning rate [g $\rm cm^{-2}$ $\rm s^{-1}$]',fontsize=args.fszaxlab)
@@ -130,6 +130,6 @@ else:
 path="C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\"
 if save_plots == True:
     plt.savefig(path+name+'.pdf', dpi=500, bbox_inches='tight')
-    plt.savefig(path+'burkesong_flamespeed.eps', dpi=500, bbox_inches='tight', format='eps')
+    plt.savefig(path+'burkesong_flamespeed_PCI.eps', dpi=500, bbox_inches='tight', format='eps')
 
 # plt.show()     

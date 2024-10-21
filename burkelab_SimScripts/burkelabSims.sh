@@ -25,9 +25,9 @@ lgdfsz=7
 # --figwidth 3.5 --figheight 2.5 --fsz $fsz --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
 # --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz $lgdfsz --gridsz 14 &
 
-# python burkelab_SimScripts/simulateflamespeedBurke_FromData_ESSCI.py \
-# --figwidth 3.5 --figheight 2.5 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
-# --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --date 'Aug23' --slopeVal 0.05 --curveVal 0.05 &
+python burkelab_SimScripts/simulateflamespeedBurke_FromData_ESSCI.py \
+--figwidth 3.5 --figheight 2.5 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
+--lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --date 'Aug23' --slopeVal 0.05 --curveVal 0.05 &
 
 # python burkelab_SimScripts/simulateflamespeedRonney_0.6NH3_0.4H2_FromData.py \
 # --figwidth 6.5 --figheight 2.72 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
@@ -51,9 +51,9 @@ lgdfsz=7
 # --figwidth 2.5 --figheight 2.35 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
 # --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 3 &
 
-# python burkelab_SimScripts/simulateflamespeedBurke_FromData_PCI.py \
-# --figwidth 2.5 --figheight 2.35 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
-# --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --date 'Aug23' --slopeVal 0.05 --curveVal 0.05 &
+python burkelab_SimScripts/simulateflamespeedBurke_FromData_PCI.py \
+--figwidth 2.5 --figheight 2.35 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
+--lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --date 'Aug23' --slopeVal 0.05 --curveVal 0.05 &
 
 # python burkelab_SimScripts/simulateflamespeedRonney_0.6NH3_0.4H2_FromData.py \
 # --figwidth 2.5 --figheight 4.5 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
@@ -80,19 +80,19 @@ lgdfsz=7
 # --figwidth 6.5 --figheight 2.72 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
 # --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz $lgdfsz --date 'Aug23' --slopeVal 0.05 --curveVal 0.05 --paper 'LMRtest' &
 
-## General-LMRR tests
-python burkelab_SimScripts/simulateshocktubeShao_generalLMRR.py \
---figwidth 2.5 --figheight 2.5 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
---lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 3 &
-python burkelab_SimScripts/simulateIDT_Shao_generalLMRR.py \
---figwidth 2.5 --figheight 6.66667 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
---lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 9 --LMRtest 1 &
-python burkelab_SimScripts/simulateJSR_H2O_generalLMRR.py \
---figwidth 2.5 --figheight 5 --fsz $fszxtick --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
---lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 50 --LMRtest 1 &
-python burkelab_SimScripts/simulateJSR_NH3_generalLMRR.py \
---figwidth 2.5 --figheight 5 --fsz $fsz --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
---lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 50 --LMRtest 1 &
+# ## General-LMRR tests
+# python burkelab_SimScripts/simulateshocktubeShao_generalLMRR.py \
+# --figwidth 2.5 --figheight 2.5 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
+# --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 3 &
+# python burkelab_SimScripts/simulateIDT_Shao_generalLMRR.py \
+# --figwidth 2.5 --figheight 6.66667 --fsz $fszaxlab --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
+# --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 9 --LMRtest 1 &
+# python burkelab_SimScripts/simulateJSR_H2O_generalLMRR.py \
+# --figwidth 2.5 --figheight 5 --fsz $fszxtick --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
+# --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 50 --LMRtest 1 &
+# python burkelab_SimScripts/simulateJSR_NH3_generalLMRR.py \
+# --figwidth 2.5 --figheight 5 --fsz $fsz --fszxtick $fszxtick --fszytick $fszytick --fszaxlab $fszaxlab \
+# --lw $lw --mw $mw --msz $msz --lgdw $lgdw --lgdfsz 7 --gridsz 50 --LMRtest 1 &
 
 # # ## FLAME SPEED CALCULATIONS
 # python burkelab_SimScripts/simulateflamespeedBurke.py --gridsz 35 --date 'Aug23' --slopeVal 0.05 --curveVal 0.05 --transport 'multicomponent'
