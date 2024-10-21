@@ -78,26 +78,32 @@ ax[3].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1e}"))
 # f.text(0.5, -0.1, r'Temperature [K]', ha='center', va='center')
 
 
+
 path=os.getcwd()
 
-LMRtest = args.LMRtest
-if LMRtest == 1:
-    colors = ['xkcd:purple',"xkcd:grey", 'r', 'b']
-    lstyles = ["solid","solid","solid","solid","solid","solid","solid","solid"]
-    models = {
-            'LMR-R (PCI)':"test/data/alzuetamechanism_LMRR.yaml",
-            'LMR-R (all p-dep)':"test/data/alzuetamechanism_LMRR_generic.yaml",
-            }
-    name = 'IDT_shao_LMRtest'
-else:
-    colors = ['r','b','xkcd:purple']
-    lstyles = ["dotted","dashed","solid"]
-    models = {
-            'Ar':"test/data/alzuetamechanism_LMRR_allAR.yaml",
-            r'H$_2$O':"test/data/alzuetamechanism_LMRR_allH2O.yaml",
-            'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR.yaml",       
-            }
-    name = 'IDT_shao_generalLMRR'
+colors = ["xkcd:grey", "xkcd:teal", "orange", 'r', 'b', 'xkcd:purple']*3
+lstyles = ["solid"]*6 + ["dashed"]*6 + ["dotted"]*6
+models = {
+    # 'Alzueta': 'test\\data\\alzuetamechanism.yaml',
+    # 'Mei': r'G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Mei-2019\\mei-2019.yaml',
+    'Zhang': r"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Zhang-2017\\zhang-2017.yaml",
+    # 'Otomo': r"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Otomo-2018\\otomo-2018.yaml",
+    # 'Stagni': r"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Stagni-2020\\stagni-2020.yaml",
+    # 'Han': r"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Han-2021\\han-2021.yaml",
+    # 'Alzueta-LMRR': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\alzuetamechanism_LMRR.yaml',
+    # 'Mei-LMRR': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\mei-2019_LMRR.yaml',
+    'Zhang-LMRR': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\zhang-2017_LMRR.yaml",
+    # 'Otomo-LMRR': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\otomo-2018_LMRR.yaml",
+    # 'Stagni-LMRR': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\stagni-2020_LMRR.yaml",
+    # 'Han-LMRR': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\han-2021_LMRR.yaml",
+    # 'Alzueta-LMRR-allP': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\alzuetamechanism_LMRR_allP.yaml',
+    # 'Mei-LMRR-allP': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\mei-2019_LMRR_allP.yaml',
+    'Zhang-LMRR-allP': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\zhang-2017_LMRR_allP.yaml",
+    # 'Otomo-LMRR-allP': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\otomo-2018_LMRR_allP.yaml",
+    # 'Stagni-LMRR-allP': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\stagni-2020_LMRR_allP.yaml",
+    # 'Han-LMRR-allP': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\han-2021_LMRR_allP.yaml",
+    }
+name = 'IDT_shao_generalLMRR'
 
 def ignitionDelay(states, species):
     # i_ign = states(species).Y.argmax()
@@ -283,7 +289,7 @@ ax[3].annotate('(d)', xy=(0.95, 0.9), xycoords='axes fraction',ha='right', va='t
 
 # plt.subplots_adjust(top=0.98)
 if save_plots == True:
-    plt.savefig('burkelab_SimScripts/figures/'+name+'.pdf', dpi=500, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/'+name+'.png', dpi=500, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/USSCI_simulations/figures/'+name+'.pdf', dpi=500, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/USSCI_simulations/figures/'+name+'.png', dpi=500, bbox_inches='tight')
     # plt.savefig('burkelab_SimScripts/figures/'+name+'.eps', dpi=500, bbox_inches='tight', format='eps')
 # plt.show()     

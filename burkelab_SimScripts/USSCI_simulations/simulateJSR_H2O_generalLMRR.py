@@ -100,24 +100,35 @@ ax[2].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
 # lgdfsz=7
 
 plt.subplots_adjust(wspace=0.18)
-LMRtest = args.LMRtest
-if LMRtest == 1:
-    colors = ['xkcd:purple',"xkcd:grey", 'r', 'b']
-    lstyles = ["solid","solid","solid","solid","solid","solid","solid","solid"]
-    models = {
-            'LMR-R (PCI)':"test/data/alzuetamechanism_LMRR.yaml",
-            'LMR-R (all p-dep)':"test/data/alzuetamechanism_LMRR_generic.yaml",
-            }
-    name = 'JSR_H2O_generalLMRR'
-else:
-    colors = ['r','b','xkcd:purple']
-    lstyles = ["dotted","dashed","solid"]
-    models = {
-            'Ar':"test/data/alzuetamechanism_LMRR_allAR.yaml",
-            r'H$_2$O':"test/data/alzuetamechanism_LMRR_allH2O.yaml",
-            'LMR-R':"C:\\Users\\pjsin\\Documents\\cantera\\test\\data\\alzuetamechanism_LMRR.yaml",      
-            }
-    name = 'JSR_H2O_PCI'
+# colors = ["xkcd:grey"]*3 + ["xkcd:teal"]*3 + ["orange"]*3 + ['r']*3 + ['b']*3 + ['xkcd:purple']*3
+lstyles = ["solid","dashed","dotted"]*6
+colors = ["xkcd:purple","xkcd:teal","k"]*3
+# lstyles = ["solid"]*3 + ["dashed"]*3 + ["dotted"]*3
+models = {
+    'Alzueta': r'test\\data\\alzuetamechanism.yaml',
+    'base-LMRR': r'test\\data\\alzuetamechanism_LMRR.yaml',
+    'Alzueta-LMRR': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\alzuetamechanism_LMRR.yaml',
+    # 'Alzueta-LMRR-allP': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\alzuetamechanism_LMRR_allP.yaml',
+    # 'Mei': r'G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Mei-2019\\mei-2019.yaml',
+    # 'Mei-LMRR': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\mei-2019_LMRR.yaml',
+    # 'Mei-LMRR-allP': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\mei-2019_LMRR_allP.yaml',
+    
+    # 'Zhang-LMRR': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\zhang-2017_LMRR.yaml",
+    # 'Zhang-LMRR-allP': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\zhang-2017_LMRR_allP.yaml",
+    # 'Zhang': r"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Zhang-2017\\zhang-2017.yaml",
+    
+    # 'Otomo-LMRR': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\otomo-2018_LMRR.yaml",
+    # 'Otomo-LMRR-allP': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\otomo-2018_LMRR_allP.yaml",
+    # 'Otomo': r"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Otomo-2018\\otomo-2018.yaml",
+    # 'Stagni': r"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Stagni-2020\\stagni-2020.yaml",
+    # 'Stagni-LMRR': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\stagni-2020_LMRR.yaml",
+    # 'Stagni-LMRR-allP': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\stagni-2020_LMRR_allP.yaml",
+    # 'Han': r"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Han-2021\\han-2021.yaml",
+    # 'Han-LMRR': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\han-2021_LMRR.yaml",
+    # 'Han-LMRR-allP': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\han-2021_LMRR_allP.yaml",
+    }
+mech = 'Alzueta'
+name = 'JSR_H2O_generalLMRR_'+mech
 
 T_list = np.concatenate((np.linspace(800,829.9,10),np.linspace(830,844,100),np.linspace(848.8,870.9,100),np.linspace(871,1050,50)))
 # T_list = np.linspace(800,1050,50)
@@ -245,7 +256,7 @@ for k,m in enumerate(models):
         ax[2].plot(tempDependence[i].index, tempDependence[i]['H2']*100, color=colors[k], linestyle=lstyles[k], linewidth=lw, label=m) 
 
 
-
+ax[0].set_title(f"{mech}")
 # ax[0].set_xlabel('Temperature [K]')
 ax[0].set_ylabel(r'$\Delta$ T [K]')
 ax[0].tick_params(axis='both',direction='in')
@@ -270,7 +281,7 @@ ax[2].set_xlim([780,1070])
 # ax[2].set_ylim([0.0001,3.4])
 
 if save_plots == True:
-    plt.savefig('burkelab_SimScripts/figures/'+name+'.pdf', dpi=500, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/'+name+'.png', dpi=500, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/USSCI_simulations/figures/'+name+'.pdf', dpi=500, bbox_inches='tight')
+    plt.savefig('burkelab_SimScripts/USSCI_simulations/figures/'+name+'.png', dpi=500, bbox_inches='tight')
     # plt.savefig('burkelab_SimScripts/figures/'+'JSR_H2O.eps', dpi=500, bbox_inches='tight', format='eps')
 # plt.show()     
