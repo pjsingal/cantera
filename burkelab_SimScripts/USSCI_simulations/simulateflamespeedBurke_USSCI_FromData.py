@@ -1,3 +1,4 @@
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import argparse
@@ -24,6 +25,8 @@ parser.add_argument('--dpi', type=int, help="dpi = ", default=1000)
 parser.add_argument('--date', type=str, help="sim date = ",default='May28')
 parser.add_argument('--slopeVal', type=float, help="slope value = ",default=-1)
 parser.add_argument('--curveVal', type=float, help="curve value = ",default=-1)
+parser.add_argument('--title', type=str, help="title = ",default='null')
+
 
 args = parser.parse_args()
 mpl.rc('font',family='Times New Roman')
@@ -41,6 +44,11 @@ mpl.rcParams['xtick.major.size'] = 2.5  # Length of major ticks on x-axis
 mpl.rcParams['ytick.major.size'] = 2.5  # Length of major ticks on y-axis
 mpl.rcParams['xtick.minor.size'] = 1.5  # Length of minor ticks on x-axis
 mpl.rcParams['ytick.minor.size'] = 1.5  # Length of minor ticks on y-axis
+
+
+
+save_plots = True
+fig, ax = plt.subplots(1,1,figsize=(args.figwidth, args.figheight))
 
 lw=args.lw
 mw=args.mw
@@ -82,65 +90,37 @@ models = {
                 },
 }
 
-name = 'Ronney_flamespeed_multimech'
+name = 'Burke_flamespeed_multimech'
 save_plots = True
-fig, ax = plt.subplots(2, len(models.keys()),figsize=(args.figwidth, args.figheight))
+fig, ax = plt.subplots(1, len(models.keys()),figsize=(args.figwidth, args.figheight))
 
 for z, n in enumerate(models):
     mech = n
 
     import matplotlib.ticker as ticker
-    ax[0,z].xaxis.set_major_locator(ticker.MultipleLocator(0.2))
-    ax[0,z].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
-    ax[0,z].yaxis.set_major_locator(ticker.MultipleLocator(2))
-    ax[0,z].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
-    ax[1,z].xaxis.set_major_locator(ticker.MultipleLocator(0.2))
-    ax[1,z].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
-    ax[1,z].yaxis.set_major_locator(ticker.MultipleLocator(10))
-    ax[1,z].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
+    ax[z].xaxis.set_major_locator(ticker.MultipleLocator(2))
+    ax[z].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
+    ax[z].yaxis.set_major_locator(ticker.MultipleLocator(0.03))
+    ax[z].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.2f}"))
 
     # Plot experimental data
     path="G:\\Mon disque\\Columbia\\Burke Lab\\01 Mixture Rules Project\\Graph Reading\\"
-    dataset = pd.read_csv(path+'\\6 FS NH3 (Stagni-Ronney)\\760torr.csv')
-    NH3_list = np.divide(dataset.iloc[:,0],100)
-    ox_frac_list = np.subtract(1,NH3_list)
-    O2_list = np.multiply(ox_frac_list, 0.21)
-    phi_list = np.divide(np.divide(NH3_list,O2_list),np.divide(4,3))
-    ax[0,z].plot(phi_list,dataset.iloc[:,1],marker='o',fillstyle='none',markersize=msz,markeredgewidth=mw,linestyle='none',color='k',label='Ronney',zorder=100)
-    dataset = pd.read_csv(path+f'\\Han\\han_0pt6_NH3.csv')
-    ax[1,z].plot(dataset.iloc[:,0],dataset.iloc[:,1],marker='s',fillstyle='none',markersize=msz,markeredgewidth=mw,linestyle='none',color='k',label='Han',zorder=100)
-    dataset = pd.read_csv(path+f'\\Wang\\wang_0pt6_NH3.csv')
-    ax[1,z].plot(dataset.iloc[:,0],dataset.iloc[:,1],marker='x',fillstyle='none',markersize=msz,markeredgewidth=mw,linestyle='none',color='k',label='Wang',zorder=99)
+    dataset = pd.read_csv(path+'\\5 FS H2O (Burke)\\exp_pts.csv',header=None)
+    ax[z].plot(dataset.iloc[:,0],dataset.iloc[:,1],marker='o',fillstyle='none',markersize=msz,markeredgewidth=mw,linestyle='none',color='k',label='Burke et al.',zorder=100)
 
     # Plot simulation data
-    path=f'burkelab_SimScripts\\USSCI_simulations\\data\\Ronney\\'+args.date+'\\'
-    alpha_list = [1.0,0.6]
-    p_list=[760]
-    for x, alpha in enumerate(alpha_list):
-      for k, m in enumerate(models[n]):
-          for i, p in enumerate(p_list):
-            fname = f'{n}_{m}_{p}torr_{alpha}alpha.csv'
-            dataset=pd.read_csv(path+fname)
-            ax[x,z].plot(dataset.iloc[:,0],dataset.iloc[:,1],color=colors[k],linestyle=lstyles[k],linewidth=lw,label=m)
+    for k, m in enumerate(models[n]):
+        path=f'burkelab_SimScripts\\USSCI_simulations\\data\\Burke\\'+args.date+'\\'
+        dataset=pd.read_csv(path+f'{n}_{m}.csv')
+        ax[z].plot(dataset.iloc[:,0],dataset.iloc[:,1],color=colors[k],linestyle=lstyles[k],linewidth=lw,label=m)
+    ax[z].tick_params(axis='both', direction="in")
+    ax[z].tick_params(axis='both', which='minor', direction="in")
+    ax[z].set_xlim([0.001, 15.999])
+    ax[z].set_ylim([-0.005, 0.1299])
 
-    ax[0,z].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw)
-    ax[1,z].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw)
-
-    ax[0,z].set_title(f'{mech}')
-
-    ax[0,z].tick_params(axis='both', direction="in")
-    ax[0,z].tick_params(axis='both', which='minor', direction="in")
-    ax[1,z].tick_params(axis='both', direction="in")
-    ax[1,z].tick_params(axis='both', which='minor', direction="in")
-    ax[0,z].set_xlim([0.6001, 1.7999])
-    ax[0,z].set_ylim([0.001, 11.9999])
-    ax[1,z].set_xlim([0.6001, 1.7999])
-    ax[1,z].set_ylim([0.001, 43])
-
-
-ax[0,0].set_ylabel(r'Burning velocity [cm $\rm s^{-1}$]')
-ax[1,0].set_ylabel(r'Burning velocity [cm $\rm s^{-1}$]')
-ax[1,2].set_xlabel(r'Equivalence Ratio')
+ax[0].legend(fontsize=lgdfsz, frameon=False, loc='right', handlelength=lgdw)
+ax[0].set_ylabel(r'Mass burning rate [g $\rm cm^{-2}$ $\rm s^{-1}$]',fontsize=args.fszaxlab)
+ax[2].set_xlabel(r'Pressure [atm]',fontsize=args.fszaxlab)
 
 path=f'burkelab_SimScripts\\USSCI_simulations\\figures\\'+args.date
 os.makedirs(path,exist_ok=True)
