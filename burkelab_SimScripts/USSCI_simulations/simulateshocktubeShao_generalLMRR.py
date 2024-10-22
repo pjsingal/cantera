@@ -57,8 +57,7 @@ mpl.rcParams['xtick.major.size'] = 2.5  # Length of major ticks on x-axis
 mpl.rcParams['ytick.major.size'] = 2.5  # Length of major ticks on y-axis
 mpl.rcParams['xtick.minor.size'] = 1.5  # Length of minor ticks on x-axis
 mpl.rcParams['ytick.minor.size'] = 1.5  # Length of minor ticks on y-axis
-save_plots = True
-fig, ax = plt.subplots(figsize=(args.figwidth, args.figheight))
+
 lstyles = ["solid","dashed","dotted"]*6
 colors = ["xkcd:purple","xkcd:teal","k"]*3
 models = {
@@ -89,7 +88,9 @@ models = {
                 },
 }
 
-name = 'ShockTubeSpeciesProfile_H2O' #os.path.splitext(os.path.basename(__file__))[0]
+name = 'ShockTube_H2O_multimech'
+save_plots = True
+fig, ax = plt.subplots(1, len(models.keys()),figsize=(args.figwidth, args.figheight))
 
 for z, n in enumerate(models):
     mech = n
