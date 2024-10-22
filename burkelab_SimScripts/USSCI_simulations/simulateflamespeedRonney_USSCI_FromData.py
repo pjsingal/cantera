@@ -53,10 +53,6 @@ mpl.rcParams['ytick.major.size'] = 2.5  # Length of major ticks on y-axis
 mpl.rcParams['xtick.minor.size'] = 1.5  # Length of minor ticks on x-axis
 mpl.rcParams['ytick.minor.size'] = 1.5  # Length of minor ticks on y-axis
 
-num_cols_fig = 3
-
-fig, ax = plt.subplots(2,num_cols_fig,figsize=(args.figwidth, args.figheight))
-save_plots = True
 lw=args.lw
 mw=args.mw
 msz=args.msz
@@ -66,222 +62,99 @@ lgdfsz=args.lgdfsz
 date=args.date
 fslope=args.slopeVal
 fcurve=args.curveVal
-import matplotlib.ticker as ticker
-for col in range(num_cols_fig-1):
-    ax[0,col].xaxis.set_major_locator(ticker.MultipleLocator(0.2))
-    ax[0,col].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
-    ax[0,col].yaxis.set_major_locator(ticker.MultipleLocator(2))
-    ax[0,col].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
-    ax[1,col].xaxis.set_major_locator(ticker.MultipleLocator(0.2))
-    ax[1,col].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
-    ax[1,col].yaxis.set_major_locator(ticker.MultipleLocator(10))
-    ax[1,col].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 
+lstyles = ["solid","dashed","dotted"]*6
+colors = ["xkcd:purple","xkcd:teal","k"]*3
+models = {
+    'Alzueta-2023': {
+        'base': r'test\\data\\alzuetamechanism.yaml',
+        'LMRR': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\alzuetamechanism_LMRR.yaml',
+        'LMRR-allP': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\alzuetamechanism_LMRR_allP.yaml',
+                },
+    'Mei-2019': {
+        'base': r'G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Mei-2019\\mei-2019.yaml',
+        'LMRR': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\mei-2019_LMRR.yaml',
+        'LMRR-allP': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\mei-2019_LMRR_allP.yaml',
+                },
+    'Zhang-2017': {
+        'base': r"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Zhang-2017\\zhang-2017.yaml",
+        'LMRR': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\zhang-2017_LMRR.yaml",
+        'LMRR-allP': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\zhang-2017_LMRR_allP.yaml",
+                },
+    'Otomo-2018': {
+        'base': r"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Otomo-2018\\otomo-2018.yaml",
+        'LMRR': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\otomo-2018_LMRR.yaml",
+        'LMRR-allP': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\otomo-2018_LMRR_allP.yaml",
+                },
+    'Stagni-2020': {
+        'base': r"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Stagni-2020\\stagni-2020.yaml",
+        'LMRR': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\stagni-2020_LMRR.yaml",
+        'LMRR-allP': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\stagni-2020_LMRR_allP.yaml",
+                },
+}
 
-if fslope != -1:
-    path="C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\RonneyResults_"+date+f' (slope={fslope} curve={fcurve})\\'
-else:
-    path="C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\RonneyResults_"+date+"\\"
+name = 'Ronney_flamespeed_multimech'
+save_plots = True
+fig, ax = plt.subplots(2, len(models.keys()),figsize=(args.figwidth, args.figheight))
 
-lines = ["solid","dotted","dashed"]
+for z, n in enumerate(models):
+    mech = n
 
-# ax[0].set_xlabel(r'Equivalence Ratio')
+    import matplotlib.ticker as ticker
+    ax[0,z].xaxis.set_major_locator(ticker.MultipleLocator(0.2))
+    ax[0,z].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
+    ax[0,z].yaxis.set_major_locator(ticker.MultipleLocator(2))
+    ax[0,z].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
+    ax[1,z].xaxis.set_major_locator(ticker.MultipleLocator(0.2))
+    ax[1,z].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1f}"))
+    ax[1,z].yaxis.set_major_locator(ticker.MultipleLocator(10))
+    ax[1,z].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
 
-################################ EPS-DEPENDENCE #######################################
-# if args.plot=="eps-dependence":
-numcols=1
-colspacing=0.5
-bbval=(0.44,-0.03)
-lgd_loc='lower center'
-P_ls = [760]
-alpha_ls = [1.0,0.6]
-col=0
-for i, alpha in enumerate(alpha_ls):
-    for j, P in enumerate(P_ls):
-        label=f'Alzueta'
-        dataset=pd.read_csv(path+f'Alzueta_{P}_data_{alpha}alpha.csv')
-        ax[i,col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle=lines[j],color="xkcd:grey",zorder=30,label=label)
+    # Plot experimental data
+    path="G:\\Mon disque\\Columbia\\Burke Lab\\01 Mixture Rules Project\\Graph Reading\\"
+    dataset = pd.read_csv(path+'\\6 FS NH3 (Stagni-Ronney)\\760torr.csv')
+    NH3_list = np.divide(dataset.iloc[:,0],100)
+    ox_frac_list = np.subtract(1,NH3_list)
+    O2_list = np.multiply(ox_frac_list, 0.21)
+    phi_list = np.divide(np.divide(NH3_list,O2_list),np.divide(4,3))
+    ax[0,z].plot(phi_list,dataset.iloc[:,1],marker='o',fillstyle='none',markersize=msz,markeredgewidth=mw,linestyle='none',color='k',label='Ronney',zorder=100)
+    dataset = pd.read_csv(path+f'\\Han\\han_0pt6_NH3.csv')
+    ax[1,z].plot(dataset.iloc[:,0],dataset.iloc[:,1],marker='s',fillstyle='none',markersize=msz,markeredgewidth=mw,linestyle='none',color='k',label='Han',zorder=100)
+    dataset = pd.read_csv(path+f'\\Wang\\wang_0pt6_NH3.csv')
+    ax[1,z].plot(dataset.iloc[:,0],dataset.iloc[:,1],marker='x',fillstyle='none',markersize=msz,markeredgewidth=mw,linestyle='none',color='k',label='Wang',zorder=99)
 
-        label=f'LMR-R'
-        dataset=pd.read_csv(path+f'LMR-R_{P}_data_{alpha}alpha.csv')
-        ax[i,col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle=lines[j],color='xkcd:purple',zorder=30,label=label)
+    # Plot simulation data
+    path=f'burkelab_SimScripts\\USSCI_simulations\\data\\Ronney\\'+args.date+'\\'
+    alpha_list = [1.0,0.6]
+    p_list=[760]
+    for x, alpha in enumerate(alpha_list):
+      for k, m in enumerate(models[n]):
+          for i, p in enumerate(p_list):
+            fname = f'{n}_{m}_{p}torr_{alpha}alpha.csv'
+            dataset=pd.read_csv(path+fname)
+            ax[x,z].plot(dataset.iloc[:,0],dataset.iloc[:,1],color=colors[k],linestyle=lstyles[k],linewidth=lw,label=m)
 
-        label=f'LMR-R (extra)'
-        dataset=pd.read_csv(path+f'LMR-R-extra_{P}_data_{alpha}alpha.csv')
-        ax[i,col].plot(dataset.iloc[:,0],dataset.iloc[:,1],marker='o',markersize='2.5',fillstyle='none',markeredgewidth=0.5,linestyle='none',color='xkcd:purple',zorder=30,label=label)
+    ax[0,z].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw)
+    ax[1,z].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw)
 
-        label=r"$\epsilon_{0,ALL}(300K)$"
-        dataset=pd.read_csv(path+f'epsALL-300K_{P}_data_{alpha}alpha.csv')
-        ax[i,col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle=lines[j],color="b",zorder=30,label=label)
+    ax[0,z].set_title(f'{mech}')
 
-        label=r"$\epsilon_{0,ALL}(2000K)$"
-        dataset=pd.read_csv(path+f'epsALL-2000K_{P}_data_{alpha}alpha.csv')
-        ax[i,col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle=lines[j],color="r",zorder=30,label=label)
+    ax[0,z].tick_params(axis='both', direction="in")
+    ax[0,z].tick_params(axis='both', which='minor', direction="in")
+    ax[1,z].tick_params(axis='both', direction="in")
+    ax[1,z].tick_params(axis='both', which='minor', direction="in")
 
-        label=r"$\epsilon_{0,NH3}(300K)$"
-        dataset=pd.read_csv(path+f'epsNH3-300K_{P}_data_{alpha}alpha.csv')
-        ax[i,col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle=lines[j],color="xkcd:teal",zorder=30,label=label)
+    if z==0:
+        ax[0,z].set_ylabel(r'Burning velocity [cm $\rm s^{-1}$]')
+        ax[1,z].set_ylabel(r'Burning velocity [cm $\rm s^{-1}$]')
+    if z==2:
+        ax[1,z].set_xlabel(r'Equivalence Ratio')
+    ax[0,z].set_xlim([0.6001, 1.7999])
+    ax[0,z].set_ylim([0.001, 11.9999])
+    ax[1,z].set_xlim([0.6001, 1.7999])
+    ax[1,z].set_ylim([0.001, 43])
 
-        label=r"$\epsilon_{0,NH3}(2000K)$"
-        dataset=pd.read_csv(path+f'epsNH3-2000K_{P}_data_{alpha}alpha.csv')
-        ax[i,col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle=lines[j],color="orange",zorder=30,label=label)
-# ax[0,col].set_title("Effect of including all "+r"$\epsilon_{0,i}(300K)$"+" and " +r"$\epsilon_{0,i}(2000K)$",fontsize=7)
-ax[0,col].set_title("Effect of including all Jasper efficiencies",fontsize=7)
-ax[0,col].set_xlim([0.6001, 1.7999])
-ax[0,col].set_ylim([0.001, 13.9])
-ax[1,col].set_xlim([0.6001, 1.7999])
-ax[1,col].set_ylim([0.001, 38])
-ax[0,col].annotate('100% NH$_3$\n(760 torr)', xy=(0.97, 0.97), xycoords='axes fraction',ha='right', va='top',fontsize=7)
-ax[1,col].annotate('60% NH$_3$/40% H$_2$\n(760 torr)', xy=(0.97, 0.97), xycoords='axes fraction',ha='right', va='top',fontsize=7)
-try:
-    ax[1,col].legend(fontsize=lgdfsz, frameon=False, loc=lgd_loc,handlelength=lgdw,ncols=numcols,columnspacing=colspacing,bbox_to_anchor=bbval) 
-except:
-    ax[1,col].legend(fontsize=lgdfsz, frameon=False, loc=lgd_loc,handlelength=lgdw,ncols=numcols,columnspacing=colspacing)
-
-################################ EPS-T-DEPENDENCE #######################################
-# if args.plot=="eps-T-dependence":
-numcols=1
-colspacing=0.5
-lgd_loc='lower center'
-P_ls = [760]
-alpha_ls = [1.0,0.6]
-col=1
-for i, alpha in enumerate(alpha_ls):
-    for j, P in enumerate(P_ls):
-        label=f'Alzueta'
-        dataset=pd.read_csv(path+f'Alzueta_{P}_data_{alpha}alpha.csv')
-        ax[i,col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle=lines[j],color="xkcd:grey",zorder=30,label=label)
-
-        label=f'LMR-R'
-        dataset=pd.read_csv(path+f'LMR-R_{P}_data_{alpha}alpha.csv')
-        ax[i,col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle=lines[j],color='xkcd:purple',zorder=30,label=label)
-
-        label=r"$\epsilon_{0,NH3}(300K)$"
-        dataset=pd.read_csv(path+f'epsNH3-300K_{P}_data_{alpha}alpha.csv')
-        ax[i,col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle=lines[j],color="xkcd:teal",zorder=30,label=label)
-
-        label=r"$\epsilon_{0,NH3}(1000K)$"
-        dataset=pd.read_csv(path+f'epsNH3-1000K_{P}_data_{alpha}alpha.csv')
-        ax[i,col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle=lines[j],color="g",zorder=30,label=label)
-
-        label=r"$\epsilon_{0,NH3}(2000K)$"
-        dataset=pd.read_csv(path+f'epsNH3-2000K_{P}_data_{alpha}alpha.csv')
-        ax[i,col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle=lines[j],color="orange",zorder=30,label=label)
-ax[0,col].set_title("Effect of changing "+r"$\epsilon_{0,NH3}(T)$",fontsize=7)
-ax[0,col].set_xlim([0.6001, 1.7999])
-ax[0,col].set_ylim([0.001, 13.9])
-ax[1,col].set_xlim([0.6001, 1.7999])
-ax[1,col].set_ylim([8, 38])
-ax[0,col].annotate('100% NH$_3$\n(760 torr)', xy=(0.97, 0.97), xycoords='axes fraction',ha='right', va='top',fontsize=7)
-ax[1,col].annotate('60% NH$_3$/40% H$_2$\n(760 torr)', xy=(0.97, 0.97), xycoords='axes fraction',ha='right', va='top',fontsize=7)
-try:
-    ax[0,col].legend(fontsize=lgdfsz, frameon=False, loc=lgd_loc,handlelength=lgdw,ncols=numcols,columnspacing=colspacing,bbox_to_anchor=bbval) 
-except:
-    ax[0,col].legend(fontsize=lgdfsz, frameon=False, loc=lgd_loc,handlelength=lgdw,ncols=numcols,columnspacing=colspacing)
-
-# ################################ Tin-DEPENDENCE #######################################
-# numcols=1
-# colspacing=0.5
-# bbval=(1.85,1)
-# lgd_loc='upper right'
-# P_ls = [760]
-# alpha_ls = [1.0,0.6]
-# # T_ls = [200,300,400,500,600,700]
-# T_ls = [300,400,500]
-# col=2
-# for i, alpha in enumerate(alpha_ls):
-#     for j, P in enumerate(P_ls):
-#         for k, T in enumerate(T_ls):
-#             label=f'Alzueta '+r'($T_{in}=$'+f'{T}K)'
-#             dataset=pd.read_csv(path+f'Alzueta_{P}_{T}K_data_{alpha}alpha.csv')
-#             ax[i,col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle=lines[k],color="xkcd:grey",zorder=30,label=label)
-
-#             label=f'LMR-R '+r'($T_{in}=$'+f'{T}K)'
-#             dataset=pd.read_csv(path+f'LMR-R_{P}_{T}K_data_{alpha}alpha.csv')
-#             ax[i,col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle=lines[k],color='xkcd:purple',zorder=30,label=label)
-
-#             label=r"$\epsilon_{0,NH3}(300K)$ "+r'($T_{in}=$'+f'{T}K)'
-#             dataset=pd.read_csv(path+f'epsNH3-300K_{P}_{T}K_data_{alpha}alpha.csv')
-#             ax[i,col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle=lines[k],color="xkcd:teal",zorder=30,label=label)
-
-#             label=r"$\epsilon_{0,NH3}(2000K)$ "+r'($T_{in}=$'+f'{T}K)'
-#             dataset=pd.read_csv(path+f'epsNH3-2000K_{P}_{T}K_data_{alpha}alpha.csv')
-#             ax[i,col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle=lines[k],color="orange",zorder=30,label=label)
-# ax[0,col].set_title("Effect of T$_{in}$",fontsize=7)
-# ax[0,col].set_xlim([0.6001, 1.7999])
-# # ax[0,col].set_ylim([1.6, 13.9])
-# ax[1,col].set_xlim([0.6001, 1.7999])
-# # ax[1,col].set_ylim([4, 49])
-# ax[0,col].annotate('100% NH$_3$\n(760 torr)', xy=(0.97, 0.97), xycoords='axes fraction',ha='right', va='top',fontsize=7)
-# ax[1,col].annotate('60% NH$_3$/40% H$_2$\n(760 torr)', xy=(0.97, 0.97), xycoords='axes fraction',ha='right', va='top',fontsize=7)
-# name = f'ronney_flamespeed_'+date+f'_0.6NH3_0.4H2'+f'_epsTest'
-# try:
-#     ax[0,col].legend(fontsize=lgdfsz, frameon=False, loc=lgd_loc,handlelength=lgdw,ncols=numcols,columnspacing=colspacing,bbox_to_anchor=bbval) 
-# except:
-#     ax[0,col].legend(fontsize=lgdfsz, frameon=False, loc=lgd_loc,handlelength=lgdw,ncols=numcols,columnspacing=colspacing)
-
-################################ P-DEPENDENCE #######################################
-# if args.plot=="P-dependence":
-lines = ["dotted","solid","dashed"]
-numcols=1
-colspacing=0.5
-bbval=(1.45,1)
-# bbval=(1.85,1)
-lgd_loc='upper right'
-P_ls = [250,760,1500]
-alpha_ls = [1.0,0.6]
-col=2
-for i, alpha in enumerate(alpha_ls):
-    for j, P in enumerate(P_ls):
-        if i==0:
-            ax[0,col].plot(0, 0, '.', color='white',markersize=0.1,label=f'{P} torr')  # dummy handle to provide label to lgd column
-
-        label=f'Alzueta'
-        dataset=pd.read_csv(path+f'Alzueta_{P}_data_{alpha}alpha.csv')
-        ax[i,col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle=lines[j],color="xkcd:grey",zorder=80,label=label)
-
-        label=f'LMR-R'
-        dataset=pd.read_csv(path+f'LMR-R_{P}_data_{alpha}alpha.csv')
-        ax[i,col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle=lines[j],color='xkcd:purple',zorder=90,label=label)
-
-        label=r"$\epsilon_{0,NH3}(300K)$"
-        dataset=pd.read_csv(path+f'epsNH3-300K_{P}_data_{alpha}alpha.csv')
-        ax[i,col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle=lines[j],color="xkcd:teal",zorder=30,label=label)
-
-        label=r"$\epsilon_{0,NH3}(2000K)$"
-        dataset=pd.read_csv(path+f'epsNH3-2000K_{P}_data_{alpha}alpha.csv')
-        ax[i,col].plot(dataset.iloc[:,0],dataset.iloc[:,1],linewidth=lw,linestyle=lines[j],color="orange",zorder=40,label=label)
-ax[0,col].set_title("Effect of pressure",fontsize=7)
-ax[0,col].set_xlim([0.6001, 1.7999])
-ax[0,col].set_ylim([0.001, 13.9])
-ax[1,col].set_xlim([0.6001, 1.7999])
-ax[1,col].set_ylim([4, 49])
-ax[0,col].annotate('100% NH$_3$', xy=(0.97, 0.97), xycoords='axes fraction',ha='right', va='top',fontsize=7)
-ax[1,col].annotate('60% NH$_3$/40% H$_2$', xy=(0.97, 0.97), xycoords='axes fraction',ha='right', va='top',fontsize=7)
-name = f'ronney_flamespeed_'+date+f'_0.6NH3_0.4H2'+f'_epsTest'
-try:
-    legend=ax[0,col].legend(fontsize=lgdfsz, frameon=False, loc=lgd_loc,handlelength=lgdw,ncols=numcols,columnspacing=colspacing,bbox_to_anchor=bbval) 
-except:
-    legend=ax[0,col].legend(fontsize=lgdfsz, frameon=False, loc=lgd_loc,handlelength=lgdw,ncols=numcols,columnspacing=colspacing)
-# pos = ax[0,col].get_position()
-# ax[0,col].set_position([pos.x0*1.2, pos.y0, pos.width, pos.height])
-# pos = ax[1,col].get_position()
-# ax[1,col].set_position([pos.x0*1.2, pos.y0, pos.width, pos.height])
-
-for text in legend.get_texts():
-    labels=[]
-    for j, P in enumerate(P_ls):
-        labels.append(f'{P} torr')
-    if text.get_text() in labels:
-        text.set_fontsize(6)  # Set a larger font size
-        text.set_fontweight('bold')  # Make the font bold
-
-fig.text(.08, 0.5, r'Burning velocity [cm $\rm s^{-1}$]', ha='center', va='center',rotation=90)
-ax[1,1].set_xlabel(r'Equivalence Ratio')
-
-
+path=f'burkelab_SimScripts\\USSCI_simulations\\figures\\'+args.date
+os.makedirs(path,exist_ok=True)
 if save_plots == True:
-    plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\"+name+'.pdf', dpi=1000, bbox_inches='tight')
-    plt.savefig("C:\\Users\\pjsin\\Documents\\cantera\\burkelab_SimScripts\\figures\\"+name+'.svg', dpi=1000, bbox_inches='tight')
-
-# plt.show()     
+    plt.savefig(path+f'\\{name}.png', dpi=500, bbox_inches='tight')
