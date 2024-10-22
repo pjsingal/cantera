@@ -276,12 +276,8 @@ for z, n in enumerate(models):
         ax[3,z].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle=lstyles[k],linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
     ax[3,z].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
     ax[0,z].legend(fontsize=lgdfsz, frameon=False, loc='lower left',handlelength=lgdw)
-    if z==0:
-        ax[3,z].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]')
     ax[3,z].tick_params(axis='both', direction="in")
     ax[3,z].tick_params(axis='both', which='minor', direction="in")#, bottom=False)
-    if z==2:
-        ax[3,z].set_xlabel(r'Temperature [K]')
     ax[0,z].set_title(f"{mech}")
     # plt.subplots_adjust(wspace=0.4, hspace=0.4)
 
@@ -289,6 +285,9 @@ for z, n in enumerate(models):
     # ax[1,z].set_xlim([1000.1,1499.99])
     # ax[2,z].set_xlim([1000.1,1499.99])
     # ax[3,z].set_xlim([1000.1,1499.99])
+
+ax[3,0].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]')
+ax[3,2].set_xlabel(r'Temperature [K]')
 
 path=f'burkelab_SimScripts/USSCI_simulations/figures/'+args.date
 os.makedirs(path,exist_ok=True)

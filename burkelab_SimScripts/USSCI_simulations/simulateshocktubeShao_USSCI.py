@@ -129,14 +129,13 @@ for z, n in enumerate(models):
 
 
     ax[z].legend(fontsize=lgdfsz,handlelength=lgdw, frameon=False, loc='lower right') 
-    if z==0:
-        ax[z].set_ylabel(r'$\rm H_2O$ mole fraction [%]')
-    if z==2:
-        ax[z].set_xlabel(r'Time [$\mathdefault{\mu s}$]')
     ax[z].tick_params(axis='both', direction="in")#, labelsize=7)
     ax[z].set_xlim([0.0001,299.999])
     ax[z].set_ylim([0.120001,0.269999])
     ax[z].set_title(f"{mech}")
+
+ax[0].set_ylabel(r'$\rm H_2O$ mole fraction [%]')
+ax[2].set_xlabel(r'Time [$\mathdefault{\mu s}$]')
 
 path=f'burkelab_SimScripts/USSCI_simulations/figures/'+args.date
 os.makedirs(path,exist_ok=True)

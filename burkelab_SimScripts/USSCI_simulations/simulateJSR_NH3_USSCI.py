@@ -245,15 +245,6 @@ for z, n in enumerate(models):
             ax[0,z].plot(tempDependence[i].index, np.subtract(tempDependence[i]['temperature'],tempDependence[i].index), color=colors[k], linestyle=lstyles[k], linewidth=lw, label=m)   
             ax[1,z].plot(tempDependence[i].index, tempDependence[i]['O2']*100, color=colors[k], linestyle=lstyles[k], linewidth=lw, label=m)   
             ax[2,z].plot(tempDependence[i].index, tempDependence[i]['H2']*100, color=colors[k], linestyle=lstyles[k], linewidth=lw, label=m) 
-
-    if z==0:
-        ax[0,z].set_ylabel(r'$\Delta$ T [K]')
-        ax[1,z].set_ylabel('O$_2$ mole fraction [%]')
-        ax[2,z].set_ylabel('H$_2$ mole fraction [%]')
-
-    if z==2:
-        ax[2,z].set_xlabel('Temperature [K]')
-
     ax[0,z].set_title(f"{mech}")
     # ax[0,z].set_xlabel('Temperature [K]')
     ax[0,z].tick_params(axis='both',direction='in')
@@ -275,11 +266,13 @@ for z, n in enumerate(models):
     ax[2,z].set_xlim([780,1070])
     ax[2,z].set_ylim([0.0001,3.3])
 
+ax[0,0].set_ylabel(r'$\Delta$ T [K]')
+ax[1,0].set_ylabel('O$_2$ mole fraction [%]')
+ax[2,0].set_ylabel('H$_2$ mole fraction [%]')
+ax[2,2].set_xlabel('Temperature [K]')
+
 path=f'burkelab_SimScripts/USSCI_simulations/figures/'+args.date
 os.makedirs(path,exist_ok=True)
 
 if save_plots == True:
-    # plt.savefig(path+f'/{name}.pdf', dpi=500, bbox_inches='tight')
     plt.savefig(path+f'/{name}.png', dpi=500, bbox_inches='tight')
-    # plt.savefig('burkelab_SimScripts/figures/'+'JSR_H2O.eps', dpi=500, bbox_inches='tight', format='eps')
-# plt.show()     
