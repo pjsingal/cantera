@@ -282,6 +282,7 @@ for z, n in enumerate(models):
     ax[3,z].tick_params(axis='both', which='minor', direction="in")#, bottom=False)
     if z==2:
         ax[3,z].set_xlabel(r'Temperature [K]')
+    ax[0,z].set_title(f"{mech}")
     # plt.subplots_adjust(wspace=0.4, hspace=0.4)
 
     # ax[0,z].set_xlim([1000.1,1499.99])

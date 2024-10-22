@@ -58,64 +58,86 @@ mpl.rcParams['ytick.major.size'] = 2.5  # Length of major ticks on y-axis
 mpl.rcParams['xtick.minor.size'] = 1.5  # Length of minor ticks on x-axis
 mpl.rcParams['ytick.minor.size'] = 1.5  # Length of minor ticks on y-axis
 save_plots = True
-# figsize=(3.8,2)
-f, ax = plt.subplots(1, 1, figsize=(args.figwidth, args.figheight)) 
+fig, ax = plt.subplots(figsize=(args.figwidth, args.figheight))
+lstyles = ["solid","dashed","dotted"]*6
+colors = ["xkcd:purple","xkcd:teal","k"]*3
+models = {
+    'Alzueta-2023': {
+        'a priori': r'test\\data\\alzuetamechanism.yaml',
+        'LMRR': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\alzuetamechanism_LMRR.yaml',
+        'LMRR-allP': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\alzuetamechanism_LMRR_allP.yaml',
+                },
+    'Mei-2019': {
+        'a priori': r'G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Mei-2019\\mei-2019.yaml',
+        'LMRR': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\mei-2019_LMRR.yaml',
+        'LMRR-allP': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\mei-2019_LMRR_allP.yaml',
+                },
+    'Zhang-2017': {
+        'a priori': r"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Zhang-2017\\zhang-2017.yaml",
+        'LMRR': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\zhang-2017_LMRR.yaml",
+        'LMRR-allP': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\zhang-2017_LMRR_allP.yaml",
+                },
+    'Otomo-2018': {
+        'a priori': r"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Otomo-2018\\otomo-2018.yaml",
+        'LMRR': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\otomo-2018_LMRR.yaml",
+        'LMRR-allP': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\otomo-2018_LMRR_allP.yaml",
+                },
+    'Stagni-2020': {
+        'a priori': r"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Stagni-2020\\stagni-2020.yaml",
+        'LMRR': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\stagni-2020_LMRR.yaml",
+        'LMRR-allP': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\stagni-2020_LMRR_allP.yaml",
+                },
+}
+
 name = 'ShockTubeSpeciesProfile_H2O' #os.path.splitext(os.path.basename(__file__))[0]
 
-refSpecies='H2O'
-X_H2O2 = 1163e-6
-X_H2O = 1330e-6
-X_O2 = 665e-6
-X_CO2= 0.2*(1-X_H2O2-X_H2O-X_O2)
-X_Ar = 1-X_CO2
-def plotXvsTime(fname,pltlabel,pltcolour,lstyle='solid',zorder_value=10):
-    # gas = ct.Solution('test/data/Burke_H2_ArBath.yaml')
-    gas = ct.Solution(fname)
-    gas.TPX = 1196, 2.127*101325, {'H2O2':X_H2O2, 'H2O':X_H2O, 'O2':X_O2, 'CO2':X_CO2, 'AR':X_Ar}
-    r = ct.Reactor(contents=gas,energy="on")
-    reactorNetwork = ct.ReactorNet([r]) # this will be the only reactor in the network
-    timeHistory = ct.SolutionArray(gas, extra=['t'])
-    estIgnitDelay = 1
-    t = 0
-    counter = 1
-    while t < estIgnitDelay:
-        t = reactorNetwork.step()
-        if counter % 10 == 0:
-            timeHistory.append(r.thermo.state, t=t)
-        counter += 1
-    tConv = 1e6 #time conversion factor (1e6 converts to microseconds)
-    timeShift=0 # [seconds]
-    shiftedTime = tConv*(timeHistory.t - timeShift)
-    moleFrac = timeHistory(refSpecies).X 
-    ax.plot(shiftedTime, moleFrac*100, color=pltcolour,label=pltlabel,linestyle=lstyle,linewidth=lw,zorder=zorder_value)
+for z, n in enumerate(models):
+    mech = n
 
-path="G:\\Mon disque\\Columbia\\Burke Lab\\01 Mixture Rules Project\\Graph Reading\\"
-# path=os.getcwd()
-def plotPoints(filename,mkr='none',mkrw='none',mkrsz='none',line='none',fill='none',colour='k',subplot='off',pltLabel="_hidden",zorder_value=10): 
-    dataset = pd.read_csv(filename)
-    ax.plot(dataset.iloc[:,0],dataset.iloc[:,1]*100,mkr,linewidth=0.7,fillstyle=fill,linestyle=line,color=colour,label=pltLabel,markersize=mkrsz,markeredgewidth=mkrw,zorder=zorder_value)
+    import matplotlib.ticker as ticker
+    ax[z].xaxis.set_major_locator(ticker.MultipleLocator(50))
+    ax[z].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
+    ax[z].yaxis.set_major_locator(ticker.MultipleLocator(0.03))
+    ax[z].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.2f}"))
 
-plotXvsTime("test/data/alzuetamechanism_LMRR_generic.yaml",'LMR-R (all pDep)',"xkcd:grey",lstyle="dashed",zorder_value=100)
-plotXvsTime("test/data/alzuetamechanism_LMRR.yaml",'LMR-R (PCI)',"xkcd:purple",lstyle="solid",zorder_value=90)
+    path="G:\\Mon disque\\Columbia\\Burke Lab\\01 Mixture Rules Project\\Graph Reading\\"
+    shao_data = pd.read_csv(path+'\\7 SP H2O X vs t (Shock Tube) (Shao)\\expData.csv')
+    ax[z].plot(shao_data.iloc[:,0],shao_data.iloc[:,1]*100,marker='o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.')
 
-# plotPoints(path+'\\7 SP H2O X vs t (Shock Tube) (Shao)\\expData.csv',pltLabel='Shao et al.',line=':',colour='k')
-plotPoints(path+'\\7 SP H2O X vs t (Shock Tube) (Shao)\\expData.csv',mkr='o',mkrsz=msz,pltLabel='Shao et al.',mkrw=mw,zorder_value=110)
-# plotPoints(path+'\\7 SP H2O X vs t (Shock Tube) (Shao)\\troe_k0co2.csv',pltLabel='Troe et al.',line='solid',colour='g')
-    
-ax.legend(fontsize=lgdfsz,handlelength=lgdw, frameon=False, loc='lower right')  
-ax.set_ylabel(r'$\rm H_2O$ mole fraction [%]')
-ax.set_xlabel(r'Time [$\mathdefault{\mu s}$]')
-ax.tick_params(axis='both', direction="in")#, labelsize=7)
-ax.set_xlim([0.0001,299.999])
-ax.set_ylim([0.120001,0.269999])
+    for k,m in enumerate(models[n]):
+        X_H2O2 = 1163e-6
+        X_H2O = 1330e-6
+        X_O2 = 665e-6
+        X_CO2= 0.2*(1-X_H2O2-X_H2O-X_O2)
+        X_Ar = 1-X_CO2
+        gas = ct.Solution(list(models[n].values())[k])
+        X = {'H2O2':X_H2O2, 'H2O':X_H2O, 'O2':X_O2, 'CO2':X_CO2, 'AR':X_Ar}
+        gas.TPX = 1196, 2.127*ct.one_atm, X
+        r = ct.Reactor(contents=gas,energy="on")
+        reactorNetwork = ct.ReactorNet([r])
+        timeHistory = ct.SolutionArray(gas, extra=['t'])
+        estIgnitDelay = 1
+        t = 0
+        counter = 1
+        while t < estIgnitDelay:
+            t = reactorNetwork.step()
+            if counter % 10 == 0:
+                timeHistory.append(r.thermo.state, t=t)
+            counter += 1
+        ax[z].plot(timeHistory.t*1e6, timeHistory('H2O').X*100, color=colors[k],linestyle=lstyles[k],linewidth=lw,label=m)
 
-import matplotlib.ticker as ticker
-ax.xaxis.set_major_locator(ticker.MultipleLocator(50))
-ax.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
-ax.yaxis.set_major_locator(ticker.MultipleLocator(0.03))
-ax.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.2f}"))
 
+    ax[z].legend(fontsize=lgdfsz,handlelength=lgdw, frameon=False, loc='lower right') 
+    if z==0:
+        ax[z].set_ylabel(r'$\rm H_2O$ mole fraction [%]')
+    if z==2:
+        ax[z].set_xlabel(r'Time [$\mathdefault{\mu s}$]')
+    ax[z].tick_params(axis='both', direction="in")#, labelsize=7)
+    ax[z].set_xlim([0.0001,299.999])
+    ax[z].set_ylim([0.120001,0.269999])
+    ax[z].set_title(f"{mech}")
+
+path=f'burkelab_SimScripts/USSCI_simulations/figures/'+args.date
+os.makedirs(path,exist_ok=True)
 if save_plots == True:
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_generalLMRR.pdf', dpi=1000, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/figures/'+name+'_generalLMRR.png', dpi=1000, bbox_inches='tight')
-# plt.show()     
+    plt.savefig(path+f'/{name}.png', dpi=500, bbox_inches='tight')
