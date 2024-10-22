@@ -49,247 +49,248 @@ mpl.rcParams['ytick.major.size'] = 2.5  # Length of major ticks on y-axis
 mpl.rcParams['xtick.minor.size'] = 1.5  # Length of minor ticks on x-axis
 mpl.rcParams['ytick.minor.size'] = 1.5  # Length of minor ticks on y-axis
 
-save_plots = True
-f, ax = plt.subplots(4, 1, figsize=(args.figwidth, args.figheight)) 
-#figsize = (3.5,7.5)
+lstyles = ["solid","dashed","dotted"]*6
+colors = ["xkcd:purple","xkcd:teal","k"]*3
 
-import matplotlib.ticker as ticker
-plt.subplots_adjust(wspace=0.18)
-ax[0].yaxis.set_major_locator(ticker.LogLocator(base=10.0, numticks=3))
-ax[1].yaxis.set_major_locator(ticker.LogLocator(base=10.0, numticks=3))
-ax[2].yaxis.set_major_locator(ticker.LogLocator(base=10.0, numticks=3))
-ax[3].yaxis.set_major_locator(ticker.LogLocator(base=10.0, numticks=3))
-
-ax[0].xaxis.set_major_locator(ticker.MultipleLocator(50))
-ax[1].xaxis.set_major_locator(ticker.MultipleLocator(50))
-ax[2].xaxis.set_major_locator(ticker.MultipleLocator(50))
-ax[3].xaxis.set_major_locator(ticker.MultipleLocator(50))
-
-ax[0].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
-ax[0].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0e}"))
-ax[1].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
-ax[1].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1e}"))
-ax[2].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
-ax[2].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1e}"))
-ax[3].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
-ax[3].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1e}"))
-
-
-# f.text(0.5, -0.1, r'Temperature [K]', ha='center', va='center')
-
-
-
-path=os.getcwd()
-
-colors = ["xkcd:grey", "xkcd:teal", "orange", 'r', 'b', 'xkcd:purple']*3
-lstyles = ["solid"]*6 + ["dashed"]*6 + ["dotted"]*6
 models = {
-    # 'Alzueta': 'test\\data\\alzuetamechanism.yaml',
-    # 'Mei': r'G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Mei-2019\\mei-2019.yaml',
-    'Zhang': r"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Zhang-2017\\zhang-2017.yaml",
-    # 'Otomo': r"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Otomo-2018\\otomo-2018.yaml",
-    # 'Stagni': r"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Stagni-2020\\stagni-2020.yaml",
-    # 'Han': r"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Han-2021\\han-2021.yaml",
-    # 'Alzueta-LMRR': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\alzuetamechanism_LMRR.yaml',
-    # 'Mei-LMRR': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\mei-2019_LMRR.yaml',
-    'Zhang-LMRR': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\zhang-2017_LMRR.yaml",
-    # 'Otomo-LMRR': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\otomo-2018_LMRR.yaml",
-    # 'Stagni-LMRR': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\stagni-2020_LMRR.yaml",
-    # 'Han-LMRR': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\han-2021_LMRR.yaml",
-    # 'Alzueta-LMRR-allP': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\alzuetamechanism_LMRR_allP.yaml',
-    # 'Mei-LMRR-allP': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\mei-2019_LMRR_allP.yaml',
-    'Zhang-LMRR-allP': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\zhang-2017_LMRR_allP.yaml",
-    # 'Otomo-LMRR-allP': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\otomo-2018_LMRR_allP.yaml",
-    # 'Stagni-LMRR-allP': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\stagni-2020_LMRR_allP.yaml",
-    # 'Han-LMRR-allP': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\han-2021_LMRR_allP.yaml",
-    }
-name = 'IDT_shao_generalLMRR'
+    'Alzueta-2023': {
+        'a priori': r'test\\data\\alzuetamechanism.yaml',
+        'LMRR': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\alzuetamechanism_LMRR.yaml',
+        'LMRR-allP': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\alzuetamechanism_LMRR_allP.yaml',
+                },
+    'Mei-2019': {
+        'a priori': r'G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Mei-2019\\mei-2019.yaml',
+        'LMRR': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\mei-2019_LMRR.yaml',
+        'LMRR-allP': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\mei-2019_LMRR_allP.yaml',
+                },
+    'Zhang-2017': {
+        'a priori': r"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Zhang-2017\\zhang-2017.yaml",
+        'LMRR': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\zhang-2017_LMRR.yaml",
+        'LMRR-allP': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\zhang-2017_LMRR_allP.yaml",
+                },
+    'Otomo-2018': {
+        'a priori': r"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Otomo-2018\\otomo-2018.yaml",
+        'LMRR': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\otomo-2018_LMRR.yaml",
+        'LMRR-allP': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\otomo-2018_LMRR_allP.yaml",
+                },
+    'Stagni-2020': {
+        'a priori': r"G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Stagni-2020\\stagni-2020.yaml",
+        'LMRR': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\stagni-2020_LMRR.yaml",
+        'LMRR-allP': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\stagni-2020_LMRR_allP.yaml",
+                },
+}
 
-def ignitionDelay(states, species):
-    # i_ign = states(species).Y.argmax()
-    i_ign = np.gradient(states(species).Y.T[0]).argmax()
-    return states.t[i_ign]
 
-################################################################################################
+name = 'IDT_shao_multimech'
+save_plots = True
+f, ax = plt.subplots(4, len(models.keys()), figsize=(args.figwidth, args.figheight)) 
+plt.subplots_adjust(wspace=0.18)
+plt.suptitle('IDT_shao', fontsize=12)
 
-path='G:\\Mon disque\\Columbia\\Burke Lab\\01 Mixture Rules Project\\Graph Reading\\'
-df = pd.read_csv(path+'Shao_IDT\\1.csv')
-p_df = df['P']
-T_df = df['T']
-IDT_df = df['IDT']
+for z, n in enumerate(models):
+    mech = n
 
-T_list = np.linspace(1100,1300,gridsz)#[::-1]
-for k, m in enumerate(models):
-    estimatedIgnitionDelayTimes = np.ones(len(T_list))
-    estimatedIgnitionDelayTimes[:] = 0.05
-    ignitionDelays_RG = np.zeros(len(T_list))
-    for j, T in enumerate(T_list):
-        gas = ct.Solution(list(models.values())[k])
-        gas.TPX = T, 17*ct.one_atm, {'H2':0.03, 'O2':0.015, 'Ar':1-0.03-0.015}
-        r = ct.Reactor(contents=gas)
-        reactorNetwork = ct.ReactorNet([r])
-        timeHistory = ct.SolutionArray(gas, extra=['t'])
-        t0 = time.time()
-        t = 0
-        counter = 1
-        while t < estimatedIgnitionDelayTimes[j]:
-            t = reactorNetwork.step()
-            if counter % 1 == 0:
-                timeHistory.append(r.thermo.state, t=t)
-            counter += 1
-        tau = ignitionDelay(timeHistory, 'oh')
-        t1 = time.time()
-        ignitionDelays_RG[j] = tau
-    if colors[k] == 'xkcd:purple':
-        zorder_value = 10  # Higher z-order for purple line
-    else:
-        zorder_value = k  # Default z-order for other lines
-    ax[0].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle=lstyles[k], linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
-    
-ax[0].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
-# ax[0].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw)
-ax[0].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]')
-# ax[0, 0].set_xlabel(r'Temperature [K]', fontsize=18)
-ax[0].tick_params(axis='both', direction="in")
-ax[0].tick_params(axis='both', which='minor', direction="in")#, bottom=False)
-ax[0].annotate('(a)', xy=(0.95, 0.9), xycoords='axes fraction', ha='right', va='top')
+    import matplotlib.ticker as ticker
+    plt.subplots_adjust(wspace=0.18)
+    ax[0,z].yaxis.set_major_locator(ticker.LogLocator(base=10.0, numticks=3))
+    ax[1,z].yaxis.set_major_locator(ticker.LogLocator(base=10.0, numticks=3))
+    ax[2,z].yaxis.set_major_locator(ticker.LogLocator(base=10.0, numticks=3))
+    ax[3,z].yaxis.set_major_locator(ticker.LogLocator(base=10.0, numticks=3))
 
-################################################################################################
+    ax[0,z].xaxis.set_major_locator(ticker.MultipleLocator(50))
+    ax[1,z].xaxis.set_major_locator(ticker.MultipleLocator(50))
+    ax[2,z].xaxis.set_major_locator(ticker.MultipleLocator(50))
+    ax[3,z].xaxis.set_major_locator(ticker.MultipleLocator(50))
 
-df = pd.read_csv(path+'\\Shao_IDT\\2.csv')
-p_df = df['P']
-T_df = df['T']
-IDT_df = df['IDT']
-T_list = np.linspace(1100,1300,gridsz)#[::-1]
-for k, m in enumerate(models):
-    estimatedIgnitionDelayTimes = np.ones(len(T_list))
-    estimatedIgnitionDelayTimes[:] = 0.05
-    ignitionDelays_RG = np.zeros(len(T_list))
-    for j, T in enumerate(T_list):
-        gas = ct.Solution(list(models.values())[k])
-        gas.TPX = T, 13*ct.one_atm, {'H2':0.03, 'O2':0.015, 'N2':1-0.03-0.015}
-        r = ct.Reactor(contents=gas)
-        reactorNetwork = ct.ReactorNet([r])
-        timeHistory = ct.SolutionArray(gas, extra=['t'])
-        t0 = time.time()
-        t = 0
-        counter = 1
-        while t < estimatedIgnitionDelayTimes[j]:
-            t = reactorNetwork.step()
-            if counter % 1 == 0:
-                timeHistory.append(r.thermo.state, t=t)
-            counter += 1
-        tau = ignitionDelay(timeHistory, 'oh')
-        t1 = time.time()
-        ignitionDelays_RG[j] = tau
-    if colors[k] == 'xkcd:purple':
-        zorder_value = 10  # Higher z-order for purple line
-    else:
-        zorder_value = k  # Default z-order for other lines
-    ax[1].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle=lstyles[k],linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
-    
-ax[1].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
-# ax[1].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw) 
-ax[1].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]')
-# ax[0,1].set_xlabel(r'Temperature [K]', fontsize=18)
-# ax[0,1].legend(fontsize=10, frameon=False, loc='upper right')  
-ax[1].tick_params(axis='both', direction="in")
-ax[1].tick_params(axis='both', which='minor', direction="in")#, bottom=False)
-ax[1].annotate('(b)', xy=(0.95, 0.9), xycoords='axes fraction', ha='right', va='top')
+    ax[0,z].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
+    ax[0,z].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0e}"))
+    ax[1,z].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
+    ax[1,z].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1e}"))
+    ax[2,z].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
+    ax[2,z].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1e}"))
+    ax[3,z].xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
+    ax[3,z].yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.1e}"))
 
-################################################################################################
 
-df = pd.read_csv(path+'\\Shao_IDT\\3.csv')
-p_df = df['P']
-T_df = df['T']
-IDT_df = df['IDT']
-H2O_df = df['H2O']
-T_list = np.linspace(1200,1400,gridsz)#[::-1]
-for k, m in enumerate(models):
-    estimatedIgnitionDelayTimes = np.ones(len(T_list))
-    estimatedIgnitionDelayTimes[:] = 0.05
-    ignitionDelays_RG = np.zeros(len(T_list))
-    for j, T in enumerate(T_list):
-        gas = ct.Solution(list(models.values())[k])
-        gas.TPX = T, 15*ct.one_atm, {'H2':0.03, 'O2':0.015, 'H2O':0.09, 'Ar':1-0.03-0.015-0.09}
-        r = ct.Reactor(contents=gas)
-        reactorNetwork = ct.ReactorNet([r])
-        timeHistory = ct.SolutionArray(gas, extra=['t'])
-        t0 = time.time()
-        t = 0
-        counter = 1
-        while t < estimatedIgnitionDelayTimes[j]:
-            t = reactorNetwork.step()
-            if counter % 1 == 0:
-                timeHistory.append(r.thermo.state, t=t)
-            counter += 1
-        tau = ignitionDelay(timeHistory, 'oh')
-        t1 = time.time()
-        ignitionDelays_RG[j] = tau
-    if colors[k] == 'xkcd:purple':
-        zorder_value = 10  # Higher z-order for purple line
-    else:
-        zorder_value = k  # Default z-order for other lines
-    ax[2].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle=lstyles[k],linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
-ax[2].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
-# ax[2].legend(fontsize=lgdfsz, frameon=False, loc='upper right',handlelength=lgdw)
-ax[2].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]')
-# ax[2].set_xlabel(r'Temperature [K]')
-ax[2].tick_params(axis='both', direction="in")
-ax[2].tick_params(axis='both', which='minor', direction="in")#, bottom=False)
-ax[2].annotate('(c)', xy=(0.95, 0.9), xycoords='axes fraction',ha='right', va='top')
+    # f.text(0.5, -0.1, r'Temperature [K]', ha='center', va='center')
 
-################################################################################################
+    def ignitionDelay(states, species):
+        # i_ign = states(species).Y.argmax()
+        i_ign = np.gradient(states(species).Y.T[0]).argmax()
+        return states.t[i_ign]
 
-df = pd.read_csv(path+'\\Shao_IDT\\4.csv')
-p_df = df['P']
-T_df = df['T']
-IDT_df = df['IDT']
-T_list = np.linspace(1100,1300,gridsz)#[::-1]
-for k, m in enumerate(models):
-    estimatedIgnitionDelayTimes = np.ones(len(T_list))
-    estimatedIgnitionDelayTimes[:] = 0.05
-    ignitionDelays_RG = np.zeros(len(T_list))
-    for j, T in enumerate(T_list):
-        gas = ct.Solution(list(models.values())[k])
-        gas.TPX = T, 12*ct.one_atm, {'H2':0.03, 'O2':0.015, 'CO2':0.20, 'Ar':1-0.2-0.03-0.015}
-        r = ct.Reactor(contents=gas)
-        reactorNetwork = ct.ReactorNet([r])
-        timeHistory = ct.SolutionArray(gas, extra=['t'])
-        t0 = time.time()
-        t = 0
-        counter = 1
-        while t < estimatedIgnitionDelayTimes[j]:
-            t = reactorNetwork.step()
-            if counter % 1 == 0:
-                timeHistory.append(r.thermo.state, t=t)
-            counter += 1
-        tau = ignitionDelay(timeHistory, 'oh')
-        t1 = time.time()
-        ignitionDelays_RG[j] = tau
-    if colors[k] == 'xkcd:purple':
-        zorder_value = 10  # Higher z-order for purple line
-    else:
-        zorder_value = k  # Default z-order for other lines
-    ax[3].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle=lstyles[k],linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
-ax[3].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
-ax[0].legend(fontsize=lgdfsz, frameon=False, loc='lower left',handlelength=lgdw)
-# ax[1,1].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]', fontsize=18)
-ax[3].set_xlabel(r'Temperature [K]')
-ax[3].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]')
-ax[3].tick_params(axis='both', direction="in")
-ax[3].tick_params(axis='both', which='minor', direction="in")#, bottom=False)
-ax[3].annotate('(d)', xy=(0.95, 0.9), xycoords='axes fraction',ha='right', va='top')
-# plt.subplots_adjust(wspace=0.4, hspace=0.4)
+    ################################################################################################
 
-# ax[0].set_xlim([1000.1,1499.99])
-# ax[1].set_xlim([1000.1,1499.99])
-# ax[2].set_xlim([1000.1,1499.99])
-# ax[3].set_xlim([1000.1,1499.99])
+    path='G:\\Mon disque\\Columbia\\Burke Lab\\01 Mixture Rules Project\\Graph Reading\\'
+    df = pd.read_csv(path+'Shao_IDT\\1.csv')
+    p_df = df['P']
+    T_df = df['T']
+    IDT_df = df['IDT']
 
-# plt.subplots_adjust(top=0.98)
+    T_list = np.linspace(1100,1300,gridsz)#[::-1]
+    for k, m in enumerate(models[n]):
+        estimatedIgnitionDelayTimes = np.ones(len(T_list))
+        estimatedIgnitionDelayTimes[:] = 0.05
+        ignitionDelays_RG = np.zeros(len(T_list))
+        for j, T in enumerate(T_list):
+            gas = ct.Solution(list(models[n].values())[k])
+            gas.TPX = T, 17*ct.one_atm, {'H2':0.03, 'O2':0.015, 'Ar':1-0.03-0.015}
+            r = ct.Reactor(contents=gas)
+            reactorNetwork = ct.ReactorNet([r])
+            timeHistory = ct.SolutionArray(gas, extra=['t'])
+            t0 = time.time()
+            t = 0
+            counter = 1
+            while t < estimatedIgnitionDelayTimes[j]:
+                t = reactorNetwork.step()
+                if counter % 1 == 0:
+                    timeHistory.append(r.thermo.state, t=t)
+                counter += 1
+            tau = ignitionDelay(timeHistory, 'oh')
+            t1 = time.time()
+            ignitionDelays_RG[j] = tau
+        if colors[k] == 'xkcd:purple':
+            zorder_value = 10  # Higher z-order for purple line
+        else:
+            zorder_value = k  # Default z-order for other lines
+        ax[0,z].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle=lstyles[k], linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
+        
+    ax[0,z].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
+    if z==0:
+        ax[0,z].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]')
+    ax[0,z].tick_params(axis='both', direction="in")
+    ax[0,z].tick_params(axis='both', which='minor', direction="in")#, bottom=False)
+
+    ################################################################################################
+
+    df = pd.read_csv(path+'\\Shao_IDT\\2.csv')
+    p_df = df['P']
+    T_df = df['T']
+    IDT_df = df['IDT']
+    T_list = np.linspace(1100,1300,gridsz)#[::-1]
+    for k, m in enumerate(models[n]):
+        estimatedIgnitionDelayTimes = np.ones(len(T_list))
+        estimatedIgnitionDelayTimes[:] = 0.05
+        ignitionDelays_RG = np.zeros(len(T_list))
+        for j, T in enumerate(T_list):
+            gas = ct.Solution(list(models[n].values())[k])
+            gas.TPX = T, 13*ct.one_atm, {'H2':0.03, 'O2':0.015, 'N2':1-0.03-0.015}
+            r = ct.Reactor(contents=gas)
+            reactorNetwork = ct.ReactorNet([r])
+            timeHistory = ct.SolutionArray(gas, extra=['t'])
+            t0 = time.time()
+            t = 0
+            counter = 1
+            while t < estimatedIgnitionDelayTimes[j]:
+                t = reactorNetwork.step()
+                if counter % 1 == 0:
+                    timeHistory.append(r.thermo.state, t=t)
+                counter += 1
+            tau = ignitionDelay(timeHistory, 'oh')
+            t1 = time.time()
+            ignitionDelays_RG[j] = tau
+        if colors[k] == 'xkcd:purple':
+            zorder_value = 10  # Higher z-order for purple line
+        else:
+            zorder_value = k  # Default z-order for other lines
+        ax[1,z].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle=lstyles[k],linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
+        
+    ax[1,z].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
+    if z==0:
+        ax[1,z].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]')
+    ax[1,z].tick_params(axis='both', direction="in")
+    ax[1,z].tick_params(axis='both', which='minor', direction="in")#, bottom=False)
+
+    ################################################################################################
+
+    df = pd.read_csv(path+'\\Shao_IDT\\3.csv')
+    p_df = df['P']
+    T_df = df['T']
+    IDT_df = df['IDT']
+    H2O_df = df['H2O']
+    T_list = np.linspace(1200,1400,gridsz)#[::-1]
+    for k, m in enumerate(models[n]):
+        estimatedIgnitionDelayTimes = np.ones(len(T_list))
+        estimatedIgnitionDelayTimes[:] = 0.05
+        ignitionDelays_RG = np.zeros(len(T_list))
+        for j, T in enumerate(T_list):
+            gas = ct.Solution(list(models[n].values())[k])
+            gas.TPX = T, 15*ct.one_atm, {'H2':0.03, 'O2':0.015, 'H2O':0.09, 'Ar':1-0.03-0.015-0.09}
+            r = ct.Reactor(contents=gas)
+            reactorNetwork = ct.ReactorNet([r])
+            timeHistory = ct.SolutionArray(gas, extra=['t'])
+            t0 = time.time()
+            t = 0
+            counter = 1
+            while t < estimatedIgnitionDelayTimes[j]:
+                t = reactorNetwork.step()
+                if counter % 1 == 0:
+                    timeHistory.append(r.thermo.state, t=t)
+                counter += 1
+            tau = ignitionDelay(timeHistory, 'oh')
+            t1 = time.time()
+            ignitionDelays_RG[j] = tau
+        if colors[k] == 'xkcd:purple':
+            zorder_value = 10  # Higher z-order for purple line
+        else:
+            zorder_value = k  # Default z-order for other lines
+        ax[2,z].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle=lstyles[k],linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
+    ax[2,z].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
+    if z==0:
+        ax[2,z].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]')
+    ax[2,z].tick_params(axis='both', direction="in")
+    ax[2,z].tick_params(axis='both', which='minor', direction="in")#, bottom=False)
+
+    ################################################################################################
+
+    df = pd.read_csv(path+'\\Shao_IDT\\4.csv')
+    p_df = df['P']
+    T_df = df['T']
+    IDT_df = df['IDT']
+    T_list = np.linspace(1100,1300,gridsz)#[::-1]
+    for k, m in enumerate(models[n]):
+        estimatedIgnitionDelayTimes = np.ones(len(T_list))
+        estimatedIgnitionDelayTimes[:] = 0.05
+        ignitionDelays_RG = np.zeros(len(T_list))
+        for j, T in enumerate(T_list):
+            gas = ct.Solution(list(models[n].values())[k])
+            gas.TPX = T, 12*ct.one_atm, {'H2':0.03, 'O2':0.015, 'CO2':0.20, 'Ar':1-0.2-0.03-0.015}
+            r = ct.Reactor(contents=gas)
+            reactorNetwork = ct.ReactorNet([r])
+            timeHistory = ct.SolutionArray(gas, extra=['t'])
+            t0 = time.time()
+            t = 0
+            counter = 1
+            while t < estimatedIgnitionDelayTimes[j]:
+                t = reactorNetwork.step()
+                if counter % 1 == 0:
+                    timeHistory.append(r.thermo.state, t=t)
+                counter += 1
+            tau = ignitionDelay(timeHistory, 'oh')
+            t1 = time.time()
+            ignitionDelays_RG[j] = tau
+        if colors[k] == 'xkcd:purple':
+            zorder_value = 10  # Higher z-order for purple line
+        else:
+            zorder_value = k  # Default z-order for other lines
+        ax[3,z].semilogy(T_list, 1e6*ignitionDelays_RG, '-', linestyle=lstyles[k],linewidth=lw, color=colors[k], label=m, zorder=zorder_value)
+    ax[3,z].semilogy(T_df,IDT_df,'o',fillstyle='none',linestyle='none',color='k',markersize=msz,markeredgewidth=mw,label='Shao et al.', zorder=12)
+    ax[0,z].legend(fontsize=lgdfsz, frameon=False, loc='lower left',handlelength=lgdw)
+    if z==0:
+        ax[3,z].set_ylabel(r'Ignition delay [$\mathdefault{\mu s}$]')
+    ax[3,z].tick_params(axis='both', direction="in")
+    ax[3,z].tick_params(axis='both', which='minor', direction="in")#, bottom=False)
+    if z==2:
+        ax[3,z].set_xlabel(r'Temperature [K]')
+    # plt.subplots_adjust(wspace=0.4, hspace=0.4)
+
+    # ax[0,z].set_xlim([1000.1,1499.99])
+    # ax[1,z].set_xlim([1000.1,1499.99])
+    # ax[2,z].set_xlim([1000.1,1499.99])
+    # ax[3,z].set_xlim([1000.1,1499.99])
+
+path=f'burkelab_SimScripts/USSCI_simulations/figures/'+args.date
+os.makedirs(path,exist_ok=True)
+
 if save_plots == True:
-    plt.savefig('burkelab_SimScripts/USSCI_simulations/figures/'+name+'.pdf', dpi=500, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/USSCI_simulations/figures/'+name+'.png', dpi=500, bbox_inches='tight')
-    # plt.savefig('burkelab_SimScripts/figures/'+name+'.eps', dpi=500, bbox_inches='tight', format='eps')
-# plt.show()     
+    plt.savefig(path+f'/{name}.png', dpi=500, bbox_inches='tight')
