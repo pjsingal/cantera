@@ -37,7 +37,7 @@ parser.add_argument('--lgdw', type=float, help="lgdw = ", default=0.6)
 parser.add_argument('--lgdfsz', type=float, help="lgdw = ", default=5)
 parser.add_argument('--gridsz', type=int, help="gridsz = ", default=10)
 parser.add_argument('--dpi', type=int, help="dpi = ", default=1000)
-parser.add_argument('--LMRtest', type=int, help="LMRtest = ", default=0)
+parser.add_argument('--date', type=str, help="sim date = ")
 
 args = parser.parse_args()
 lw=args.lw
@@ -107,7 +107,7 @@ colors = ["xkcd:purple","xkcd:teal","k"]*3
 models = {
     'Alzueta': r'test\\data\\alzuetamechanism.yaml',
     'base-LMRR': r'test\\data\\alzuetamechanism_LMRR.yaml',
-    'Alzueta-LMRR': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\alzuetamechanism_LMRR.yaml',
+    'Alzueta-LMRR': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct22\\alzuetamechanism_LMRR.yaml',
     # 'Alzueta-LMRR-allP': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\alzuetamechanism_LMRR_allP.yaml',
     # 'Mei': r'G:\\Mon disque\\Columbia\\Burke Lab\\07 Mechanisms\\Mei-2019\\mei-2019.yaml',
     # 'Mei-LMRR': r'C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\mei-2019_LMRR.yaml',
@@ -127,8 +127,11 @@ models = {
     # 'Han-LMRR': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\han-2021_LMRR.yaml",
     # 'Han-LMRR-allP': r"C:\\Users\\pjsin\\Documents\\LMRRfactory\\test\outputs\\Oct21\\han-2021_LMRR_allP.yaml",
     }
+
 mech = 'Alzueta'
 name = 'JSR_H2O_generalLMRR_'+mech
+
+
 
 T_list = np.concatenate((np.linspace(800,829.9,10),np.linspace(830,844,100),np.linspace(848.8,870.9,100),np.linspace(871,1050,50)))
 # T_list = np.linspace(800,1050,50)
@@ -280,8 +283,11 @@ ax[1].set_xlim([780,1070])
 ax[2].set_xlim([780,1070])
 # ax[2].set_ylim([0.0001,3.4])
 
+path=f'burkelab_SimScripts/USSCI_simulations/figures/'+args.date
+os.makedirs(path,exist_ok=True)
+
 if save_plots == True:
-    plt.savefig('burkelab_SimScripts/USSCI_simulations/figures/'+name+'.pdf', dpi=500, bbox_inches='tight')
-    plt.savefig('burkelab_SimScripts/USSCI_simulations/figures/'+name+'.png', dpi=500, bbox_inches='tight')
+    plt.savefig(path+f'/{name}.pdf', dpi=500, bbox_inches='tight')
+    plt.savefig(path+f'/{name}.png', dpi=500, bbox_inches='tight')
     # plt.savefig('burkelab_SimScripts/figures/'+'JSR_H2O.eps', dpi=500, bbox_inches='tight', format='eps')
 # plt.show()     
