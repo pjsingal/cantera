@@ -24,7 +24,7 @@ def save_to_csv(filename, data):
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--gridsz', type=int, help="gridsz = ", default=10)
-parser.add_argument('--date', type=str, help="sim date = ",default='May28')
+parser.add_argument('--date', type=str)
 parser.add_argument('--slopeVal', type=float, help="slope value = ")
 parser.add_argument('--curveVal', type=float, help="curve value = ")
 parser.add_argument('--transport', type=str, help="flame transport = ")
